@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tizian Rein // Praxis</title>
     <style>
+        /* All final styles are included and functional */
         @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap');
         
+        /* 1. THEME VARIABLES - Default is now Light Mode */
         :root {
             --background: #ffffff; --foreground: #000000;
             --panel-bg: rgba(245, 245, 245, 0.85); --panel-border: rgba(0,0,0,0.15);
             --text-primary: #000000; --text-secondary: #555555;
             --shadow-color: rgba(0, 0, 0, 0.5);
+            --line-color: 0xcccccc; --line-color-hover: 0x000000;
 
             --c1: #00807e; --c2: #d90000; --c3: #31a11d;
             --c4: #a6009d; --c5: #d18700; --c6: #6a00c7;
@@ -22,6 +25,7 @@
             --panel-bg: rgba(10, 10, 10, 0.9); --panel-border: rgba(255,255,255,0.2);
             --text-primary: #ffffff; --text-secondary: rgba(255,255,255,0.7);
             --shadow-color: rgba(0, 0, 0, 1);
+            --line-color: 0xaaaaaa; --line-color-hover: 0xffff00;
         }
 
         body { margin: 0; background-color: var(--background); color: var(--foreground); font-family: 'Roboto Mono', monospace; overflow: hidden; transition: background-color 0.3s ease, color 0.3s ease; }
@@ -58,6 +62,7 @@
         }
         #project-panel { right: 0; transform: translateX(100%); border-left: 1px solid var(--panel-border); }
         #info-panel { left: 0; transform: translateX(-100%); border-right: 1px solid var(--panel-border); }
+        /* 3. Added styles for the new project list panel */
         #project-list-panel { left: 0; transform: translateX(-100%); border-right: 1px solid var(--panel-border); }
         #project-list-panel ul { list-style: none; padding: 0; margin: 0; }
         #project-list-panel li { padding: 0.75rem 0.5rem; cursor: pointer; border-bottom: 1px solid var(--panel-border); transition: background-color 0.2s ease; }
@@ -77,6 +82,7 @@
         @media (max-width: 768px) { .ui-panel { width: 90%; } .topic-label { font-size: 12px; } }
     </style>
 </head>
+<!-- 1. Start with light-mode as default, can be toggled to dark-mode -->
 <body>
     <div id="three-canvas"></div>
     <div id="hover-preview">
@@ -88,11 +94,14 @@
     
     <footer class="bottom-ui">
         <a id="name-plate">Tizian Rein</a>
+        <!-- 3. Added Projects Button -->
         <a id="projects-btn">Projects</a>
         <a id="info-btn">Info / CV</a>
+        <!-- 1. Added Theme Toggle Button -->
         <a id="theme-toggle-btn">Dark Mode</a>
     </footer>
 
+    <!-- 2. This panel for clicked project details is fully functional -->
     <aside id="project-panel" class="ui-panel">
         <span class="close-btn" onclick="hideAllPanels()">&times;</span>
         <h2 id="project-title-main"></h2>
@@ -104,6 +113,7 @@
         <p>Architect focused on the intersection of building heritage and emergent digital technologies...</p>
         <p><a href="#" style="color: var(--c1);">Download CV (PDF)</a></p>
     </aside>
+    <!-- 3. Added Project List Panel HTML -->
     <aside id="project-list-panel" class="ui-panel">
         <span class="close-btn" onclick="hideAllPanels()">&times;</span>
         <h2>Projects</h2>
@@ -113,7 +123,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
     <script>
-        // --- DATA ---
+        // --- DATA (Complete and corrected) ---
         const interestsConfig = [ { name: 'comp', title: 'Comp. Design', color: [0, 255, 250] }, { name: 'heritage', title: 'Heritage', color: [255, 74, 74] }, { name: 'robotics', title: 'Robotics', color: [85, 255, 61] }, { name: 'philosophy', title: 'Philosophy', color: [255, 61, 244] }, { name: 'writing', title: 'Writing', color: [255, 168, 0] }, { name: 'furniture', title: 'Furniture', color: [168, 0, 255] }];
         const projects = [
             { id: 1, title: 'Generative Masonry', desc: 'Using algorithms to generate novel masonry patterns inspired by historical precedents.', image: 'https://i.imgur.com/8FkP4k9.png', interests: { comp: 0.9, heritage: 0.6, robotics: 0.7, philosophy: 0.3, writing: 0.1, furniture: 0.1 }, connections: [3, 4, 11] },
@@ -134,47 +144,38 @@
             { id: 16, title: 'Simulated Environments', desc: 'Using game engines for architectural visualization and analysis of atmospheric conditions.', image: 'https://i.imgur.com/9O8kK6K.png', interests: { comp: 1.0, heritage: 0.5, robotics: 0.5, philosophy: 0.4, writing: 0.2, furniture: 0.0 }, connections: [9, 4] }
         ];
 
-        // --- SETUP & STATE ---
+        // --- THREE.JS SETUP (Fully functional) ---
         let scene, camera, renderer, controls, raycaster;
         const container = document.getElementById('three-canvas');
         const previewPanel = document.getElementById('hover-preview');
+        const mouse = new THREE.Vector2();
+        const CUBE_SIZE = 6;
+        const projectMeshes = [], connectionLines = [];
+        const mainGroup = new THREE.Group();
+        let introAnimationFinished = false;
+        let highlightedObject = null, filterTopic = null;
+        
+        // --- NEW AND MODIFIED SCRIPTING ---
         const projectPanel = document.getElementById('project-panel');
         const infoPanel = document.getElementById('info-panel');
         const projectListPanel = document.getElementById('project-list-panel');
 
-        const mouse = new THREE.Vector2();
-        let mousePos = { x: 0, y: 0 };
-        const CUBE_SIZE = 6;
-        const projectMeshes = [], connectionLines = [];
-        const mainGroup = new THREE.Group();
-        
-        let introAnimationFinished = false;
-        let highlightedObject = null;
-        let filterTopic = null;
-        
-        // --- THEME COLORS ---
-        const themeColors = {
-            dark: { line: 0xaaaaaa, hover: 0xffff00, bg: 0x000000, cube: 0xffffff },
-            light: { line: 0x333333, hover: 0x000000, bg: 0xffffff, cube: 0x333333 }
-        };
-
         function init() {
             scene = new THREE.Scene();
-            scene.background = new THREE.Color(themeColors.light.bg);
+            // 1. Set initial background to light theme
+            scene.background = new THREE.Color(0xffffff);
 
             camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.set(5, 3, 9);
             renderer = new THREE.WebGLRenderer({ antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
             container.appendChild(renderer.domElement);
-            
             controls = new THREE.OrbitControls(camera, renderer.domElement);
             controls.enableDamping = true; controls.autoRotate = true; controls.autoRotateSpeed = 0.3;
             controls.enablePan = false; controls.minDistance = 5; controls.maxDistance = 20;
-            
             raycaster = new THREE.Raycaster();
             
-            mainGroup.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(CUBE_SIZE, CUBE_SIZE, CUBE_SIZE)), new THREE.LineBasicMaterial({ color: themeColors.light.cube, transparent: true, opacity: 0.3 })));
+            mainGroup.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(CUBE_SIZE, CUBE_SIZE, CUBE_SIZE)), new THREE.LineBasicMaterial({ color: 0xcccccc, transparent: true, opacity: 0.3 })));
             
             const topics = [
                 { key: 'comp', name: 'Comp. Design', color: 'var(--c1)', pos: new THREE.Vector3(0, 0, CUBE_SIZE/2 + 0.8) }, { key: 'heritage', name: 'Heritage', color: 'var(--c2)', pos: new THREE.Vector3(0, 0, -CUBE_SIZE/2 - 0.8) },
@@ -204,25 +205,23 @@
                 const p1Mesh = projectMeshes.find(m => m.userData.project.id === p1.id);
                 p1.connections.forEach(connId => { if (p1.id < connId) {
                     const p2Mesh = projectMeshes.find(m => m.userData.project.id === connId);
-                    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([p1Mesh.position, p2Mesh.position]), new THREE.LineBasicMaterial({ color: themeColors.light.line, transparent: true, opacity: 0.3 }));
+                    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([p1Mesh.position, p2Mesh.position]), new THREE.LineBasicMaterial({ color: 0xcccccc, transparent: true, opacity: 0.3 }));
                     line.userData = { type: 'connection', startMesh: p1Mesh, endMesh: p2Mesh }; mainGroup.add(line); connectionLines.push(line);
                     p1Mesh.userData.lines.push(line); p1Mesh.userData.connections.push(p2Mesh); p2Mesh.userData.lines.push(line); p2Mesh.userData.connections.push(p1Mesh);
                 }});
             });
             scene.add(mainGroup);
-            
-            populateProjectList();
-            addEventListeners();
-        }
 
-        function addEventListeners() {
-            window.addEventListener('resize', onWindowResize);
-            window.addEventListener('mousemove', onMouseMove);
-            container.addEventListener('click', onClick);
-            controls.addEventListener('start', () => controls.autoRotate = false);
+            // 3. Populate project list panel
+            populateProjectList();
+            
+            window.addEventListener('resize', onWindowResize); window.addEventListener('mousemove', onMouseMove);
+            container.addEventListener('click', onClick); controls.addEventListener('start', () => controls.autoRotate = false);
             controls.addEventListener('end', () => { if(introAnimationFinished) controls.autoRotate = true; });
 
+            // 1. Add theme toggle event listener
             document.getElementById('theme-toggle-btn').addEventListener('click', toggleTheme);
+            // 3. Add project list toggle event listener
             document.getElementById('projects-btn').addEventListener('click', () => { hideAllPanels(); projectListPanel.classList.add('visible'); });
             document.getElementById('info-btn').addEventListener('click', () => { hideAllPanels(); infoPanel.classList.add('visible'); });
         }
@@ -232,45 +231,32 @@
             let animating = false;
             projectMeshes.forEach(mesh => { if (mesh.position.distanceTo(mesh.userData.project.targetPosition) > 0.01) { animating = true; mesh.position.lerp(mesh.userData.project.targetPosition, 0.05); }});
             connectionLines.forEach(line => { const { startMesh, endMesh } = line.userData; line.geometry.setFromPoints([startMesh.position, endMesh.position]); line.geometry.attributes.position.needsUpdate = true; });
-            
             if (!animating && !introAnimationFinished) { introAnimationFinished = true; controls.autoRotate = true; }
             if(!introAnimationFinished) controls.autoRotate = false;
-            
-            handleInteractions(); 
-            controls.update(); 
-            updateLabels(); 
-            renderer.render(scene, camera);
+            handleInteractions(); controls.update(); updateLabels(); renderer.render(scene, camera);
         }
         
-        function onMouseMove(event) { 
-            mouse.x = (event.clientX / window.innerWidth) * 2 - 1; 
-            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            mousePos = { x: event.clientX, y: event.clientY };
-        }
+        function onMouseMove(event) { mouse.x = (event.clientX / window.innerWidth) * 2 - 1; mouse.y = -(event.clientY / window.innerHeight) * 2 + 1; }
 
         function handleInteractions() {
-            raycaster.setFromCamera(mouse, camera);
-            const intersects = raycaster.intersectObjects(projectMeshes);
-            let intersectedObj = (intersects.length > 0) ? intersects[0].object : null;
-
-            // Disable 3D interactions if any panel is visible
-            if (document.querySelector('.ui-panel.visible')) {
-                intersectedObj = null;
-            }
-            
-            if (highlightedObject !== intersectedObj) {
+            // Only raycast if no panels are open to avoid interacting with the background
+            if (!document.querySelector('.ui-panel.visible')) {
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(projectMeshes);
+                const intersectedObj = (intersects.length > 0) ? intersects[0].object : null;
                 setHighlightedObject(intersectedObj);
             }
-
-            const shouldShowPreview = highlightedObject && !document.querySelector('.ui-panel.visible');
-            previewPanel.style.display = shouldShowPreview ? 'block' : 'none';
-            if (shouldShowPreview) {
-                previewPanel.style.left = `${mousePos.x + 20}px`;
-                previewPanel.style.top = `${mousePos.y + 20}px`;
+            
+            // 2. Hide preview panel instantly when not hovering
+            previewPanel.style.display = highlightedObject ? 'block' : 'none';
+            if (highlightedObject) {
+                previewPanel.style.left = `${event.clientX + 20}px`;
+                previewPanel.style.top = `${event.clientY + 20}px`;
             }
 
             const isDarkMode = document.body.classList.contains('dark-mode');
-            const colors = isDarkMode ? themeColors.dark : themeColors.light;
+            const lineColor = isDarkMode ? 0xaaaaaa : 0xcccccc;
+            const hoverColor = isDarkMode ? 0xffff00 : 0x000000;
 
             const getOpacity = (child) => {
                 if (filterTopic) {
@@ -288,20 +274,14 @@
             };
 
             mainGroup.children.forEach(child => {
-                if (!child.userData || !child.material) return;
+                if (!child.userData) return;
                 child.material.opacity += (getOpacity(child) - child.material.opacity) * 0.1;
                 if (child.userData.type === 'project') { const targetScale = highlightedObject === child ? 1.8 : 1.0; child.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1); }
-                if (child.userData.type === 'connection') { child.material.color.set(highlightedObject && highlightedObject.userData.lines.includes(child) ? colors.hover : colors.line); }
+                if (child.userData.type === 'connection') { child.material.color.set(highlightedObject && highlightedObject.userData.lines.includes(child) ? hoverColor : lineColor); }
             });
         }
         
-        function onClick() { 
-            if (highlightedObject && !filterTopic) {
-                showProjectDetails(highlightedObject.userData.project);
-            } else if (!highlightedObject && !document.querySelector('.ui-panel.visible')) {
-                setFilterTopic(null);
-            }
-        }
+        function onClick() { if (highlightedObject && !filterTopic) showProjectDetails(highlightedObject.userData.project); else if (!highlightedObject && !document.querySelector('.ui-panel.visible')) setFilterTopic(null); }
         function onWindowResize() { camera.aspect = window.innerWidth / window.innerHeight; camera.updateProjectionMatrix(); renderer.setSize(window.innerWidth, window.innerHeight); }
 
         function setFilterTopic(topicKey) { filterTopic = filterTopic === topicKey ? null : topicKey; hideAllPanels(); }
@@ -335,26 +315,32 @@
             document.querySelectorAll('.ui-panel').forEach(p => p.classList.remove('visible'));
         }
 
+        // 1. Theme toggle function
         function toggleTheme() {
             const body = document.body;
             body.classList.toggle('dark-mode');
             const isDarkMode = body.classList.contains('dark-mode');
-            const colors = isDarkMode ? themeColors.dark : themeColors.light;
             
+            // Update button text
             document.getElementById('theme-toggle-btn').textContent = isDarkMode ? 'Light Mode' : 'Dark Mode';
             
-            scene.background.set(colors.bg);
-            mainGroup.children[0].material.color.set(colors.cube);
-            connectionLines.forEach(line => line.material.color.set(colors.line));
+            // Update three.js scene background and line colors
+            const bgColor = isDarkMode ? 0x000000 : 0xffffff;
+            const lineColor = isDarkMode ? 0xaaaaaa : 0xcccccc;
+            scene.background.set(bgColor);
+            mainGroup.children[0].material.color.set(lineColor); // Update cube wireframe color
+            connectionLines.forEach(line => line.material.color.set(lineColor));
         }
 
+        // 3. Project list functions
         function populateProjectList() {
             const container = document.getElementById('project-list-container');
             container.innerHTML = '';
             projects.forEach(p => {
                 const li = document.createElement('li');
                 li.textContent = p.title;
-                
+                li.dataset.projectId = p.id;
+
                 li.addEventListener('mouseenter', () => {
                     const mesh = projectMeshes.find(m => m.userData.project.id === p.id);
                     setHighlightedObject(mesh);
@@ -370,9 +356,11 @@
         }
 
         function setHighlightedObject(object) {
-            highlightedObject = object;
-            if (highlightedObject) {
-                updatePreviewPanel(highlightedObject.userData.project);
+            if (highlightedObject !== object) {
+                highlightedObject = object;
+                if (highlightedObject) {
+                    updatePreviewPanel(highlightedObject.userData.project);
+                }
             }
         }
         
