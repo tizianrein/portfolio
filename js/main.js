@@ -66,14 +66,44 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Die Funktion setupHoverListeners bleibt exakt wie in der letzten Version.
     function setupHoverListeners() {
-        const containers = document.querySelectorAll('.project-image-container');
-        containers.forEach(container => {
-            container.addEventListener('mouseenter', () => {
-                if (container.imageObject) {
-                    startDePixelationAnimation(container);
-                }
-            }, { once: true });
+    const containers = document.querySelectorAll('.project-image-container');
+
+    // Helfer: Animation nur 1x starten
+    function trigger(container){
+        if (!container || !container.imageObject) return;
+        if (container.dataset.animStarted === '1') return;
+        container.dataset.animStarted = '1';
+        startDePixelationAnimation(container);
+    }
+
+    // 1) Desktop + Pointer-Geräte: beim "Überfahren"
+    containers.forEach(container => {
+        container.addEventListener('pointerenter', () => trigger(container), { once: true });
+    });
+
+    // 2) Beim Scrollen: sobald im Viewport (auch auf Mobile)
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            trigger(entry.target);
+            io.unobserve(entry.target); // nur einmal beobachten
+        }
         });
+    }, { threshold: 0.3, rootMargin: '200px' });
+    containers.forEach(c => io.observe(c));
+
+    // 3) Touch: beim Wischen Element unter dem Finger schärfen (ohne „Auswählen“)
+    let last = 0;
+    window.addEventListener('touchmove', (e) => {
+        const now = Date.now();
+        if (now - last < 100) return; // throttle
+        last = now;
+        const t = e.touches && e.touches[0];
+        if (!t) return;
+        const el = document.elementFromPoint(t.clientX, t.clientY);
+        const container = el && el.closest && el.closest('.project-image-container');
+        if (container) trigger(container);
+    }, { passive: true });
     }
 
     /**
