@@ -184,3 +184,11 @@ header a.active { color: var(--text-color-active); }
     #nav-work, #nav-info, #nav-contact { display: none; }
     .hamburger-menu { display: block; grid-column: 1 / 2; }
 }
+
+@media (max-width: 768px) {
+  .project-info h3,
+  .project-info p {
+    font-size: clamp(14px, 2.5vw, 25px);
+    line-height: 1.2;
+  }
+}
