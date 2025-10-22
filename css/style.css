@@ -185,16 +185,16 @@ header a.active { color: var(--text-color-active); }
     .hamburger-menu { display: block; grid-column: 1 / 2; }
 }
 
-@media (max-width: 768px) {
+/* @media (max-width: 1024px) {
   .project-info h3,
   .project-info p {
     font-size: clamp(14px, 2.5vw, 25px);
     line-height: 1.2;
   }
-}
+} */
 
 /* --- Mobile-Layout: Bilder & Text abwechselnd links/rechts --- */
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
   /* Wir behalten 3 Spalten bei */
   .project-item {
     grid-template-columns: 1fr 1fr 1fr;
@@ -208,7 +208,7 @@ header a.active { color: var(--text-color-active); }
 
   /* Ungerade Items: Text links (1), Bild rechts (3) */
   .project-item:nth-child(odd) .project-info {
-    grid-column: 1;
+    grid-column: 2;
   }
   .project-item:nth-child(odd) .project-image-container {
     grid-column: 3;
@@ -219,6 +219,6 @@ header a.active { color: var(--text-color-active); }
     grid-column: 1;
   }
   .project-item:nth-child(even) .project-info {
-    grid-column: 3;
+    grid-column: 2;
   }
 }
