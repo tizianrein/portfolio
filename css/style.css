@@ -10,7 +10,7 @@ html {
     --text-color-active: #808080;
     --font-main: Arial, sans-serif;
     --header-font-size: 28pt;
-    --header-padding: 20px;
+    --header-padding: 15px;
     --main-max-width: 1200px;
     --main-side-padding: 80px;
 }
@@ -29,7 +29,7 @@ body {
 /* --- Eck-Buttons --- */
 .corner {
     position: fixed; font-size: var(--header-font-size); background: none; border: none;
-    cursor: pointer; padding: 20px; color: var(--text-color); z-index: 100;
+    cursor: pointer; padding: 15px; color: var(--text-color); z-index: 100;
 }
 .corner.active { color: var(--text-color-active); }
 .top-left { top: 0; left: 0; } .top-right { top: 0; right: 0; }
@@ -189,21 +189,42 @@ header a.active { color: var(--text-color-active); }
 
 /* --- Responsive Anpassungen --- */
 @media (max-width: 1024px) {
-    :root { --header-font-size: 28pt; }
-    
-    .grid-container, #project-grid {
-        grid-template-columns: 1fr;
-        padding-left: 20px;
-        padding-right: 20px;
-    }
-    .project-item {
-        grid-column: span 1;
-        margin-bottom: 2rem;
-    }
-    
-    .logo { grid-column: 1 / 2; }
-    #nav-work, #nav-info, #nav-contact { display: none; }
-    .hamburger-menu { display: block; grid-column: 1 / 2; }
+  :root { --header-font-size: 28pt; }
+
+  /* Header auf 1 Spalte + zentrieren */
+  header .grid-container {
+    grid-template-columns: 1fr;   /* eine Spalte */
+    justify-items: center;        /* Inhalt zentrieren */
+  }
+  header .grid-container > * {
+    justify-self: center;         /* override: NICHT mehr start */
+  }
+
+  /* Reihenfolge: Titel oben, Hamburger darunter */
+  .site-title { 
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .hamburger-menu {
+    display: block;
+    grid-column: 1;
+    grid-row: 2;          /* unter dem Titel */
+    position: static;     /* sicherheitshalber */
+    margin: 0;            /* keine Seitwärtsverschiebung */
+    justify-self: center;
+  }
+
+  /* dein bisheriger Inhalt … */
+  .grid-container, #project-grid {
+    grid-template-columns: 1fr;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .project-item {
+    grid-column: span 1;
+    margin-bottom: 2rem;
+  }
+  #nav-work, #nav-info, #nav-contact { display: none; }
 }
 
 /* --- Mobile-Layout: Bilder & Text abwechselnd links/rechts --- */
@@ -274,4 +295,42 @@ header a.active { color: var(--text-color-active); }
         justify-self: center;
     }
     }
+}
+
+@media (max-width: 1024px) {
+  /* Header-Layout: Titel + Hamburger nebeneinander und zentriert */
+  header .grid-container {
+    display: flex;
+    justify-content: center;     /* Zentriert horizontal */
+    align-items: center;         /* Vertikal ausgerichtet */
+    gap: 12px;                   /* Abstand zwischen Titel und Burger */
+  }
+
+  /* Navigation verstecken */
+  #nav-work, #nav-info, #nav-contact {
+    display: none;
+  }
+
+  /* Hamburger-Styling */
+  .hamburger-menu {
+    display: block;
+    position: static;
+    font-size: var(--header-font-size);
+    line-height: 1;
+    margin: 0;
+  }
+
+  /* Titel-Styling */
+  .site-title {
+    margin: 0;
+    font-size: var(--header-font-size);
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .site-title-link {
+    color: var(--text-color);
+    text-decoration: none;
+    font-weight: normal;
+  }
 }
