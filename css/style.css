@@ -93,6 +93,7 @@ header a.active { color: var(--text-color-active); }
     /* --- HIER IST DIE KORREKTUR --- */
     /* #################################################### */
     align-items: start; /* Richtet Text und Bild oben bündig aus */
+    grid-auto-flow: dense; /* Sorgt dafür, dass Text und Bild in der gleichen Zeile bleiben */
 }
 
 /* --- Bild-Container Styling --- */
