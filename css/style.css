@@ -192,3 +192,33 @@ header a.active { color: var(--text-color-active); }
     line-height: 1.2;
   }
 }
+
+/* --- Mobile-Layout: Bilder & Text abwechselnd links/rechts --- */
+@media (max-width: 768px) {
+  /* Wir behalten 3 Spalten bei */
+  .project-item {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  /* Beide Elemente (Bild + Text) sollen in derselben Zeile liegen */
+  .project-item .project-image-container,
+  .project-item .project-info {
+    grid-row: 1;
+  }
+
+  /* Ungerade Items: Text links (1), Bild rechts (3) */
+  .project-item:nth-child(odd) .project-info {
+    grid-column: 1;
+  }
+  .project-item:nth-child(odd) .project-image-container {
+    grid-column: 3;
+  }
+
+  /* Gerade Items: Bild links (1), Text rechts (3) */
+  .project-item:nth-child(even) .project-image-container {
+    grid-column: 1;
+  }
+  .project-item:nth-child(even) .project-info {
+    grid-column: 3;
+  }
+}
