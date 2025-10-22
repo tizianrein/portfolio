@@ -125,15 +125,30 @@ header a.active { color: var(--text-color-active); }
 .project-info {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
     padding: 0.5rem;
+
+    /* --- Prevent text from shrinking images --- */
+    min-width: 0;                /* allow text to wrap instead of compressing grid columns */
+    overflow-wrap: anywhere;     /* break long words if needed */
+    word-break: normal;
+    hyphens: auto;               /* optional: enables hyphenation on supported browsers */
 }
+
 .project-info h3, 
 .project-info p {
     font-size: 25px;
     margin: 0 0 0px 0;
     line-height: 1.1;
 }
+
 .project-info h3 {
     font-weight: normal;
+}
+
+/* Optional: adjust wrapping for very small screens */
+@media (max-width: 640px) {
+    .project-info {
+        overflow-wrap: break-word;
+    }
 }
 
 /* Layout A: Bild links, Text rechts */
