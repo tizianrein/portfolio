@@ -98,17 +98,17 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // ---------------- Mobile: im Viewport ODER Wischen ----------------
-    // 1) Im Viewport (scrollen): Bild schärfen
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-            triggerOnce(entry.target);
-            io.unobserve(entry.target);
-        }
-        });
-    }, { threshold: [0.5], rootMargin: '0px' });
+    // // 1) Im Viewport (scrollen): Bild schärfen
+    // const io = new IntersectionObserver((entries) => {
+    //     entries.forEach(entry => {
+    //     if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+    //         triggerOnce(entry.target);
+    //         io.unobserve(entry.target);
+    //     }
+    //     });
+    // }, { threshold: [0.5], rootMargin: '0px' });
 
-    containers.forEach(c => io.observe(c));
+    // containers.forEach(c => io.observe(c));
 
     // 2) Beim Wischen über Bild ODER Text: schärfen
     let last = 0;

@@ -52,6 +52,27 @@ header {
     padding-top: var(--header-padding);
     pointer-events: none;
 }
+
+/* --- Titel-Link Styling (tizian rein) --- */
+.site-title {
+  margin: 0;
+  font-size: var(--header-font-size);
+  font-weight: 400; /* kein Bold */
+  line-height: 1;
+}
+
+.site-title-link {
+  color: var(--text-color);     /* gleiche Farbe wie Text */
+  text-decoration: none;        /* kein Unterstrich */
+  font-weight: normal;
+}
+
+.site-title-link:hover,
+.site-title-link:visited {
+  color: var(--text-color);     /* keine Farbänderung bei Hover/Besucht */
+  text-decoration: none;
+}
+
 header .grid-container { align-items: center; }
 header .grid-container > * {
     pointer-events: auto;
@@ -185,14 +206,6 @@ header a.active { color: var(--text-color-active); }
     .hamburger-menu { display: block; grid-column: 1 / 2; }
 }
 
-/* @media (max-width: 1024px) {
-  .project-info h3,
-  .project-info p {
-    font-size: clamp(14px, 2.5vw, 25px);
-    line-height: 1.2;
-  }
-} */
-
 /* --- Mobile-Layout: Bilder & Text abwechselnd links/rechts --- */
 @media (max-width: 1024px) {
   /* Wir behalten 3 Spalten bei */
@@ -211,14 +224,54 @@ header a.active { color: var(--text-color-active); }
     grid-column: 2;
   }
   .project-item:nth-child(odd) .project-image-container {
-    grid-column: 3;
+    grid-column: 1;
   }
 
   /* Gerade Items: Bild links (1), Text rechts (3) */
   .project-item:nth-child(even) .project-image-container {
-    grid-column: 1;
+    grid-column: 3;
   }
   .project-item:nth-child(even) .project-info {
     grid-column: 2;
   }
+}
+
+@media (max-width: 1024px) {
+  .site-header {
+    display: flex;
+    flex-direction: column;   /* Titel über dem Burger */
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    text-align: center;
+  }
+
+    .site-title { 
+    margin: 0; 
+    font-size: var(--header-font-size);
+    font-weight: 400;
+    line-height: 1;
+    }
+    .site-title-link {
+    color: var(--text-color);
+    text-decoration: none;
+    }
+
+    header { position: relative; z-index: 30; }
+    .site-title, .site-title-link { position: relative; z-index: 31; }
+
+    /* Mobile: Titel + Hamburger zentrieren */
+    @media (max-width: 768px) {
+    header .grid-container {
+        grid-template-columns: 1fr !important;
+        justify-items: center;
+        row-gap: 6px;
+        text-align: center;
+    }
+    .hamburger-menu {
+        position: static;
+        margin: 0 auto;
+        justify-self: center;
+    }
+    }
 }
