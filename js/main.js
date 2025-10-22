@@ -66,10 +66,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Die Funktion setupHoverListeners bleibt exakt wie in der letzten Version.
     function setupHoverListeners() {
+    const isCoarse = window.matchMedia('(pointer: coarse)').matches; // Mobile/Touch?
     const containers = document.querySelectorAll('.project-image-container');
-    const isCoarse = window.matchMedia('(pointer: coarse)').matches; // true = Touch/Mobile
+    const infos = document.querySelectorAll('.project-info');
 
-    // Nur 1x starten je Container
     function triggerOnce(container) {
         if (!container || !container.imageObject) return;
         if (container.dataset.animStarted === '1') return;
@@ -77,30 +77,40 @@ document.addEventListener('DOMContentLoaded', () => {
         startDePixelationAnimation(container);
     }
 
-    // DESKTOP (feiner Pointer): NUR bei Hover entpixeln
-    if (!isCoarse) {
-        containers.forEach(container => {
-        container.addEventListener('pointerenter', () => triggerOnce(container), { passive: true, once: true });
-        });
-        return; // Wichtig: IO & Touch-Code NICHT auf Desktop aktivieren
+    function containerFor(el) {
+        const item = el.closest('.project-item');
+        return item ? item.querySelector('.project-image-container') : null;
     }
 
-    // // MOBILE (coarse pointer): beim Scrollen im Viewport entpixeln
-    // const io = new IntersectionObserver((entries) => {
-    //     entries.forEach(entry => {
-    //     if (entry.isIntersecting && entry.intersectionRatio >= 0.5) { // mind. 50% sichtbar
-    //         triggerOnce(entry.target);
-    //         io.unobserve(entry.target);
-    //     }
-    //     });
-    // }, {
-    //     root: null,
-    //     threshold: [0.5],   // erst bei „wirklich sichtbar“
-    //     rootMargin: '0px'   // kein Vorziehen -> wirklich im Viewfield
-    // });
-    // containers.forEach(c => io.observe(c));
+    // ---------------- Desktop: NUR Hover ----------------
+    if (!isCoarse) {
+        // Hover über Bild ODER Text löst aus
+        containers.forEach(c => {
+        c.addEventListener('pointerenter', () => triggerOnce(c), { passive: true, once: true });
+        });
+        infos.forEach(info => {
+        info.addEventListener('pointerenter', () => {
+            const c = containerFor(info);
+            if (c) triggerOnce(c);
+        }, { passive: true, once: true });
+        });
+        return; // IO & Touch nicht aktivieren auf Desktop
+    }
 
-    // MOBILE „Wischen“: Element unter dem Finger entpixeln (ohne Tippen/Navigieren)
+    // ---------------- Mobile: im Viewport ODER Wischen ----------------
+    // 1) Im Viewport (scrollen): Bild schärfen
+    const io = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            triggerOnce(entry.target);
+            io.unobserve(entry.target);
+        }
+        });
+    }, { threshold: [0.5], rootMargin: '0px' });
+
+    containers.forEach(c => io.observe(c));
+
+    // 2) Beim Wischen über Bild ODER Text: schärfen
     let last = 0;
     window.addEventListener('touchmove', (e) => {
         const now = Date.now();
