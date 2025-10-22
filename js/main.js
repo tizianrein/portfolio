@@ -85,20 +85,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return; // Wichtig: IO & Touch-Code NICHT auf Desktop aktivieren
     }
 
-    // MOBILE (coarse pointer): beim Scrollen im Viewport entpixeln
-    const io = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.5) { // mind. 50% sichtbar
-            triggerOnce(entry.target);
-            io.unobserve(entry.target);
-        }
-        });
-    }, {
-        root: null,
-        threshold: [0.5],   // erst bei „wirklich sichtbar“
-        rootMargin: '0px'   // kein Vorziehen -> wirklich im Viewfield
-    });
-    containers.forEach(c => io.observe(c));
+    // // MOBILE (coarse pointer): beim Scrollen im Viewport entpixeln
+    // const io = new IntersectionObserver((entries) => {
+    //     entries.forEach(entry => {
+    //     if (entry.isIntersecting && entry.intersectionRatio >= 0.5) { // mind. 50% sichtbar
+    //         triggerOnce(entry.target);
+    //         io.unobserve(entry.target);
+    //     }
+    //     });
+    // }, {
+    //     root: null,
+    //     threshold: [0.5],   // erst bei „wirklich sichtbar“
+    //     rootMargin: '0px'   // kein Vorziehen -> wirklich im Viewfield
+    // });
+    // containers.forEach(c => io.observe(c));
 
     // MOBILE „Wischen“: Element unter dem Finger entpixeln (ohne Tippen/Navigieren)
     let last = 0;
