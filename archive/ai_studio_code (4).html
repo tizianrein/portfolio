@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tizian Rein // Praxis v2.0</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400&display=swap');
+        
+        :root {
+            /* Core Colors */
+            --background: #000000;
+            --foreground: #d5d5d5;
+            --glow-color: #00c2ba; /* Main accent and glow color (cyan) */
+
+            /* UI Panel Colors */
+            --panel-bg: rgba(5, 15, 20, 0.85);
+            --panel-border: var(--glow-color);
+            --panel-shadow: 0 0 8px var(--glow-color);
+            
+            /* Text Colors */
+            --text-primary: #e0e0e0;
+            --text-secondary: #8a8a8a;
+
+            /* Topic Colors */
+            --c1: #00c2ba; --c2: #d90000; --c3: #31a11d;
+            --c4: #a6009d; --c5: #d18700; --c6: #6a00c7;
+        }
+
+        body { 
+            margin: 0; 
+            background-color: var(--background); 
+            color: var(--foreground); 
+            font-family: 'Roboto Mono', monospace; 
+            overflow: hidden;
+        }
+
+        /* --- ATMOSPHERICS --- */
+        /* Scanline overlay for a CRT monitor effect */
+        body::after {
+            content: "";
+            position: absolute; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.5) 0px, rgba(0, 0, 0, 0.5) 1px, transparent 1px, transparent 2px);
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.5;
+        }
+
+        #three-canvas { 
+            position: fixed; top: 0; left: 0; 
+            outline: none; cursor: grab; 
+        }
+        #three-canvas:active { cursor: grabbing; }
+        
+        /* --- LABELS & PREVIEW --- */
+        .topic-label {
+            position: absolute; font-size: 16px;
+            pointer-events: all; user-select: none; cursor: pointer;
+            text-shadow: 0 0 8px currentColor;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .topic-label:hover { transform: translate(-50%, -50%) scale(1.15); }
+        
+        #hover-preview {
+            position: absolute; display: none; width: 280px;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            box-shadow: var(--panel-shadow);
+            padding: 1rem 1.5rem;
+            pointer-events: none; user-select: none; z-index: 99;
+            color: var(--text-primary);
+        }
+
+        /* Schematic Corner Brackets for Preview Panel */
+        #hover-preview::before, #hover-preview::after {
+            content: ''; position: absolute;
+            width: 15px; height: 15px;
+            border-color: var(--glow-color); border-style: solid;
+        }
+        #hover-preview::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+        #hover-preview::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+        
+        #hover-preview img { display: none; } /* Hide image to focus on data */
+        #hover-preview h3 { margin: 0 0 10px 0; font-size: 16px; color: var(--glow-color); text-shadow: var(--panel-shadow); }
+        #hover-preview p { margin: 0 0 10px 0; font-size: 12px; color: var(--text-secondary); border-bottom: 1px solid rgba(0, 194, 186, 0.2); padding-bottom: 10px; }
+        #hover-preview ul { margin: 0; padding: 0; list-style: none; font-size: 11px; }
+        #hover-preview ul li { margin-bottom: 2px; color: var(--text-secondary); }
+
+        /* --- UI PANELS --- */
+        .ui-panel {
+            position: fixed; top: 0; width: 380px; height: 100%;
+            background: var(--panel-bg);
+            border: 1px solid var(--panel-border);
+            box-shadow: var(--panel-shadow);
+            box-sizing: border-box; padding: 2rem 2.5rem;
+            transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+            z-index: 1000; color: var(--text-primary);
+            overflow-y: auto;
+        }
+
+        /* Schematic Corner Brackets for Main Panels */
+        .ui-panel::before, .ui-panel::after {
+            content: ''; position: absolute;
+            width: 25px; height: 25px;
+            border-color: var(--glow-color);
+            border-style: solid;
+            transition: all 0.3s ease;
+        }
+        .ui-panel::before { top: -2px; left: -2px; border-width: 2px 0 0 2px; }
+        .ui-panel::after { bottom: -2px; right: -2px; border-width: 0 2px 2px 0; }
+
+        #project-panel { right: 0; transform: translateX(100%); border-left: 1px solid var(--panel-border); border-right: none; }
+        #info-panel, #project-list-panel { left: 0; transform: translateX(-100%); border-right: 1px solid var(--panel-border); border-left: none; }
+        
+        #project-list-panel ul { list-style: none; padding: 0; margin: 0; }
+        #project-list-panel li { padding: 0.75rem 0.5rem; cursor: pointer; border-bottom: 1px solid rgba(0, 194, 186, 0.2); transition: all 0.2s ease; }
+        #project-list-panel li:hover { background-color: rgba(0, 194, 186, 0.1); color: var(--glow-color); }
+        #project-list-panel h2, #project-panel h2, #info-panel h2 { margin-top: 0; color: var(--glow-color); text-shadow: var(--panel-shadow); }
+        
+        .ui-panel.visible { transform: translateX(0); }
+        .ui-panel .close-btn { position: absolute; top: 1rem; right: 1.5rem; cursor: pointer; font-size: 1.8rem; color: var(--glow-color); text-shadow: var(--panel-shadow);}
+        
+        /* --- BOTTOM UI --- */
+        .bottom-ui {
+            position: fixed; bottom: 2rem; width: 100%;
+            display: flex; justify-content: center; align-items: center; gap: 2.5rem;
+            z-index: 50; text-align: center;
+        }
+        .bottom-ui a { 
+            color: var(--foreground); text-decoration: none; cursor: pointer; 
+            font-size: 14px; letter-spacing: 1px;
+            transition: color 0.2s ease, text-shadow 0.2s ease;
+        }
+        .bottom-ui a:hover {
+            color: var(--glow-color);
+            text-shadow: var(--panel-shadow);
+        }
+        .bottom-ui a::before { content: '[ '; opacity: 0.5; }
+        .bottom-ui a::after { content: ' ]'; opacity: 0.5; }
+        
+        @media (max-width: 768px) { .ui-panel { width: 90%; } .topic-label { font-size: 12px; } }
+    </style>
+</head>
+<body>
+    <div id="three-canvas"></div>
+    <div id="hover-preview">
+        <h3 id="preview-title"></h3>
+        <p id="preview-desc"></p>
+        <ul id="preview-topics"></ul>
+    </div>
+    
+    <footer class="bottom-ui">
+        <a id="name-plate">TIZIAN REIN // ARCHITECT</a>
+        <a id="projects-btn">PROJECT_INDEX</a>
+        <a id="info-btn">INFO_CV</a>
+    </footer>
+
+    <aside id="project-panel" class="ui-panel">
+        <span class="close-btn" onclick="hideAllPanels()">&times;</span>
+        <h2 id="project-title-main"></h2>
+        <p id="project-desc-main"></p>
+    </aside>
+    <aside id="info-panel" class="ui-panel">
+        <span class="close-btn" onclick="hideAllPanels()">&times;</span>
+        <h2>Tizian Rein</h2>
+        <p>Architect focused on the intersection of building heritage and emergent digital technologies...</p>
+        <p><a href="#" style="color: var(--c1);">[ Download CV (PDF) ]</a></p>
+    </aside>
+    <aside id="project-list-panel" class="ui-panel">
+        <span class="close-btn" onclick="hideAllPanels()">&times;</span>
+        <h2>Projects</h2>
+        <ul id="project-list-container"></ul>
+    </aside>
+    
+    <!-- THREE.js and Post-processing scripts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+    <script>
+        // --- DATA ---
+        const interestsConfig = [ { name: 'comp', title: 'Comp. Design', color: [0, 255, 250] }, { name: 'heritage', title: 'Heritage', color: [255, 74, 74] }, { name: 'robotics', title: 'Robotics', color: [85, 255, 61] }, { name: 'philosophy', title: 'Philosophy', color: [255, 61, 244] }, { name: 'writing', title: 'Writing', color: [255, 168, 0] }, { name: 'furniture', title: 'Furniture', color: [168, 0, 255] }];
+        const projects = [
+            { id: 1, title: 'Generative Masonry', desc: 'Using algorithms to generate novel masonry patterns inspired by historical precedents.', image: 'https://i.imgur.com/8FkP4k9.png', interests: { comp: 0.9, heritage: 0.6, robotics: 0.7, philosophy: 0.3, writing: 0.1, furniture: 0.1 }, connections: [3, 4, 11] },
+            { id: 2, title: 'The Digital Archive', desc: 'A philosophical essay and digital platform on the nature of architectural archives in the age of AI.', image: 'https://i.imgur.com/G3Gv2X5.png', interests: { comp: 0.4, heritage: 0.8, robotics: 0.2, philosophy: 0.9, writing: 0.9, furniture: 0.0 }, connections: [5, 15] },
+            { id: 3, title: 'Robotic Wood Joints', desc: 'Fabricating complex, non-standard timber joints with a 6-axis robotic arm.', image: 'https://i.imgur.com/3e5sYhJ.png', interests: { comp: 0.7, heritage: 0.3, robotics: 0.9, philosophy: 0.1, writing: 0.1, furniture: 0.8 }, connections: [1, 7, 12] },
+            { id: 4, title: 'Point Cloud Preservation', desc: 'A methodology for using 3D scanning to document and analyze heritage sites at risk.', image: 'https://i.imgur.com/9O8kK6K.png', interests: { comp: 0.8, heritage: 0.9, robotics: 0.5, philosophy: 0.2, writing: 0.2, furniture: 0.0 }, connections: [1, 9] },
+            { id: 5, title: 'Critique of Automation', desc: 'An article examining the philosophical implications of automation in creative and construction fields.', image: 'https://i.imgur.com/tH3Gf8J.png', interests: { comp: 0.1, heritage: 0.2, robotics: 0.3, philosophy: 0.9, writing: 1.0, furniture: 0.0 }, connections: [2, 13] },
+            { id: 6, title: 'CNC-Milled Chair', desc: 'A piece of furniture designed parametrically and fabricated using CNC milling from a single sheet of plywood.', image: 'https://i.imgur.com/qE2B3S1.png', interests: { comp: 0.6, heritage: 0.1, robotics: 0.4, philosophy: 0.2, writing: 0.0, furniture: 0.9 }, connections: [7, 3] },
+            { id: 7, title: 'Human-Robot Craft', desc: 'A research project exploring collaborative workflows between human artisans and robotic arms.', image: 'https://i.imgur.com/8FkP4k9.png', interests: { comp: 0.5, heritage: 0.4, robotics: 0.8, philosophy: 0.5, writing: 0.3, furniture: 0.6 }, connections: [3, 6, 14] },
+            { id: 8, title: 'Venetian Scaffolding Study', desc: 'A written and photographic documentation of traditional Venetian building techniques.', image: 'https://i.imgur.com/G3Gv2X5.png', interests: { comp: 0.1, heritage: 0.9, robotics: 0.0, philosophy: 0.4, writing: 0.6, furniture: 0.3 }, connections: [2, 4] },
+            { id: 9, title: 'AI in Urban Planning', desc: 'Using machine learning models to analyze urban growth for heritage-sensitive cities.', image: 'https://i.imgur.com/3e5sYhJ.png', interests: { comp: 0.9, heritage: 0.7, robotics: 0.6, philosophy: 0.6, writing: 0.5, furniture: 0.0 }, connections: [4, 1, 16] },
+            { id: 10, title: 'The Tectonic Statement', desc: 'A book chapter on the expression of construction logic and material honesty in architecture.', image: 'https://i.imgur.com/9O8kK6K.png', interests: { comp: 0.2, heritage: 0.5, robotics: 0.1, philosophy: 0.8, writing: 0.9, furniture: 0.4 }, connections: [2, 5, 8] },
+            { id: 11, title: '3D Printed Facades', desc: 'Developing a large-scale polymer extrusion system for bespoke architectural facade panels.', image: 'https://i.imgur.com/tH3Gf8J.png', interests: { comp: 0.8, heritage: 0.4, robotics: 0.9, philosophy: 0.2, writing: 0.1, furniture: 0.1 }, connections: [1, 3] },
+            { id: 12, title: 'Plywood Pavilion', desc: 'A temporary structure designed with computational tools and assembled with simple joinery.', image: 'https://i.imgur.com/qE2B3S1.png', interests: { comp: 0.7, heritage: 0.2, robotics: 0.3, philosophy: 0.1, writing: 0.0, furniture: 0.7 }, connections: [3, 6] },
+            { id: 13, title: 'Ontology of the Tool', desc: 'A philosophical investigation into how tools, from the chisel to the robot, shape architectural thought.', image: 'https://i.imgur.com/8FkP4k9.png', interests: { comp: 0.1, heritage: 0.1, robotics: 0.4, philosophy: 1.0, writing: 0.8, furniture: 0.2 }, connections: [5, 7] },
+            { id: 14, title: 'Adaptive Gripper Design', desc: 'Engineering a robotic gripper capable of handling irregular and delicate historical artifacts.', image: 'https://i.imgur.com/G3Gv2X5.png', interests: { comp: 0.6, heritage: 0.1, robotics: 1.0, philosophy: 0.3, writing: 0.0, furniture: 0.5 }, connections: [7, 3, 11] },
+            { id: 15, title: 'Material Memory', desc: 'An essay on material decay and digital persistence, questioning the idea of perfect preservation.', image: 'https://i.imgur.com/3e5sYhJ.png', interests: { comp: 0.3, heritage: 0.9, robotics: 0.1, philosophy: 0.7, writing: 0.9, furniture: 0.2 }, connections: [2, 8, 10] },
+            { id: 16, title: 'Simulated Environments', desc: 'Using game engines for architectural visualization and analysis of atmospheric conditions.', image: 'https://i.imgur.com/9O8kK6K.png', interests: { comp: 1.0, heritage: 0.5, robotics: 0.5, philosophy: 0.4, writing: 0.2, furniture: 0.0 }, connections: [9, 4] }
+        ];
+
+        // --- SETUP & STATE ---
+        let scene, camera, renderer, controls, raycaster, composer;
+        const container = document.getElementById('three-canvas');
+        const previewPanel = document.getElementById('hover-preview');
+        const projectPanel = document.getElementById('project-panel');
+        const infoPanel = document.getElementById('info-panel');
+        const projectListPanel = document.getElementById('project-list-panel');
+
+        const mouse = new THREE.Vector2();
+        let mousePos = { x: 0, y: 0 };
+        const CUBE_SIZE = 6;
+        const projectMeshes = [], connectionLines = [];
+        const mainGroup = new THREE.Group();
+        
+        let introAnimationFinished = false;
+        let highlightedObject = null;
+        let filterTopic = null;
+        
+        const themeColors = {
+            line: 0x555555,
+            hover: 0x00c2ba,
+            bg: 0x000000,
+            cube: 0x444444
+        };
+
+        function init() {
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(themeColors.bg);
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(5, 3, 9);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+            
+            // Post-processing for Bloom Effect
+            const renderScene = new THREE.RenderPass(scene, camera);
+            const bloomPass = new THREE.UnrealBloomPass(new THREE.Vector2(window.innerWidth, window.innerHeight), 1.5, 0.4, 0.85);
+            bloomPass.threshold = 0;
+            bloomPass.strength = 1.3;
+            bloomPass.radius = 0.55;
+            composer = new THREE.EffectComposer(renderer);
+            composer.addPass(renderScene);
+            composer.addPass(bloomPass);
+
+            controls = new THREE.OrbitControls(camera, renderer.domElement);
+            controls.enableDamping = true; controls.autoRotate = true; controls.autoRotateSpeed = 0.2;
+            controls.enablePan = false; controls.minDistance = 5; controls.maxDistance = 20;
+            
+            raycaster = new THREE.Raycaster();
+            
+            mainGroup.add(new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(CUBE_SIZE, CUBE_SIZE, CUBE_SIZE)), new THREE.LineBasicMaterial({ color: themeColors.cube, transparent: true, opacity: 0.3 })));
+            
+            const topics = [
+                { key: 'comp', name: 'Comp. Design', color: 'var(--c1)', pos: new THREE.Vector3(0, 0, CUBE_SIZE/2 + 0.8) }, { key: 'heritage', name: 'Heritage', color: 'var(--c2)', pos: new THREE.Vector3(0, 0, -CUBE_SIZE/2 - 0.8) },
+                { key: 'robotics', name: 'Robotics', color: 'var(--c3)', pos: new THREE.Vector3(CUBE_SIZE/2 + 0.8, 0, 0) }, { key: 'philosophy', name: 'Philosophy', color: 'var(--c4)', pos: new THREE.Vector3(-CUBE_SIZE/2 - 0.8, 0, 0) },
+                { key: 'writing', name: 'Writing', color: 'var(--c5)', pos: new THREE.Vector3(0, CUBE_SIZE/2 + 0.8, 0) }, { key: 'furniture', name: 'Furniture', color: 'var(--c6)', pos: new THREE.Vector3(0, -CUBE_SIZE/2 - 0.8, 0) },
+            ];
+            topics.forEach(t => {
+                const div = document.createElement('div');
+                div.className = 'topic-label'; div.textContent = t.name; div.style.color = t.color;
+                div.userData = { position3D: t.pos }; div.onclick = () => { setFilterTopic(t.key); };
+                document.body.appendChild(div);
+            });
+
+            // Use a wireframe geometry for the project nodes
+            const wireframeGeom = new THREE.EdgesGeometry(new THREE.IcosahedronGeometry(0.15, 1));
+            projects.forEach(p => {
+                const x = (p.interests.comp - p.interests.heritage) * (CUBE_SIZE / 2); const y = (p.interests.writing - p.interests.furniture) * (CUBE_SIZE / 2); const z = (p.interests.robotics - p.interests.philosophy) * (CUBE_SIZE / 2);
+                p.targetPosition = new THREE.Vector3(x,y,z);
+                let totalWeight = 0, r=0, g=0, b=0;
+                interestsConfig.forEach(ic => { const weight = p.interests[ic.name]; if (weight > 0) { totalWeight += weight; r += ic.color[0] * weight; g += ic.color[1] * weight; b += ic.color[2] * weight; } });
+                const nodeColor = new THREE.Color(`rgb(${Math.round(r/totalWeight)}, ${Math.round(g/totalWeight)}, ${Math.round(b/totalWeight)})`);
+                
+                const node = new THREE.LineSegments(wireframeGeom, new THREE.LineBasicMaterial({ color: nodeColor, transparent: true }));
+                node.position.set(0, 0, 0); 
+                node.userData = { project: p, type: 'project', lines: [], connections: [], baseColor: nodeColor };
+                mainGroup.add(node); projectMeshes.push(node);
+            });
+            
+            projects.forEach(p1 => {
+                const p1Mesh = projectMeshes.find(m => m.userData.project.id === p1.id);
+                p1.connections.forEach(connId => { if (p1.id < connId) {
+                    const p2Mesh = projectMeshes.find(m => m.userData.project.id === connId);
+                    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints([p1Mesh.position, p2Mesh.position]), new THREE.LineBasicMaterial({ color: themeColors.line, transparent: true, opacity: 0.3 }));
+                    line.userData = { type: 'connection', startMesh: p1Mesh, endMesh: p2Mesh }; mainGroup.add(line); connectionLines.push(line);
+                    p1Mesh.userData.lines.push(line); p1Mesh.userData.connections.push(p2Mesh); p2Mesh.userData.lines.push(line); p2Mesh.userData.connections.push(p1Mesh);
+                }});
+            });
+            scene.add(mainGroup);
+            
+            populateProjectList();
+            addEventListeners();
+        }
+
+        function addEventListeners() {
+            window.addEventListener('resize', onWindowResize);
+            window.addEventListener('mousemove', onMouseMove);
+            container.addEventListener('click', onClick);
+            controls.addEventListener('start', () => controls.autoRotate = false);
+            controls.addEventListener('end', () => { if(introAnimationFinished) controls.autoRotate = true; });
+
+            document.getElementById('projects-btn').addEventListener('click', () => { hideAllPanels(); projectListPanel.classList.add('visible'); });
+            document.getElementById('info-btn').addEventListener('click', () => { hideAllPanels(); infoPanel.classList.add('visible'); });
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+            let animating = false;
+            projectMeshes.forEach(mesh => { if (mesh.position.distanceTo(mesh.userData.project.targetPosition) > 0.01) { animating = true; mesh.position.lerp(mesh.userData.project.targetPosition, 0.05); }});
+            connectionLines.forEach(line => { const { startMesh, endMesh } = line.userData; line.geometry.setFromPoints([startMesh.position, endMesh.position]); line.geometry.attributes.position.needsUpdate = true; });
+            
+            if (!animating && !introAnimationFinished) { introAnimationFinished = true; controls.autoRotate = true; }
+            if(!introAnimationFinished) controls.autoRotate = false;
+            
+            handleInteractions(); 
+            controls.update(); 
+            updateLabels(); 
+            composer.render();
+        }
+        
+        function onMouseMove(event) { 
+            mouse.x = (event.clientX / window.innerWidth) * 2 - 1; 
+            mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            mousePos = { x: event.clientX, y: event.clientY };
+        }
+
+        function handleInteractions() {
+            raycaster.setFromCamera(mouse, camera);
+            const intersects = raycaster.intersectObjects(projectMeshes);
+            let intersectedObj = (intersects.length > 0) ? intersects[0].object : null;
+
+            if (document.querySelector('.ui-panel.visible')) intersectedObj = null;
+            
+            if (highlightedObject !== intersectedObj) setHighlightedObject(intersectedObj);
+
+            const shouldShowPreview = highlightedObject && !document.querySelector('.ui-panel.visible');
+            previewPanel.style.display = shouldShowPreview ? 'block' : 'none';
+            if (shouldShowPreview) {
+                previewPanel.style.left = `${mousePos.x + 20}px`;
+                previewPanel.style.top = `${mousePos.y + 20}px`;
+            }
+
+            const getOpacity = (child) => {
+                if (filterTopic) {
+                    if (child.userData.type === 'project') return child.userData.project.interests[filterTopic] > 0.4 ? 1.0 : 0.1;
+                    if (child.userData.type === 'connection') {
+                        const { startMesh, endMesh } = child.userData;
+                        return startMesh.userData.project.interests[filterTopic] > 0.4 && endMesh.userData.project.interests[filterTopic] > 0.4 ? 0.8 : 0.1;
+                    }
+                }
+                if (highlightedObject) {
+                    const isHovered = (child === highlightedObject || highlightedObject.userData.lines.includes(child) || highlightedObject.userData.connections.includes(child));
+                    return isHovered ? (child.userData.type === 'project' ? 1.0 : 0.8) : 0.1;
+                }
+                return child.userData.type === 'project' ? 1.0 : 0.3;
+            };
+
+            mainGroup.children.forEach(child => {
+                if (!child.userData || !child.material) return;
+                child.material.opacity += (getOpacity(child) - child.material.opacity) * 0.1;
+
+                if (child.userData.type === 'project') { 
+                    const targetScale = highlightedObject === child ? 1.8 : 1.0; 
+                    child.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+                    child.material.color.set(highlightedObject === child ? themeColors.hover : child.userData.baseColor);
+                }
+                if (child.userData.type === 'connection') { 
+                    child.material.color.set(highlightedObject && highlightedObject.userData.lines.includes(child) ? themeColors.hover : themeColors.line); 
+                }
+            });
+        }
+        
+        function onClick() { 
+            if (highlightedObject && !filterTopic) showProjectDetails(highlightedObject.userData.project);
+            else if (!highlightedObject && !document.querySelector('.ui-panel.visible')) setFilterTopic(null);
+        }
+
+        function onWindowResize() { 
+            camera.aspect = window.innerWidth / window.innerHeight; 
+            camera.updateProjectionMatrix(); 
+            renderer.setSize(window.innerWidth, window.innerHeight); 
+            composer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function setFilterTopic(topicKey) { filterTopic = filterTopic === topicKey ? null : topicKey; hideAllPanels(); }
+        
+        function updatePreviewPanel(p) {
+            document.getElementById('preview-title').textContent = p.title;
+            document.getElementById('preview-desc').textContent = p.desc.substring(0, 100) + '...';
+            const topicsList = document.getElementById('preview-topics');
+            topicsList.innerHTML = '';
+            interestsConfig.forEach(ic => {
+                const interestValue = p.interests[ic.name];
+                if (interestValue > 0.3) {
+                    const li = document.createElement('li');
+                    li.innerHTML = `<span style="color: rgb(${ic.color.join(',')})">${ic.title.padEnd(14, ' ')}:</span> ${(interestValue * 100).toFixed(0)}%`;
+                    topicsList.appendChild(li);
+                }
+            });
+        }
+        
+        function updateLabels() { document.querySelectorAll('.topic-label').forEach(label => { const pos = label.userData.position3D.clone().project(camera); const x = (pos.x * .5 + .5) * window.innerWidth; const y = (pos.y * -.5 + .5) * window.innerHeight; label.style.transform = `translate(-50%, -50%) translate(${x}px, ${y}px)`; label.style.opacity = pos.z < 1 ? 1 : 0; }); }
+
+        function showProjectDetails(p) { 
+            hideAllPanels();
+            document.getElementById('project-title-main').textContent = p.title;
+            document.getElementById('project-desc-main').textContent = p.desc;
+            projectPanel.classList.add('visible');
+        }
+
+        function hideAllPanels() { document.querySelectorAll('.ui-panel').forEach(p => p.classList.remove('visible')); }
+
+        function populateProjectList() {
+            const container = document.getElementById('project-list-container');
+            container.innerHTML = '';
+            projects.forEach(p => {
+                const li = document.createElement('li');
+                li.textContent = p.title;
+                li.addEventListener('mouseenter', () => { const mesh = projectMeshes.find(m => m.userData.project.id === p.id); setHighlightedObject(mesh); });
+                li.addEventListener('mouseleave', () => setHighlightedObject(null));
+                li.addEventListener('click', () => showProjectDetails(p));
+                container.appendChild(li);
+            });
+        }
+
+        function setHighlightedObject(object) {
+            highlightedObject = object;
+            if (highlightedObject) updatePreviewPanel(highlightedObject.userData.project);
+        }
+        
+        init();
+        animate();
+    </script>
+</body>
+</html>
