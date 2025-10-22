@@ -106,11 +106,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const now = Date.now();
         if (now - last < 120) return; // throttle
         last = now;
+
         const t = e.touches && e.touches[0];
         if (!t) return;
+
         const el = document.elementFromPoint(t.clientX, t.clientY);
-        const container = el && el.closest && el.closest('.project-image-container');
-        if (container) triggerOnce(container);
+        if (!el) return;
+
+        // Wenn direkt Bild: dieses; wenn Text: zugehöriges Bild finden
+        const directImg = el.closest('.project-image-container');
+        const targetContainer = directImg || containerFor(el);
+        if (targetContainer) triggerOnce(targetContainer);
     }, { passive: true });
     }
 
