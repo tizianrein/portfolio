@@ -138,6 +138,12 @@ header a.active { color: var(--text-color-active); }
     font-size: 25px;
     margin: 0 0 0px 0;
     line-height: 1.1;
+
+    /* --- Enable proper hyphenation and wrapping --- */
+    overflow-wrap: break-word;
+    word-break: normal;
+    hyphens: auto;
+    -webkit-hyphens: auto; /* important for iOS Safari */
 }
 
 .project-info h3 {
