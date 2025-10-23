@@ -359,3 +359,53 @@ header a.active { color: var(--text-color-active); }
   /* Da der Header wegfällt, Top-Spacing beim Grid reduzieren */
   #project-grid { padding-top: 20px; }
 }
+
+/* Unterstrich entfernen für mobile Eck-Links */
+.corner-nav a {
+  text-decoration: none;
+  color: var(--text-color);
+  font-weight: normal;
+}
+
+.corner-nav a:hover {
+  text-decoration: none; /* kein Unterstrich beim Hover */
+  color: var(--text-color-active); /* optional grauer Ton beim Antippen */
+}
+
+/* ========================================================= */
+/* Einheitliches Styling für mobile Eck-Menüpunkte */
+/* ========================================================= */
+
+.corner-nav a {
+  text-decoration: none !important;
+  color: var(--text-color);
+  font-weight: 400; /* wie normale Menüpunkte */
+  font-size: var(--header-font-size); /* gleiche Größe */
+  line-height: 1;
+  position: fixed;
+  z-index: 120;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 15px;
+}
+
+/* Hover / Active Style analog zu anderen Menüpunkten */
+.corner-nav a:hover,
+.corner-nav a.active {
+  color: var(--text-color-active);
+  text-decoration: none;
+}
+
+/* Fixe Positionen in den Ecken */
+.corner-nav .top-left     { top: 0; left: 0; }
+.corner-nav .top-right    { top: 0; right: 0; }
+.corner-nav .bottom-left  { bottom: 0; left: 0; }
+.corner-nav .bottom-right { bottom: 0; right: 0; }
+
+/* Sichtbarkeit nur auf kleinen Screens */
+@media (max-width: 768px) {
+  .corner-nav { display: block; }
+  header, .corner-filters { display: none; }
+  #project-grid { padding-top: 20px; }
+}
