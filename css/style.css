@@ -1,9 +1,10 @@
 html {
-  /* Reserviert den Platz für die Scrollbar, um Layout-Sprünge zu verhindern */
   scrollbar-gutter: stable;
 }
 
-/* Grundlegende Stile */
+/* ========================================================= */
+/* === BASISVARIABLEN ====================================== */
+/* ========================================================= */
 :root {
     --background-color: #ffffff;
     --text-color: #000000;
@@ -13,29 +14,43 @@ html {
     --header-padding: 15px;
     --main-max-width: 1200px;
     --main-side-padding: 80px;
+    --project-info-padding: 0.5rem; /* Einheitliches Label-Padding */
 }
 
-html {
-    scrollbar-gutter: stable;
-}
-
+/* ========================================================= */
+/* === GRUNDEINSTELLUNGEN ================================== */
+/* ========================================================= */
 body {
     font-family: var(--font-main);
     background-color: var(--background-color);
     color: var(--text-color);
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
-/* --- Eck-Buttons --- */
+/* ========================================================= */
+/* === CORNER BUTTONS ====================================== */
+/* ========================================================= */
 .corner {
-    position: fixed; font-size: var(--header-font-size); background: none; border: none;
-    cursor: pointer; padding: 15px; color: var(--text-color); z-index: 100;
+    position: fixed;
+    font-size: var(--header-font-size);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 15px;
+    color: var(--text-color);
+    z-index: 100;
 }
 .corner.active { color: var(--text-color-active); }
-.top-left { top: 0; left: 0; } .top-right { top: 0; right: 0; }
-.bottom-left { bottom: 0; left: 0; } .bottom-right { bottom: 0; right: 0; }
 
-/* --- Der gemeinsame Grid-Container --- */
+.top-left { top: 0; left: 0; }
+.top-right { top: 0; right: 0; }
+.bottom-left { bottom: 0; left: 0; }
+.bottom-right { bottom: 0; right: 0; }
+
+/* ========================================================= */
+/* === GRID-CONTAINER ====================================== */
+/* ========================================================= */
 .grid-container {
     max-width: calc(var(--main-max-width) + var(--main-side-padding) * 2);
     margin: 0 auto;
@@ -45,35 +60,39 @@ body {
     box-sizing: border-box;
 }
 
-/* --- Header-Styling --- */
+/* ========================================================= */
+/* === HEADER ============================================== */
+/* ========================================================= */
 header {
     position: fixed;
-    top: 0; left: 0; width: 100%; z-index: 99;
+    top: 0; left: 0;
+    width: 100%;
+    z-index: 99;
     padding-top: var(--header-padding);
     pointer-events: none;
 }
 
-/* --- Titel-Link Styling (tizian rein) --- */
 .site-title {
   margin: 0;
   font-size: var(--header-font-size);
-  font-weight: 400; /* kein Bold */
+  font-weight: 400;
   line-height: 1;
 }
 
 .site-title-link {
-  color: var(--text-color);     /* gleiche Farbe wie Text */
-  text-decoration: none;        /* kein Unterstrich */
+  color: var(--text-color);
+  text-decoration: none;
   font-weight: normal;
 }
 
 .site-title-link:hover,
 .site-title-link:visited {
-  color: var(--text-color);     /* keine Farbänderung bei Hover/Besucht */
+  color: var(--text-color);
   text-decoration: none;
 }
 
 header .grid-container { align-items: center; }
+
 header .grid-container > * {
     pointer-events: auto;
     font-size: var(--header-font-size);
@@ -83,25 +102,30 @@ header .grid-container > * {
     padding: 0;
     justify-self: start;
 }
+
 header a.active { color: var(--text-color-active); }
 
-/* Exakte Positionierung der Header-Elemente */
-.logo          { grid-column: 1 / 3; }
-#nav-work      { grid-column: 3 / 4; }
-#nav-info      { grid-column: 4 / 5; }
-#nav-contact   { grid-column: 6 / 7; }
+/* Positionierung im Header */
+.logo        { grid-column: 1 / 3; }
+#nav-work    { grid-column: 3 / 4; }
+#nav-info    { grid-column: 4 / 5; }
+#nav-contact { grid-column: 6 / 7; }
+
 .hamburger-menu { 
-    grid-column: 6 / 7; 
+    grid-column: 6 / 7;
     justify-self: end;
     display: none;
 }
 
-/* --- Hauptinhalt & Projekt-Grid --- */
+/* ========================================================= */
+/* === PROJECT GRID ======================================== */
+/* ========================================================= */
 #project-grid {
     padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3));
     padding-bottom: 120px;
     gap: 0;
 }
+
 .project-item {
     grid-column: span 3;
     text-decoration: none;
@@ -109,20 +133,19 @@ header a.active { color: var(--text-color-active); }
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 0;
-    
-    /* #################################################### */
-    /* --- HIER IST DIE KORREKTUR --- */
-    /* #################################################### */
-    align-items: start; /* Richtet Text und Bild oben bündig aus */
-    grid-auto-flow: dense; /* Sorgt dafür, dass Text und Bild in der gleichen Zeile bleiben */
+    align-items: start;
+    grid-auto-flow: dense;
 }
 
-/* --- Bild-Container Styling --- */
+/* ========================================================= */
+/* === BILDER ============================================== */
+/* ========================================================= */
 .project-image-container {
     position: relative;
     background-color: #f0f0f0;
     height: 0;
 }
+
 .pixelation-canvas,
 .full-res-image {
     position: absolute;
@@ -132,321 +155,156 @@ header a.active { color: var(--text-color-active); }
     height: 100%;
     object-fit: cover;
 }
-.pixelation-canvas {
-    z-index: 2;
-}
-.full-res-image {
-    z-index: 1;
-}
+
+.pixelation-canvas { z-index: 2; }
+.full-res-image { z-index: 1; }
+
 .project-image-container.is-loaded .pixelation-canvas {
     opacity: 0;
 }
 
-/* --- Projekt-Info Styling --- */
+/* ========================================================= */
+/* === TEXT / LABEL ======================================== */
+/* ========================================================= */
 .project-info {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    padding: 0.5rem;
-
-    /* --- Prevent text from shrinking images --- */
-    min-width: 0;                /* allow text to wrap instead of compressing grid columns */
-    overflow-wrap: anywhere;     /* break long words if needed */
+    padding: var(--project-info-padding);  /* Einheitlich Desktop + Mobile */
+    min-width: 0;
+    overflow-wrap: anywhere;
     word-break: normal;
-    hyphens: auto;               /* optional: enables hyphenation on supported browsers */
+    hyphens: auto;
 }
 
 .project-info h3, 
 .project-info p {
     font-size: 22px;
-    margin: 0 0 0px 0;
+    margin: 0;
     line-height: 1.1;
-
-    /* --- Enable proper hyphenation and wrapping --- */
     overflow-wrap: break-word;
-    word-break: normal;
     hyphens: auto;
-    -webkit-hyphens: auto; /* important for iOS Safari */
+    -webkit-hyphens: auto;
 }
 
 .project-info h3 {
     font-weight: normal;
 }
 
-/* Optional: adjust wrapping for very small screens */
-@media (max-width: 640px) {
-    .project-info {
-        overflow-wrap: break-word;
-    }
-}
-
-/* Layout A: Bild links, Text rechts */
+/* ========================================================= */
+/* === LAYOUT VARIANTEN ==================================== */
+/* ========================================================= */
 .layout-a > .project-image-container { grid-column: 1 / 2; }
 .layout-a > .project-info            { grid-column: 2 / 3; }
 
-/* Layout B: Text mittig, Bild rechts */
 .layout-b > .project-info            { grid-column: 2 / 3; }
 .layout-b > .project-image-container { grid-column: 3 / 4; }
 
-
-/* --- Responsive Anpassungen --- */
+/* ========================================================= */
+/* === RESPONSIVE / MOBILE ================================= */
+/* ========================================================= */
 @media (max-width: 1024px) {
   :root { --header-font-size: 28pt; }
 
-  /* Header auf 1 Spalte + zentrieren */
   header .grid-container {
-    grid-template-columns: 1fr;   /* eine Spalte */
-    justify-items: center;        /* Inhalt zentrieren */
+    grid-template-columns: 1fr;
+    justify-items: center;
   }
   header .grid-container > * {
-    justify-self: center;         /* override: NICHT mehr start */
-  }
-
-  /* Reihenfolge: Titel oben, Hamburger darunter */
-  .site-title { 
-    grid-column: 1;
-    grid-row: 1;
-  }
-  .hamburger-menu {
-    display: block;
-    grid-column: 1;
-    grid-row: 2;          /* unter dem Titel */
-    position: static;     /* sicherheitshalber */
-    margin: 0;            /* keine Seitwärtsverschiebung */
     justify-self: center;
   }
 
-  /* dein bisheriger Inhalt … */
+  .site-title { grid-column: 1; grid-row: 1; }
+  .hamburger-menu {
+    display: block;
+    grid-row: 2;
+    position: static;
+    margin: 0;
+    justify-self: center;
+  }
+
   .grid-container, #project-grid {
     grid-template-columns: 1fr;
     padding-left: 20px;
     padding-right: 20px;
   }
+
   .project-item {
     grid-column: span 1;
     margin-bottom: 2rem;
   }
+
   #nav-work, #nav-info, #nav-contact { display: none; }
 }
 
-/* --- Mobile-Layout: Bilder & Text abwechselnd links/rechts --- */
+/* --- Mobile Grid Logik: Bild & Text alternierend --- */
 @media (max-width: 1024px) {
-  /* Wir behalten 3 Spalten bei */
   .project-item {
     grid-template-columns: 1fr 1fr 1fr;
   }
 
-  /* Beide Elemente (Bild + Text) sollen in derselben Zeile liegen */
   .project-item .project-image-container,
   .project-item .project-info {
     grid-row: 1;
   }
 
-  /* Ungerade Items: Text links (1), Bild rechts (3) */
-  .project-item:nth-child(odd) .project-info {
-    grid-column: 2;
-  }
-  .project-item:nth-child(odd) .project-image-container {
-    grid-column: 1;
-  }
+  .project-item:nth-child(odd) .project-info { grid-column: 2; }
+  .project-item:nth-child(odd) .project-image-container { grid-column: 1; }
 
-  /* Gerade Items: Bild links (1), Text rechts (3) */
-  .project-item:nth-child(even) .project-image-container {
-    grid-column: 3;
-  }
-  .project-item:nth-child(even) .project-info {
-    grid-column: 2;
-  }
-}
-
-@media (max-width: 1024px) {
-  .site-header {
-    display: flex;
-    flex-direction: column;   /* Titel über dem Burger */
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    text-align: center;
-  }
-
-    .site-title { 
-    margin: 0; 
-    font-size: var(--header-font-size);
-    font-weight: 400;
-    line-height: 1;
-    }
-    .site-title-link {
-    color: var(--text-color);
-    text-decoration: none;
-    }
-
-    header { position: relative; z-index: 30; }
-    .site-title, .site-title-link { position: relative; z-index: 31; }
-
-    /* Mobile: Titel + Hamburger zentrieren */
-    @media (max-width: 768px) {
-    header .grid-container {
-        grid-template-columns: 1fr !important;
-        justify-items: center;
-        row-gap: 6px;
-        text-align: center;
-    }
-    .hamburger-menu {
-        position: static;
-        margin: 0 auto;
-        justify-self: center;
-    }
-    }
-}
-
-@media (max-width: 1024px) {
-  /* Header-Layout: Titel + Hamburger nebeneinander und zentriert */
-  header .grid-container {
-    display: flex;
-    justify-content: center;     /* Zentriert horizontal */
-    align-items: center;         /* Vertikal ausgerichtet */
-    gap: 12px;                   /* Abstand zwischen Titel und Burger */
-  }
-
-  /* Navigation verstecken */
-  #nav-work, #nav-info, #nav-contact {
-    display: none;
-  }
-
-  /* Hamburger-Styling */
-  .hamburger-menu {
-    display: block;
-    position: static;
-    font-size: var(--header-font-size);
-    line-height: 1;
-    margin: 0;
-  }
-
-  /* Titel-Styling */
-  .site-title {
-    margin: 0;
-    font-size: var(--header-font-size);
-    font-weight: 400;
-    line-height: 1;
-  }
-
-  .site-title-link {
-    color: var(--text-color);
-    text-decoration: none;
-    font-weight: normal;
-  }
+  .project-item:nth-child(even) .project-image-container { grid-column: 3; }
+  .project-item:nth-child(even) .project-info { grid-column: 2; }
 }
 
 /* ========================================================= */
-/* ============  NEU: Mobile Corner-Navigation  ============ */
+/* === MOBILE CORNER NAVIGATION ============================= */
 /* ========================================================= */
 
-/* Standard: Mobile-Ecken zunächst ausblenden */
+/* Standard ausgeblendet */
 .corner-nav { display: none; }
 
-/* Kleine Displays: Filter + Header weg, Corner-Navigation sichtbar */
+/* Mobile sichtbar */
 @media (max-width: 768px) {
-  /* Filter-Ecken (mm, cm, m, km) verstecken */
-  .corner-filters { display: none; }
-
-  /* Den kompletten Header (inkl. Menüpunkte) ausblenden */
-  header { display: none; }
-
-  /* Die vier Eck-Links zeigen */
-  .corner-nav { display: block; }
-
-  /* Etwas kleinere Schrift & Polsterung für Mobile-Ecken */
-  .corner-nav .corner { font-size: 18pt; padding: 10px; }
-
-  /* Da der Header wegfällt, Top-Spacing beim Grid reduzieren */
-  #project-grid { padding-top: 20px; }
-}
-
-/* Unterstrich entfernen für mobile Eck-Links */
-.corner-nav a {
-  text-decoration: none;
-  color: var(--text-color);
-  font-weight: normal;
-}
-
-.corner-nav a:hover {
-  text-decoration: none; /* kein Unterstrich beim Hover */
-  color: var(--text-color-active); /* optional grauer Ton beim Antippen */
-}
-
-/* ========================================================= */
-/* MOBILE OPTIMIERUNG                                        */
-/* ========================================================= */
-
-/* Einheitliches Styling für mobile Eck-Menüpunkte */
-.corner-nav a {
-  text-decoration: none !important;
-  color: var(--text-color);
-  font-weight: 400;
-  font-size: var(--header-font-size); /* gleiche Größe wie Desktop */
-  line-height: 1;
-  position: fixed;
-  z-index: 120;
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 40px;
-  -webkit-text-decoration: none; /* Safari iOS fix */
-}
-
-.corner-nav a:hover,
-.corner-nav a:focus {
-  color: var(--text-color-active);
-  text-decoration: none !important;
-  -webkit-text-decoration: none;
-}
-
-/* Eck-Positionen */
-.corner-nav .top-left     { top: 0; left: 0; }
-.corner-nav .top-right    { top: 0; right: 0; }
-.corner-nav .bottom-left  { bottom: 0; left: 0; }
-.corner-nav .bottom-right { bottom: 0; right: 0; }
-
-/* Mobile Layout-Anpassungen */
-@media (max-width: 768px) {
-  /* Header und Filter ausblenden */
   header, .corner-filters { display: none !important; }
-
-  /* Ecknavigation zeigen */
   .corner-nav { display: block; }
 
-  /* Gleiche Schriftgröße */
-  .corner-nav .corner {
+  .corner-nav a {
+    text-decoration: none !important;
+    color: var(--text-color);
+    font-weight: 400;
     font-size: var(--header-font-size);
+    line-height: 1;
+    position: fixed;
+    z-index: 120;
+    background: none;
+    border: none;
+    cursor: pointer;
     padding: 15px;
+    -webkit-text-decoration: none;
   }
 
-  /* Projekt-Grid kompakt */
-  #project-grid {
-    padding-top: 20px;   /* nur etwas Abstand oben */
-    padding-bottom: 20px;
-    gap: 0 !important;   /* kein Abstand zwischen Zeilen */
+  .corner-nav a:hover,
+  .corner-nav a:focus {
+    color: var(--text-color-active);
+    text-decoration: none !important;
+    -webkit-text-decoration: none;
   }
 
-  /* Projekte ohne vertikale Lücken */
-  .project-item {
-    margin-bottom: 0 !important;
-  }
+  .corner-nav .top-left     { top: 0; left: 0; }
+  .corner-nav .top-right    { top: 0; right: 0; }
+  .corner-nav .bottom-left  { bottom: 0; left: 0; }
+  .corner-nav .bottom-right { bottom: 0; right: 0; }
 
-  /* Gleiche Abstände für Bild & Text */
-  .project-image-container,
-  .project-info {
-    padding: 0;          /* kein Innenabstand */
-    margin: 0;
-  }
-
-  .project-info h3,
-  .project-info p {
-    margin: 0;
-    padding: 0;
-  }
-}
-
-@media (max-width: 768px) {
+  /* Grid-Abstand: Bilder gleich wie Desktop */
   #project-grid {
     padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)) !important;
+    padding-bottom: 60px;
+    gap: 0;
+  }
+
+  /* Einheitliches Label-Padding auch auf Mobile */
+  .project-info {
+    padding: var(--project-info-padding) !important;
+  }
+
+  .project-item {
+    margin-bottom: 0 !important;
   }
 }
