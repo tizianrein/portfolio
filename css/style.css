@@ -444,3 +444,9 @@ header a.active { color: var(--text-color-active); }
     padding: 0;
   }
 }
+
+@media (max-width: 768px) {
+  #project-grid {
+    padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)) !important;
+  }
+}
