@@ -334,3 +334,28 @@ header a.active { color: var(--text-color-active); }
     font-weight: normal;
   }
 }
+
+/* ========================================================= */
+/* ============  NEU: Mobile Corner-Navigation  ============ */
+/* ========================================================= */
+
+/* Standard: Mobile-Ecken zunächst ausblenden */
+.corner-nav { display: none; }
+
+/* Kleine Displays: Filter + Header weg, Corner-Navigation sichtbar */
+@media (max-width: 768px) {
+  /* Filter-Ecken (mm, cm, m, km) verstecken */
+  .corner-filters { display: none; }
+
+  /* Den kompletten Header (inkl. Menüpunkte) ausblenden */
+  header { display: none; }
+
+  /* Die vier Eck-Links zeigen */
+  .corner-nav { display: block; }
+
+  /* Etwas kleinere Schrift & Polsterung für Mobile-Ecken */
+  .corner-nav .corner { font-size: 18pt; padding: 10px; }
+
+  /* Da der Header wegfällt, Top-Spacing beim Grid reduzieren */
+  #project-grid { padding-top: 20px; }
+}
