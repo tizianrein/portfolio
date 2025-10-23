@@ -373,14 +373,15 @@ header a.active { color: var(--text-color-active); }
 }
 
 /* ========================================================= */
-/* Einheitliches Styling für mobile Eck-Menüpunkte */
+/* MOBILE OPTIMIERUNG                                        */
 /* ========================================================= */
 
+/* Einheitliches Styling für mobile Eck-Menüpunkte */
 .corner-nav a {
   text-decoration: none !important;
   color: var(--text-color);
-  font-weight: 400; /* wie normale Menüpunkte */
-  font-size: var(--header-font-size); /* gleiche Größe */
+  font-weight: 400;
+  font-size: var(--header-font-size); /* gleiche Größe wie Desktop */
   line-height: 1;
   position: fixed;
   z-index: 120;
@@ -388,24 +389,58 @@ header a.active { color: var(--text-color-active); }
   border: none;
   cursor: pointer;
   padding: 15px;
+  -webkit-text-decoration: none; /* Safari iOS fix */
 }
 
-/* Hover / Active Style analog zu anderen Menüpunkten */
 .corner-nav a:hover,
-.corner-nav a.active {
+.corner-nav a:focus {
   color: var(--text-color-active);
-  text-decoration: none;
+  text-decoration: none !important;
+  -webkit-text-decoration: none;
 }
 
-/* Fixe Positionen in den Ecken */
+/* Eck-Positionen */
 .corner-nav .top-left     { top: 0; left: 0; }
 .corner-nav .top-right    { top: 0; right: 0; }
 .corner-nav .bottom-left  { bottom: 0; left: 0; }
 .corner-nav .bottom-right { bottom: 0; right: 0; }
 
-/* Sichtbarkeit nur auf kleinen Screens */
+/* Mobile Layout-Anpassungen */
 @media (max-width: 768px) {
+  /* Header und Filter ausblenden */
+  header, .corner-filters { display: none !important; }
+
+  /* Ecknavigation zeigen */
   .corner-nav { display: block; }
-  header, .corner-filters { display: none; }
-  #project-grid { padding-top: 20px; }
+
+  /* Gleiche Schriftgröße */
+  .corner-nav .corner {
+    font-size: var(--header-font-size);
+    padding: 15px;
+  }
+
+  /* Projekt-Grid kompakt */
+  #project-grid {
+    padding-top: 20px;   /* nur etwas Abstand oben */
+    padding-bottom: 20px;
+    gap: 0 !important;   /* kein Abstand zwischen Zeilen */
+  }
+
+  /* Projekte ohne vertikale Lücken */
+  .project-item {
+    margin-bottom: 0 !important;
+  }
+
+  /* Gleiche Abstände für Bild & Text */
+  .project-image-container,
+  .project-info {
+    padding: 0;          /* kein Innenabstand */
+    margin: 0;
+  }
+
+  .project-info h3,
+  .project-info p {
+    margin: 0;
+    padding: 0;
+  }
 }
