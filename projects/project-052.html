@@ -145,9 +145,30 @@
                 position: relative; 
             }
             .project-text { position: static; }
-            .project-text p { font-size: 16px; max-width: 100%; }
+            .project-text p { font-size: 15px; max-width: 100%; }
             .prev-btn { left: 10px; }
             .next-btn { right: 10px; }
+
+            .lightbox-overlay {
+                padding: 0; /* Remove the padding that causes the left margin */
+                justify-content: center; /* Center the image by default */
+            }
+
+            .lightbox-image {
+                max-width: 100%; /* Allow image to fill the screen width */
+                max-height: 100%;
+            }
+
+            /* Position the lightbox arrows absolutely within the overlay */
+            .lightbox-btn {
+                position: absolute; /* Override 'static' positioning */
+                top: 50%;
+                transform: translateY(-50%);
+                z-index: 1001;
+            }
+
+            .lightbox-overlay .prev-btn { left: 10px; }
+            .lightbox-overlay .next-btn { right: 10px; }
         }
     </style>
 </head>
