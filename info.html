@@ -14,18 +14,32 @@
         }
 
         .info-container {
-            align-items: start;
+            align-items: start; /* Correctly aligns grid items to the top */
         }
 
         .info-container > .project-item,
         .info-container > .info-section {
-            grid-row: 1; 
+            grid-row: 1; /* Forces all items into the first row */
         }
+
+        /* --- THE DEFINITIVE FIX: RESETTING THE SPACING --- */
+        .info-section {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.4;
+            padding-top: 0; /* ADDED: Explicitly remove any top padding */
+        }
+
+        /* This more specific selector ensures the first title has no top margin */
+        .info-section > .section-title:first-child {
+            margin-top: 0; /* ADDED: Forcefully remove top margin */
+        }
+        /* --- END OF FIX --- */
 
         /* The image container spans the first column on desktop */
         .info-container .project-item {
             grid-column: 1 / 2;
-            grid-template-columns: 1fr; /* This is for vertical stacking on desktop */
+            grid-template-columns: 1fr;
         }
 
         .info-container .project-item .project-image-container {
@@ -36,19 +50,10 @@
         .info-container .project-info {
             font-size: 15px;
             font-family: Arial, sans-serif;
-            padding-top: 0.5rem;
-            padding-left: 0;
-            padding-right: 0;
+            padding: 0.5rem 0 0 0;
         }
         .info-container .project-info p {
             font-size: 1em;
-            line-height: 1.4;
-        }
-        
-        /* Base styles for all info sections */
-        .info-section {
-            font-family: Arial, sans-serif;
-            font-size: 15px;
             line-height: 1.4;
         }
 
@@ -60,7 +65,7 @@
         .info-section .section-title {
             font-size: 1em;
             font-weight: 500;
-            margin: 0 0 1em 0;
+            margin-bottom: 1em; /* Only bottom margin is needed */
             display: block;
         }
         
@@ -97,26 +102,18 @@
             .info-container {
                 gap: 40px 0;
             }
-
-            /* This is the key fix: It resets the row alignment for mobile view,
-            allowing the content blocks to stack vertically again. */
             .info-container > .info-section {
                 grid-row: auto;
             }
             
-            /* On mobile, ALL items stack vertically and take full width */
             .info-container .project-item,
             .info-section {
                 grid-column: 1 / -1;
             }
 
-            /* --- THE DEFINITIVE FIX --- */
-            /* This rule overrides the internal grid layout of the project-item */
-            /* on this page only, forcing the image and caption to stack normally. */
             .info-container .project-item {
                 display: block;
             }
-            /* --- END OF FIX --- */
 
             .info-section {
                 font-size: 15px;
@@ -167,7 +164,7 @@
             <section class="info-section info-experience">
                 <p class="section-title">Publications / Presentations</p>
                 <ul>
-                    <li><span class="item-title">'From Structure to Action'</span><span class="item-detail">Conference: Design Education Symposium<br>2025, TU Munich</span></li>
+                    <li><span class="item-title">'From Structure to Action'</span><span class="item-detail">Conference: Design Education Symposium<br>TU Munich, 2025</span></li>
                     <li><span class="item-title">'From Prototype to Product - From Material<br>to Market'</span><span class="item-detail">Conference: Startup Architecture<br>ETH Zürich, 2025</span></li>
                     <li><span class="item-title">'From Material to Market: How Materiality Drives Innovation Transfer in Architectural Technologies'</span><span class="item-detail">Conference: Architecture & Patents<br>ETH Zürich, 2024</span></li>
                     <li><span class="item-title">'Die Waldfriedhofskapelle'</span><span class="item-detail">Bürgerhaus Rhöndorf, 2024</span></li>
