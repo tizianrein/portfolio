@@ -235,17 +235,17 @@ header a.active { color: var(--text-color-active); }
 
   #nav-work, #nav-info, #nav-contact { display: none; }
 /* --- Smaller text & header sizes on mobile --- */
-  :root { --header-font-size: 20pt; }  /* shrink corner & header text */
+  :root { --header-font-size: 18pt; }  /* shrink corner & header text */
 
   .project-info h3,
   .project-info p {
-    font-size: 16px;
+    font-size: 15px;
     line-height: 1.2;
   }
 
   /* optional: even smaller on small phones */
   @media (max-width: 420px) {
-    html { font-size: 16px; }
+    html { font-size: 15px; }
     .project-info h3,
     .project-info p { font-size: 13px; }
   }}
