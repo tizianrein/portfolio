@@ -202,7 +202,7 @@ header a.active { color: var(--text-color-active); }
 /* === RESPONSIVE / MOBILE ================================= */
 /* ========================================================= */
 @media (max-width: 1024px) {
-  :root { --header-font-size: 28pt; }
+  :root { --header-font-size: 18pt; }
 
   header .grid-container {
     grid-template-columns: 1fr;
@@ -234,7 +234,7 @@ header a.active { color: var(--text-color-active); }
 
   #nav-work, #nav-info, #nav-contact { display: none; }
 /* --- Smaller text & header sizes on mobile --- */
-  :root { --header-font-size: 26pt; }  /* shrink corner & header text */
+  :root { --header-font-size: 18pt; }  /* shrink corner & header text */
 
   .project-info h3,
   .project-info p {
