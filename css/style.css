@@ -168,7 +168,7 @@ header a.active { color: var(--text-color-active); }
 /* === TEXT / LABEL ======================================== */
 /* ========================================================= */
 .project-info {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-family: Arial, sans-serif;
     padding: var(--project-info-padding);  /* Einheitlich Desktop + Mobile */
     min-width: 0;
     overflow-wrap: anywhere;
