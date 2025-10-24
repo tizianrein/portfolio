@@ -11,8 +11,8 @@ html {
     --text-color-active: #808080;
     --font-main: Arial, sans-serif;
     --header-font-size: 28pt;
-    --header-padding: 20px;
-    --main-max-width: 1000px;
+    --header-padding: 15px;
+    --main-max-width: 1200px;
     --main-side-padding: 80px;
     --project-info-padding: 0.5rem; /* Einheitliches Label-Padding */
 }

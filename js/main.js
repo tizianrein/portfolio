@@ -4,8 +4,10 @@ document.addEventListener('DOMContentLoaded', () => {
         // (Ihre Projektliste bleibt unverändert)
         { id: '053', title: 'Ipsum Dolor Sit', year: 2025, scale: 'mm', thumbnail: 'images/thumbnails/053-thumb.jpg' },
         { id: '052', title: 'Lorem Ipsum Amet', year: 2023, scale: 'm', thumbnail: 'images/thumbnails/052-thumb.jpg' },
+        { id: '051', title: 'Lorem Ipsum Amet', year: 2023, scale: 'm', thumbnail: 'images/thumbnails/051-thumb.jpg' },
         { id: '050', title: 'Sit Amet Dolor', year: 2024, scale: 'm', thumbnail: 'images/thumbnails/050-thumb.jpg' },
         { id: '049', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/049-thumb.jpg' },
+        { id: '048', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/048-thumb.jpg' },
         { id: '047', title: 'Sed Do Eiusmod', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/047-thumb.jpg' },
         { id: '046', title: 'Tempor Incididunt', year: 2016, scale: 'mm', thumbnail: 'images/thumbnails/046-thumb.jpg' }
     ];
