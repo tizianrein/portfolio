@@ -97,6 +97,12 @@
             .info-container {
                 gap: 40px 0;
             }
+
+            /* This is the key fix: It resets the row alignment for mobile view,
+            allowing the content blocks to stack vertically again. */
+            .info-container > .info-section {
+                grid-row: auto;
+            }
             
             /* On mobile, ALL items stack vertically and take full width */
             .info-container .project-item,
@@ -134,7 +140,7 @@
                     <img data-src="images/about/profile.jpg" class="full-res-image" alt="A photo of Tizian Rein">
                 </div>
                 <div class="project-info">
-                    <p>Tizian Rein, M.A. (*1997 in Rhöndorf)</p>
+                    <p>N. Tizian Rein, M.A.<br>(*1997 in Rhöndorf)</p>
                 </div>
             </div>
             
@@ -142,9 +148,9 @@
             <section class="info-section info-education">
                 <p class="section-title">Education</p>
                 <ul>
-                    <li><span class="item-title">2022 – Present: M.A. Architecture</span><span class="item-detail">Technical University of Munich (TUM)</span></li>
-                    <li><span class="item-title">2023 – Present: Visiting Student</span><span class="item-detail">ETH Zurich (Scholarship Recipient)</span></li>
-                    <li><span class="item-title">2018 – 2021: B.A. Architecture</span><span class="item-detail">TH Cologne (Graduated with distinction)</span></li>
+                    <li><span class="item-title">2022 – 2025: M.A. Architecture</span><span class="item-detail">Technical University of Munich (TUM)<br>Graduated with high distinction</span></li>
+                    <li><span class="item-title">2023 – 2024: Visiting Student</span><span class="item-detail">ETH Zurich (Scholarship Recipient)</span></li>
+                    <li><span class="item-title">2018 – 2021: B.A. Architecture</span><span class="item-detail">TH Köln – Graduated with distinction</span></li>
                 </ul>
                 <p class="section-title"><br><br>Experience</p>
                 <ul>
@@ -152,8 +158,8 @@
                     <li><span class="item-title">2024 Jan–Jul: Student Research Assistant</span><span class="item-detail">Gramazio Kohler Research, ITA, ETH Zürich</span></li>
                     <li><span class="item-title">2021 – 2022: Freelance Collaborator</span><span class="item-detail">Atelier Max & Jakob Giese Gehlert</span></li>
                     <li><span class="item-title">2021 – Present: Freelance Collaborator</span><span class="item-detail">Jan Pritzkow Architecture, Bad Honnef</span></li>
-                    <li><span class="item-title">2020 – 2021: Student Dean of Architecture</span><span class="item-detail">Elected Representative at TH Cologne</span></li>
-                    <li><span class="item-title">2019 – 2021: Tutor for Design & Construction</span><span class="item-detail">Teaching Support, TH Cologne</span></li>
+                    <li><span class="item-title">2020 – 2021: Student Dean of Architecture</span><span class="item-detail">Elected Representative at TH Köln</span></li>
+                    <li><span class="item-title">2019 – 2021: Tutor for Design & Construction</span><span class="item-detail">Teaching Support, TH Köln</span></li>
                     <li><span class="item-title">2016 – Present: Freelance 3D Printing & Design</span><span class="item-detail">Founder of “REINDRUCK”</span></li>
                 </ul>
             </section>
