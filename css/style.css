@@ -10,7 +10,7 @@ html {
     --text-color: #000000;
     --text-color-active: #808080;
     --font-main: Arial, sans-serif;
-    --header-font-size: 28pt;
+    --header-font-size: 24pt;
     --header-padding: 15px;
     --main-max-width: 1200px;
     --main-side-padding: 80px;
@@ -24,8 +24,14 @@ body {
     font-family: var(--font-main);
     background-color: var(--background-color);
     color: var(--text-color);
-    margin: 0;
+    margin: 0 auto; /* Center the wider body */
     padding: 0;
+
+    /* --- ADD THESE LINES --- */
+    width: 125%; /* 100% divided by 0.8 */
+    transform: scale(0.8);
+    transform-origin: top center;
+    overflow-x: hidden; /* Prevent horizontal scrollbar */
 }
 
 /* ========================================================= */
@@ -177,7 +183,7 @@ header a.active { color: var(--text-color-active); }
 
 .project-info h3, 
 .project-info p {
-    font-size: 22px;
+    font-size: 18px;
     margin: 0;
     line-height: 1.1;
     overflow-wrap: break-word;
@@ -246,7 +252,7 @@ header a.active { color: var(--text-color-active); }
   @media (max-width: 420px) {
     html { font-size: 16px; }
     .project-info h3,
-    .project-info p { font-size: 16px; }
+    .project-info p { font-size: 13px; }
   }}
 
 /* --- Mobile Grid Logik: Bild & Text alternierend --- */
