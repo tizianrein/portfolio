@@ -234,11 +234,11 @@ header a.active { color: var(--text-color-active); }
 
   #nav-work, #nav-info, #nav-contact { display: none; }
 /* --- Smaller text & header sizes on mobile --- */
-  :root { --header-font-size: 18pt; }  /* shrink corner & header text */
+  :root { --header-font-size: 22pt; }  /* shrink corner & header text */
 
   .project-info h3,
   .project-info p {
-    font-size: 22px;
+    font-size: 16px;
     line-height: 1.2;
   }
 
