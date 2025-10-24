@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- The Title should be specific to the project -->
+    <title>Tizian Rein - Ipsum Dolor Sit</title>
+    <!-- Link to your EXISTING stylesheet -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- ADD NEW STYLES for the project page -->
+    <style>
+        /* This keeps styles self-contained, but you can also move this to style.css */
+        .project-detail-container {
+            max-width: var(--main-max-width);
+            margin: 0 auto;
+            padding: 0 var(--main-side-padding);
+            padding-top: calc(var(--header-font-size) + (var(--header-padding) * 4));
+            padding-bottom: 120px;
+        }
+
+        .project-header {
+            margin-bottom: 60px;
+        }
+
+        .project-header h1 {
+            font-size: var(--header-font-size);
+            font-weight: normal;
+            margin: 0;
+            line-height: 1.1;
+        }
+
+        .project-meta {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 22px;
+            color: var(--text-color-active);
+            margin-top: 10px;
+        }
+
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2 columns on desktop */
+            gap: 20px;
+            margin-bottom: 60px;
+        }
+
+        .project-gallery img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .project-description {
+            max-width: 600px; /* Limit width for readability */
+            margin-bottom: 60px;
+        }
+
+        .project-description p {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 22px;
+            line-height: 1.4;
+            margin: 0;
+        }
+
+        .project-navigation {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 22px;
+        }
+        
+        .project-navigation a {
+            color: var(--text-color);
+            text-decoration: none;
+        }
+        
+        .project-navigation a:hover {
+            color: var(--text-color-active);
+        }
+
+        /* --- Responsive Styles for Project Page --- */
+        @media (max-width: 1024px) {
+            .project-detail-container {
+                padding: 20px;
+                padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3));
+                padding-bottom: 80px;
+            }
+
+            .project-meta,
+            .project-description p,
+            .project-navigation {
+                font-size: 16px;
+            }
+            
+            .project-gallery {
+                grid-template-columns: 1fr; /* 1 column on mobile */
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Re-use the same mobile navigation from index.html for consistency -->
+    <div class="corner-nav" aria-label="Mobile corner navigation">
+        <a class="corner top-left" href="../index.html">tizian rein</a>
+        <a class="corner top-right" href="../info.html">info</a>
+        <a class="corner bottom-left" href="https://instagram.com/tizianrein" target="_blank" rel="noopener">instagram</a>
+        <a class="corner bottom-right" href="../contact.html">contact</a>
+    </div>
+
+    <!-- Re-use the same header from index.html, but adjust links -->
+    <header>
+        <div class="grid-container">
+            <h1 class="site-title"><a class="site-title-link" href="../index.html">tizian rein</a></h1>
+            <!-- Link back to the main work page -->
+            <a href="../index.html" id="nav-work">work</a>
+            <a href="../info.html" id="nav-info">information</a>
+            <a href="../contact.html" id="nav-contact">contact</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="project-detail-container">
+
+            <section class="project-gallery">
+                <!-- ADD YOUR PROJECT IMAGES HERE -->
+                <!-- Use placeholders for now -->
+                <img src="https://via.placeholder.com/800x1200" alt="Detail view of project Ipsum Dolor Sit">
+                <img src="https://via.placeholder.com/800x533" alt="Another view of the project">
+                <img src="https://via.placeholder.com/800x800" alt="Close-up shot">
+                <img src="https://via.placeholder.com/800x1000" alt="Process shot">
+            </section>
+
+            <section class="project-description">
+                <p>
+                    This is where you describe your project. Talk about the concept, the materials used, and the process. Keep it concise and impactful. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                </p>
+            </section>
+
+            <nav class="project-navigation">
+                <!-- IMPORTANT: Update these links for each project -->
+                <a href="project-052.html" class="prev-project">&larr; Previous</a>
+                <a href="project-050.html" class="next-project">Next &rarr;</a>
+            </nav>
+
+        </div>
+    </main>
+    
+</body>
+</html>

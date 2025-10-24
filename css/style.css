@@ -10,7 +10,7 @@ html {
     --text-color: #000000;
     --text-color-active: #808080;
     --font-main: Arial, sans-serif;
-    --header-font-size: 24pt;
+    --header-font-size: 22pt;
     --header-padding: 15px;
     --main-max-width: 1200px;
     --main-side-padding: 80px;
@@ -26,12 +26,6 @@ body {
     color: var(--text-color);
     margin: 0 auto; /* Center the wider body */
     padding: 0;
-
-    /* --- ADD THESE LINES --- */
-    width: 125%; /* 100% divided by 0.8 */
-    transform: scale(0.8);
-    transform-origin: top center;
-    overflow-x: hidden; /* Prevent horizontal scrollbar */
 }
 
 /* ========================================================= */
