@@ -199,20 +199,29 @@ header a.active { color: var(--text-color-active); }
 .layout-b > .project-image-container { grid-column: 3 / 4; }
 
 /* ========================================================= */
-/* === RESPONSIVE / MOBILE ================================= */
+/* === RESPONSIVE / MOBILE (≤1024px) ======================= */
 /* ========================================================= */
 @media (max-width: 1024px) {
-  :root { --header-font-size: 28pt; }
+  /* ---- Mobile font parameters (edit just these three) ---- */
+  :root{
+    --mobile-root-font-size: 14px;   /* base scaling for rem on mobile   */
+    --mobile-header-font-size: 20pt; /* replaces --header-font-size mob. */
+    --mobile-label-font-size: 18px;  /* project labels under images      */
+  }
 
+  /* Apply the parameters */
+  html { font-size: var(--mobile-root-font-size); }
+  :root { --header-font-size: var(--mobile-header-font-size); }
+
+  /* ------ Header layout simplification ------ */
   header .grid-container {
     grid-template-columns: 1fr;
     justify-items: center;
   }
-  header .grid-container > * {
-    justify-self: center;
-  }
+  header .grid-container > * { justify-self: center; }
 
   .site-title { grid-column: 1; grid-row: 1; }
+
   .hamburger-menu {
     display: block;
     grid-row: 2;
@@ -221,47 +230,45 @@ header a.active { color: var(--text-color-active); }
     justify-self: center;
   }
 
-  .grid-container, #project-grid {
+  /* ------ Main grid & padding ------ */
+  .grid-container,
+  #project-grid {
     grid-template-columns: 1fr;
     padding-left: 20px;
     padding-right: 20px;
   }
 
+  /* ------ Project item layout ------ */
   .project-item {
     grid-column: span 1;
     margin-bottom: 2rem;
   }
 
-  #nav-work, #nav-info, #nav-contact { display: none; }
-}
+  /* Hide desktop nav on mobile */
+  #nav-work,
+  #nav-info,
+  #nav-contact { display: none; }
 
-/* --- Mobile Grid Logik: Bild & Text alternierend --- */
-@media (max-width: 1024px) {
+  /* ------ Smaller labels under images (uses parameter) ------ */
+  .project-info h3,
+  .project-info p {
+    font-size: var(--mobile-label-font-size);
+    line-height: 1.2;
+  }
+
+  /* ------ Mobile Grid Logic: Bild & Text alternierend ------ */
   .project-item {
     grid-template-columns: 1fr 1fr 1fr;
   }
-
   .project-item .project-image-container,
-  .project-item .project-info {
-    grid-row: 1;
-  }
+  .project-item .project-info { grid-row: 1; }
 
-  .project-item:nth-child(odd) .project-info { grid-column: 2; }
-  .project-item:nth-child(odd) .project-image-container { grid-column: 1; }
-
+  .project-item:nth-child(odd)  .project-info            { grid-column: 2; }
+  .project-item:nth-child(odd)  .project-image-container { grid-column: 1; }
   .project-item:nth-child(even) .project-image-container { grid-column: 3; }
-  .project-item:nth-child(even) .project-info { grid-column: 2; }
-}
+  .project-item:nth-child(even) .project-info            { grid-column: 2; }
 
-/* ========================================================= */
-/* === MOBILE CORNER NAVIGATION ============================= */
-/* ========================================================= */
-
-/* Standard ausgeblendet */
-.corner-nav { display: none; }
-
-/* Mobile sichtbar */
-@media (max-width: 768px) {
+  /* ------ Mobile Corner Navigation ------ */
   header, .corner-filters { display: none !important; }
   .corner-nav { display: block; }
 
@@ -269,7 +276,7 @@ header a.active { color: var(--text-color-active); }
     text-decoration: none !important;
     color: var(--text-color);
     font-weight: 400;
-    font-size: var(--header-font-size);
+    font-size: var(--header-font-size); /* uses mobile header var */
     line-height: 1;
     position: fixed;
     z-index: 120;
@@ -279,7 +286,6 @@ header a.active { color: var(--text-color-active); }
     padding: 20px;
     -webkit-text-decoration: none;
   }
-
   .corner-nav a:hover,
   .corner-nav a:focus {
     color: var(--text-color-active);
@@ -292,7 +298,7 @@ header a.active { color: var(--text-color-active); }
   .corner-nav .bottom-left  { bottom: 0; left: 0; }
   .corner-nav .bottom-right { bottom: 0; right: 0; }
 
-  /* Grid-Abstand: Bilder gleich wie Desktop */
+  /* Grid-Abstand: Bilder gleich wie Desktop; header size is variable-driven */
   #project-grid {
     padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)) !important;
     padding-bottom: 60px;
@@ -300,11 +306,19 @@ header a.active { color: var(--text-color-active); }
   }
 
   /* Einheitliches Label-Padding auch auf Mobile */
-  .project-info {
-    padding: var(--project-info-padding) !important;
-  }
+  .project-info { padding: var(--project-info-padding) !important; }
 
-  .project-item {
-    margin-bottom: 0 !important;
+  .project-item { margin-bottom: 0 !important; }
+}
+
+/* ========================================================= */
+/* === VERY SMALL PHONES (≤420px) – optional =============== */
+/*    Tweak only the variables; rules above adapt automatically */
+/* ========================================================= */
+@media (max-width: 420px) {
+  :root{
+    --mobile-root-font-size: 13px;
+    --mobile-header-font-size: 18pt;
+    --mobile-label-font-size: 16px;
   }
 }
