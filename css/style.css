@@ -208,7 +208,7 @@ header a.active { color: var(--text-color-active); }
 /* === RESPONSIVE / MOBILE ================================= */
 /* ========================================================= */
 @media (max-width: 1024px) {
-  :root { --header-font-size: 16pt; }
+  :root { --header-font-size: 18pt; }
 
   header .grid-container {
     grid-template-columns: 1fr;
