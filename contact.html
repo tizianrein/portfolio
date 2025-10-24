@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="de">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tizian Rein - Contact</title>
+    <!-- Link to your existing stylesheet -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* --- CONTACT PAGE SPECIFIC STYLES --- */
+        main {
+            padding-top: calc(var(--header-font-size) + (var(--header-padding) * 4));
+            padding-bottom: 120px;
+        }
+
+        .contact-container {
+            align-items: start;
+            gap: 60px 20px;
+        }
+
+        .contact-intro {
+            grid-column: 1 / -1; /* Span full width */
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: var(--header-font-size);
+            line-height: 1.2;
+            max-width: 800px;
+        }
+
+        .contact-details {
+            grid-column: 1 / 4; /* Position on the left side */
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .contact-details h2 {
+            font-size: var(--header-font-size);
+            font-weight: 400;
+            margin: 0 0 1rem 0;
+            line-height: 1.1;
+        }
+
+        .contact-details a {
+            color: var(--text-color);
+            text-decoration: none;
+            border-bottom: 1px solid var(--text-color);
+        }
+
+        .contact-details a:hover {
+            color: var(--text-color-active);
+            border-bottom-color: var(--text-color-active);
+        }
+
+        /* --- RESPONSIVE FOR CONTACT PAGE --- */
+        @media (max-width: 1024px) {
+            main {
+                padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3));
+            }
+
+            .contact-intro {
+                font-size: 22pt; /* Adjust font size on mobile for readability */
+            }
+
+            .contact-details {
+                grid-column: 1 / -1;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Mobile Navigation (Consistent with other pages) -->
+    <div class="corner-nav" aria-label="Mobile corner navigation">
+        <a class="corner top-left" href="index.html">tizian rein</a>
+        <a class="corner top-right" href="info.html">info</a>
+        <a class="corner bottom-left" href="https://instagram.com/tizianrein" target="_blank" rel="noopener">instagram</a>
+        <a class="corner bottom-right" href="contact.html">contact</a>
+    </div>
+
+    <!-- Header (Marking 'contact' as active) -->
+    <header>
+        <div class="grid-container">
+            <h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1>
+            <a href="index.html" id="nav-work">work</a>
+            <a href="info.html" id="nav-info">information</a>
+            <a href="contact.html" id="nav-contact" class="active">contact</a>
+        </div>
+    </header>
+
+    <main>
+        <div class="grid-container contact-container">
+
+            <!-- 1. Introductory Text -->
+            <section class="contact-intro">
+                <p>For inquiries, collaborations, or to say hello, please get in touch.</p>
+            </section>
+
+            <section class="contact">
+                <p>mail@tizianrein.de<br><br>instagram</p>
+            </section>
+
+        </div>
+    </main>
+    
+</body>
+</html>

@@ -10,11 +10,11 @@ html {
     --text-color: #000000;
     --text-color-active: #808080;
     --font-main: Arial, sans-serif;
-    --header-font-size: 22pt;
+    --header-font-size: 18pt;
     --header-padding: 15px;
-    --main-max-width: 1200px;
+    --main-max-width: 1000px;
     --main-side-padding: 80px;
-    --project-info-padding: 0.5rem; /* Einheitliches Label-Padding */
+    --project-info-padding: 0.2rem; /* Einheitliches Label-Padding */
 }
 
 /* ========================================================= */
@@ -47,6 +47,7 @@ body {
 .top-right { top: 0; right: 0; }
 .bottom-left { bottom: 0; left: 0; }
 .bottom-right { bottom: 0; right: 0; }
+
 
 /* ========================================================= */
 /* === GRID-CONTAINER ====================================== */
@@ -177,7 +178,7 @@ header a.active { color: var(--text-color-active); }
 
 .project-info h3, 
 .project-info p {
-    font-size: 18px;
+    font-size: 15px;
     margin: 0;
     line-height: 1.1;
     overflow-wrap: break-word;
