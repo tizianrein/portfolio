@@ -1,189 +1,244 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    const projects = [
-        // (Ihre Projektliste bleibt unverändert)
-        { id: '053', title: 'From Structure to Action', year: 2025, scale: 'mm', thumbnail: 'images/thumbnails/053-thumb.jpg' },
-        { id: '052', title: 'ZAKK Garden Chair', year: 2023, scale: 'm', thumbnail: 'images/thumbnails/052-thumb.jpg' },
-        { id: '051', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, scale: 'm', thumbnail: 'images/thumbnails/051-thumb.jpg' },
-        { id: '050', title: 'Beamtenwohnung Bonn', year: 2024, scale: 'm', thumbnail: 'images/thumbnails/050-thumb.jpg' },
-        { id: '049', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/049-thumb.jpg' },
-        { id: '048', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/048-thumb.jpg' },
-        { id: '047', title: 'Sed Do Eiusmod', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/047-thumb.jpg' },
-        { id: '046', title: 'Versöhnungskirche Dachau', year: 2016, scale: 'mm', thumbnail: 'images/thumbnails/046-thumb.jpg' },
-        { id: '003', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/003-thumb.jpg' }
-    ];
+  const projects = [
+    { id: '053', title: 'From Structure to Action', year: 2025, scale: 'mm', thumbnail: 'images/thumbnails/053-thumb.jpg' },
+    { id: '052', title: 'ZAKK Garden Chair', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/052-thumb.jpg' },
+    { id: '051', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
+    { id: '050', title: 'Beamtenwohnung Bonn', year: 2024, scale: 'm',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
+    { id: '049', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/049-thumb.jpg' },
+    { id: '048', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/048-thumb.jpg' },
+    { id: '047', title: 'Sed Do Eiusmod', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/047-thumb.jpg' },
+    { id: '046', title: 'Versöhnungskirche Dachau', year: 2016, scale: 'mm', thumbnail: 'images/thumbnails/046-thumb.jpg' },
+    { id: '003', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/003-thumb.jpg' }
+  ];
 
-    const projectGrid = document.getElementById('project-grid');
-    const filterButtons = document.querySelectorAll('.filter-btn');
+  const projectGrid   = document.getElementById('project-grid');
+  const filterButtons = document.querySelectorAll('.filter-btn');
 
-    // Die Funktion displayProjects bleibt exakt wie in der letzten Version.
-    function displayProjects(projectsToDisplay) {
-        projectGrid.innerHTML = '';
-        projectsToDisplay.forEach((project, index) => {
-            const projectElement = document.createElement('a');
-            projectElement.href = `projects/project-${project.id}.html`;
-            projectElement.className = 'project-item';
-            projectElement.dataset.year = project.year;
-            const layoutType = Math.floor(index / 2) % 2 === 0 ? 'a' : 'b';
-            projectElement.classList.add(`layout-${layoutType}`);
-            projectElement.innerHTML = `
-                <div class="project-image-container">
-                    <canvas class="pixelation-canvas"></canvas>
-                    <img data-src="${project.thumbnail}" class="full-res-image" alt="${project.title}">
-                </div>
-                <div class="project-info">
-                    <h3>${project.id}</h3>
-                    <p>${project.title}</p>
-                </div>
-            `;
-            projectGrid.appendChild(projectElement);
-            prepareInitialPixelatedImage(projectElement);
-        });
-        setupHoverListeners();
+  // --- Loading knobs (ONLY affects when we start loading; not the visuals)
+  const BATCH_SIZE     = 6;  // first items to load immediately
+  const MAX_CONCURRENT = 6;  // limit parallel decodes
+  const OBS_THRESHOLD  = 0.15;
+
+  let io;                   // IntersectionObserver
+  let queue = [];           // elements waiting to be prepared
+  let inFlight = 0;         // current parallel loads
+
+  function displayProjects(projectsToDisplay) {
+    projectGrid.innerHTML = '';
+
+    projectsToDisplay.forEach((project, index) => {
+      const projectElement = document.createElement('a');
+      projectElement.href = `projects/project-${project.id}.html`;
+      projectElement.className = 'project-item';
+      projectElement.dataset.year = project.year;
+
+      const layoutType = Math.floor(index / 2) % 2 === 0 ? 'a' : 'b';
+      projectElement.classList.add(`layout-${layoutType}`);
+
+      projectElement.innerHTML = `
+        <div class="project-image-container">
+          <canvas class="pixelation-canvas"></canvas>
+          <img
+            data-src="${project.thumbnail}"
+            class="full-res-image"
+            alt="${project.title}"
+            loading="lazy"
+            decoding="async"
+          >
+        </div>
+        <div class="project-info">
+          <h3>${project.id}</h3>
+          <p>${project.title}</p>
+        </div>
+      `;
+      projectGrid.appendChild(projectElement);
+
+      // Give the very first items higher fetch priority (above the fold)
+      if (index < BATCH_SIZE) {
+        projectElement.querySelector('.full-res-image')
+          .setAttribute('fetchpriority', 'high');
+      }
+    });
+
+    // Keep your existing hover/interaction behavior
+    setupHoverListeners();
+
+    // New: lazy/batch loading trigger (does NOT change visuals/animation)
+    setupLoadObserver();
+
+    // Prime the first batch immediately
+    primeFirstBatch(Math.min(BATCH_SIZE, projectsToDisplay.length));
+  }
+
+  // ---- Loading control (queue + concurrency) ----------------------------
+  function setupLoadObserver() {
+    if (io) io.disconnect();
+    io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        io.unobserve(entry.target);
+        const item = entry.target.closest('.project-item');
+        if (item) enqueue(item);
+      });
+    }, { threshold: OBS_THRESHOLD });
+
+    projectGrid.querySelectorAll('.project-image-container').forEach(c => io.observe(c));
+  }
+
+  function primeFirstBatch(n) {
+    const firstItems = Array.from(projectGrid.querySelectorAll('.project-item')).slice(0, n);
+    firstItems.forEach(enqueue);
+  }
+
+  function enqueue(item) {
+    if (item.dataset.queued === '1') return;
+    item.dataset.queued = '1';
+    queue.push(item);
+    pump();
+  }
+
+  function pump() {
+    while (inFlight < MAX_CONCURRENT && queue.length) {
+      const item = queue.shift();
+      inFlight++;
+      prepareInitialPixelatedImage(item).finally(() => {
+        inFlight--;
+        pump();
+      });
     }
+  }
 
-    /**
-     * Lädt das Bild für ein Projekt, platziert es UNSICHTBAR und zeichnet die erste Pixel-Stufe darüber.
-     */
-    function prepareInitialPixelatedImage(projectElement) {
-        const container = projectElement.querySelector('.project-image-container');
-        const canvas = container.querySelector('.pixelation-canvas');
-        const finalImage = container.querySelector('.full-res-image');
-        
-        const highResImage = new Image();
-        highResImage.src = finalImage.dataset.src;
+  // ---- Your original functions (unchanged visuals) ----------------------
 
-        highResImage.onload = () => {
-            container.imageObject = highResImage;
-            const aspect = highResImage.naturalHeight / highResImage.naturalWidth;
-            container.style.paddingTop = `${aspect * 100}%`;
-            
-            // FIX: Das finale <img>-Element SOFORT mit der Quelle füllen.
-            // Es wird im DOM gerendert, ist aber durch die Leinwand verdeckt.
-            finalImage.src = highResImage.src;
+  /**
+   * Loads the image, sets paddingTop to keep your layout logic, places the real <img> under the canvas,
+   * and draws the first pixel step. (Same effect; just called later via queue/observer.)
+   */
+  function prepareInitialPixelatedImage(projectElement) {
+    const container  = projectElement.querySelector('.project-image-container');
+    const canvas     = container.querySelector('.pixelation-canvas');
+    const finalImage = container.querySelector('.full-res-image');
 
-            // Zeichne die erste pixelige Stufe auf die Leinwand darüber.
-            drawPixelated(highResImage, canvas, 4);
-        };
-    }
+    if (container.dataset.loaded === '1') return Promise.resolve();
 
-    // Die Funktion setupHoverListeners bleibt exakt wie in der letzten Version.
-    function setupHoverListeners() {
-    const isCoarse = window.matchMedia('(pointer: coarse)').matches; // Mobile/Touch?
+    const highResImage = new Image();
+    highResImage.src = finalImage.dataset.src;
+
+    return new Promise((resolve) => {
+      highResImage.onload = () => {
+        container.imageObject = highResImage;
+
+        // keep your layout method: padding-top sets height based on natural aspect
+        const aspect = highResImage.naturalHeight / highResImage.naturalWidth;
+        container.style.paddingTop = `${aspect * 100}%`;
+
+        // put the real image underneath the canvas (exactly as before)
+        finalImage.src = highResImage.src;
+
+        // draw the first pixelation step exactly as before
+        drawPixelated(highResImage, canvas, 4);
+
+        container.dataset.loaded = '1';
+        resolve();
+      };
+      highResImage.onerror = () => resolve();
+    });
+  }
+
+  // (Unchanged) – your hover/touch trigger logic
+  function setupHoverListeners() {
+    const isCoarse = window.matchMedia('(pointer: coarse)').matches;
     const containers = document.querySelectorAll('.project-image-container');
     const infos = document.querySelectorAll('.project-info');
 
     function triggerOnce(container) {
-        if (!container || !container.imageObject) return;
-        if (container.dataset.animStarted === '1') return;
-        container.dataset.animStarted = '1';
-        startDePixelationAnimation(container);
+      if (!container || !container.imageObject) return;
+      if (container.dataset.animStarted === '1') return;
+      container.dataset.animStarted = '1';
+      startDePixelationAnimation(container);
     }
 
     function containerFor(el) {
-        const item = el.closest('.project-item');
-        return item ? item.querySelector('.project-image-container') : null;
+      const item = el.closest('.project-item');
+      return item ? item.querySelector('.project-image-container') : null;
     }
 
-    // ---------------- Desktop: NUR Hover ----------------
     if (!isCoarse) {
-        // Hover über Bild ODER Text löst aus
-        containers.forEach(c => {
+      containers.forEach(c => {
         c.addEventListener('pointerenter', () => triggerOnce(c), { passive: true, once: true });
-        });
-        infos.forEach(info => {
+      });
+      infos.forEach(info => {
         info.addEventListener('pointerenter', () => {
-            const c = containerFor(info);
-            if (c) triggerOnce(c);
+          const c = containerFor(info);
+          if (c) triggerOnce(c);
         }, { passive: true, once: true });
-        });
-        return; // IO & Touch nicht aktivieren auf Desktop
+      });
+      return;
     }
 
-    // ---------------- Mobile: im Viewport ODER Wischen ----------------
-    // // 1) Im Viewport (scrollen): Bild schärfen
-    // const io = new IntersectionObserver((entries) => {
-    //     entries.forEach(entry => {
-    //     if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
-    //         triggerOnce(entry.target);
-    //         io.unobserve(entry.target);
-    //     }
-    //     });
-    // }, { threshold: [0.5], rootMargin: '0px' });
-
-    // containers.forEach(c => io.observe(c));
-
-    // 2) Beim Wischen über Bild ODER Text: schärfen
     let last = 0;
     window.addEventListener('touchmove', (e) => {
-        const now = Date.now();
-        if (now - last < 120) return; // throttle
-        last = now;
-
-        const t = e.touches && e.touches[0];
-        if (!t) return;
-
-        const el = document.elementFromPoint(t.clientX, t.clientY);
-        if (!el) return;
-
-        // Wenn direkt Bild: dieses; wenn Text: zugehöriges Bild finden
-        const directImg = el.closest('.project-image-container');
-        const targetContainer = directImg || containerFor(el);
-        if (targetContainer) triggerOnce(targetContainer);
+      const now = Date.now();
+      if (now - last < 120) return;
+      last = now;
+      const t = e.touches && e.touches[0];
+      if (!t) return;
+      const el = document.elementFromPoint(t.clientX, t.clientY);
+      if (!el) return;
+      const directImg = el.closest('.project-image-container');
+      const targetContainer = directImg || containerFor(el);
+      if (targetContainer) triggerOnce(targetContainer);
     }, { passive: true });
+  }
+
+  // (Unchanged) – your reveal sequence
+  function startDePixelationAnimation(container) {
+    const canvas = container.querySelector('.pixelation-canvas');
+    const highResImage = container.imageObject;
+
+    const pixelationSteps = [4, 8, 16, 32];
+    let currentStep = 1;
+
+    function animate() {
+      if (currentStep >= pixelationSteps.length) {
+        container.classList.add('is-loaded');
+        return;
+      }
+      const size = pixelationSteps[currentStep];
+      drawPixelated(highResImage, canvas, size);
+      currentStep++;
+      setTimeout(animate, 150);
     }
+    animate();
+  }
 
-    /**
-     * Startet die Animation und blendet am Ende nur noch die Leinwand aus.
-     */
-    function startDePixelationAnimation(container) {
-        const canvas = container.querySelector('.pixelation-canvas');
-        const highResImage = container.imageObject;
+  // (Unchanged) – your pixelation renderer
+  function drawPixelated(image, canvas, size) {
+    const ctx = canvas.getContext('2d');
+    const aspect = image.height / image.width;
+    canvas.width  = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    ctx.imageSmoothingEnabled = false;
+    ctx.drawImage(image, 0, 0, size, size * aspect);
+    ctx.drawImage(canvas, 0, 0, size, size * aspect, 0, 0, canvas.width, canvas.height);
+  }
 
-        const pixelationSteps = [4, 8, 16, 32];
-        let currentStep = 1;
-
-        function animate() {
-            if (currentStep >= pixelationSteps.length) {
-                // FIX: Die einzige Aktion am Ende ist das Hinzufügen der Klasse.
-                // Das Bild ist bereits da und muss nicht mehr geladen werden.
-                container.classList.add('is-loaded');
-                return;
-            }
-            const size = pixelationSteps[currentStep];
-            drawPixelated(highResImage, canvas, size);
-            currentStep++;
-            setTimeout(animate, 150);
-        }
-        animate();
-    }
-
-    // Die Funktion drawPixelated bleibt exakt wie in der letzten Version.
-    function drawPixelated(image, canvas, size) {
-        const ctx = canvas.getContext('2d');
-        const aspect = image.height / image.width;
-        canvas.width = canvas.clientWidth;
-        canvas.height = canvas.clientHeight;
-        ctx.imageSmoothingEnabled = false;
-        ctx.drawImage(image, 0, 0, size, size * aspect);
-        ctx.drawImage(canvas, 0, 0, size, size * aspect, 0, 0, canvas.width, canvas.height);
-    }
-
-    // --- Ihre Filter-Logik (unverändert) ---
-    filterButtons.forEach(button => {
-        button.addEventListener('click', (e) => {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            e.target.classList.add('active');
-            const filter = e.target.dataset.filter;
-            if (filter === 'all' || !filter) {
-                displayProjects(projects);
-            } else {
-                const filteredProjects = projects.filter(p => p.scale === filter);
-                displayProjects(filteredProjects);
-            }
-        });
+  // Filters (unchanged)
+  filterButtons.forEach(button => {
+    button.addEventListener('click', (e) => {
+      document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+      e.target.classList.add('active');
+      const filter = e.target.dataset.filter;
+      if (filter === 'all' || !filter) {
+        displayProjects(projects);
+      } else {
+        const filteredProjects = projects.filter(p => p.scale === filter);
+        displayProjects(filteredProjects);
+      }
     });
+  });
 
-    // --- Initialisierung ---
-    displayProjects(projects);
+  // Init
+  displayProjects(projects);
 });
