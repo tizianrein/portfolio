@@ -1,16 +1,30 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   const projects = [
-    { id: '053', title: 'From Structure to Action', year: 2025, scale: 'mm', thumbnail: 'images/thumbnails/053-thumb.jpg' },
-    { id: '052', title: 'ZAKK Garden Chair', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/052-thumb.jpg' },
-    { id: '051', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
-    { id: '050', title: 'Beamtenwohnung Bonn', year: 2024, scale: 'm',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
-    { id: '049', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/049-thumb.jpg' },
-    { id: '048', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/048-thumb.jpg' },
-    { id: '047', title: 'Sed Do Eiusmod', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/047-thumb.jpg' },
-    { id: '046', title: 'Versöhnungskirche Dachau', year: 2016, scale: 'mm', thumbnail: 'images/thumbnails/046-thumb.jpg' },
-    { id: '003', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/003-thumb.jpg' }
-  ];
+    { id: '023', title: 'From Structure to Action', year: 2025, scale: 'mm', thumbnail: 'images/thumbnails/053-thumb.jpg' },
+    { id: '022', title: 'ZAKK Garden Chair', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/052-thumb.jpg' },
+    { id: '021', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
+    { id: '020', title: 'Beamtenwohnung Bonn', year: 2024, scale: 'm',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
+    { id: '019', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/049-thumb.jpg' },
+    { id: '018', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/048-thumb.jpg' },
+    { id: '017', title: 'Sed Do Eiusmod', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/047-thumb.jpg' },
+    { id: '016', title: 'Versöhnungskirche Dachau', year: 2016, scale: 'mm', thumbnail: 'images/thumbnails/046-thumb.jpg' },
+    { id: '015', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/003-thumb.jpg' },
+    { id: '014', title: 'From Structure to Action', year: 2025, scale: 'mm', thumbnail: 'images/thumbnails/053-thumb.jpg' },
+    { id: '013', title: 'ZAKK Garden Chair', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/052-thumb.jpg' },
+    { id: '012', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
+    { id: '011', title: 'Beamtenwohnung Bonn', year: 2024, scale: 'm',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
+    { id: '010', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/049-thumb.jpg' },
+    { id: '009', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/048-thumb.jpg' },
+    { id: '008', title: 'Sed Do Eiusmod', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/047-thumb.jpg' },
+    { id: '007', title: 'Versöhnungskirche Dachau', year: 2016, scale: 'mm', thumbnail: 'images/thumbnails/046-thumb.jpg' },
+    { id: '006', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/003-thumb.jpg' },
+    { id: '005', title: 'From Structure to Action', year: 2025, scale: 'mm', thumbnail: 'images/thumbnails/053-thumb.jpg' },
+    { id: '004', title: 'ZAKK Garden Chair', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/052-thumb.jpg' },
+    { id: '003', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, scale: 'm',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
+    { id: '002', title: 'Beamtenwohnung Bonn', year: 2024, scale: 'm',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
+    { id: '001', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/049-thumb.jpg' },
+    ];
 
   const projectGrid   = document.getElementById('project-grid');
   const filterButtons = document.querySelectorAll('.filter-btn');
