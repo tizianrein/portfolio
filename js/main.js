@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         { id: '049', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/049-thumb.jpg' },
         { id: '048', title: 'Consectetur Adipiscing', year: 2019, scale: 'cm', thumbnail: 'images/thumbnails/048-thumb.jpg' },
         { id: '047', title: 'Sed Do Eiusmod', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/047-thumb.jpg' },
-        { id: '046', title: 'Versöhnungskirche Dachau', year: 2016, scale: 'mm', thumbnail: 'images/thumbnails/046-thumb.jpg' }
+        { id: '046', title: 'Versöhnungskirche Dachau', year: 2016, scale: 'mm', thumbnail: 'images/thumbnails/046-thumb.jpg' },
+        { id: '003', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, scale: 'cm', thumbnail: 'images/thumbnails/003-thumb.jpg' }
     ];
 
     const projectGrid = document.getElementById('project-grid');
