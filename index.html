@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<!-- The 'lang' attribute will be set by JavaScript -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,36 +8,68 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-    <div class="corner-filters">
-        <button class="filter-btn corner top-left" data-filter="mm">mm</button>
-        <button class="filter-btn corner top-right" data-filter="cm">cm</button>
-        <button class="filter-btn corner bottom-left" data-filter="m">m</button>
-        <button class="filter-btn corner bottom-right" data-filter="km">km</button>
-    </div>
-
-    <!-- Mobile Corner Navigation (nur auf kleinen Screens sichtbar) -->
+    <!-- Mobile Corner Navigation with Language Switcher -->
     <div class="corner-nav" aria-label="Mobile corner navigation">
         <a class="corner top-left" href="index.html">tizian rein</a>
-        <a class="corner top-right" href="info.html">info</a>
-        <!-- Setze hier deinen echten Instagram-Link ein -->
-        <a class="corner bottom-left" href="https://instagram.com/tizianrein" target="_blank" rel="noopener">instagram</a>
-        <a class="corner bottom-right" href="contact.html">contact</a>
+        
+        <!-- English Info Link -->
+        <a class="corner top-right" href="info.html" data-lang-en>info</a>
+        <!-- German Info Link -->
+        <a class="corner top-right" href="info.html" data-lang-de style="display:none;">info</a>
+
+        <!-- Mobile Language Switcher -->
+        <div class="corner bottom-left lang-switcher">
+            <a href="#" class="lang-btn" data-lang="de">de</a>
+            <a href="#" class="lang-btn" data-lang="en">en</a>
+        </div>
+
+        <!-- English Contact Link -->
+        <a class="corner bottom-right" href="contact.html" data-lang-en>contact</a>
+        <!-- German Contact Link -->
+        <a class="corner bottom-right" href="contact.html" data-lang-de style="display:none;">kontakt</a>
     </div>
 
-    <!-- Header enthält jetzt eine Instanz des Grid-Containers -->
+    <!-- Desktop Header -->
     <header>
         <div class="grid-container">
             <h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1>
-            <a href="index.html" id="nav-work" class="filter-btn active" data-filter="all">work</a>
-            <a href="info.html" id="nav-info">information</a> 
-            <a href="contact.html" id="nav-contact">contact</a> 
+            
+            <!-- Desktop Language Switcher -->
+            <div class="lang-switcher-desktop">
+                <a href="#" class="lang-btn" data-lang="de">de</a>
+                <a href="#" class="lang-btn" data-lang="en">en</a>
+            </div>
+
+            <!-- "Work" navigation with submenu for filtering -->
+            <div id="nav-work-container">
+                <a href="index.html" id="nav-work" class="filter-btn active" data-filter="all" data-lang-en>work</a>
+                <a href="index.html" id="nav-work-de" class="filter-btn active" data-filter="all" data-lang-de style="display:none;">projekte</a>
+                <div class="work-submenu">
+                    <a href="#" data-filter="architecture" data-lang-en>Architecture</a>
+                    <a href="#" data-filter="architecture" data-lang-de style="display:none;">Architektur</a>
+                    <a href="#" data-filter="objects" data-lang-en>Objects</a>
+                    <a href="#" data-filter="objects" data-lang-de style="display:none;">Objekte</a>
+                    <a href="#" data-filter="research" data-lang-en>Research</a>
+                    <a href="#" data-filter="research" data-lang-de style="display:none;">Forschung</a>
+                </div>
+            </div>
+
+            <!-- English Info Link -->
+            <a href="info.html" id="nav-info" data-lang-en>information</a>
+            <!-- German Info Link -->
+            <a href="info.html" id="nav-info-de" data-lang-de style="display:none;">information</a>
+            
+            <!-- English Contact Link -->
+            <a href="contact.html" id="nav-contact" data-lang-en>contact</a>
+            <!-- German Contact Link -->
+            <a href="contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
         </div>
     </header>
 
-    <!-- Der Hauptinhalt ist jetzt der Grid-Container selbst -->
+    <!-- Main project grid -->
     <main>
         <div id="project-grid" class="grid-container">
-            <!-- Projekte werden hier von JS eingefügt -->
+            <!-- Projects are injected here by js/main.js -->
         </div>
     </main>
 
