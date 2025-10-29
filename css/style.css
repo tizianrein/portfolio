@@ -112,7 +112,7 @@ header .grid-container > * {
     justify-self: start;
 }
 
-header a.active { color: var(--text-color-active); }
+header a.active { color: var(--text-color); }
 
 /* --- Corrected Desktop Header Positioning --- */
 .site-title                 { grid-column: 1 / 2; }
