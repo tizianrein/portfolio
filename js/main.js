@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const projectGrid = document.getElementById('project-grid');
   
-  // --- 2. LANGUAGE SWITCHING LOGIC ---
+// --- 2. LANGUAGE SWITCHING LOGIC ---
   const setLanguage = (lang) => {
     if (lang !== 'de' && lang !== 'en') lang = 'en'; // Default to English
     
@@ -53,11 +53,17 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.remove('active');
         }
     });
+
+    // *** ADDED: Save the chosen language to localStorage ***
+    localStorage.setItem('userLanguage', lang);
   };
 
-  // Set initial language based on browser preference
+  // *** CHANGED: Check for a saved language first ***
+  const savedLang = localStorage.getItem('userLanguage');
   const userLang = navigator.language.substring(0, 2);
-  setLanguage(userLang);
+  
+  // Set initial language: 1st priority is saved choice, 2nd is browser default
+  setLanguage(savedLang || userLang);
 
   // Add click listeners to all language buttons
   document.querySelectorAll('.lang-btn').forEach(button => {
@@ -67,7 +73,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // --- 3. PROJECT DISPLAY AND FILTERING ---
+// --- 3. PROJECT DISPLAY AND FILTERING ---
   // This section only runs if we are on the main portfolio page (where #project-grid exists)
   if (projectGrid) {
     const filterButtons = document.querySelectorAll('.work-submenu a, #nav-work, #nav-work-de');
@@ -99,11 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
         const filter = e.target.dataset.filter;
 
-        document.querySelectorAll('#nav-work, #nav-work-de').forEach(btn => btn.classList.remove('active'));
+        // CORRECTED LOGIC: Always ensure "work" is active on this page.
+        document.querySelectorAll('#nav-work, #nav-work-de').forEach(btn => btn.classList.add('active'));
 
         if (filter === 'all' || !filter) {
           displayProjects(projects);
-          document.querySelectorAll('#nav-work, #nav-work-de').forEach(btn => btn.classList.add('active'));
         } else {
           const filteredProjects = projects.filter(p => p.category === filter);
           displayProjects(filteredProjects);

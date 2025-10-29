@@ -35,9 +35,45 @@
     </style>
 </head>
 <body>
-    <!-- Manually added Mobile Navigation and Header (as in original file) -->
-    <div class="corner-nav" aria-label="Mobile corner navigation"><a class="corner top-left" href="index.html">tizian rein</a><a class="corner top-right" href="info.html" data-lang-en>info</a><a class="corner top-right" href="info.html" data-lang-de style="display:none;">info</a><div class="corner bottom-left lang-switcher"><a href="#" class="lang-btn" data-lang="de">de</a><a href="#" class="lang-btn" data-lang="en">en</a></div><a class="corner bottom-right" href="contact.html" data-lang-en>contact</a><a class="corner bottom-right" href="contact.html" data-lang-de style="display:none;">kontakt</a></div>
-    <header><div class="grid-container"><h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1><div class="lang-switcher-desktop"><a href="#" class="lang-btn" data-lang="de">de</a><a href="#" class="lang-btn" data-lang="en">en</a></div><a href="index.html" id="nav-work" data-lang-en>work</a><a href="index.html" id="nav-work-de" data-lang-de style="display:none;">projekte</a><a href="info.html" id="nav-info" class="active" data-lang-en>information</a><a href="info.html" id="nav-info-de" class="active" data-lang-de style="display:none;">information</a><a href="contact.html" id="nav-contact" data-lang-en>contact</a><a href="contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a></div></header>
+    <!-- Standalone Desktop Language Switcher (Fixed Position) -->
+    <div class="lang-switcher-desktop">
+        <a href="#" class="lang-btn" data-lang="de">de</a>
+        <a href="#" class="lang-btn" data-lang="en">en</a>
+    </div>
+
+    <!-- Mobile Corner Navigation -->
+    <div class="corner-nav" aria-label="Mobile corner navigation">
+        <a class="corner top-left" href="index.html">tizian rein</a>
+        
+        <a class="corner top-right" href="info.html" data-lang-en>info</a>
+        <a class="corner top-right" href="info.html" data-lang-de style="display:none;">info</a>
+
+        <div class="corner bottom-left lang-switcher">
+            <a href="#" class="lang-btn" data-lang="de">de</a>
+            <a href="#" class="lang-btn" data-lang="en">en</a>
+        </div>
+
+        <a class="corner bottom-right" href="contact.html" data-lang-en>contact</a>
+        <a class="corner bottom-right" href="contact.html" data-lang-de style="display:none;">kontakt</a>
+    </div>
+
+<!-- Desktop Header -->
+<header>
+    <div class="grid-container">
+        <h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1>
+        
+        <!-- On this page, "work" is just a simple link without the submenu container -->
+        <a href="index.html" id="nav-work" data-lang-en style="grid-column: 3 / 4;">work</a>
+        <a href="index.html" id="nav-work-de" data-lang-de style="display:none; grid-column: 3 / 4;">projekte</a>
+
+        <!-- "information" is the active link on this page -->
+        <a href="info.html" id="nav-info" class="active" data-lang-en>information</a>
+        <a href="info.html" id="nav-info-de" class="active" data-lang-de style="display:none;">information</a>
+        
+        <a href="contact.html" id="nav-contact" data-lang-en>contact</a>
+        <a href="contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
+    </div>
+</header>
 
     <main>
         <div class="grid-container info-container">
@@ -77,7 +113,6 @@
                 <p class="section-title" data-lang-en><br>Publications / Presentations</p>
                 <p class="section-title" data-lang-de style="display:none;"><br>Publikationen / Vorträge</p>
                 <ul>
-                    <!-- Publication list remains in English as titles are fixed -->
                     <li><span class="item-title">'Abandoning the Ivory Tower: Novel Mechanisms of Innovation Transfer in Architectural Research'</span><span class="item-detail">With Marcel Studer, Dominik Reisach and Silke Langenberg <br>Architecture & Patents, ETH Zurich, 2025</span></li>
                     <li><span class="item-title">'From Structure to Action'</span><span class="item-detail">Conference: Design Education Symposium<br>TU Munich, 2025</span></li>
                     <li><span class="item-title">'From Prototype to Product - From Material to Market'</span><span class="item-detail">With Marcel Studer and Dominik Reisach<br>Symposium: Startup Architecture, ETH Zürich, 2025</span></li>
@@ -90,21 +125,9 @@
         </div>
     </main>
     
-    <!-- JS for Pixelation Effect (Unchanged from original) -->
+    <!-- JS for Pixelation Effect -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const profileImageElement = document.querySelector('.info-container .project-item');
-            if (profileImageElement) {
-                // The language switcher script (main.js) will be loaded after this,
-                // so we can keep the image pixelation script as is.
-                prepareInitialPixelatedImage(profileImageElement);
-                setupHoverListeners();
-            }
-        });
-        function prepareInitialPixelatedImage(projectElement){const container=projectElement.querySelector('.project-image-container'),canvas=container.querySelector('.pixelation-canvas'),finalImage=container.querySelector('.full-res-image'),highResImage=new Image;highResImage.src=finalImage.dataset.src,highResImage.onload=()=>{container.imageObject=highResImage;const t=highResImage.naturalHeight/highResImage.naturalWidth;container.style.paddingTop=`${100*t}%`,finalImage.src=highResImage.src,drawPixelated(highResImage,canvas,4)}}
-        function setupHoverListeners(){const t=window.matchMedia('(pointer: coarse)').matches,e=document.querySelectorAll('.project-image-container'),i=document.querySelectorAll('.project-info');function n(t){t&&t.imageObject&&"1"!==t.dataset.animStarted&&(t.dataset.animStarted="1",startDePixelationAnimation(t))}function o(t){const e=t.closest('.project-item');return e?e.querySelector('.project-image-container'):null}if(!t){e.forEach(t=>t.addEventListener('pointerenter',()=>n(t),{passive:!0,once:!0})),i.forEach(t=>t.addEventListener('pointerenter',()=>{const e=o(t);e&&n(e)},{passive:!0,once:!0}));return}let s=0;window.addEventListener('touchmove',t=>{const e=Date.now();if(!(e-s<120)){s=e;const i=t.touches&&t.touches[0];if(!i)return;const r=document.elementFromPoint(i.clientX,i.clientY);if(!r)return;const a=r.closest('.project-image-container'),c=a||o(r);c&&n(c)}},{passive:!0})}
-        function startDePixelationAnimation(t){const e=t.querySelector('.pixelation-canvas'),i=t.imageObject;let n=1;!function o(){if(n>=[4,8,16,32].length)return void t.classList.add('is-loaded');const s=[4,8,16,32][n];drawPixelated(i,e,s),n++,setTimeout(o,150)}()}
-        function drawPixelated(t,e,i){const n=e.getContext('2d'),o=t.height/t.width;e.width=e.clientWidth,e.height=e.clientHeight,n.imageSmoothingEnabled=!1,n.drawImage(t,0,0,i,i*o),n.drawImage(e,0,0,i,i*o,0,0,e.width,e.height)}
+        document.addEventListener('DOMContentLoaded', () => { const p=document.querySelector('.info-container .project-item'); p&& (prepareInitialPixelatedImage(p), setupHoverListeners())}); function prepareInitialPixelatedImage(p){const e=p.querySelector(".project-image-container"),t=e.querySelector(".pixelation-canvas"),i=e.querySelector(".full-res-image"),o=new Image;o.src=i.dataset.src,o.onload=()=>{e.imageObject=o;const t=o.naturalHeight/o.naturalWidth;e.style.paddingTop=`${100*t}%`,i.src=o.src,drawPixelated(o,e.querySelector(".pixelation-canvas"),4)}}; function setupHoverListeners(){const p=window.matchMedia("(pointer: coarse)").matches,e=document.querySelectorAll(".project-image-container"),t=document.querySelectorAll(".project-info");if(!p)return e.forEach(p=>p.addEventListener("pointerenter",()=>triggerOnce(p),{passive:!0,once:!0})),void t.forEach(p=>p.addEventListener("pointerenter",()=>{const e=containerFor(p);e&&triggerOnce(e)},{passive:!0,once:!0}));let i=0;window.addEventListener("touchmove",p=>{const e=Date.now();if(!(e-i<120)){i=e;const o=p.touches&&p.touches[0];if(!o)return;const n=document.elementFromPoint(o.clientX,o.clientY);if(!n)return;const r=n.closest(".project-image-container"),s=r||containerFor(n);s&&triggerOnce(s)}},{passive:!0})}; function triggerOnce(p){p&&p.imageObject&&"1"!==p.dataset.animStarted&&(p.dataset.animStarted="1",startDePixelationAnimation(p))} function containerFor(p){const e=p.closest(".project-item");return e?e.querySelector(".project-image-container"):null} function startDePixelationAnimation(p){const e=p.querySelector(".pixelation-canvas"),t=p.imageObject;let i=1;!function o(){if(i>=[4,8,16,32].length)return void p.classList.add("is-loaded");const n=[4,8,16,32][i];drawPixelated(t,e,n),i++,setTimeout(o,150)}()} function drawPixelated(p,e,t){const i=e.getContext("2d"),o=p.height/p.width;e.width=e.clientWidth,e.height=e.clientHeight,i.imageSmoothingEnabled=!1,i.drawImage(p,0,0,t,t*o),i.drawImage(e,0,0,t,t*o,0,0,e.width,e.height)};
     </script>
     <!-- Main script for language switching -->
     <script src="js/main.js" defer></script>

@@ -10,9 +10,10 @@
         main { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 4)); padding-bottom: 80px; }
         .contact-content { grid-column: 6 / 9; }
         .contact-intro { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: var(--header-font-size); line-height: 1.2; margin-bottom: 2rem; }
-        .contact-details { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 15px; line-height: 1.6; }
+        .contact-details { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 22px; line-height: 1.6; }
         .contact-details a { color: var(--text-color); text-decoration: none; display: block; margin-bottom: 0.5em; }
         .contact-details a:hover { color: var(--text-color-active); }
+        .contact-more { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; font-size: 22px; line-height: 1.6; }
         @media (max-width: 1024px) {
             main { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)); }
             .contact-content { grid-column: 1 / -1; }
@@ -22,9 +23,45 @@
     </style>
 </head>
 <body>
-    <!-- Manually added Mobile Navigation and Header -->
-    <div class="corner-nav" aria-label="Mobile corner navigation"><a class="corner top-left" href="index.html">tizian rein</a><a class="corner top-right" href="info.html" data-lang-en>info</a><a class="corner top-right" href="info.html" data-lang-de style="display:none;">info</a><div class="corner bottom-left lang-switcher"><a href="#" class="lang-btn" data-lang="de">de</a><a href="#" class="lang-btn" data-lang="en">en</a></div><a class="corner bottom-right" href="contact.html" data-lang-en>contact</a><a class="corner bottom-right" href="contact.html" data-lang-de style="display:none;">kontakt</a></div>
-    <header><div class="grid-container"><h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1><div class="lang-switcher-desktop"><a href="#" class="lang-btn" data-lang="de">de</a><a href="#" class="lang-btn" data-lang="en">en</a></div><a href="index.html" id="nav-work" data-lang-en>work</a><a href="index.html" id="nav-work-de" data-lang-de style="display:none;">projekte</a><a href="info.html" id="nav-info" data-lang-en>information</a><a href="info.html" id="nav-info-de" data-lang-de style="display:none;">information</a><a href="contact.html" id="nav-contact" class="active" data-lang-en>contact</a><a href="contact.html" id="nav-contact-de" class="active" data-lang-de style="display:none;">kontakt</a></div></header>
+    <!-- Standalone Desktop Language Switcher (Fixed Position) -->
+    <div class="lang-switcher-desktop">
+        <a href="#" class="lang-btn" data-lang="de">de</a>
+        <a href="#" class="lang-btn" data-lang="en">en</a>
+    </div>
+
+    <!-- Mobile Corner Navigation -->
+    <div class="corner-nav" aria-label="Mobile corner navigation">
+        <a class="corner top-left" href="index.html">tizian rein</a>
+        
+        <a class="corner top-right" href="info.html" data-lang-en>info</a>
+        <a class="corner top-right" href="info.html" data-lang-de style="display:none;">info</a>
+
+        <div class="corner bottom-left lang-switcher">
+            <a href="#" class="lang-btn" data-lang="de">de</a>
+            <a href="#" class="lang-btn" data-lang="en">en</a>
+        </div>
+
+        <a class="corner bottom-right" href="contact.html" data-lang-en>contact</a>
+        <a class="corner bottom-right" href="contact.html" data-lang-de style="display:none;">kontakt</a>
+    </div>
+
+<!-- Desktop Header -->
+<header>
+    <div class="grid-container">
+        <h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1>
+        
+        <!-- On this page, "work" is just a simple link without the submenu container -->
+        <a href="index.html" id="nav-work" data-lang-en style="grid-column: 3 / 4;">work</a>
+        <a href="index.html" id="nav-work-de" data-lang-de style="display:none; grid-column: 3 / 4;">projekte</a>
+
+        <a href="info.html" id="nav-info" data-lang-en>information</a>
+        <a href="info.html" id="nav-info-de" data-lang-de style="display:none;">information</a>
+        
+        <!-- "contact" is the active link on this page -->
+        <a href="contact.html" id="nav-contact" class="active" data-lang-en>contact</a>
+        <a href="contact.html" id="nav-contact-de" class="active" data-lang-de style="display:none;">kontakt</a>
+    </div>
+</header>
 
     <main>
         <div class="grid-container">

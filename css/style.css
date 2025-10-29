@@ -8,7 +8,7 @@ html {
 :root {
     --background-color: #ffffff;
     --text-color: #000000;
-    --text-color-active: #808080;
+    --text-color-active: #6a6a6a;
     --font-main: Arial, sans-serif;
     --header-font-size: 18pt;
     --header-padding: 15px;
@@ -28,12 +28,39 @@ body {
     padding: 0;
 }
 
-/* ========================================================= */
-/* === OLD CORNER FILTERS (REMOVED) ======================== */
-/* ========================================================= */
+/* Hide old corner filters */
 .corner-filters {
     display: none;
 }
+
+/* ========================================================= */
+/* === NEW: DESKTOP LANGUAGE SWITCHER ====================== */
+/* ========================================================= */
+.lang-switcher-desktop {
+    display: none; /* Hidden on mobile by default */
+}
+
+@media (min-width: 1025px) {
+    .lang-switcher-desktop {
+        display: block;
+        position: fixed;
+        top: 0;
+        right: 0;
+        padding: var(--header-padding);
+        z-index: 110;
+        font-size: var(--header-font-size);
+    }
+    .lang-switcher-desktop a {
+        color: var(--text-color);
+        text-decoration: none;
+        padding: 0 5px;
+    }
+    .lang-switcher-desktop a:hover,
+    .lang-switcher-desktop a.active {
+        color: var(--text-color-active);
+    }
+}
+
 
 /* ========================================================= */
 /* === GRID-CONTAINER ====================================== */
@@ -87,30 +114,25 @@ header .grid-container > * {
 
 header a.active { color: var(--text-color-active); }
 
-/* --- New Header Positioning --- */
-.site-title             { grid-column: 1 / 2; }
-.lang-switcher-desktop  { grid-column: 2 / 3; }
-#nav-work-container     { grid-column: 3 / 4; position: relative; } /* Container for hover */
-#nav-info, #nav-info-de { grid-column: 4 / 5; }
+/* --- Corrected Desktop Header Positioning --- */
+.site-title                 { grid-column: 1 / 2; }
+#nav-work-container         { grid-column: 3 / 4; position: relative; } /* Container for hover */
+#nav-info, #nav-info-de     { grid-column: 4 / 5; }
 #nav-contact, #nav-contact-de { grid-column: 6 / 7; }
 
-/* --- Language Switcher Styles --- */
-.lang-switcher a, .lang-switcher-desktop a {
-    font-size: var(--header-font-size);
-    text-decoration: none;
-    color: var(--text-color);
-    padding: 0 5px;
-}
-.lang-switcher a.active, .lang-switcher-desktop a.active {
-    color: var(--text-color-active);
-}
-.lang-switcher-desktop { justify-self: start; }
 
-/* --- Work Submenu Styles --- */
+/* --- Corrected "Work" Submenu Styles --- */
+#nav-work-container > a {
+    text-decoration: none; /* No underline on "work" */
+}
+#nav-work-container:hover > a {
+    color: var(--text-color-active); /* Keep hover effect */
+}
+
 .work-submenu {
-    display: none; /* Hidden by default */
+    display: none;
     position: absolute;
-    top: 100%;
+    top: 100%; /* Add a small gap */
     left: 0;
     background-color: var(--background-color);
     padding: 10px 0;
@@ -119,78 +141,92 @@ header a.active { color: var(--text-color-active); }
 }
 
 #nav-work-container:hover .work-submenu {
-    display: block; /* Show on hover */
+    display: block;
 }
 
 .work-submenu a {
     display: block;
-    padding: 5px 15px;
+    padding: 5px 0; /* Align left */
     font-size: 15px;
+    color: var(--text-color); /* Black, not blue */
+    text-decoration: none; /* No underline */
 }
+
 .work-submenu a:hover {
     color: var(--text-color-active);
 }
 
 /* ========================================================= */
-/* === PROJECT GRID ======================================== */
+/* === PROJECT GRID (Unchanged) ============================ */
 /* ========================================================= */
 #project-grid {
     padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3));
     padding-bottom: 120px;
     gap: 0;
 }
-.project-item {
-    grid-column: span 3;
-    text-decoration: none;
+.project-item{grid-column:span 3;text-decoration:none;color:var(--text-color);display:grid;grid-template-columns:repeat(3,1fr);gap:0;align-items:start;grid-auto-flow:dense}.project-image-container{position:relative;background-color:#f0f0f0;height:0}.pixelation-canvas,.full-res-image{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}.pixelation-canvas{z-index:2}.full-res-image{z-index:1}.project-image-container.is-loaded .pixelation-canvas{opacity:0}.project-info{font-family:Arial,sans-serif;padding:var(--project-info-padding);min-width:0;overflow-wrap:anywhere;word-break:normal;hyphens:auto}.project-info h3,.project-info p{font-size:15px;margin:0;line-height:1.1;overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}.project-info h3{font-weight:400}
+.layout-a > .project-image-container{grid-column:1 / 2}.layout-a > .project-info{grid-column:2 / 3}.layout-b > .project-info{grid-column:2 / 3}.layout-b > .project-image-container{grid-column:3 / 4}
+
+/* ========================================================= */
+/* === MOBILE & RESPONSIVE ================================= */
+/* ========================================================= */
+
+/* Hide mobile nav by default on desktop */
+.corner-nav { 
+    display: none; 
+}
+
+@media (max-width: 1024px) {
+  :root { 
+      --header-font-size: 18pt; 
+  }
+
+  /* Hide desktop elements and show mobile nav container */
+  header { display: none !important; }
+  .corner-nav { display: block; } /* This now correctly overrides the default */
+  .lang-switcher-desktop { display: none; }
+
+  /* Style the corner links and buttons */
+  .corner-nav .corner {
+    position: fixed;
+    z-index: 120;
+    padding: 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: var(--header-font-size);
+    line-height: 1;
     color: var(--text-color);
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 0;
-    align-items: start;
-    grid-auto-flow: dense;
-}
-.project-image-container{position:relative;background-color:#f0f0f0;height:0}.pixelation-canvas,.full-res-image{position:absolute;top:0;left:0;width:100%;height:100%;object-fit:cover}.pixelation-canvas{z-index:2}.full-res-image{z-index:1}.project-image-container.is-loaded .pixelation-canvas{opacity:0}.project-info{font-family:Arial,sans-serif;padding:var(--project-info-padding);min-width:0;overflow-wrap:anywhere;word-break:normal;hyphens:auto}.project-info h3,.project-info p{font-size:15px;margin:0;line-height:1.1;overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto}.project-info h3{font-weight:400}
-.layout-a > .project-image-container { grid-column: 1 / 2; }
-.layout-a > .project-info            { grid-column: 2 / 3; }
-.layout-b > .project-info            { grid-column: 2 / 3; }
-.layout-b > .project-image-container { grid-column: 3 / 4; }
+    text-decoration: none;
+  }
+  .corner-nav .corner:hover {
+      color: var(--text-color-active);
+  }
+  .corner-nav .top-left     { top: 0; left: 0; }
+  .corner-nav .top-right    { top: 0; right: 0; }
+  .corner-nav .bottom-left  { bottom: 0; left: 0; }
+  .corner-nav .bottom-right { bottom: 0; right: 0; }
 
-/* ========================================================= */
-/* === RESPONSIVE / MOBILE ================================= */
-/* ========================================================= */
-@media (max-width: 1024px) {
-    :root { --header-font-size: 18pt; }
+  .corner-nav .lang-switcher a {
+     font-size: var(--header-font-size);
+     text-decoration: none;
+     color: var(--text-color);
+     padding: 0 5px;
+  }
+   .corner-nav .lang-switcher a.active {
+      color: var(--text-color-active);
+   }
 
-    /* Hide desktop header, show mobile corner nav */
-    header { display: none !important; }
-    .corner-nav { display: block; }
+  /* General mobile layout adjustments */
+  .grid-container, #project-grid {
+    grid-template-columns: 1fr;
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+  .project-item { grid-column: span 1; margin-bottom: 0 !important; }
+  .project-info h3, .project-info p { font-size: 15px; line-height: 1.2; }
+  .project-item{grid-template-columns:1fr 1fr 1fr}.project-item .project-image-container,.project-item .project-info{grid-row:1}.project-item:nth-child(odd) .project-info{grid-column:2}.project-item:nth-child(odd) .project-image-container{grid-column:1}.project-item:nth-child(even) .project-image-container{grid-column:3}.project-item:nth-child(even) .project-info{grid-column:2}
 
-    .grid-container, #project-grid {
-      grid-template-columns: 1fr;
-      padding-left: 20px;
-      padding-right: 20px;
-    }
-    .project-item { grid-column: span 1; margin-bottom: 2rem; }
-    .project-info h3, .project-info p { font-size: 15px; line-height: 1.2; }
-
-    /* Mobile Grid Logic */
-    .project-item{grid-template-columns:1fr 1fr 1fr}.project-item .project-image-container,.project-item .project-info{grid-row:1}.project-item:nth-child(odd) .project-info{grid-column:2}.project-item:nth-child(odd) .project-image-container{grid-column:1}.project-item:nth-child(even) .project-image-container{grid-column:3}.project-item:nth-child(even) .project-info{grid-column:2}
-}
-
-/* ========================================================= */
-/* === MOBILE CORNER NAVIGATION ============================= */
-/* ========================================================= */
-.corner-nav { display: none; }
-@media (max-width: 1024px) {
-    .corner-nav a, .corner-nav div {
-        text-decoration: none !important; color: var(--text-color); font-weight: 400; font-size: var(--header-font-size); line-height: 1; position: fixed; z-index: 120; background: none; border: none; cursor: pointer; padding: 20px; -webkit-text-decoration: none;
-    }
-    .corner-nav a:hover, .corner-nav a:focus { color: var(--text-color-active); text-decoration: none !important; -webkit-text-decoration: none; }
-    .corner.top-left { top: 0; left: 0; }
-    .corner.top-right { top: 0; right: 0; }
-    .corner.bottom-left { bottom: 0; left: 0; }
-    .corner.bottom-right { bottom: 0; right: 0; }
-    #project-grid { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)) !important; padding-bottom: 60px; gap: 0; }
-    .project-info { padding: var(--project-info-padding) !important; }
-    .project-item { margin-bottom: 0 !important; }
+  #project-grid { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)) !important; padding-bottom: 60px; gap: 0; }
+  .project-info { padding: var(--project-info-padding) !important; }
 }
