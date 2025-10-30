@@ -8,7 +8,7 @@ html {
 :root {
     --background-color: #ffffff;
     --text-color: #000000;
-    --text-color-active: #6a6a6a;
+    --text-color-active: #8e8e8e;
     --font-main: Arial, sans-serif;
     --header-font-size: 18pt;
     --header-padding: 15px;
@@ -51,13 +51,15 @@ body {
         font-size: var(--header-font-size);
     }
     .lang-switcher-desktop a {
-        color: var(--text-color);
+        color: var(--text-color-active); /* Inactive is now gray */
         text-decoration: none;
         padding: 0 5px;
     }
-    .lang-switcher-desktop a:hover,
+    .lang-switcher-desktop a:hover {
+        color: var(--text-color-active); /* Hover remains gray */
+    }
     .lang-switcher-desktop a.active {
-        color: var(--text-color-active);
+        color: var(--text-color); /* Active is now black */
     }
 }
 
@@ -207,15 +209,15 @@ header a.active { color: var(--text-color); }
   .corner-nav .bottom-left  { bottom: 0; left: 0; }
   .corner-nav .bottom-right { bottom: 0; right: 0; }
 
-  .corner-nav .lang-switcher a {
-     font-size: var(--header-font-size);
-     text-decoration: none;
-     color: var(--text-color);
-     padding: 0 5px;
-  }
-   .corner-nav .lang-switcher a.active {
-      color: var(--text-color-active);
-   }
+    .corner-nav .lang-switcher a {
+    font-size: var(--header-font-size);
+    text-decoration: none;
+    color: var(--text-color-active); /* Inactive is now gray */
+    padding: 0 5px;
+    }
+    .corner-nav .lang-switcher a.active {
+        color: var(--text-color); /* Active is now black */
+    }
 
   /* General mobile layout adjustments */
   .grid-container, #project-grid {
