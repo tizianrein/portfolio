@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tizian Rein - Information</title>
     <link rel="stylesheet" href="css/style.css">
-    <!-- Inline styles from original file are kept for page-specific layout -->
+    <!-- Inline styles for page-specific layout and animations -->
     <style>
         main { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)); padding-bottom: 80px; }
         .info-container { align-items: start; }
@@ -32,59 +32,77 @@
             .info-container .project-item { display: block; }
             .info-section { font-size: 15px; }
         }
+
+        /* --- CSS FOR IMAGE SLIDER AND PIXELATION CONTROL --- */
+        .project-image-container { position: relative; overflow: hidden; }
+        .project-image-container .image {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%; object-fit: cover;
+            transform: translateX(0);
+            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform;
+        }
+
+        /* Next starts off-screen to the right */
+        .project-image-container .next-image { transform: translateX(100%); }
+
+        /* When we trigger the slide, move both at once */
+        .project-image-container.is-sliding .current-image { transform: translateX(-100%); }
+        .project-image-container.is-sliding .next-image    { transform: translateX(0); }
+
+        .project-image-container .pixelation-canvas{
+        position:absolute; inset:0;
+        z-index: 2;            /* above images */
+        width:100%; height:100%;
+        pointer-events:none;
+        background:transparent;
+        opacity:1;
+        }
+        .project-image-container.is-loaded .pixelation-canvas{ opacity:0; }
     </style>
 </head>
 <body>
+    <!-- (Your body content, headers, navigation, etc. remains the same) -->
     <!-- Standalone Desktop Language Switcher (Fixed Position) -->
     <div class="lang-switcher-desktop">
         <a href="#" class="lang-btn" data-lang="de">de</a>
         <a href="#" class="lang-btn" data-lang="en">en</a>
     </div>
-
     <!-- Mobile Corner Navigation -->
     <div class="corner-nav" aria-label="Mobile corner navigation">
         <a class="corner top-left" href="index.html">tizian rein</a>
-        
         <a class="corner top-right" href="info.html" data-lang-en>info</a>
         <a class="corner top-right" href="info.html" data-lang-de style="display:none;">info</a>
-
         <div class="corner bottom-left lang-switcher">
             <a href="#" class="lang-btn" data-lang="de">de</a>
             <a href="#" class="lang-btn" data-lang="en">en</a>
         </div>
-
         <a class="corner bottom-right" href="contact.html" data-lang-en>contact</a>
         <a class="corner bottom-right" href="contact.html" data-lang-de style="display:none;">kontakt</a>
     </div>
-
-<!-- Desktop Header -->
-<header>
-    <div class="grid-container">
-        <h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1>
-        
-        <!-- On this page, "work" is just a simple link without the submenu container -->
-        <a href="index.html" id="nav-work" data-lang-en style="grid-column: 3 / 4;">projects</a>
-        <a href="index.html" id="nav-work-de" data-lang-de style="display:none; grid-column: 3 / 4;">projekte</a>
-
-        <!-- "information" is the active link on this page -->
-        <a href="info.html" id="nav-info" class="active" data-lang-en>information</a>
-        <a href="info.html" id="nav-info-de" class="active" data-lang-de style="display:none;">information</a>
-        
-        <a href="contact.html" id="nav-contact" data-lang-en>contact</a>
-        <a href="contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
-    </div>
-</header>
-
+    <!-- Desktop Header -->
+    <header>
+        <div class="grid-container">
+            <h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1>
+            <a href="index.html" id="nav-work" data-lang-en style="grid-column: 3 / 4;">projects</a>
+            <a href="index.html" id="nav-work-de" data-lang-de style="display:none; grid-column: 3 / 4;">projekte</a>
+            <a href="info.html" id="nav-info" class="active" data-lang-en>information</a>
+            <a href="info.html" id="nav-info-de" class="active" data-lang-de style="display:none;">information</a>
+            <a href="contact.html" id="nav-contact" data-lang-en>contact</a>
+            <a href="contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
+        </div>
+    </header>
     <main>
         <div class="grid-container info-container">
             <div class="project-item">
-                <div class="project-image-container">
-                    <canvas class="pixelation-canvas"></canvas>
-                    <img data-src="images/about/profile.jpg" class="full-res-image" alt="A photo of Tizian Rein">
+                <div class="project-image-container" id="profile-image-container">
+                <canvas class="pixelation-canvas"></canvas>
+                <img src="images/about/profile.jpg" class="image current-image" alt="A photo of Tizian Rein">
+                <img src="" class="image next-image" alt="" aria-hidden="true">
                 </div>
             </div>
-
             <section class="info-section info-education">
+                <!-- (Your bio, education, experience, etc. remains the same) -->
                 <!-- English Bio -->
                 <p data-lang-en>Tizian Rein (*1997 in Rhöndorf) studied architecture at the Technical University of Munich, ETH Zurich, and the University of Applied Sciences Cologne. After completing his bachelor’s degree and working as project assistant at Atelier Max & Jakob Giese, he turned toward more technical and research-oriented fields that connect computational design with building heritage and preservation. He pursued these interests as a research assistant at the Professorship of Digital Fabrication in Munich and at Gramazio Kohler Research at ETH Zurich. His 2025 master’s thesis <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> explores how digital design processes can engage with notions of repair and continuity. Through his work, he investigates how computational methods and AI can be deeply embedded in the craft, preservation and transformation of buildings. Parallel to his resarch, he works independently as a junior-architect on the transformation and extension of existing buildings, combining architectural design and interventions with a continued interest in repair and preservation.</p>
                 <!-- German Bio -->
@@ -101,11 +119,9 @@
                 <p class="section-title" data-lang-en><br>Experience</p>
                 <p class="section-title" data-lang-de style="display:none;"><br>Erfahrung</p>
                 <ul>
-                     <!-- <li><span class="item-title" data-lang-en>2025 – Present: Junior-Architect</span><span class="item-title" data-lang-de style="display:none;">2025 – Present: Junior-Architekt</span><span class="item-detail">Mitglied der Architektenkammer NRW</span></li> -->
                      <li><span class="item-title" data-lang-en>2023 – Present: Student Research Assistant</span><span class="item-title" data-lang-de style="display:none;">2023 – Heute: Studentische Hilfskraft</span><span class="item-detail">Professorship of Digital Fabrication, TU Munich</span></li>
                      <li><span class="item-title" data-lang-en>2023 – 2024: Student Research Assistant</span><span class="item-title" data-lang-de style="display:none;">2023 – 2024: Studentische Hilfskraft</span><span class="item-detail">Gramazio Kohler Research, ITA, ETH Zürich</span></li>
                      <li><span class="item-title" data-lang-en>2021 – 2022: Project Assistant</span><span class="item-title" data-lang-de style="display:none;">2021 – 2022: Projektassistenz</span><span class="item-detail">Atelier Max & Jakob Giese Gehlert</span></li>
-                     <!-- <li><span class="item-title" data-lang-en>2021 – Present: Freelance Collaborator</span><span class="item-title" data-lang-de style="display:none;">2021 – Heute: Freier Mitarbeiter</span><span class="item-detail">Jan Pritzkow Architecture, Bad Honnef</span></li> -->
                      <li><span class="item-title" data-lang-en>2020 – 2021: Student Dean of Architecture</span><span class="item-title" data-lang-de style="display:none;">2020 – 2021: Studentischer Prodekan Architektur</span><span class="item-detail">Elected Representative at TH Köln</span></li>
                      <li><span class="item-title" data-lang-en>2019 – 2021: Tutor for Design & Construction</span><span class="item-title" data-lang-de style="display:none;">2019 – 2021: Tutor für Entwurf und Konstruktion</span><span class="item-detail">Prof. Carola Wiese, TH Köln</span></li>
                      <li><span class="item-title" data-lang-en>2016 – Present: Freelance Work</span><span class="item-title" data-lang-de style="display:none;">2016 – Heute: Selbstständige Tätigkeit</span><span class="item-detail">3D-Printing and Design</span></li>
@@ -114,8 +130,6 @@
                 <p class="section-title" data-lang-en><br>Publications / Presentations</p>
                 <p class="section-title" data-lang-de style="display:none;"><br>Publikationen / Vorträge</p>
                 <ul>
-                    <!-- <li><span class="item-title">'Abandoning the Ivory Tower: Novel Mechanisms of Innovation Transfer in Architectural Research'</span><span class="item-detail">With Marcel Studer, Dominik Reisach and Silke Langenberg <br>Architecture & Patents, ETH Zurich, 2025</span></li> -->
-                    <!-- <li><span class="item-title">'From Structure to Action'</span><span class="item-detail">Conference: Design Education Symposium<br>TU Munich, 2025</span></li> -->
                     <li><span class="item-title">'From Prototype to Product - From Material to Market'</span><span class="item-detail">With Marcel Studer and Dominik Reisach<br>Symposium: Startup Architecture, ETH Zürich, 2025</span></li>
                     <li><span class="item-title">'From Material to Market: How Materiality Drives Innovation Transfer in Architectural Technologies'</span><span class="item-detail">With Marcel Studer and Dominik Reisach<br>Conference: Architecture & Patents<br>ETH Zürich, 2024</span></li>
                     <li><span class="item-title">'Die Neue Kapelle auf dem Waldfriedhof'</span><span class="item-detail">Invited Talk, Bürgerhaus Rhöndorf, 2024</span></li>
@@ -126,11 +140,124 @@
         </div>
     </main>
     
-    <!-- JS for Pixelation Effect -->
-    <script>
-        document.addEventListener('DOMContentLoaded', () => { const p=document.querySelector('.info-container .project-item'); p&& (prepareInitialPixelatedImage(p), setupHoverListeners())}); function prepareInitialPixelatedImage(p){const e=p.querySelector(".project-image-container"),t=e.querySelector(".pixelation-canvas"),i=e.querySelector(".full-res-image"),o=new Image;o.src=i.dataset.src,o.onload=()=>{e.imageObject=o;const t=o.naturalHeight/o.naturalWidth;e.style.paddingTop=`${100*t}%`,i.src=o.src,drawPixelated(o,e.querySelector(".pixelation-canvas"),4)}}; function setupHoverListeners(){const p=window.matchMedia("(pointer: coarse)").matches,e=document.querySelectorAll(".project-image-container"),t=document.querySelectorAll(".project-info");if(!p)return e.forEach(p=>p.addEventListener("pointerenter",()=>triggerOnce(p),{passive:!0,once:!0})),void t.forEach(p=>p.addEventListener("pointerenter",()=>{const e=containerFor(p);e&&triggerOnce(e)},{passive:!0,once:!0}));let i=0;window.addEventListener("touchmove",p=>{const e=Date.now();if(!(e-i<120)){i=e;const o=p.touches&&p.touches[0];if(!o)return;const n=document.elementFromPoint(o.clientX,o.clientY);if(!n)return;const r=n.closest(".project-image-container"),s=r||containerFor(n);s&&triggerOnce(s)}},{passive:!0})}; function triggerOnce(p){p&&p.imageObject&&"1"!==p.dataset.animStarted&&(p.dataset.animStarted="1",startDePixelationAnimation(p))} function containerFor(p){const e=p.closest(".project-item");return e?e.querySelector(".project-image-container"):null} function startDePixelationAnimation(p){const e=p.querySelector(".pixelation-canvas"),t=p.imageObject;let i=1;!function o(){if(i>=[4,8,16,32].length)return void p.classList.add("is-loaded");const n=[4,8,16,32][i];drawPixelated(t,e,n),i++,setTimeout(o,150)}()} function drawPixelated(p,e,t){const i=e.getContext("2d"),o=p.height/p.width;e.width=e.clientWidth,e.height=e.clientHeight,i.imageSmoothingEnabled=!1,i.drawImage(p,0,0,t,t*o),i.drawImage(e,0,0,t,t*o,0,0,e.width,e.height)};
-    </script>
     <!-- Main script for language switching -->
     <script src="js/main.js" defer></script>
+
+    <!-- INLINE SCRIPT for Image Pixelation and Slider -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+    const container = document.getElementById('profile-image-container');
+    if (!container) return;
+
+    const canvas  = container.querySelector('.pixelation-canvas');
+    const current = container.querySelector('.current-image');
+    const next    = container.querySelector('.next-image');
+
+    const galleryImages = [
+        current?.getAttribute('src') || 'images/about/profile.jpg',
+        'images/about/profile_2.jpg'
+    ];
+    let hasSlid = false;
+
+    // ---------- Pixelation ----------
+    function drawPixelated(img, cvs, blocks){
+        const ctx = cvs.getContext('2d');
+        const r = img.naturalHeight / img.naturalWidth;
+        cvs.width  = cvs.clientWidth || 1;   // avoid 0
+        cvs.height = cvs.clientHeight || 1;
+        ctx.imageSmoothingEnabled = false;
+        ctx.clearRect(0,0,cvs.width,cvs.height);
+        // draw tiny, then scale up
+        const w = Math.max(1, blocks), h = Math.max(1, Math.round(blocks * r));
+        ctx.drawImage(img, 0, 0, w, h);
+        ctx.drawImage(cvs, 0, 0, w, h, 0, 0, cvs.width, cvs.height);
+    }
+
+    function startDePixelationAnimation(){
+        if (container.dataset.animStarted === '1' || !container.imageObject) return;
+        container.dataset.animStarted = '1';
+        const steps = [4,8,16,32];
+        let i = 0;
+        (function tick(){
+        if (i >= steps.length){
+            container.classList.add('is-loaded');       // fade canvas away
+            if (!hasSlid) setTimeout(showNextImageOnce, 5000);
+            return;
+        }
+        drawPixelated(container.imageObject, canvas, steps[i++]);
+        setTimeout(tick, 150);
+        })();
+    }
+
+    function prepareStaticPixelatedImage(){
+        // load current image for pixelation & aspect
+        const img = new Image();
+        img.src = current.getAttribute('src');
+        img.onload = () => {
+        container.imageObject = img;
+        const aspect = img.naturalHeight / img.naturalWidth;
+        container.style.paddingTop = `${100 * aspect}%`;   // keep ratio
+        drawPixelated(img, canvas, 4);                     // coarse first look
+        };
+        img.onerror = () => container.classList.add('is-loaded');
+    }
+
+    function setupHoverListeners(){
+        const isTouch = window.matchMedia('(pointer: coarse)').matches;
+        const trigger = () => startDePixelationAnimation();
+        if (isTouch){
+        container.addEventListener('touchstart', trigger, { passive:true, once:true });
+        } else {
+        container.addEventListener('pointerenter', trigger, { passive:true, once:true });
+        }
+    }
+
+    // ---------- Two-image slide ----------
+    function showNextImageOnce(){
+        const nextImagePath = galleryImages[1];
+        if (!nextImagePath || hasSlid) return;
+        hasSlid = true;
+
+        const buf = new Image();
+        buf.src = nextImagePath;
+        buf.onload = () => {
+        // prep off-screen next
+        next.style.transform = 'translateX(100%)';
+        next.src = nextImagePath;
+
+        // commit layout so transforms are recognized
+        void next.offsetWidth;
+
+        // animate both at once via CSS
+        container.classList.add('is-sliding');
+
+        const onDone = () => {
+            container.classList.remove('is-sliding');
+            // make the new image the visible one
+            current.src = next.src;
+            next.style.transform = 'translateX(100%)';
+
+            // update aspect AFTER slide to avoid jump
+            const aspect = buf.naturalHeight / buf.naturalWidth;
+            container.style.paddingTop = `${100 * aspect}%`;
+
+            container.removeEventListener('transitionend', onDone);
+        };
+        container.addEventListener('transitionend', onDone, { once:true });
+        };
+    }
+
+    // ---------- Init ----------
+    prepareStaticPixelatedImage();
+    setupHoverListeners();
+
+    // Safety: if canvas ends up size 0 (hidden layout), don't leave it opaque
+    requestAnimationFrame(() => {
+        if ((canvas.clientWidth|0) === 0 || (canvas.clientHeight|0) === 0){
+        container.classList.add('is-loaded');
+        }
+    });
+    });
+    </script>
 </body>
 </html>
