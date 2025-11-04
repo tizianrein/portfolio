@@ -1,219 +1,242 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tizian Rein - Information</title>
-    <link rel="stylesheet" href="css/style.css">
-    <!-- Inline styles for page-specific layout and animations -->
-    <style>
-        main { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)); padding-bottom: 80px; }
-        .info-container { align-items: start; }
-        .info-container > .project-item, .info-container > .info-section { grid-row: 1; }
-        .info-section { font-family: Arial, sans-serif; font-size: 15px; line-height: 1.4; padding-top: 0; }
-        .info-section > .section-title:first-child { margin-top: 0; }
-        .info-container .project-item { grid-column: 1 / 3; grid-template-columns: 1fr; }
-        .info-container .project-item .project-image-container { grid-column: 1 / -1; }
-        .info-container .project-info { font-size: 15px; font-family: Arial, sans-serif; padding: 0.5rem 0 0 0; }
-        .info-container .project-info p { font-size: 1em; line-height: 1.4; }
-        .info-education { grid-column: 4 / 7; }
-        .info-experience { grid-column: 4 / 7; }
-        .info-section .section-title { font-size: 1em; font-weight: 500; margin-bottom: 1em; display: block; }
-        .info-section p { margin: 0 0 1em 0; max-width: 100%; }
-        .info-section ul { list-style: none; padding: 0; margin: 0; }
-        .info-section li { margin-bottom: 1rem; }
-        .item-title { display: block; font-weight: 500; }
-        .item-detail { display: block; color: var(--text-color-active); }
-        @media (max-width: 1024px) {
-            main { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)); }
-            .info-container { gap: 40px 0; }
-            .info-container > .info-section { grid-row: auto; }
-            .info-container .project-item, .info-section { grid-column: 1 / -1; }
-            .info-container .project-item { display: block; }
-            .info-section { font-size: 15px; }
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tizian Rein - Information</title>
+  <link rel="stylesheet" href="css/style.css"/>
 
-        /* --- CSS FOR IMAGE SLIDER AND PIXELATION CONTROL --- */
-        .project-image-container { position: relative; overflow: hidden; }
-        .project-image-container .image {
-            position: absolute; inset: 0;
-            width: 100%; height: 100%; object-fit: cover;
-            transform: translateX(0);
-            transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: transform;
-        }
+  <!-- Inline styles for page-specific layout and animations -->
+  <style>
+    main { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)); padding-bottom: 80px; }
+    .info-container { align-items: start; }
+    .info-container > .project-item, .info-container > .info-section { grid-row: 1; }
+    .info-section { font-family: Arial, sans-serif; font-size: 15px; line-height: 1.4; padding-top: 0; }
+    .info-section > .section-title:first-child { margin-top: 0; }
+    .info-container .project-item { grid-column: 1 / 3; grid-template-columns: 1fr; }
+    .info-container .project-item .project-image-container { grid-column: 1 / -1; }
+    .info-container .project-info { font-size: 15px; font-family: Arial, sans-serif; padding: 0.5rem 0 0 0; }
+    .info-container .project-info p { font-size: 1em; line-height: 1.4; }
+    .info-education { grid-column: 4 / 7; }
+    .info-experience { grid-column: 4 / 7; }
+    .info-section .section-title { font-size: 1em; font-weight: 500; margin-bottom: 1em; display: block; }
+    .info-section p { margin: 0 0 1em 0; max-width: 100%; }
+    .info-section ul { list-style: none; padding: 0; margin: 0; }
+    .info-section li { margin-bottom: 1rem; }
+    .item-title { display: block; font-weight: 500; }
+    .item-detail { display: block; color: var(--text-color-active); }
 
-        /* Next starts off-screen to the right */
-        .project-image-container .next-image { transform: translateX(100%); }
+    @media (max-width: 1024px) {
+      main { padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)); }
+      .info-container { gap: 40px 0; }
+      .info-container > .info-section { grid-row: auto; }
+      .info-container .project-item, .info-section { grid-column: 1 / -1; }
+      .info-container .project-item { display: block; }
+      .info-section { font-size: 15px; }
+    }
 
-        /* When we trigger the slide, move both at once */
-        .project-image-container.is-sliding .current-image { transform: translateX(-100%); }
-        .project-image-container.is-sliding .next-image    { transform: translateX(0); }
+    /* --- IMAGE SLIDER + PIXELATION --- */
+    .project-image-container {
+      position: relative;
+      overflow: hidden;
+      /* aspect ratio is maintained by inline JS via padding-top */
+      contain: paint;  /* avoids layout thrash */
+    }
 
-        .project-image-container .pixelation-canvas{
-        position:absolute; inset:0;
-        z-index: 2;            /* above images */
-        width:100%; height:100%;
-        pointer-events:none;
-        background:transparent;
-        opacity:1;
-        }
-        .project-image-container.is-loaded .pixelation-canvas{ opacity:0; }
-    </style>
+    /* Two-image system */
+    .project-image-container .image {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      transform: translateX(0);
+      transition: transform 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+      will-change: transform;
+      backface-visibility: hidden;
+    }
+
+    /* IMPORTANT: ensure the "next" image really starts off-screen to the RIGHT.
+       Keep this AFTER the .image rule so it wins. Add !important to bullet-proof. */
+    .project-image-container .next-image {
+      transform: translateX(100%);
+    }
+
+    /* When sliding, move both at once */
+    .project-image-container.is-sliding .current-image { transform: translateX(-100%); }
+    .project-image-container.is-sliding .next-image    { transform: translateX(0); }
+
+    .no-transition, .no-transition * { transition: none !important; }
+
+    /* Pixelation canvas sits above images, fades out when loaded */
+    .project-image-container .pixelation-canvas {
+      position: absolute; inset: 0;
+      z-index: 2;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      background: transparent;
+      opacity: 1;
+    }
+    .project-image-container.is-loaded .pixelation-canvas { opacity: 0; }
+  </style>
 </head>
+
 <body>
-    <!-- (Your body content, headers, navigation, etc. remains the same) -->
-    <!-- Standalone Desktop Language Switcher (Fixed Position) -->
-    <div class="lang-switcher-desktop">
-        <a href="#" class="lang-btn" data-lang="de">de</a>
-        <a href="#" class="lang-btn" data-lang="en">en</a>
+  <!-- Standalone Desktop Language Switcher (Fixed Position) -->
+  <div class="lang-switcher-desktop">
+    <a href="#" class="lang-btn" data-lang="de">de</a>
+    <a href="#" class="lang-btn" data-lang="en">en</a>
+  </div>
+
+  <!-- Mobile Corner Navigation -->
+  <div class="corner-nav" aria-label="Mobile corner navigation">
+    <a class="corner top-left" href="index.html">tizian rein</a>
+    <a class="corner top-right" href="info.html" data-lang-en>info</a>
+    <a class="corner top-right" href="info.html" data-lang-de style="display:none;">info</a>
+    <div class="corner bottom-left lang-switcher">
+      <a href="#" class="lang-btn" data-lang="de">de</a>
+      <a href="#" class="lang-btn" data-lang="en">en</a>
     </div>
-    <!-- Mobile Corner Navigation -->
-    <div class="corner-nav" aria-label="Mobile corner navigation">
-        <a class="corner top-left" href="index.html">tizian rein</a>
-        <a class="corner top-right" href="info.html" data-lang-en>info</a>
-        <a class="corner top-right" href="info.html" data-lang-de style="display:none;">info</a>
-        <div class="corner bottom-left lang-switcher">
-            <a href="#" class="lang-btn" data-lang="de">de</a>
-            <a href="#" class="lang-btn" data-lang="en">en</a>
-        </div>
-        <a class="corner bottom-right" href="contact.html" data-lang-en>contact</a>
-        <a class="corner bottom-right" href="contact.html" data-lang-de style="display:none;">kontakt</a>
+    <a class="corner bottom-right" href="contact.html" data-lang-en>contact</a>
+    <a class="corner bottom-right" href="contact.html" data-lang-de style="display:none;">kontakt</a>
+  </div>
+
+  <!-- Desktop Header -->
+  <header>
+    <div class="grid-container">
+      <h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1>
+      <a href="index.html" id="nav-work" data-lang-en style="grid-column: 3 / 4;">projects</a>
+      <a href="index.html" id="nav-work-de" data-lang-de style="display:none; grid-column: 3 / 4;">projekte</a>
+      <a href="info.html" id="nav-info" class="active" data-lang-en>information</a>
+      <a href="info.html" id="nav-info-de" class="active" data-lang-de style="display:none;">information</a>
+      <a href="contact.html" id="nav-contact" data-lang-en>contact</a>
+      <a href="contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
     </div>
-    <!-- Desktop Header -->
-    <header>
-        <div class="grid-container">
-            <h1 class="site-title"><a class="site-title-link" href="index.html">tizian rein</a></h1>
-            <a href="index.html" id="nav-work" data-lang-en style="grid-column: 3 / 4;">projects</a>
-            <a href="index.html" id="nav-work-de" data-lang-de style="display:none; grid-column: 3 / 4;">projekte</a>
-            <a href="info.html" id="nav-info" class="active" data-lang-en>information</a>
-            <a href="info.html" id="nav-info-de" class="active" data-lang-de style="display:none;">information</a>
-            <a href="contact.html" id="nav-contact" data-lang-en>contact</a>
-            <a href="contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
+  </header>
+
+  <main>
+    <div class="grid-container info-container">
+      <div class="project-item">
+        <div class="project-image-container" id="profile-image-container">
+          <canvas class="pixelation-canvas"></canvas>
+          <img src="images/about/profile.jpg" class="image current-image" alt="A photo of Tizian Rein">
+          <img src="" class="image next-image" alt="" aria-hidden="true">
         </div>
-    </header>
-    <main>
-        <div class="grid-container info-container">
-            <div class="project-item">
-                <div class="project-image-container" id="profile-image-container">
-                <canvas class="pixelation-canvas"></canvas>
-                <img src="images/about/profile.jpg" class="image current-image" alt="A photo of Tizian Rein">
-                <img src="" class="image next-image" alt="" aria-hidden="true">
-                </div>
-            </div>
-            <section class="info-section info-education">
-                <!-- (Your bio, education, experience, etc. remains the same) -->
-                <!-- English Bio -->
-                <p data-lang-en>Tizian Rein (*1997 in Rhöndorf) studied architecture at the Technical University of Munich, ETH Zurich, and the University of Applied Sciences Cologne. After completing his bachelor’s degree and working as project assistant at Atelier Max & Jakob Giese, he turned toward more technical and research-oriented fields that connect computational design with building heritage and preservation. He pursued these interests as a research assistant at the Professorship of Digital Fabrication in Munich and at Gramazio Kohler Research at ETH Zurich. His 2025 master’s thesis <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> explores how digital design processes can engage with notions of repair and continuity. Through his work, he investigates how computational methods and AI can be deeply embedded in the craft, preservation and transformation of buildings. Parallel to his resarch, he works independently as a junior-architect on the transformation and extension of existing buildings, combining architectural design and interventions with a continued interest in repair and preservation.</p>
-                <!-- German Bio -->
-                <p data-lang-de style="display:none;">Tizian Rein (*1997 in Rhöndorf) studierte Architektur an der Technischen Universität München, der ETH Zürich und der Technischen Hochschule Köln. Nach seinem Bachelorabschluss und seiner Tätigkeit im Atelier Max & Jakob Giese wandte er sich im Master-Studium technisch-forschenden Feldern zu, die computergestützte Prozesse mit Denkmalpflege verbinden. Diese Interessen verfolgte er zudem als wissenschaftliche Hilfskraft an der Professur für Digitale Fabrikation in München und bei Gramazio Kohler Research an der ETH Zürich. Seine Masterarbeit <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> (2025) untersucht, wie digitale Entwurfsprozesse Konzepte der Reparatur und Kontinuität aufgreifen können. In seiner Arbeit erforscht er, wie computergestützte Methoden und KI tief in das Handwerk, die Erhaltung und die Transformation von Gebäuden eingebettet werden können. Parallel zu seiner Forschung arbeitet er selbstständig als Junior-Architekt an der Transformation und Erweiterung bestehender Gebäude und verbindet dabei architektonisches Entwerfen und Interventionen mit einem anhaltenden Interesse an Reparatur und Erhaltung.</p>
-                
-                <p class="section-title" data-lang-en><br><br>Education</p>
-                <p class="section-title" data-lang-de style="display:none;"><br><br>Ausbildung</p>
-                <ul>
-                    <li><span class="item-title">2022 – 2025: M.A. Architecture</span><span class="item-detail">Technical University of Munich (TUM)<br>Graduated with high distinction</span></li>
-                    <li><span class="item-title">2023 – 2024: Visiting Student</span><span class="item-detail">ETH Zurich (Scholarship Recipient)</span></li>
-                    <li><span class="item-title">2018 – 2021: B.A. Architecture</span><span class="item-detail">TH Köln</span></li>
-                </ul>
+      </div>
 
-                <p class="section-title" data-lang-en><br>Experience</p>
-                <p class="section-title" data-lang-de style="display:none;"><br>Erfahrung</p>
-                <ul>
-                     <li><span class="item-title" data-lang-en>2023 – Present: Student Research Assistant</span><span class="item-title" data-lang-de style="display:none;">2023 – Heute: Studentische Hilfskraft</span><span class="item-detail">Professorship of Digital Fabrication, TU Munich</span></li>
-                     <li><span class="item-title" data-lang-en>2023 – 2024: Student Research Assistant</span><span class="item-title" data-lang-de style="display:none;">2023 – 2024: Studentische Hilfskraft</span><span class="item-detail">Gramazio Kohler Research, ITA, ETH Zürich</span></li>
-                     <li><span class="item-title" data-lang-en>2021 – 2022: Project Assistant</span><span class="item-title" data-lang-de style="display:none;">2021 – 2022: Projektassistenz</span><span class="item-detail">Atelier Max & Jakob Giese Gehlert</span></li>
-                     <li><span class="item-title" data-lang-en>2020 – 2021: Student Dean of Architecture</span><span class="item-title" data-lang-de style="display:none;">2020 – 2021: Studentischer Prodekan Architektur</span><span class="item-detail">Elected Representative at TH Köln</span></li>
-                     <li><span class="item-title" data-lang-en>2019 – 2021: Tutor for Design & Construction</span><span class="item-title" data-lang-de style="display:none;">2019 – 2021: Tutor für Entwurf und Konstruktion</span><span class="item-detail">Prof. Carola Wiese, TH Köln</span></li>
-                     <li><span class="item-title" data-lang-en>2016 – Present: Freelance Work</span><span class="item-title" data-lang-de style="display:none;">2016 – Heute: Selbstständige Tätigkeit</span><span class="item-detail">3D-Printing and Design</span></li>
-                </ul>
+      <section class="info-section info-education">
+        <!-- English Bio -->
+        <p data-lang-en>
+          Tizian Rein (*1997 in Rhöndorf) studied architecture at the Technical University of Munich, ETH Zurich, and the University of Applied Sciences Cologne. After completing his bachelor’s degree and working as project assistant at Atelier Max & Jakob Giese, he turned toward more technical and research-oriented fields that connect computational design with building heritage and preservation. He pursued these interests as a research assistant at the Professorship of Digital Fabrication in Munich and at Gramazio Kohler Research at ETH Zurich. His 2025 master’s thesis <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> explores how digital design processes can engage with notions of repair and continuity. Through his work, he investigates how computational methods and AI can be deeply embedded in the craft, preservation and transformation of buildings. Parallel to his resarch, he works independently as a junior-architect on the transformation and extension of existing buildings, combining architectural design and interventions with a continued interest in repair and preservation.
+        </p>
+        <!-- German Bio -->
+        <p data-lang-de style="display:none;">
+          Tizian Rein (*1997 in Rhöndorf) studierte Architektur an der Technischen Universität München, der ETH Zürich und der Technischen Hochschule Köln. Nach seinem Bachelorabschluss und seiner Tätigkeit im Atelier Max & Jakob Giese wandte er sich im Master-Studium technisch-forschenden Feldern zu, die computergestützte Prozesse mit Denkmalpflege verbinden. Diese Interessen verfolgte er zudem als wissenschaftliche Hilfskraft an der Professur für Digitale Fabrikation in München und bei Gramazio Kohler Research an der ETH Zürich. Seine Masterarbeit <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> (2025) untersucht, wie digitale Entwurfsprozesse Konzepte der Reparatur und Kontinuität aufgreifen können. In seiner Arbeit erforscht er, wie computergestützte Methoden und KI tief in das Handwerk, die Erhaltung und die Transformation von Gebäuden eingebettet werden können. Parallel zu seiner Forschung arbeitet er selbstständig als Junior-Architekt an der Transformation und Erweiterung bestehender Gebäude und verbindet dabei architektonisches Entwerfen und Interventionen mit einem anhaltenden Interesse an Reparatur und Erhaltung.
+        </p>
 
-                <p class="section-title" data-lang-en><br>Publications / Presentations</p>
-                <p class="section-title" data-lang-de style="display:none;"><br>Publikationen / Vorträge</p>
-                <ul>
-                    <li><span class="item-title">'From Prototype to Product - From Material to Market'</span><span class="item-detail">With Marcel Studer and Dominik Reisach<br>Symposium: Startup Architecture, ETH Zürich, 2025</span></li>
-                    <li><span class="item-title">'From Material to Market: How Materiality Drives Innovation Transfer in Architectural Technologies'</span><span class="item-detail">With Marcel Studer and Dominik Reisach<br>Conference: Architecture & Patents<br>ETH Zürich, 2024</span></li>
-                    <li><span class="item-title">'Die Neue Kapelle auf dem Waldfriedhof'</span><span class="item-detail">Invited Talk, Bürgerhaus Rhöndorf, 2024</span></li>
-                    <li><span class="item-title">'Den Erhalt der Kapelle unterstützen'</span><span class="item-detail">Guest Article Honnef Heute, 2024</span></li>
-                    <li><span class="item-title">'Die Waldfriedhofskapelle in Rhöndorf'</span><span class="item-detail">ISBN: 978-3-00-071896-0, 2022</span></li>
-                </ul>
-            </section>
-        </div>
-    </main>
-    
-    <!-- Main script for language switching -->
-    <script src="js/main.js" defer></script>
+        <p class="section-title" data-lang-en><br><br>Education</p>
+        <p class="section-title" data-lang-de style="display:none;"><br><br>Ausbildung</p>
+        <ul>
+          <li><span class="item-title">2022 – 2025: M.A. Architecture</span><span class="item-detail">Technical University of Munich (TUM)<br>Graduated with high distinction</span></li>
+          <li><span class="item-title">2023 – 2024: Visiting Student</span><span class="item-detail">ETH Zurich (Scholarship Recipient)</span></li>
+          <li><span class="item-title">2018 – 2021: B.A. Architecture</span><span class="item-detail">TH Köln</span></li>
+        </ul>
 
-    <!-- INLINE SCRIPT for Image Pixelation and Slider -->
-    <script>
+        <p class="section-title" data-lang-en><br>Experience</p>
+        <p class="section-title" data-lang-de style="display:none;"><br>Erfahrung</p>
+        <ul>
+          <li><span class="item-title" data-lang-en>2023 – Present: Student Research Assistant</span><span class="item-title" data-lang-de style="display:none;">2023 – Heute: Studentische Hilfskraft</span><span class="item-detail">Professorship of Digital Fabrication, TU Munich</span></li>
+          <li><span class="item-title" data-lang-en>2023 – 2024: Student Research Assistant</span><span class="item-title" data-lang-de style="display:none;">2023 – 2024: Studentische Hilfskraft</span><span class="item-detail">Gramazio Kohler Research, ITA, ETH Zürich</span></li>
+          <li><span class="item-title" data-lang-en>2021 – 2022: Project Assistant</span><span class="item-title" data-lang-de style="display:none;">2021 – 2022: Projektassistenz</span><span class="item-detail">Atelier Max & Jakob Giese Gehlert</span></li>
+          <li><span class="item-title" data-lang-en>2020 – 2021: Student Dean of Architecture</span><span class="item-title" data-lang-de style="display:none;">2020 – 2021: Studentischer Prodekan Architektur</span><span class="item-detail">Elected Representative at TH Köln</span></li>
+          <li><span class="item-title" data-lang-en>2019 – 2021: Tutor for Design & Construction</span><span class="item-title" data-lang-de style="display:none;">2019 – 2021: Tutor für Entwurf und Konstruktion</span><span class="item-detail">Prof. Carola Wiese, TH Köln</span></li>
+          <li><span class="item-title" data-lang-en>2016 – Present: Freelance Work</span><span class="item-title" data-lang-de style="display:none;">2016 – Heute: Selbstständige Tätigkeit</span><span class="item-detail">3D-Printing and Design</span></li>
+        </ul>
+
+        <p class="section-title" data-lang-en><br>Publications / Presentations</p>
+        <p class="section-title" data-lang-de style="display:none;"><br>Publikationen / Vorträge</p>
+        <ul>
+          <li><span class="item-title">'From Prototype to Product - From Material to Market'</span><span class="item-detail">With Marcel Studer and Dominik Reisach<br>Symposium: Startup Architecture, ETH Zürich, 2025</span></li>
+          <li><span class="item-title">'From Material to Market: How Materiality Drives Innovation Transfer in Architectural Technologies'</span><span class="item-detail">With Marcel Studer and Dominik Reisach<br>Conference: Architecture & Patents<br>ETH Zürich, 2024</span></li>
+          <li><span class="item-title">'Die Neue Kapelle auf dem Waldfriedhof'</span><span class="item-detail">Invited Talk, Bürgerhaus Rhöndorf, 2024</span></li>
+          <li><span class="item-title">'Den Erhalt der Kapelle unterstützen'</span><span class="item-detail">Guest Article Honnef Heute, 2024</span></li>
+          <li><span class="item-title">'Die Waldfriedhofskapelle in Rhöndorf'</span><span class="item-detail">ISBN: 978-3-00-071896-0, 2022</span></li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <!-- Main script for language switching -->
+  <script src="js/main.js" defer></script>
+
+  <!-- INLINE SCRIPT for Image Pixelation and Slider -->
+  <script>
     document.addEventListener('DOMContentLoaded', () => {
-    const container = document.getElementById('profile-image-container');
-    if (!container) return;
+      const container = document.getElementById('profile-image-container');
+      if (!container) return;
 
-    const canvas  = container.querySelector('.pixelation-canvas');
-    const current = container.querySelector('.current-image');
-    const next    = container.querySelector('.next-image');
+      const canvas  = container.querySelector('.pixelation-canvas');
+      const current = container.querySelector('.current-image');
+      const next    = container.querySelector('.next-image');
 
-    const galleryImages = [
+      const galleryImages = [
         current?.getAttribute('src') || 'images/about/profile.jpg',
         'images/about/profile_2.jpg'
-    ];
-    let hasSlid = false;
+      ];
+      let hasSlid = false;
 
-    // ---------- Pixelation ----------
-    function drawPixelated(img, cvs, blocks){
+      /* ---------- Pixelation ---------- */
+      function drawPixelated(img, cvs, blocks){
         const ctx = cvs.getContext('2d');
         const r = img.naturalHeight / img.naturalWidth;
-        cvs.width  = cvs.clientWidth || 1;   // avoid 0
+        cvs.width  = cvs.clientWidth || 1;
         cvs.height = cvs.clientHeight || 1;
         ctx.imageSmoothingEnabled = false;
         ctx.clearRect(0,0,cvs.width,cvs.height);
-        // draw tiny, then scale up
         const w = Math.max(1, blocks), h = Math.max(1, Math.round(blocks * r));
         ctx.drawImage(img, 0, 0, w, h);
         ctx.drawImage(cvs, 0, 0, w, h, 0, 0, cvs.width, cvs.height);
-    }
+      }
 
-    function startDePixelationAnimation(){
+      function startDePixelationAnimation(){
         if (container.dataset.animStarted === '1' || !container.imageObject) return;
         container.dataset.animStarted = '1';
         const steps = [4,8,16,32];
         let i = 0;
         (function tick(){
-        if (i >= steps.length){
-            container.classList.add('is-loaded');       // fade canvas away
+          if (i >= steps.length){
+            container.classList.add('is-loaded');  // fade canvas away
             if (!hasSlid) setTimeout(showNextImageOnce, 5000);
             return;
-        }
-        drawPixelated(container.imageObject, canvas, steps[i++]);
-        setTimeout(tick, 150);
+          }
+          drawPixelated(container.imageObject, canvas, steps[i++]);
+          setTimeout(tick, 150);
         })();
-    }
+      }
 
-    function prepareStaticPixelatedImage(){
-        // load current image for pixelation & aspect
+      function prepareStaticPixelatedImage(){
         const img = new Image();
         img.src = current.getAttribute('src');
         img.onload = () => {
-        container.imageObject = img;
-        const aspect = img.naturalHeight / img.naturalWidth;
-        container.style.paddingTop = `${100 * aspect}%`;   // keep ratio
-        drawPixelated(img, canvas, 4);                     // coarse first look
+          container.imageObject = img;
+          const aspect = img.naturalHeight / img.naturalWidth;
+          container.style.paddingTop = `${100 * aspect}%`;  // maintain ratio
+          drawPixelated(img, canvas, 4);
         };
         img.onerror = () => container.classList.add('is-loaded');
-    }
+      }
 
-    function setupHoverListeners(){
+      function setupHoverListeners(){
         const isTouch = window.matchMedia('(pointer: coarse)').matches;
         const trigger = () => startDePixelationAnimation();
         if (isTouch){
-        container.addEventListener('touchstart', trigger, { passive:true, once:true });
+          container.addEventListener('touchstart', trigger, { passive:true, once:true });
         } else {
-        container.addEventListener('pointerenter', trigger, { passive:true, once:true });
+          container.addEventListener('pointerenter', trigger, { passive:true, once:true });
         }
-    }
+      }
 
-    // ---------- Two-image slide ----------
-    function showNextImageOnce(){
+      /* ---------- Two-image slide (right -> center) ---------- */
+        function showNextImageOnce() {
         const nextImagePath = galleryImages[1];
         if (!nextImagePath || hasSlid) return;
         hasSlid = true;
@@ -221,43 +244,41 @@
         const buf = new Image();
         buf.src = nextImagePath;
         buf.onload = () => {
-        // prep off-screen next
-        next.style.transform = 'translateX(100%)';
-        next.src = nextImagePath;
+            // 1) Put the next image at +100% (right) and set its src
+            next.src = nextImagePath;
+            void next.offsetWidth; // Ensure the browser renders it off-screen first
 
-        // commit layout so transforms are recognized
-        void next.offsetWidth;
+            // 2) Trigger both animations on the next frame
+            requestAnimationFrame(() => {
+            container.classList.add('is-sliding');
+            });
 
-        // animate both at once via CSS
-        container.classList.add('is-sliding');
-
-        const onDone = () => {
+            // 3) After transition, use the new onDone function to reset the state instantly
+            const onDone = () => {
+            container.classList.add('no-transition');
             container.classList.remove('is-sliding');
-            // make the new image the visible one
             current.src = next.src;
-            next.style.transform = 'translateX(100%)';
-
-            // update aspect AFTER slide to avoid jump
             const aspect = buf.naturalHeight / buf.naturalWidth;
             container.style.paddingTop = `${100 * aspect}%`;
-
+            void container.offsetWidth;
+            container.classList.remove('no-transition');
             container.removeEventListener('transitionend', onDone);
+            };
+            container.addEventListener('transitionend', onDone, { once: true });
         };
-        container.addEventListener('transitionend', onDone, { once:true });
-        };
-    }
-
-    // ---------- Init ----------
-    prepareStaticPixelatedImage();
-    setupHoverListeners();
-
-    // Safety: if canvas ends up size 0 (hidden layout), don't leave it opaque
-    requestAnimationFrame(() => {
-        if ((canvas.clientWidth|0) === 0 || (canvas.clientHeight|0) === 0){
-        container.classList.add('is-loaded');
         }
+
+      /* ---------- Init ---------- */
+      prepareStaticPixelatedImage();
+      setupHoverListeners();
+
+      // Safety: if canvas is 0x0 (hidden), don’t block images
+      requestAnimationFrame(() => {
+        if ((canvas.clientWidth|0) === 0 || (canvas.clientHeight|0) === 0) {
+          container.classList.add('is-loaded');
+        }
+      });
     });
-    });
-    </script>
+  </script>
 </body>
 </html>
