@@ -57,7 +57,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!imageElement) return 'outside';
 
                     const imgRect = imageElement.getBoundingClientRect();
-                    // Überprüfen, ob der Klick/Touch innerhalb des Bildbereichs liegt
                     if (event.clientX < imgRect.left || event.clientX > imgRect.right || event.clientY < imgRect.top || event.clientY > imgRect.bottom) {
                         return 'outside';
                     }
@@ -67,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 element.addEventListener('mousemove', (e) => {
-                    if (window.innerWidth <= 1024) return; // Nur auf Desktop
+                    if (window.innerWidth <= 1024) return;
                     const position = getPositionRelativeToImage(e);
                     element.classList.toggle('cursor-left', position === 'left');
                     element.classList.toggle('cursor-right', position === 'right');
@@ -78,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 element.addEventListener('click', (e) => {
-                    if (window.innerWidth <= 1024) return; // Nur auf Desktop
+                    if (window.innerWidth <= 1024) return;
                     if (e.target.closest('.lightbox-close') || e.target.closest('.fullscreen-arrow') || e.target.closest('.thumbnail-item')) return;
 
                     const position = getPositionRelativeToImage(e);
@@ -93,7 +92,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setupDesktopNavigation(gallery);
             setupDesktopNavigation(lightbox);
 
-            // Klick auf 45-Grad-Pfeil öffnet Lightbox
             if (fullscreenArrow) {
                 fullscreenArrow.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -101,34 +99,51 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             
-            // --- MOBILE STEUERUNG (SWIPE & TAP) ---
+            // --- KORRIGIERTE MOBILE STEUERUNG (SWIPE, TAP, SCROLL) ---
 
             let touchStartX = 0, touchEndX = 0;
-            const swipeThreshold = 50;
+            let touchStartY = 0, touchEndY = 0; // Neu: Y-Koordinaten verfolgen
+            const swipeThreshold = 50; // Mindestdistanz für einen horizontalen Swipe
+            const tapThreshold = 10;   // Maximale Bewegungsdistanz für einen Tap
 
             const handleSwipe = () => {
                 if (touchEndX < touchStartX - swipeThreshold) next();
                 if (touchEndX > touchStartX + swipeThreshold) prev();
             };
             
-            const onTouchStart = (e) => { touchStartX = e.changedTouches[0].screenX; };
+            const onTouchStart = (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY; // Start-Y-Position speichern
+            };
+            
             const onTouchEnd = (e) => { 
                 touchEndX = e.changedTouches[0].screenX; 
-                // Überprüfen, ob es ein Swipe oder ein Tap war
-                if (Math.abs(touchStartX - touchEndX) > swipeThreshold) {
-                    handleSwipe(); // Es war ein Swipe
-                } else {
-                    // Es war ein Tap - öffne die Lightbox, WENN wir uns nicht auf dem Vollbild-Pfeil befinden
+                touchEndY = e.changedTouches[0].screenY; // End-Y-Position speichern
+
+                const deltaX = Math.abs(touchStartX - touchEndX);
+                const deltaY = Math.abs(touchStartY - touchEndY);
+
+                // 1. Prüfen, ob es ein TAP war (minimale Bewegung in beide Richtungen)
+                if (deltaX < tapThreshold && deltaY < tapThreshold) {
+                    // Es ist ein Tap. Lightbox öffnen.
                     if (!e.target.closest('.fullscreen-arrow') && !e.target.closest('.lightbox-close')) {
                         openLightbox();
                     }
+                    return; // Aktion beendet
                 }
+
+                // 2. Prüfen, ob es ein horizontaler SWIPE war (mehr horizontale als vertikale Bewegung)
+                if (deltaX > swipeThreshold && deltaX > deltaY) {
+                    handleSwipe();
+                    return; // Aktion beendet
+                }
+
+                // 3. Wenn keiner der obigen Fälle zutrifft, war es wahrscheinlich ein vertikaler Scroll.
+                // In diesem Fall tun wir nichts.
             };
             
-            // Swipe-Events zur Hauptgalerie hinzufügen
             gallery.addEventListener('touchstart', onTouchStart, { passive: true });
             gallery.addEventListener('touchend', onTouchEnd);
-            // Swipe-Events zur Lightbox hinzufügen
             lightbox.addEventListener('touchstart', onTouchStart, { passive: true });
             lightbox.addEventListener('touchend', onTouchEnd);
 
@@ -138,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
             closeButton.addEventListener('click', closeLightbox);
 
             lightbox.addEventListener('click', (e) => {
-                if (e.target === lightbox) closeLightbox(); // Schließt Lightbox, wenn Hintergrund geklickt wird
+                if (e.target === lightbox) closeLightbox();
             });
 
             document.addEventListener('keydown', (e) => {
@@ -150,13 +165,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
             thumbnails.forEach(thumb => {
                 thumb.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Verhindert, dass der Klick die Galerie-Navigation auslöst
+                    e.stopPropagation();
                     const index = parseInt(thumb.dataset.index, 10);
                     moveToSlide(index);
                 });
             });
 
-            // Initiales Highlight für das erste Bild setzen
             updateThumbnailHighlighting(0);
         }
     };
