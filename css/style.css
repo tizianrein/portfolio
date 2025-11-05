@@ -24,7 +24,7 @@ body {
     font-family: var(--font-main);
     background-color: var(--background-color);
     color: var(--text-color);
-    margin: 0 auto;
+    margin: 0;
     padding: 0;
 }
 
@@ -190,6 +190,15 @@ header a.active { color: var(--text-color); }
     top: 40px;
 }
 
+.project-text p a {
+    color: var(--text-color); /* Stellt die Farbe auf Schwarz (aus Ihren Variablen) */
+    text-decoration: underline; /* Stellt sicher, dass der Link unterstrichen ist */
+}
+
+.project-text p a:hover {
+    color: var(--text-color-active);
+}
+
 .project-text p {
     font-family: Arial, sans-serif;
     font-size: 15px;
@@ -235,10 +244,10 @@ header a.active { color: var(--text-color); }
 
 /* Positionierung der Galerie-Pfeile */
 .prev-btn { 
-    left: 120px;
+    left: 10px;
 }
 .next-btn { 
-    right: 120px;
+    right: 10px;
 }
 
 
