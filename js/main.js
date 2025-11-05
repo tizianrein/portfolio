@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       projectsToDisplay.forEach((project, index) => {
         const projectElement = document.createElement('a');
-        projectElement.href = `projects/project-${project.id}.html`;
+        projectElement.href = `projects/project.html?id=${project.id}`;
         projectElement.className = 'project-item';
         const layoutType = Math.floor(index / 2) % 2 === 0 ? 'a' : 'b';
         projectElement.classList.add(`layout-${layoutType}`);

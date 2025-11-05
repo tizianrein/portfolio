@@ -1,0 +1,31 @@
+[
+  { 
+    "id": "023", 
+    "title": "From Structure to Action", 
+    "year": 2025, 
+    "category": "research", 
+    "thumbnail": "images/thumbnails/053-thumb.jpg",
+    "description": "This is the full description for 'From Structure to Action'. Talk about the concept, the materials used, and the process. Keep it concise and impactful. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "images": [
+      "images/projects/053.1.jpg",
+      "images/projects/053.2.jpg",
+      "images/projects/053.3.jpg",
+      "images/projects/053.4.jpg",
+      "images/projects/053.5.jpg",
+      "images/projects/053.6.jpg",
+      "images/projects/053.7.jpg"
+    ]
+  },
+  { 
+    "id": "022", 
+    "title": "ZAKK Garden Chair", 
+    "year": 2023, 
+    "category": "objects",  
+    "thumbnail": "images/thumbnails/052-thumb.jpg",
+    "description": "052<br>ZAKK Garden Chair<br><br>This is where you describe your project. Talk about the concept, the materials used, and the process.",
+    "images": [
+      "images/projects/052.1.jpg",
+      "images/projects/052.2.jpg"
+    ]
+  }
+]
