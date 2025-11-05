@@ -7,33 +7,64 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
     <title>Tizian Rein - Project</title>
     <link rel="stylesheet" href="../css/style.css">
-
-    <!-- Project-specific styles (can be moved to style.css if preferred) -->
     <style>
+        /* --- PROJECT SPECIFIC LAYOUT --- */
         main {
             padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3));
             padding-bottom: 80px;
         }
-        .project-main-layout { align-items: start; gap: 20px; }
-        .project-text { grid-column: 1 / 3; position: sticky; top: 40px; }
-        .project-text p { font-family: Arial, sans-serif; font-size: 15px; line-height: 1.3; margin: 0; max-width: 90%; }
-        .project-gallery { grid-column: 3 / 6; position: relative; overflow: hidden; cursor: pointer; }
+
+        /* 1. KORREKTUR: 'gap' wird entfernt, um die Ausrichtung zu fixen */
+        .project-main-layout { 
+            align-items: start; 
+            /* gap: 20px; ENTFERNT */
+        }
+
+        /* 2. KORREKTUR: Padding wird hier hinzugefügt, um den Abstand zu erzeugen */
+        .project-text { 
+            grid-column: 1 / 3; 
+            position: sticky; 
+            top: 40px; 
+            padding-right: 40px; /* <--- HIER IST IHR GEWÜNSCHTES PADDING */
+            box-sizing: border-box; /* Wichtig, damit das Padding die Breite nicht sprengt */
+        }
+
+        .project-text p { 
+            font-family: Arial, sans-serif; 
+            font-size: 15px; 
+            line-height: 1.3; 
+            margin: 0; 
+            max-width: 100%; /* Angepasst für das neue Padding */
+        }
+
+        .project-gallery { 
+            grid-column: 3 / 6; 
+            position: relative; 
+            overflow: hidden; 
+            cursor: pointer; 
+        }
+
         .gallery-track { display: flex; height: 100%; transition: transform 0.7s ease-in-out; }
         .gallery-slide { flex-shrink: 0; width: 100%; height: 100%; }
         .gallery-slide img { width: 100%; height: auto; object-fit: contain; display: block; }
+        
         .slider-btn { position: absolute; top: 0px; z-index: 10; background: none; border: none; padding: 15px; font-size: 1.5rem; color: var(--text-color); cursor: pointer; }
         .slider-btn.is-hidden { opacity: 0; pointer-events: none; }
-        .prev-btn { left: 180px; }
-        .next-btn { right: 180px; }
+        
+        /* Pfeil-Positionen korrigiert */
+        .prev-btn { left: 20px; }
+        .next-btn { right: 20px; }
+        
         .lightbox-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--background-color); z-index: 1000; display: flex; align-items: center; justify-content: space-between; padding: 20px; box-sizing: border-box; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
         .lightbox-overlay.is-visible { opacity: 1; pointer-events: auto; }
         .lightbox-image { max-width: 90%; max-height: 95%; object-fit: contain; }
         .lightbox-close { position: fixed; top: 20px; right: 20px; font-size: 2rem; color: var(--text-color); background: none; border: none; cursor: pointer; z-index: 1002; }
         .lightbox-btn { position: static; transform: none; z-index: 1001; }
+
         @media (max-width: 1024px) {
             .project-main-layout { display: flex; flex-direction: column; gap: 40px; }
             .project-text, .project-gallery { grid-column: auto; width: 100%; position: relative; }
-            .project-text { position: static; }
+            .project-text { position: static; padding-right: 0; } /* Padding auf mobil zurücksetzen */
             .project-text p { font-size: 15px; max-width: 100%; }
             .prev-btn { left: 10px; }
             .next-btn { right: 10px; }
