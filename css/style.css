@@ -2,6 +2,20 @@ html {
   scrollbar-gutter: stable;
 }
 
+/* === HIER DEN NEUEN CODE EINFÜGEN === */
+body {
+  /* Für Firefox */
+  scrollbar-width: none;
+  
+  /* Für Internet Explorer und Edge (ältere Versionen) */
+  -ms-overflow-style: none;
+}
+
+/* Für Chrome, Safari und Opera */
+body::-webkit-scrollbar {
+  display: none;
+}
+
 /* ========================================================= */
 /* === BASISVARIABLEN ====================================== */
 /* ========================================================= */
@@ -15,6 +29,17 @@ html {
     --main-max-width: 1200px;
     --main-side-padding: 80px;
     --project-info-padding: 0.2rem;
+}
+
+html, body {
+  /* Für Firefox */
+  scrollbar-width: none;
+  /* Für IE/Edge */
+  -ms-overflow-style: none;
+}
+html::-webkit-scrollbar, body::-webkit-scrollbar {
+  /* Für Chrome, Safari, etc. */
+  display: none;
 }
 
 /* ========================================================= */

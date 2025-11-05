@@ -6,56 +6,36 @@ document.addEventListener('DOMContentLoaded', () => {
         
         if (gallery && track && track.children.length > 0) {
             const slides = Array.from(track.children);
-            const nextButton = gallery.querySelector('.next-btn');
-            const prevButton = gallery.querySelector('.prev-btn');
-            // NEU: Referenz zu den Thumbnails
             const thumbnails = document.querySelectorAll('.thumbnail-item');
             const slideCount = slides.length;
             let currentSlide = 0;
 
             const lightbox = document.getElementById('lightbox');
             const lightboxImage = lightbox.querySelector('.lightbox-image');
-            const lightboxNextButton = lightbox.querySelector('.next-btn');
-            const lightboxPrevButton = lightbox.querySelector('.prev-btn');
             const closeButton = lightbox.querySelector('.lightbox-close');
+            const fullscreenArrow = document.querySelector('.fullscreen-arrow');
 
-            // NEU: Funktion zur Aktualisierung der Thumbnail-Hervorhebung
             const updateThumbnailHighlighting = (newIndex) => {
                 thumbnails.forEach((thumb, index) => {
-                    if (index === newIndex) {
-                        thumb.classList.add('is-active');
-                    } else {
-                        thumb.classList.remove('is-active');
-                    }
+                    thumb.classList.toggle('is-active', index === newIndex);
                 });
             };
 
             const moveToSlide = (targetSlide) => {
-                if (targetSlide < 0 || targetSlide >= slideCount) return;
-                track.style.transform = `translateX(-${targetSlide * 100}%)`;
-                currentSlide = targetSlide;
-                updateArrows();
+                currentSlide = (targetSlide + slideCount) % slideCount;
+                track.style.transform = `translateX(-${currentSlide * 100}%)`;
                 if (lightbox.classList.contains('is-visible')) {
                     updateLightboxImage();
                 }
-                // NEU: Hervorhebung bei jedem Slide-Wechsel aktualisieren
                 updateThumbnailHighlighting(currentSlide);
             };
             
             const next = () => moveToSlide(currentSlide + 1);
             const prev = () => moveToSlide(currentSlide - 1);
 
-            const updateArrows = () => {
-                const isHidden = slideCount <= 1;
-                prevButton.classList.toggle('is-hidden', currentSlide === 0 || isHidden);
-                nextButton.classList.toggle('is-hidden', currentSlide === slideCount - 1 || isHidden);
-                lightboxPrevButton.classList.toggle('is-hidden', currentSlide === 0 || isHidden);
-                lightboxNextButton.classList.toggle('is-hidden', currentSlide === slideCount - 1 || isHidden);
-            };
-
             const updateLightboxImage = () => {
-                const currentImageSrc = slides[currentSlide].querySelector('img').src;
-                lightboxImage.src = currentImageSrc;
+                const currentImageSrc = slides[currentSlide]?.querySelector('img').src;
+                if (currentImageSrc) lightboxImage.src = currentImageSrc;
             };
 
             const openLightbox = () => {
@@ -68,13 +48,61 @@ document.addEventListener('DOMContentLoaded', () => {
                 lightbox.classList.remove('is-visible');
                 document.body.style.overflow = '';
             };
+            
+            // --- KORRIGIERTE STEUERUNG ---
 
-            nextButton.addEventListener('click', next);
-            prevButton.addEventListener('click', prev);
-            track.addEventListener('click', openLightbox);
+            const setupNavigation = (element) => {
+                const getPositionRelativeToImage = (event) => {
+                    // In der Lightbox das Lightbox-Bild, sonst das Galerie-Bild nehmen
+                    const imageElement = element.id === 'lightbox' ? lightboxImage : slides[currentSlide]?.querySelector('img');
+                    if (!imageElement) return 'outside';
 
-            lightboxNextButton.addEventListener('click', next);
-            lightboxPrevButton.addEventListener('click', prev);
+                    const imgRect = imageElement.getBoundingClientRect();
+                    if (event.clientX < imgRect.left || event.clientX > imgRect.right || event.clientY < imgRect.top || event.clientY > imgRect.bottom) {
+                        return 'outside';
+                    }
+                    
+                    const midpoint = imgRect.left + imgRect.width / 2;
+                    return event.clientX < midpoint ? 'left' : 'right';
+                };
+
+                element.addEventListener('mousemove', (e) => {
+                    if (window.innerWidth <= 1024) return;
+                    const position = getPositionRelativeToImage(e);
+                    element.classList.toggle('cursor-left', position === 'left');
+                    element.classList.toggle('cursor-right', position === 'right');
+                });
+
+                element.addEventListener('mouseleave', () => {
+                    element.classList.remove('cursor-left', 'cursor-right');
+                });
+
+                element.addEventListener('click', (e) => {
+                    // Klick ignorieren, wenn es der Schließen-Button, der Vollbild-Pfeil oder ein Thumbnail ist
+                    if (e.target.closest('.lightbox-close') || e.target.closest('.fullscreen-arrow') || e.target.closest('.thumbnail-item')) return;
+
+                    const position = getPositionRelativeToImage(e);
+                    if (position === 'left') {
+                        prev();
+                    } else if (position === 'right') {
+                        next();
+                    }
+                });
+            };
+            
+            setupNavigation(gallery);
+            setupNavigation(lightbox);
+
+            // KORREKTUR: Nur der Pfeil öffnet die Lightbox.
+            if (fullscreenArrow) {
+                fullscreenArrow.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Verhindert, dass der Klick durchfällt
+                    openLightbox();
+                });
+            }
+            
+            // Die fehlerhafte Logik, bei der jeder Klick die Lightbox öffnete, wurde entfernt.
+            
             closeButton.addEventListener('click', closeLightbox);
             lightbox.addEventListener('click', (e) => {
                 if (e.target === lightbox) closeLightbox();
@@ -87,11 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.key === 'Escape') closeLightbox();
             });
 
-            // NEU: Event Listeners für die Thumbnails hinzufügen
             thumbnails.forEach(thumb => {
-                thumb.addEventListener('click', () => {
+                thumb.addEventListener('click', (e) => {
+                    e.stopPropagation();
                     const index = parseInt(thumb.dataset.index, 10);
-                    moveToSlide(index);
+                    const targetSlide = (index + slideCount) % slideCount;
+                    track.style.transform = `translateX(-${targetSlide * 100}%)`;
+                    currentSlide = targetSlide;
+                    updateThumbnailHighlighting(currentSlide);
                 });
             });
 
@@ -109,8 +140,6 @@ document.addEventListener('DOMContentLoaded', () => {
             lightbox.addEventListener('touchstart', onTouchStart, { passive: true });
             lightbox.addEventListener('touchend', onTouchEnd);
 
-            updateArrows();
-            // NEU: Initiales Highlight für das erste Bild setzen
             updateThumbnailHighlighting(0);
         }
     };
@@ -121,7 +150,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const textElement = document.getElementById('project-text');
         const galleryTrack = document.getElementById('gallery-track');
-        // NEU: Referenz zum Thumbnail-Grid-Container
         const thumbnailGrid = document.getElementById('thumbnail-grid');
 
         if (!projectId) {
@@ -129,46 +157,52 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const response = await fetch('../js/projects.json');
-        if (!response.ok) {
-            textElement.innerHTML = "<p>Error: Could not load project data.</p>";
-            return;
-        }
-        const allProjects = await response.json();
-        const project = allProjects.find(p => p.id === projectId);
+        try {
+            const response = await fetch('../js/projects.json');
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const allProjects = await response.json();
+            const project = allProjects.find(p => p.id === projectId);
 
-        if (!project) {
-            textElement.innerHTML = `<p>Error: Project with ID "${projectId}" not found.</p>`;
-            return;
-        }
-        
-        const lang = localStorage.getItem('userLanguage') || 'en';
-        const content = project[lang] || project.en;
-
-        if (!content) {
-            textElement.innerHTML = `<p>Error: No content found for this project.</p>`;
-            return;
-        }
-
-        document.title = `Tizian Rein - ${content.title}`;
-        textElement.querySelector('p').innerHTML = `${project.id}<br>${content.title}<br><br>${content.description.replace(/\n/g, '<br>')}`;
-        
-        // NEU: Thumbnails und Galeriebilder gleichzeitig erstellen
-        let galleryHTML = '';
-        let thumbnailsHTML = '';
-
-        project.images.forEach((imgSrc, index) => {
-            // HTML für die große Galerie
-            galleryHTML += `<div class="gallery-slide"><img src="../${imgSrc}" alt="${content.title} view ${index + 1}"></div>`;
+            if (!project) {
+                textElement.innerHTML = `<p>Error: Project with ID "${projectId}" not found.</p>`;
+                return;
+            }
             
-            // HTML für das Thumbnail-Grid
-            thumbnailsHTML += `<img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}">`;
-        });
+            const lang = localStorage.getItem('userLanguage') || 'en';
+            const content = project[lang] || project.en;
 
-        galleryTrack.innerHTML = galleryHTML;
-        thumbnailGrid.innerHTML = thumbnailsHTML;
+            if (!content) {
+                textElement.innerHTML = `<p>Error: No content found for this project.</p>`;
+                return;
+            }
 
-        initializeGallery();
+            document.title = `Tizian Rein - ${content.title}`;
+            
+            let p = textElement.querySelector('p');
+            if (!p) {
+                p = document.createElement('p');
+                textElement.prepend(p);
+            }
+            p.innerHTML = `${project.id}<br>${content.title}<br><br>${content.description.replace(/\n/g, '<br>')}`;
+            
+            let galleryHTML = '';
+            let thumbnailsHTML = '';
+
+            project.images.forEach((imgSrc, index) => {
+                galleryHTML += `<div class="gallery-slide"><img src="../${imgSrc}" alt="${content.title} view ${index + 1}"></div>`;
+                thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}"></div>`;
+            });
+
+            galleryTrack.innerHTML = galleryHTML;
+            thumbnailGrid.innerHTML = thumbnailsHTML;
+
+            initializeGallery();
+        } catch (error) {
+            console.error('Failed to load project data:', error);
+            textElement.innerHTML = "<p>Error: Could not load project data.</p>";
+        }
     };
 
     loadProjectData();
