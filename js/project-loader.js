@@ -1,7 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-    // This function will hold the gallery and lightbox logic.
-    // It's defined here but will be called ONLY after the project content is loaded.
     const initializeGallery = () => {
         const gallery = document.querySelector('.project-gallery');
         const track = document.querySelector('.gallery-track');
@@ -10,6 +8,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const slides = Array.from(track.children);
             const nextButton = gallery.querySelector('.next-btn');
             const prevButton = gallery.querySelector('.prev-btn');
+            // NEU: Referenz zu den Thumbnails
+            const thumbnails = document.querySelectorAll('.thumbnail-item');
             const slideCount = slides.length;
             let currentSlide = 0;
 
@@ -19,6 +19,17 @@ document.addEventListener('DOMContentLoaded', () => {
             const lightboxPrevButton = lightbox.querySelector('.prev-btn');
             const closeButton = lightbox.querySelector('.lightbox-close');
 
+            // NEU: Funktion zur Aktualisierung der Thumbnail-Hervorhebung
+            const updateThumbnailHighlighting = (newIndex) => {
+                thumbnails.forEach((thumb, index) => {
+                    if (index === newIndex) {
+                        thumb.classList.add('is-active');
+                    } else {
+                        thumb.classList.remove('is-active');
+                    }
+                });
+            };
+
             const moveToSlide = (targetSlide) => {
                 if (targetSlide < 0 || targetSlide >= slideCount) return;
                 track.style.transform = `translateX(-${targetSlide * 100}%)`;
@@ -27,6 +38,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (lightbox.classList.contains('is-visible')) {
                     updateLightboxImage();
                 }
+                // NEU: Hervorhebung bei jedem Slide-Wechsel aktualisieren
+                updateThumbnailHighlighting(currentSlide);
             };
             
             const next = () => moveToSlide(currentSlide + 1);
@@ -74,6 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.key === 'Escape') closeLightbox();
             });
 
+            // NEU: Event Listeners für die Thumbnails hinzufügen
+            thumbnails.forEach(thumb => {
+                thumb.addEventListener('click', () => {
+                    const index = parseInt(thumb.dataset.index, 10);
+                    moveToSlide(index);
+                });
+            });
+
             let touchStartX = 0, touchEndX = 0;
             const swipeThreshold = 50;
             const handleSwipe = () => {
@@ -89,26 +110,29 @@ document.addEventListener('DOMContentLoaded', () => {
             lightbox.addEventListener('touchend', onTouchEnd);
 
             updateArrows();
+            // NEU: Initiales Highlight für das erste Bild setzen
+            updateThumbnailHighlighting(0);
         }
     };
 
-    // This is the main function that fetches and injects the project data.
     const loadProjectData = async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const projectId = urlParams.get('id');
 
         const textElement = document.getElementById('project-text');
         const galleryTrack = document.getElementById('gallery-track');
+        // NEU: Referenz zum Thumbnail-Grid-Container
+        const thumbnailGrid = document.getElementById('thumbnail-grid');
 
         if (!projectId) {
             textElement.innerHTML = "<p>Error: No project ID specified.</p>";
             return;
         }
 
-        const response = await fetch('../js/projects.json'); 
+        const response = await fetch('../js/projects.json');
         if (!response.ok) {
-             textElement.innerHTML = "<p>Error: Could not load project data.</p>";
-             return;
+            textElement.innerHTML = "<p>Error: Could not load project data.</p>";
+            return;
         }
         const allProjects = await response.json();
         const project = allProjects.find(p => p.id === projectId);
@@ -117,22 +141,35 @@ document.addEventListener('DOMContentLoaded', () => {
             textElement.innerHTML = `<p>Error: Project with ID "${projectId}" not found.</p>`;
             return;
         }
-
-        // --- INJECT CONTENT INTO THE TEMPLATE ---
-        document.title = `Tizian Rein - ${project.title}`;
-
-        // === THIS IS THE MODIFIED LINE ===
-        textElement.innerHTML = `<p>${project.id}<br>${project.title}<br><br>${project.description.replace(/\n/g, '<br>')}</p>`;
         
-        // Build the gallery HTML
-        galleryTrack.innerHTML = project.images
-            .map(imgSrc => `<div class="gallery-slide"><img src="../${imgSrc}" alt="${project.title} view"></div>`)
-            .join('');
+        const lang = localStorage.getItem('userLanguage') || 'en';
+        const content = project[lang] || project.en;
 
-        // --- CRITICAL STEP: Initialize the gallery now that the images are in the DOM ---
+        if (!content) {
+            textElement.innerHTML = `<p>Error: No content found for this project.</p>`;
+            return;
+        }
+
+        document.title = `Tizian Rein - ${content.title}`;
+        textElement.querySelector('p').innerHTML = `${project.id}<br>${content.title}<br><br>${content.description.replace(/\n/g, '<br>')}`;
+        
+        // NEU: Thumbnails und Galeriebilder gleichzeitig erstellen
+        let galleryHTML = '';
+        let thumbnailsHTML = '';
+
+        project.images.forEach((imgSrc, index) => {
+            // HTML für die große Galerie
+            galleryHTML += `<div class="gallery-slide"><img src="../${imgSrc}" alt="${content.title} view ${index + 1}"></div>`;
+            
+            // HTML für das Thumbnail-Grid
+            thumbnailsHTML += `<img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}">`;
+        });
+
+        galleryTrack.innerHTML = galleryHTML;
+        thumbnailGrid.innerHTML = thumbnailsHTML;
+
         initializeGallery();
     };
 
-    // Run the loader function
     loadProjectData();
 });

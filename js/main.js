@@ -31,46 +31,57 @@ document.addEventListener('DOMContentLoaded', () => {
   
 // --- 2. LANGUAGE SWITCHING LOGIC ---
   const setLanguage = (lang) => {
-    if (lang !== 'de' && lang !== 'en') lang = 'en'; // Default to English
-    
-    // Set HTML lang attribute for accessibility
-    document.documentElement.lang = lang;
+      if (lang !== 'de' && lang !== 'en') lang = 'en'; // Default to English
+      
+      // === THIS IS THE MISSING PART ===
+      // Get the current language BEFORE we change it.
+      const currentLang = localStorage.getItem('userLanguage');
+      // This will be true only if the new lang is different from the old one.
+      const languageHasChanged = currentLang !== lang;
+      
+      // Set HTML lang attribute for accessibility
+      document.documentElement.lang = lang;
 
-    // Show/hide all elements with data-lang attributes
-    document.querySelectorAll('[data-lang-en], [data-lang-de]').forEach(el => {
-        if (el.matches(`[data-lang-${lang}]`)) {
-            el.style.display = '';
-        } else {
-            el.style.display = 'none';
-        }
-    });
+      // Show/hide all elements with data-lang attributes
+      document.querySelectorAll('[data-lang-en], [data-lang-de]').forEach(el => {
+          if (el.matches(`[data-lang-${lang}]`)) {
+              el.style.display = '';
+          } else {
+              el.style.display = 'none';
+          }
+      });
 
-    // Update active state on language buttons
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        if (btn.dataset.lang === lang) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
+      // Update active state on language buttons
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+          if (btn.dataset.lang === lang) {
+              btn.classList.add('active');
+          } else {
+              btn.classList.remove('active');
+          }
+      });
 
-    // *** ADDED: Save the chosen language to localStorage ***
-    localStorage.setItem('userLanguage', lang);
+      // Save the new chosen language to localStorage
+      localStorage.setItem('userLanguage', lang);
+
+      // Now this condition will work correctly because languageHasChanged is defined.
+      if (languageHasChanged && window.location.pathname.includes('/projects/project.html')) {
+          location.reload();
+      }
   };
 
   // *** CHANGED: Check for a saved language first ***
   const savedLang = localStorage.getItem('userLanguage');
   const userLang = navigator.language.substring(0, 2);
-  
+
   // Set initial language: 1st priority is saved choice, 2nd is browser default
   setLanguage(savedLang || userLang);
 
   // Add click listeners to all language buttons
   document.querySelectorAll('.lang-btn').forEach(button => {
-    button.addEventListener('click', (e) => {
-      e.preventDefault();
-      setLanguage(e.target.dataset.lang);
-    });
+      button.addEventListener('click', (e) => {
+          e.preventDefault();
+          setLanguage(e.target.dataset.lang);
+      });
   });
 
 // --- 3. PROJECT DISPLAY AND FILTERING ---
