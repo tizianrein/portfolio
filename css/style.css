@@ -122,7 +122,6 @@ header a.active { color: var(--text-color); }
 
 /* --- Corrected Desktop Header Positioning --- */
 .site-title                 { grid-column: 1 / 2; }
-/* KORRIGIERT: Der #nav-work-container erstreckt sich nun über Spalte 2 UND 3 */
 #nav-work-container         { grid-column: 3 / 4; position: relative; } 
 #nav-info, #nav-info-de     { grid-column: 4 / 5; }
 #nav-contact, #nav-contact-de { grid-column: 6 / 7; }
@@ -245,12 +244,11 @@ header a.active { color: var(--text-color); }
 
 /* Positionierung der Galerie-Pfeile */
 .prev-btn { 
-    left: 20px;
+    left: 1000px;
 }
 .next-btn { 
-    right: 20px;
+    right: 1000px;
 }
-
 
 /* ========================================================= */
 /* === MOBILE & RESPONSIVE ================================= */
