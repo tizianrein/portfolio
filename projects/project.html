@@ -99,18 +99,33 @@
         }
         .lightbox-close { position: fixed; top: 20px; right: 20px; font-size: 2rem; color: #FFF; background: none; border: none; cursor: pointer; z-index: 1002; }
         
-        /* KORREKTUR: Thumbnail Highlighting Logik vereinfacht */
+        /* KORREKTUR: Styling der Thumbnails */
+        .thumbnail-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 8px;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            align-items: start; 
+        }
+        .thumbnail-wrapper {
+            display: contents; /* Wichtig, damit die Bilder direkt im Grid liegen */
+        }
         .thumbnail-item {
-            opacity: 0.5;
+            width: 100%;
+            height: auto; /* Behält das Seitenverhältnis bei */
+            object-fit: cover; /* Stellt sicher, dass das Bild den Bereich ausfüllt */
             cursor: pointer;
             transition: opacity 0.2s ease-in-out;
         }
-        .thumbnail-item:hover,
-        .thumbnail-item.is-active {
-            opacity: 1;
-        }
+        /* Opazität für aktive und inaktive Thumbnails */
+        .thumbnail-item { opacity: 0.5; }
+        .thumbnail-item.is-active { opacity: 1; }
+        
+        /* Die :has()-Selektoren wurden entfernt, da sie in älteren Browsern nicht immer gut funktionieren */
 
         @media (hover: hover) and (min-width: 1025px) {
+            /* Desktop-Cursor-Stile bleiben unverändert */
             .project-gallery.cursor-left, .lightbox-overlay.cursor-left {
                  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
             }
@@ -133,7 +148,7 @@
             .lightbox-overlay { padding: 0; justify-content: center; }
             .lightbox-image { max-width: 100%; max-height: 100%; }
 
-            /* KORREKTUR: 45-Grad-Pfeil auf Mobilgeräten ausblenden */
+            /* 45-Grad-Pfeil auf Mobilgeräten ausblenden */
             .fullscreen-arrow {
                 display: none;
             }

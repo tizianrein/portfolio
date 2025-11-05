@@ -17,7 +17,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const updateThumbnailHighlighting = (newIndex) => {
                 thumbnails.forEach((thumb, index) => {
-                    // Wendet die 'is-active' Klasse nur auf das korrekte Thumbnail an
                     thumb.classList.toggle('is-active', index === newIndex);
                 });
             };
@@ -50,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = '';
             };
             
-            // --- DESKTOP STEUERUNG ---
+            // --- DESKTOP NAVIGATION (Klick & Maus) ---
 
             const setupDesktopNavigation = (element) => {
                 const getPositionRelativeToImage = (event) => {
@@ -58,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (!imageElement) return 'outside';
 
                     const imgRect = imageElement.getBoundingClientRect();
+                    // Überprüfen, ob der Klick/Touch innerhalb des Bildbereichs liegt
                     if (event.clientX < imgRect.left || event.clientX > imgRect.right || event.clientY < imgRect.top || event.clientY > imgRect.bottom) {
                         return 'outside';
                     }
@@ -67,8 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 element.addEventListener('mousemove', (e) => {
-                    // Diese Funktion nur auf dem Desktop ausführen
-                    if (window.innerWidth <= 1024) return;
+                    if (window.innerWidth <= 1024) return; // Nur auf Desktop
                     const position = getPositionRelativeToImage(e);
                     element.classList.toggle('cursor-left', position === 'left');
                     element.classList.toggle('cursor-right', position === 'right');
@@ -79,8 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 element.addEventListener('click', (e) => {
-                    // Diese Funktion nur auf dem Desktop ausführen
-                    if (window.innerWidth <= 1024) return;
+                    if (window.innerWidth <= 1024) return; // Nur auf Desktop
                     if (e.target.closest('.lightbox-close') || e.target.closest('.fullscreen-arrow') || e.target.closest('.thumbnail-item')) return;
 
                     const position = getPositionRelativeToImage(e);
@@ -95,6 +93,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setupDesktopNavigation(gallery);
             setupDesktopNavigation(lightbox);
 
+            // Klick auf 45-Grad-Pfeil öffnet Lightbox
             if (fullscreenArrow) {
                 fullscreenArrow.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -115,12 +114,14 @@ document.addEventListener('DOMContentLoaded', () => {
             const onTouchStart = (e) => { touchStartX = e.changedTouches[0].screenX; };
             const onTouchEnd = (e) => { 
                 touchEndX = e.changedTouches[0].screenX; 
-                // Prüfen, ob es ein Swipe oder nur ein Tap war
+                // Überprüfen, ob es ein Swipe oder ein Tap war
                 if (Math.abs(touchStartX - touchEndX) > swipeThreshold) {
-                    handleSwipe();
+                    handleSwipe(); // Es war ein Swipe
                 } else {
-                    // Wenn es ein Tap war, öffne die Lightbox
-                    openLightbox();
+                    // Es war ein Tap - öffne die Lightbox, WENN wir uns nicht auf dem Vollbild-Pfeil befinden
+                    if (!e.target.closest('.fullscreen-arrow') && !e.target.closest('.lightbox-close')) {
+                        openLightbox();
+                    }
                 }
             };
             
@@ -137,8 +138,7 @@ document.addEventListener('DOMContentLoaded', () => {
             closeButton.addEventListener('click', closeLightbox);
 
             lightbox.addEventListener('click', (e) => {
-                // Verhindert, dass der Klick auf das Bild selbst die Lightbox schließt
-                if (e.target === lightbox) closeLightbox();
+                if (e.target === lightbox) closeLightbox(); // Schließt Lightbox, wenn Hintergrund geklickt wird
             });
 
             document.addEventListener('keydown', (e) => {
@@ -148,10 +148,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.key === 'Escape') closeLightbox();
             });
 
-            // KORREKTUR: Thumbnail-Klick-Logik
-            thumbnails.forEach((thumb, index) => {
+            thumbnails.forEach(thumb => {
                 thumb.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Verhindert, dass die Galerie die Lightbox öffnet
+                    e.stopPropagation(); // Verhindert, dass der Klick die Galerie-Navigation auslöst
+                    const index = parseInt(thumb.dataset.index, 10);
                     moveToSlide(index);
                 });
             });
