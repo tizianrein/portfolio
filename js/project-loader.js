@@ -102,44 +102,56 @@ document.addEventListener('DOMContentLoaded', () => {
             // --- KORRIGIERTE MOBILE STEUERUNG (SWIPE, TAP, SCROLL) ---
 
             let touchStartX = 0, touchEndX = 0;
-            let touchStartY = 0, touchEndY = 0; // Neu: Y-Koordinaten verfolgen
-            const swipeThreshold = 50; // Mindestdistanz für einen horizontalen Swipe
-            const tapThreshold = 10;   // Maximale Bewegungsdistanz für einen Tap
+            let touchStartY = 0, touchEndY = 0;
+            const horizontalSwipeThreshold = 50; // Mindestdistanz für horizontalen Swipe
+            const verticalSwipeThreshold = 70;   // Mindestdistanz für vertikalen Swipe zum Schließen
+            const tapThreshold = 10;             // Maximale Bewegung für einen Tap
 
-            const handleSwipe = () => {
-                if (touchEndX < touchStartX - swipeThreshold) next();
-                if (touchEndX > touchStartX + swipeThreshold) prev();
+            const handleHorizontalSwipe = () => {
+                if (touchEndX < touchStartX - horizontalSwipeThreshold) next();
+                if (touchEndX > touchStartX + horizontalSwipeThreshold) prev();
             };
             
             const onTouchStart = (e) => {
                 touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY; // Start-Y-Position speichern
+                touchStartY = e.changedTouches[0].screenY;
             };
             
             const onTouchEnd = (e) => { 
                 touchEndX = e.changedTouches[0].screenX; 
-                touchEndY = e.changedTouches[0].screenY; // End-Y-Position speichern
+                touchEndY = e.changedTouches[0].screenY;
 
                 const deltaX = Math.abs(touchStartX - touchEndX);
                 const deltaY = Math.abs(touchStartY - touchEndY);
-
-                // 1. Prüfen, ob es ein TAP war (minimale Bewegung in beide Richtungen)
-                if (deltaX < tapThreshold && deltaY < tapThreshold) {
-                    // Es ist ein Tap. Lightbox öffnen.
-                    if (!e.target.closest('.fullscreen-arrow') && !e.target.closest('.lightbox-close')) {
-                        openLightbox();
+                
+                // Geste fand in der Vollbildansicht (Lightbox) statt
+                if (lightbox.classList.contains('is-visible')) {
+                    // 1. Vertikaler Swipe zum Schließen? (Bewegung muss primär vertikal sein)
+                    if (deltaY > verticalSwipeThreshold && deltaY > deltaX) {
+                        closeLightbox();
+                        return;
                     }
-                    return; // Aktion beendet
+                    // 2. Horizontaler Swipe zum Blättern?
+                    if (deltaX > horizontalSwipeThreshold && deltaX > deltaY) {
+                        handleHorizontalSwipe();
+                        return;
+                    }
+                    // Ansonsten keine Aktion (war z.B. nur ein Tap im Vollbild)
+                    
+                // Geste fand in der normalen Galerie statt
+                } else {
+                    // 1. War es ein Tap? (Bewegung war minimal)
+                    if (deltaX < tapThreshold && deltaY < tapThreshold) {
+                        openLightbox();
+                        return;
+                    }
+                    // 2. War es ein horizontaler Swipe?
+                    if (deltaX > horizontalSwipeThreshold && deltaX > deltaY) {
+                        handleHorizontalSwipe();
+                        return;
+                    }
+                    // 3. Wenn keiner der Fälle zutrifft, war es ein vertikaler Scroll, der ignoriert wird.
                 }
-
-                // 2. Prüfen, ob es ein horizontaler SWIPE war (mehr horizontale als vertikale Bewegung)
-                if (deltaX > swipeThreshold && deltaX > deltaY) {
-                    handleSwipe();
-                    return; // Aktion beendet
-                }
-
-                // 3. Wenn keiner der obigen Fälle zutrifft, war es wahrscheinlich ein vertikaler Scroll.
-                // In diesem Fall tun wir nichts.
             };
             
             gallery.addEventListener('touchstart', onTouchStart, { passive: true });
