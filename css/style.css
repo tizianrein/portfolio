@@ -320,15 +320,15 @@ header a.active { color: var(--text-color); }
   .grid-container, 
   #project-grid {
     grid-template-columns: 1fr;
-    padding-left: 0px;
-    padding-right: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   /* --- Stile für die Projekt-ÜBERSICHTSSEITE (index.html) --- */
   #project-grid { 
       padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)) !important; 
       padding-bottom: 20px; 
-      gap: 0; 
+      gap: 20; 
   }
   .project-item { 
       grid-column: span 1; 
