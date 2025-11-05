@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const updateThumbnailHighlighting = (newIndex) => {
                 thumbnails.forEach((thumb, index) => {
+                    // Wendet die 'is-active' Klasse nur auf das korrekte Thumbnail an
                     thumb.classList.toggle('is-active', index === newIndex);
                 });
             };
@@ -49,11 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = '';
             };
             
-            // --- KORRIGIERTE STEUERUNG ---
+            // --- DESKTOP STEUERUNG ---
 
-            const setupNavigation = (element) => {
+            const setupDesktopNavigation = (element) => {
                 const getPositionRelativeToImage = (event) => {
-                    // In der Lightbox das Lightbox-Bild, sonst das Galerie-Bild nehmen
                     const imageElement = element.id === 'lightbox' ? lightboxImage : slides[currentSlide]?.querySelector('img');
                     if (!imageElement) return 'outside';
 
@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 element.addEventListener('mousemove', (e) => {
+                    // Diese Funktion nur auf dem Desktop ausführen
                     if (window.innerWidth <= 1024) return;
                     const position = getPositionRelativeToImage(e);
                     element.classList.toggle('cursor-left', position === 'left');
@@ -78,7 +79,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 element.addEventListener('click', (e) => {
-                    // Klick ignorieren, wenn es der Schließen-Button, der Vollbild-Pfeil oder ein Thumbnail ist
+                    // Diese Funktion nur auf dem Desktop ausführen
+                    if (window.innerWidth <= 1024) return;
                     if (e.target.closest('.lightbox-close') || e.target.closest('.fullscreen-arrow') || e.target.closest('.thumbnail-item')) return;
 
                     const position = getPositionRelativeToImage(e);
@@ -90,21 +92,52 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             };
             
-            setupNavigation(gallery);
-            setupNavigation(lightbox);
+            setupDesktopNavigation(gallery);
+            setupDesktopNavigation(lightbox);
 
-            // KORREKTUR: Nur der Pfeil öffnet die Lightbox.
             if (fullscreenArrow) {
                 fullscreenArrow.addEventListener('click', (e) => {
-                    e.stopPropagation(); // Verhindert, dass der Klick durchfällt
+                    e.stopPropagation();
                     openLightbox();
                 });
             }
             
-            // Die fehlerhafte Logik, bei der jeder Klick die Lightbox öffnete, wurde entfernt.
+            // --- MOBILE STEUERUNG (SWIPE & TAP) ---
+
+            let touchStartX = 0, touchEndX = 0;
+            const swipeThreshold = 50;
+
+            const handleSwipe = () => {
+                if (touchEndX < touchStartX - swipeThreshold) next();
+                if (touchEndX > touchStartX + swipeThreshold) prev();
+            };
             
+            const onTouchStart = (e) => { touchStartX = e.changedTouches[0].screenX; };
+            const onTouchEnd = (e) => { 
+                touchEndX = e.changedTouches[0].screenX; 
+                // Prüfen, ob es ein Swipe oder nur ein Tap war
+                if (Math.abs(touchStartX - touchEndX) > swipeThreshold) {
+                    handleSwipe();
+                } else {
+                    // Wenn es ein Tap war, öffne die Lightbox
+                    openLightbox();
+                }
+            };
+            
+            // Swipe-Events zur Hauptgalerie hinzufügen
+            gallery.addEventListener('touchstart', onTouchStart, { passive: true });
+            gallery.addEventListener('touchend', onTouchEnd);
+            // Swipe-Events zur Lightbox hinzufügen
+            lightbox.addEventListener('touchstart', onTouchStart, { passive: true });
+            lightbox.addEventListener('touchend', onTouchEnd);
+
+
+            // --- ALLGEMEINE STEUERUNG (für beide Ansichten) ---
+
             closeButton.addEventListener('click', closeLightbox);
+
             lightbox.addEventListener('click', (e) => {
+                // Verhindert, dass der Klick auf das Bild selbst die Lightbox schließt
                 if (e.target === lightbox) closeLightbox();
             });
 
@@ -115,31 +148,15 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.key === 'Escape') closeLightbox();
             });
 
-            thumbnails.forEach(thumb => {
+            // KORREKTUR: Thumbnail-Klick-Logik
+            thumbnails.forEach((thumb, index) => {
                 thumb.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    const index = parseInt(thumb.dataset.index, 10);
-                    const targetSlide = (index + slideCount) % slideCount;
-                    track.style.transform = `translateX(-${targetSlide * 100}%)`;
-                    currentSlide = targetSlide;
-                    updateThumbnailHighlighting(currentSlide);
+                    e.stopPropagation(); // Verhindert, dass die Galerie die Lightbox öffnet
+                    moveToSlide(index);
                 });
             });
 
-            let touchStartX = 0, touchEndX = 0;
-            const swipeThreshold = 50;
-            const handleSwipe = () => {
-                if (touchEndX < touchStartX - swipeThreshold) next();
-                if (touchEndX > touchStartX + swipeThreshold) prev();
-            };
-            const onTouchStart = (e) => { touchStartX = e.changedTouches[0].screenX; };
-            const onTouchEnd = (e) => { touchEndX = e.changedTouches[0].screenX; handleSwipe(); };
-            
-            gallery.addEventListener('touchstart', onTouchStart, { passive: true });
-            gallery.addEventListener('touchend', onTouchEnd);
-            lightbox.addEventListener('touchstart', onTouchStart, { passive: true });
-            lightbox.addEventListener('touchend', onTouchEnd);
-
+            // Initiales Highlight für das erste Bild setzen
             updateThumbnailHighlighting(0);
         }
     };

@@ -44,7 +44,6 @@
         .gallery-slide { flex-shrink: 0; width: 100%; height: 100%; display: flex; justify-content: flex-start; align-items: center; }
         .gallery-slide img { width: auto; height: auto; max-width: 100%; max-height: 85vh; object-fit: contain; display: block; }
         
-        /* KORREKTUR: Größe auf 80% (24px) reduziert */
         .fullscreen-arrow {
             position: absolute;
             bottom: 10px;
@@ -100,6 +99,7 @@
         }
         .lightbox-close { position: fixed; top: 20px; right: 20px; font-size: 2rem; color: #FFF; background: none; border: none; cursor: pointer; z-index: 1002; }
         
+        /* KORREKTUR: Thumbnail Highlighting Logik vereinfacht */
         .thumbnail-item {
             opacity: 0.5;
             cursor: pointer;
@@ -132,6 +132,11 @@
             .project-text p { font-size: 15px; max-width: 100%; }
             .lightbox-overlay { padding: 0; justify-content: center; }
             .lightbox-image { max-width: 100%; max-height: 100%; }
+
+            /* KORREKTUR: 45-Grad-Pfeil auf Mobilgeräten ausblenden */
+            .fullscreen-arrow {
+                display: none;
+            }
         }
     </style>
 </head>
