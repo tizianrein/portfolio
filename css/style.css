@@ -8,7 +8,7 @@ html {
 :root {
     --background-color: #ffffff;
     --text-color: #000000;
-    --text-color-active: #8e8e8e;
+    --text-color-active: #787878;
     --font-main: Arial, sans-serif;
     --header-font-size: 18pt;
     --header-padding: 15px;
@@ -136,7 +136,7 @@ header a.active { color: var(--text-color); }
     position: absolute;
     top: 100%; /* Add a small gap */
     left: 0;
-    background-color: var(--background-color);
+    background-color: none;
     padding: 10px 0;
     z-index: 100;
     white-space: nowrap;

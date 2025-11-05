@@ -105,8 +105,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Fetch the project data (ensure you have created projects.json)
-        // The path is relative to the HTML file (project.html)
         const response = await fetch('../js/projects.json'); 
         if (!response.ok) {
              textElement.innerHTML = "<p>Error: Could not load project data.</p>";
@@ -122,7 +120,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // --- INJECT CONTENT INTO THE TEMPLATE ---
         document.title = `Tizian Rein - ${project.title}`;
-        textElement.innerHTML = `<p>${project.description.replace(/\n/g, '<br>')}</p>`;
+
+        // === THIS IS THE MODIFIED LINE ===
+        textElement.innerHTML = `<p>${project.id}<br>${project.title}<br><br>${project.description.replace(/\n/g, '<br>')}</p>`;
         
         // Build the gallery HTML
         galleryTrack.innerHTML = project.images
