@@ -376,8 +376,8 @@ header a.active { color: var(--text-color); }
       font-size: 15px; 
       max-width: 100%; 
   }
-  .prev-btn { left: 50px; }
-  .next-btn { right: 50px; }
+  .prev-btn { left: 10px; }
+  .next-btn { right: 10px; }
 
   /* Lightbox-Anpassungen für Mobile */
   .lightbox-overlay {
