@@ -74,7 +74,7 @@ body {
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     /* NEU: Der Spaltenabstand wird hier zentral definiert */
-    column-gap: 20px; 
+    column-gap: 0px; 
     box-sizing: border-box;
 }
 
@@ -320,8 +320,8 @@ header a.active { color: var(--text-color); }
   .grid-container, 
   #project-grid {
     grid-template-columns: 1fr;
-    padding-left: 20px;
-    padding-right: 20px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
   /* --- Stile für die Projekt-ÜBERSICHTSSEITE (index.html) --- */
