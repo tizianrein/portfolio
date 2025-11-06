@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('../js/projects.json');
+            const response = await fetch('../projects.json');
             if (!response.ok) throw new Error('Network response was not ok');
             const allProjects = await response.json();
             const project = allProjects.find(p => p.id === projectId);

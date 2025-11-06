@@ -36,21 +36,20 @@
   },
   {
     "id": "022",
-    "year": 2023,
-    "category": "objects",
-    "thumbnail": "images/thumbnails/052-thumb.jpg",
+    "year": 2025,
+    "category": "architecture",
+    "thumbnail": "images/thumbnails/022-thumb.jpg",
     "images": [
-      "images/projects/zakk.1.jpg",
-      "images/projects/zakk.2.gif",
-      "images/projects/zakk.3.jpg",
-      "images/projects/zakk.4.jpg"
+      "images/projects/022.3.jpg",
+      "images/projects/022.1.jpg",
+      "images/projects/022.2.jpg"
     ],
     "en": {
-      "title": "ZAKK Garden Chair",
+      "title": "Seperate Apartment",
       "description": "A minimalist garden chair designed for the ZAKK cultural center, focusing on durable materials and simple assembly."
     },
     "de": {
-      "title": "ZAKK Gartenstuhl",
+      "title": "Separate Wohneinheit",
       "description": "Ein minimalistischer Gartenstuhl für das Kulturzentrum ZAKK, der auf langlebige Materialien und einfache Montage setzt."
     }
   },
@@ -121,11 +120,11 @@
     ],
     "en": {
       "title": "ZAKK Garden Chair",
-      "description": "A minimalist garden chair designed for the ZAKK cultural center, focusing on durable materials and simple assembly."
+      "description": "ZAKK can fly.<br>ZAKK can dive.<br>ZAKK is adaptable.<br>ZAKK is durable.<br><br>A robust outdoor chair made from earth sleeves and a basement window grid, built entirely from hardware store materials. Galvanized, weather-resistant, and stable even on uneven ground thanks to the sleeves."
     },
     "de": {
       "title": "ZAKK Gartenstuhl",
-      "description": "Ein minimalistischer Gartenstuhl für das Kulturzentrum ZAKK, der auf langlebige Materialien und einfache Montage setzt."
+      "description": "ZAKK kann fliegen.<br>ZAKK kann eintauchen.<br>ZAKK ist variabel.<br>ZAKK ist haltbar.<br><br>Ein robuster Außenstuhl aus Erdhülsen und einem Kellerfenstergitter, vollständig aus verfügbaren Materialien aus dem Baumarkt gefertigt. Verzinkt, wetterbeständig und durch die Erdhülsen auch auf unebenem Boden stabil einsetzbar."
     }
   },
   {

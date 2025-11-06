@@ -1,140 +1,140 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  // --- 1. PROJECT DATA with CATEGORIES ---
-  const projects = [
-    { id: '023', title: 'From Structure to Action', year: 2025, category: 'research', thumbnail: 'images/thumbnails/053-thumb.jpg' },
-    { id: '022', title: 'ZAKK Garden Chair', year: 2023, category: 'objects',  thumbnail: 'images/thumbnails/052-thumb.jpg' },
-    { id: '021', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, category: 'architecture',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
-    { id: '020', title: 'Beamtenwohnung Bonn', year: 2024, category: 'architecture',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
-    { id: '019', title: 'Consectetur Adipiscing', year: 2019, category: 'objects', thumbnail: 'images/thumbnails/049-thumb.jpg' },
-    { id: '', title: 'ZAKK', year: 2019, category: 'objects', thumbnail: 'images/thumbnails/018-thumb.jpg' },
-    { id: '017', title: 'Sed Do Eiusmod', year: 2018, category: 'research', thumbnail: 'images/thumbnails/047-thumb.jpg' },
-    { id: '016', title: 'Versöhnungskirche Dachau', year: 2016, category: 'architecture', thumbnail: 'images/thumbnails/046-thumb.jpg' },
-    { id: '015', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, category: 'research', thumbnail: 'images/thumbnails/003-thumb.jpg' },
-    { id: '014', title: 'From Structure to Action', year: 2025, category: 'research', thumbnail: 'images/thumbnails/053-thumb.jpg' },
-    { id: '013', title: 'ZAKK Garden Chair', year: 2023, category: 'objects',  thumbnail: 'images/thumbnails/052-thumb.jpg' },
-    { id: '012', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, category: 'architecture',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
-    { id: '011', title: 'Beamtenwohnung Bonn', year: 2024, category: 'architecture',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
-    { id: '010', title: 'Consectetur Adipiscing', year: 2019, category: 'objects', thumbnail: 'images/thumbnails/049-thumb.jpg' },
-    { id: '009', title: 'Consectetur Adipiscing', year: 2019, category: 'objects', thumbnail: 'images/thumbnails/048-thumb.jpg' },
-    { id: '008', title: 'Sed Do Eiusmod', year: 2018, category: 'research', thumbnail: 'images/thumbnails/047-thumb.jpg' },
-    { id: '007', title: 'Versöhnungskirche Dachau', year: 2016, category: 'architecture', thumbnail: 'images/thumbnails/046-thumb.jpg' },
-    { id: '006', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, category: 'research', thumbnail: 'images/thumbnails/003-thumb.jpg' },
-    { id: '005', title: 'From Structure to Action', year: 2025, category: 'research', thumbnail: 'images/thumbnails/053-thumb.jpg' },
-    { id: '004', title: 'ZAKK Garden Chair', year: 2023, category: 'objects',  thumbnail: 'images/thumbnails/052-thumb.jpg' },
-    { id: '003', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, category: 'architecture',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
-    { id: '002', title: 'Beamtenwohnung Bonn', year: 2024, category: 'architecture',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
-    { id: '001', title: 'Consectetur Adipiscing', year: 2019, category: 'objects', thumbnail: 'images/thumbnails/049-thumb.jpg' },
-    ];
-
+  // --- 1. DEFINE PROJECT ORDER & GLOBAL STATE VARIABLES ---
+  const projectOrder = [
+    '023', '022', '021', '020', '019', '018', '017', '016', '015', 
+    '014', '013', '012', '011', '010', '009', '008', '007', '006', 
+    '005', '004', '003', '002', '001'
+  ];
+  
   const projectGrid = document.getElementById('project-grid');
   
-// --- 2. LANGUAGE SWITCHING LOGIC ---
-  const setLanguage = (lang) => {
-      if (lang !== 'de' && lang !== 'en') lang = 'en'; // Default to English
-      
-      // === THIS IS THE MISSING PART ===
-      // Get the current language BEFORE we change it.
-      const currentLang = localStorage.getItem('userLanguage');
-      // This will be true only if the new lang is different from the old one.
-      const languageHasChanged = currentLang !== lang;
-      
-      // Set HTML lang attribute for accessibility
-      document.documentElement.lang = lang;
+  // These will hold our data and current state once fetched.
+  let fullProjectData = [];
+  let activeFilter = 'all';
 
-      // Show/hide all elements with data-lang attributes
-      document.querySelectorAll('[data-lang-en], [data-lang-de]').forEach(el => {
-          if (el.matches(`[data-lang-${lang}]`)) {
-              el.style.display = '';
-          } else {
-              el.style.display = 'none';
-          }
-      });
+  // --- 3. REWRITTEN PROJECT DISPLAY AND FILTERING ---
+  // This single function now handles filtering AND language changes.
+  const displayProjects = () => {
+    if (!projectGrid) return; // Exit if we're not on the main page
 
-      // Update active state on language buttons
-      document.querySelectorAll('.lang-btn').forEach(btn => {
-          if (btn.dataset.lang === lang) {
-              btn.classList.add('active');
-          } else {
-              btn.classList.remove('active');
-          }
-      });
+    // Determine the current language from localStorage.
+    const lang = localStorage.getItem('userLanguage') || 'en';
 
-      // Save the new chosen language to localStorage
-      localStorage.setItem('userLanguage', lang);
-
-      // Now this condition will work correctly because languageHasChanged is defined.
-      if (languageHasChanged && window.location.pathname.includes('/projects/project.html')) {
-          location.reload();
-      }
-  };
-
-  // *** CHANGED: Check for a saved language first ***
-  const savedLang = localStorage.getItem('userLanguage');
-  const userLang = navigator.language.substring(0, 2);
-
-  // Set initial language: 1st priority is saved choice, 2nd is browser default
-  setLanguage(savedLang || userLang);
-
-  // Add click listeners to all language buttons
-  document.querySelectorAll('.lang-btn').forEach(button => {
-      button.addEventListener('click', (e) => {
-          e.preventDefault();
-          setLanguage(e.target.dataset.lang);
-      });
-  });
-
-// --- 3. PROJECT DISPLAY AND FILTERING ---
-  // This section only runs if we are on the main portfolio page (where #project-grid exists)
-  if (projectGrid) {
-    const filterButtons = document.querySelectorAll('.work-submenu a, #nav-work, #nav-work-de');
+    // 1. Filter the projects based on the active filter.
+    const filteredData = activeFilter === 'all' 
+      ? fullProjectData 
+      : fullProjectData.filter(p => p.category === activeFilter);
     
-    const displayProjects = (projectsToDisplay) => {
-      projectGrid.innerHTML = '';
-      if (!projectsToDisplay) return;
+    // 2. Clear the grid and display the filtered projects with the correct language.
+    projectGrid.innerHTML = '';
+    
+    filteredData.forEach((project, index) => {
+      const projectElement = document.createElement('a');
+      projectElement.href = `projects/project.html?id=${project.id}`;
+      projectElement.className = 'project-item';
+      const layoutType = Math.floor(index / 2) % 2 === 0 ? 'a' : 'b';
+      projectElement.classList.add(`layout-${layoutType}`);
+      
+      // *** KEY CHANGE HERE ***
+      // We now select the title dynamically based on the current language (lang).
+      const title = project[lang]?.title || project['en'].title; // Fallback to English
 
-      projectsToDisplay.forEach((project, index) => {
-        const projectElement = document.createElement('a');
-        projectElement.href = `projects/project.html?id=${project.id}`;
-        projectElement.className = 'project-item';
-        const layoutType = Math.floor(index / 2) % 2 === 0 ? 'a' : 'b';
-        projectElement.classList.add(`layout-${layoutType}`);
-        projectElement.innerHTML = `
-          <div class="project-image-container">
-            <canvas class="pixelation-canvas"></canvas>
-            <img data-src="${project.thumbnail}" class="full-res-image" alt="${project.title}" loading="lazy" decoding="async">
-          </div>
-          <div class="project-info"><h3>${project.id}</h3><p>${project.title}</p></div>
-        `;
-        projectGrid.appendChild(projectElement);
-      });
-      setupImageLoading();
-    };
-
-    filterButtons.forEach(button => {
-      button.addEventListener('click', (e) => {
-        e.preventDefault();
-        const filter = e.target.dataset.filter;
-
-        // CORRECTED LOGIC: Always ensure "work" is active on this page.
-        document.querySelectorAll('#nav-work, #nav-work-de').forEach(btn => btn.classList.add('active'));
-
-        if (filter === 'all' || !filter) {
-          displayProjects(projects);
-        } else {
-          const filteredProjects = projects.filter(p => p.category === filter);
-          displayProjects(filteredProjects);
-        }
-      });
+      projectElement.innerHTML = `
+        <div class="project-image-container">
+          <canvas class="pixelation-canvas"></canvas>
+          <img data-src="${project.thumbnail}" class="full-res-image" alt="${title}" loading="lazy" decoding="async">
+        </div>
+        <div class="project-info"><h3>${project.id}</h3><p>${title}</p></div>
+      `;
+      projectGrid.appendChild(projectElement);
     });
 
-    // Initial display of all projects
-    displayProjects(projects);
-  }
+    // 3. Re-initialize the lazy loading and animations for the new items.
+    setupImageLoading(filteredData.length);
+  };
 
-  // --- 4. IMAGE PIXELATION & LAZY LOADING LOGIC (from original file) ---
-  // This logic is reused for the project grid on the index page
-  function setupImageLoading() {
+  // --- INITIAL DATA FETCHING ---
+  const initializePage = async () => {
+    if (!projectGrid) return;
+
+    try {
+      const response = await fetch('projects.json');
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+      const allProjectsData = await response.json();
+
+      const projectsDataMap = new Map(allProjectsData.map(p => [p.id, p]));
+
+      // Populate our global variable `fullProjectData` in the correct order.
+      fullProjectData = projectOrder
+        .map(id => projectsDataMap.get(id))
+        .filter(Boolean); // Filter out any IDs not found in the JSON
+
+      // Setup filter button listeners
+      const filterButtons = document.querySelectorAll('.work-submenu a, #nav-work, #nav-work-de');
+      filterButtons.forEach(button => {
+        button.addEventListener('click', (e) => {
+          e.preventDefault();
+          activeFilter = e.target.dataset.filter || 'all';
+          document.querySelectorAll('#nav-work, #nav-work-de').forEach(btn => btn.classList.add('active'));
+          // Re-render the grid with the new filter
+          displayProjects();
+        });
+      });
+      
+      // Initial display of all projects
+      displayProjects();
+
+    } catch (error) {
+      console.error("Could not initialize project grid:", error);
+      projectGrid.innerHTML = '<p style="text-align: center; color: red;">Error loading projects.</p>';
+    }
+  };
+
+  // --- 2. UPDATED LANGUAGE SWITCHING LOGIC ---
+  const setLanguage = (lang) => {
+    if (lang !== 'de' && lang !== 'en') lang = 'en';
+    
+    const currentLang = localStorage.getItem('userLanguage');
+    const languageHasChanged = currentLang !== lang;
+    
+    document.documentElement.lang = lang;
+
+    document.querySelectorAll('[data-lang-en], [data-lang-de]').forEach(el => {
+      el.style.display = el.matches(`[data-lang-${lang}]`) ? '' : 'none';
+    });
+
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.lang === lang);
+    });
+
+    localStorage.setItem('userLanguage', lang);
+
+    // *** KEY CHANGE HERE ***
+    // After changing the language, re-render the project grid.
+    if (projectGrid) {
+      displayProjects();
+    }
+
+    if (languageHasChanged && window.location.pathname.includes('/projects/project.html')) {
+      location.reload();
+    }
+  };
+
+  // Set initial language and add listeners
+  const savedLang = localStorage.getItem('userLanguage');
+  const userLang = navigator.language.substring(0, 2);
+  setLanguage(savedLang || userLang);
+
+  document.querySelectorAll('.lang-btn').forEach(button => {
+    button.addEventListener('click', (e) => {
+      e.preventDefault();
+      setLanguage(e.target.dataset.lang);
+    });
+  });
+
+  // --- 4. IMAGE PIXELATION & LAZY LOADING LOGIC (Unchanged) ---
+  function setupImageLoading(projectCount) {
       const BATCH_SIZE = 6;
       const MAX_CONCURRENT = 6;
       const OBS_THRESHOLD = 0.15;
@@ -152,7 +152,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (projectGrid) {
           setupHoverListeners();
           setupLoadObserver();
-          primeFirstBatch(Math.min(BATCH_SIZE, projects.length));
+          primeFirstBatch(Math.min(BATCH_SIZE, projectCount));
       }
   }
+
+  // --- START THE APPLICATION ---
+  initializePage();
 });
