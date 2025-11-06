@@ -142,11 +142,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (e.key === 'ArrowLeft') prev();
                 if (e.key === 'Escape') closeLightbox();
             });
+
+            // --- MODIFIED: Thumbnail click behavior ---
             thumbnails.forEach(thumb => {
                 thumb.addEventListener('click', (e) => {
                     e.stopPropagation();
                     const index = parseInt(thumb.dataset.index, 10);
+                    
+                    // First, always move the main gallery to the correct slide.
+                    // This ensures the lightbox opens with the correct image.
                     moveToSlide(index);
+
+                    // On mobile (matching the CSS breakpoint), also open the lightbox.
+                    if (window.innerWidth <= 1024) {
+                        openLightbox();
+                    }
                 });
             });
 
