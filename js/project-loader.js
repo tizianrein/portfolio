@@ -15,56 +15,42 @@ document.addEventListener('DOMContentLoaded', () => {
             const closeButton = lightbox.querySelector('.lightbox-close');
             const fullscreenArrow = document.querySelector('.fullscreen-arrow');
 
-            // --- NEW: Function to handle loading/unloading of images (especially GIFs) ---
-            const manageSlideImage = (index, load) => {
-                const slide = slides[index];
-                if (slide) {
+            // --- NEW: A robust function to update the visible/active slide ---
+            // This function ensures only the active GIF is loaded and playing.
+            const updateSlideVisibility = (activeIndex) => {
+                slides.forEach((slide, index) => {
                     const img = slide.querySelector('img');
-                    // A GIF is identified by having a 'data-src' attribute.
+                    // Check if the image is a GIF by looking for data-src
                     if (img && img.dataset.src) {
-                        // Load by setting src from data-src, unload by clearing src.
-                        img.src = load ? img.dataset.src : '';
+                        // If this is the active slide, set its src to start loading/playing.
+                        // Otherwise, clear the src to stop it and free up memory.
+                        img.src = (index === activeIndex) ? img.dataset.src : '';
                     }
-                }
-            };
-
-            const updateThumbnailHighlighting = (newIndex) => {
+                });
+                // Also update the thumbnail highlighting
                 thumbnails.forEach((thumb, index) => {
-                    thumb.classList.toggle('is-active', index === newIndex);
+                    thumb.classList.toggle('is-active', index === activeIndex);
                 });
             };
-            
-            // --- MODIFIED: moveToSlide now manages GIF loading/unloading ---
+
             const moveToSlide = (targetSlide) => {
                 const newIndex = (targetSlide + slideCount) % slideCount;
-                
-                if (newIndex === currentSlide && slides[newIndex].querySelector('img')?.src) {
-                    return; // Do nothing if it's the same slide and already loaded
-                }
-
-                // Unload the previously active slide if it was a GIF
-                manageSlideImage(currentSlide, false);
-
-                // Update the current slide index
                 currentSlide = newIndex;
-
-                // Load the new active slide's image
-                manageSlideImage(currentSlide, true);
-
+                
                 track.style.transform = `translateX(-${currentSlide * 100}%)`;
+                updateSlideVisibility(currentSlide);
+
                 if (lightbox.classList.contains('is-visible')) {
                     updateLightboxImage();
                 }
-                updateThumbnailHighlighting(currentSlide);
             };
             
             const next = () => moveToSlide(currentSlide + 1);
             const prev = () => moveToSlide(currentSlide - 1);
 
-            // --- MODIFIED: updateLightboxImage to get the correct source ---
             const updateLightboxImage = () => {
                 const currentImage = slides[currentSlide]?.querySelector('img');
-                // Use data-src for GIFs as the primary source, otherwise fall back to src.
+                // Use data-src for GIFs if available, otherwise fall back to src.
                 const imageSource = currentImage?.dataset.src || currentImage?.src;
                 if (imageSource) {
                     lightboxImage.src = imageSource;
@@ -77,22 +63,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.body.style.overflow = 'hidden';
             };
 
-            // --- MODIFIED: closeLightbox to stop GIF playback ---
             const closeLightbox = () => {
                 lightbox.classList.remove('is-visible');
                 document.body.style.overflow = '';
-                lightboxImage.src = ''; // Clearing the src stops the GIF and frees memory.
+                lightboxImage.src = ''; // Important: Stop GIF in lightbox on close
             };
             
-            // --- DESKTOP NAVIGATION (Klick & Maus) - No changes needed here ---
+            // --- DESKTOP NAVIGATION (No changes needed) ---
             const setupDesktopNavigation = (element) => {
                 const getPositionRelativeToImage = (event) => {
                     const imageElement = element.id === 'lightbox' ? lightboxImage : slides[currentSlide]?.querySelector('img');
                     if (!imageElement) return 'outside';
                     const imgRect = imageElement.getBoundingClientRect();
-                    if (event.clientX < imgRect.left || event.clientX > imgRect.right || event.clientY < imgRect.top || event.clientY > imgRect.bottom) {
-                        return 'outside';
-                    }
+                    if (event.clientX < imgRect.left || event.clientX > imgRect.right || event.clientY < imgRect.top || event.clientY > imgRect.bottom) return 'outside';
                     const midpoint = imgRect.left + imgRect.width / 2;
                     return event.clientX < midpoint ? 'left' : 'right';
                 };
@@ -113,10 +96,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     else if (position === 'right') next();
                 });
             };
-            
             setupDesktopNavigation(gallery);
             setupDesktopNavigation(lightbox);
-
             if (fullscreenArrow) {
                 fullscreenArrow.addEventListener('click', (e) => {
                     e.stopPropagation();
@@ -124,10 +105,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             
-            // --- KORRIGIERTE MOBILE STEUERUNG (SWIPE, TAP, SCROLL) - No changes needed here ---
+            // --- MOBILE CONTROL (No changes needed) ---
             let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
             const horizontalSwipeThreshold = 50, verticalSwipeThreshold = 70, tapThreshold = 10;
-
             const handleHorizontalSwipe = () => {
                 if (touchEndX < touchStartX - horizontalSwipeThreshold) next();
                 if (touchEndX > touchStartX + horizontalSwipeThreshold) prev();
@@ -140,30 +120,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 touchEndX = e.changedTouches[0].screenX; 
                 touchEndY = e.changedTouches[0].screenY;
                 const deltaX = Math.abs(touchStartX - touchEndX), deltaY = Math.abs(touchStartY - touchEndY);
-                
                 if (lightbox.classList.contains('is-visible')) {
-                    if (deltaY > verticalSwipeThreshold && deltaY > deltaX) {
-                        closeLightbox(); return;
-                    }
-                    if (deltaX > horizontalSwipeThreshold && deltaX > deltaY) {
-                        handleHorizontalSwipe(); return;
-                    }
+                    if (deltaY > verticalSwipeThreshold && deltaY > deltaX) { closeLightbox(); return; }
+                    if (deltaX > horizontalSwipeThreshold && deltaX > deltaY) { handleHorizontalSwipe(); return; }
                 } else {
-                    if (deltaX < tapThreshold && deltaY < tapThreshold) {
-                        openLightbox(); return;
-                    }
-                    if (deltaX > horizontalSwipeThreshold && deltaX > deltaY) {
-                        handleHorizontalSwipe(); return;
-                    }
+                    if (deltaX < tapThreshold && deltaY < tapThreshold) { openLightbox(); return; }
+                    if (deltaX > horizontalSwipeThreshold && deltaX > deltaY) { handleHorizontalSwipe(); return; }
                 }
             };
-            
             gallery.addEventListener('touchstart', onTouchStart, { passive: true });
             gallery.addEventListener('touchend', onTouchEnd);
             lightbox.addEventListener('touchstart', onTouchStart, { passive: true });
             lightbox.addEventListener('touchend', onTouchEnd);
 
-            // --- ALLGEMEINE STEUERUNG (für beide Ansichten) - No changes needed here ---
+            // --- GENERAL CONTROL (No changes needed) ---
             closeButton.addEventListener('click', closeLightbox);
             lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
             document.addEventListener('keydown', (e) => {
@@ -180,9 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
 
-            // --- NEW: Load the initial slide image on startup ---
-            manageSlideImage(0, true);
-            updateThumbnailHighlighting(0);
+            // --- MODIFIED: Initial setup call ---
+            // This now correctly loads the first slide, even if it's a GIF.
+            updateSlideVisibility(0);
         }
     };
 
@@ -211,7 +181,6 @@ document.addEventListener('DOMContentLoaded', () => {
             
             const lang = localStorage.getItem('userLanguage') || 'en';
             const content = project[lang] || project.en;
-
             if (!content) {
                 textElement.innerHTML = `<p>Error: No content found for this project.</p>`;
                 return;
@@ -224,20 +193,16 @@ document.addEventListener('DOMContentLoaded', () => {
             
             let galleryHTML = '', thumbnailsHTML = '';
 
-            // --- MODIFIED: Logic to handle GIFs during HTML generation ---
+            // --- This part remains the same, it correctly sets up the HTML ---
             project.images.forEach((imgSrc, index) => {
                 const isGif = imgSrc.toLowerCase().endsWith('.gif');
-                
                 if (isGif) {
-                    // For GIFs, we put the real source in 'data-src' to lazy load it later.
-                    // The 'src' attribute is left empty initially.
+                    // For GIFs, use data-src and leave src empty initially
                     galleryHTML += `<div class="gallery-slide"><img data-src="../${imgSrc}" alt="${content.title} view ${index + 1}"></div>`;
                 } else {
-                    // For static images (jpg, png, etc.), we load them normally.
+                    // For static images, use src directly
                     galleryHTML += `<div class="gallery-slide"><img src="../${imgSrc}" alt="${content.title} view ${index + 1}"></div>`;
                 }
-                
-                // Thumbnails always load the image directly, as they are small.
                 thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}"></div>`;
             });
 

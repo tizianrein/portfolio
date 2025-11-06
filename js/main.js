@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     { id: '021', title: 'Waldfriedhofskapelle Rhöndorf', year: 2023, category: 'architecture',  thumbnail: 'images/thumbnails/051-thumb.jpg' },
     { id: '020', title: 'Beamtenwohnung Bonn', year: 2024, category: 'architecture',  thumbnail: 'images/thumbnails/050-thumb.jpg' },
     { id: '019', title: 'Consectetur Adipiscing', year: 2019, category: 'objects', thumbnail: 'images/thumbnails/049-thumb.jpg' },
-    { id: '018', title: 'Consectetur Adipiscing', year: 2019, category: 'objects', thumbnail: 'images/thumbnails/048-thumb.jpg' },
+    { id: '', title: 'ZAKK', year: 2019, category: 'objects', thumbnail: 'images/thumbnails/018-thumb.jpg' },
     { id: '017', title: 'Sed Do Eiusmod', year: 2018, category: 'research', thumbnail: 'images/thumbnails/047-thumb.jpg' },
     { id: '016', title: 'Versöhnungskirche Dachau', year: 2016, category: 'architecture', thumbnail: 'images/thumbnails/046-thumb.jpg' },
     { id: '015', title: 'Anamorphosen auf dem Ebertplatz', year: 2018, category: 'research', thumbnail: 'images/thumbnails/003-thumb.jpg' },

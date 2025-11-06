@@ -40,10 +40,10 @@
     "category": "objects",
     "thumbnail": "images/thumbnails/052-thumb.jpg",
     "images": [
-      "images/projects/022.1.jpg",
-      "images/projects/022.2.jpg",
-      "images/projects/022.3.jpg",
-      "images/projects/022.4.jpg"
+      "images/projects/zakk.1.jpg",
+      "images/projects/zakk.2.gif",
+      "images/projects/zakk.3.jpg",
+      "images/projects/zakk.4.jpg"
     ],
     "en": {
       "title": "ZAKK Garden Chair",
@@ -110,20 +110,22 @@
   },
   {
     "id": "018",
-    "year": 2019,
+    "year": 2024,
     "category": "objects",
-    "thumbnail": "images/thumbnails/048-thumb.jpg",
+    "thumbnail": "images/thumbnails/052-thumb.jpg",
     "images": [
-      "images/projects/018.1.jpg",
-      "images/projects/018.2.jpg"
+      "images/projects/zakk.1.jpg",
+      "images/projects/zakk.2.gif",
+      "images/projects/zakk.3.jpg",
+      "images/projects/zakk.4.jpg"
     ],
     "en": {
-      "title": "Aliqua Ut Enim",
-      "description": "A series of functional ceramic pieces designed with a focus on minimalist aesthetics and everyday usability."
+      "title": "ZAKK Garden Chair",
+      "description": "A minimalist garden chair designed for the ZAKK cultural center, focusing on durable materials and simple assembly."
     },
     "de": {
-      "title": "Aliqua Ut Enim",
-      "description": "Eine Serie von funktionalen Keramikobjekten, die mit Fokus auf minimalistische Ästhetik und Alltagstauglichkeit entworfen wurden."
+      "title": "ZAKK Gartenstuhl",
+      "description": "Ein minimalistischer Gartenstuhl für das Kulturzentrum ZAKK, der auf langlebige Materialien und einfache Montage setzt."
     }
   },
   {
