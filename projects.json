@@ -46,29 +46,30 @@
     ],
     "en": {
       "title": "Seperate Apartment",
-      "description": "A minimalist garden chair designed for the ZAKK cultural center, focusing on durable materials and simple assembly."
+      "description": "Renovation and reorganization of a detached house in Bonn, built in 1958. The existing floor plan was revised, with a new design for the bathroom and kitchen. By separating and converting the former laundry and storage rooms, an independent living unit with a private entrance was created.<br><br>2025–2026"
     },
     "de": {
       "title": "Separate Wohneinheit",
-      "description": "Ein minimalistischer Gartenstuhl für das Kulturzentrum ZAKK, der auf langlebige Materialien und einfache Montage setzt."
+      "description": "Umbau und Neuordnung eines freistehenden Wohnhauses in Bonn, Baujahr 1958. Der bestehende Grundriss wurde überarbeitet, Bad und Küche neu gestaltet. Durch die Abtrennung und den Ausbau der ehemaligen Waschküche und Abstellräume entstand eine eigenständige Wohneinheit mit separatem Eingang.<br><br>2025–2026"
     }
   },
   {
     "id": "021",
     "year": 2023,
     "category": "architecture",
-    "thumbnail": "images/thumbnails/051-thumb.jpg",
+    "thumbnail": "images/thumbnails/021-thumb.jpg",
     "images": [
       "images/projects/021.1.jpg",
-      "images/projects/021.2.jpg"
+      "images/projects/021.2.jpg",
+      "images/projects/021.3.jpg"
     ],
     "en": {
-      "title": "Waldfriedhofskapelle Rhöndorf",
-      "description": "Competition entry for a new forest cemetery chapel in Rhöndorf, exploring themes of light and tranquility."
+      "title": "Graveyard Chapel Rhöndorf",
+      "description": "Ongoing research and engagement with the Graveyard Chapel in Rhöndorf. Focus is the preservation and careful restoration of the building, recognizing it as a site of local identity and a significant example of post-war german architecture. In 2024, a proposal was unexpectedly submitted to approve the demolition of the chapel. After public concern and renewed discussion about its cultural value, the proposal was eventually withdrawn.<br><br>2022–Present<br><br><a href='https://tizianrein.de/wp-content/uploads/2024/10/220410_Die-Waldfriedhofskapelle-in-Rhoendorf-_-Tizian-Rein.pdf' target='_blank' rel='noopener noreferrer'>More Information</a>"
     },
     "de": {
       "title": "Waldfriedhofskapelle Rhöndorf",
-      "description": "Wettbewerbsbeitrag für eine neue Waldfriedhofskapelle in Rhöndorf, der die Themen Licht und Stille untersucht."
+      "description": "Anhaltende Forschungsarbeit und künstlerisch-aktivistische Auseinandersetzung mit der Waldfriedhofskapelle in Rhöndorf. Im Mittelpunkt steht die Forderung nach dem Erhalt und ein denkmalgerechter Umgang mit dem Bauwerk, welches als identitätsstiftender Ort und Beispiel einer modernen Sakralarchitektur der Nachkriegszeit besondere Bedeutung besitzt. 2024 wurde seitens der Stadtverwaltung unerwartet ein Vorschlag für den Abriss der Kapelle vorgelegt. Nach öffentlicher Besorgnis und erneuter Diskussion über ihren kulturellen Wert wurde der Antrag schließlich zurückgezogen.<br><br>2022–Aktuell<br><br><a href='https://tizianrein.de/wp-content/uploads/2024/10/220410_Die-Waldfriedhofskapelle-in-Rhoendorf-_-Tizian-Rein.pdf' target='_blank' rel='noopener noreferrer'>Mehr Informationen</a>"
     }
   },
   {
