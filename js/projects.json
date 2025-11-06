@@ -381,19 +381,19 @@
   {
     "id": "003",
     "year": 2023,
-    "category": "architecture",
+    "category": "object",
     "thumbnail": "images/thumbnails/051-thumb.jpg",
     "images": [
-      "images/projects/003.1.jpg",
+      "images/projects/003.3.jpg",
       "images/projects/003.2.jpg",
-      "images/projects/003.3.jpg"
+      "images/projects/003.3.gif"
     ],
     "en": {
-      "title": "Rhöndorf Chapel Material Study",
+      "title": "Anamorphosis",
       "description": "A detailed study of local stone and wood for the Rhöndorf chapel competition."
     },
     "de": {
-      "title": "Materialstudie Kapelle Rhöndorf",
+      "title": "Anamorphosen auf dem Ebertplatz",
       "description": "Eine detaillierte Untersuchung von lokalem Stein und Holz für den Wettbewerb der Kapelle Rhöndorf."
     }
   },
