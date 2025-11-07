@@ -46,7 +46,7 @@
       "images/projects/022.1.jpg"
     ],
     "en": {
-      "title": "Seperate Apartment",
+      "title": "Detached Apartment",
       "description": "Renovation and reorganization of a detached house in Bonn, built in 1958. The existing floor plan was revised, with a new design for the bathroom and kitchen. By separating and converting the former laundry and storage rooms, an independent living unit with a private entrance was created.<br><br>2025–2026"
     },
     "de": {
@@ -81,32 +81,38 @@
     "images": [
       "images/projects/020.1.jpg",
       "images/projects/020.2.jpg",
-      "images/projects/020.3.jpg"
+      "images/projects/020.3.jpg",
+      "images/projects/020.4.jpg",
+      "images/projects/020.5.jpg"
     ],
     "en": {
-      "title": "Beamtenwohnung Bonn",
-      "description": "Renovation and interior design of a historic civil servant's apartment in Bonn, preserving original features while introducing modern elements."
+      "title": "Apartment of a Clerk",
+      "description": "Renovation and interior fit-out of an apartment in a post-war building in Bonn. The originally compact floor plan was altered with a few targeted interventions to create new relationships between the rooms, as well as to the garden and balcony.<br><br>2022-2023"
     },
     "de": {
       "title": "Beamtenwohnung Bonn",
-      "description": "Sanierung und Innenausbau einer historischen Beamtenwohnung in Bonn, bei der originale Elemente erhalten und moderne hinzugefügt wurden."
+      "description": "Sanierung und Innenausbau einer Wohnung in einem Haus der Nachkriegszeit in Bonn. Aus einem kompakten Grundriss wurden mit wenigen Eingriffen neue Beziehungen zwischen den Räumen sowie zum Balkon und Garten geschaffen.<br><br>2022-2023"
     }
   },
   {
     "id": "019",
     "year": 2019,
     "category": "objects",
-    "thumbnail": "images/thumbnails/049-thumb.jpg",
+    "thumbnail": "images/thumbnails/019.2-thumb.jpg",
     "images": [
-      "images/projects/019.1.jpg"
+      "images/projects/019.1.jpg",
+      "images/projects/019.2.jpg",
+      "images/projects/019.3.jpg",
+      "images/projects/019.4.jpg",
+      "images/projects/019.5.jpg"
     ],
     "en": {
-      "title": "Consectetur Adipiscing",
-      "description": "An object study exploring the relationship between form and material through a series of cast sculptures."
+      "title": "Shelter",
+      "description": "A robust and functional bicycle shelter. The design is also suitable for cargo bikes and provides protection from the weather. As part of the concept, the use of solar modules as roofing was considered to integrate energy generation.<br><br>2022"
     },
     "de": {
-      "title": "Consectetur Adipiscing",
-      "description": "Eine Objektstudie, die die Beziehung zwischen Form und Material anhand einer Reihe von Gussskulpturen untersucht."
+      "title": "Unterstand",
+      "description": "Planung für einen robusten und funktionalen Fahrradunterstand. Die Konstruktion eignet sich durch ihre Form auch für Lastenfahrräder und bietet Schutz vor Witterungseinflüssen. Im Rahmen der Konzeption kam auch der Einsatz von Solarmodulen als Dacheindeckung in Frage.<br><br>2022"
     }
   },
   {
@@ -127,313 +133,6 @@
     "de": {
       "title": "ZAKK Gartenstuhl",
       "description": "ZAKK kann fliegen.<br>ZAKK kann eintauchen.<br>ZAKK ist variabel.<br>ZAKK ist haltbar.<br><br>Ein robuster Außenstuhl aus Erdhülsen und einem Kellerfenstergitter, vollständig aus verfügbaren Materialien aus dem Baumarkt gefertigt. Verzinkt, wetterbeständig und durch die Erdhülsen auch auf unebenem Boden stabil einsetzbar."
-    }
-  },
-  {
-    "id": "017",
-    "year": 2018,
-    "category": "research",
-    "thumbnail": "images/thumbnails/047-thumb.jpg",
-    "images": [
-      "images/projects/017.1.jpg",
-      "images/projects/017.2.jpg",
-      "images/projects/017.3.jpg"
-    ],
-    "en": {
-      "title": "Sed Do Eiusmod",
-      "description": "Research project on temporary structures and their impact on urban public spaces."
-    },
-    "de": {
-      "title": "Sed Do Eiusmod",
-      "description": "Forschungsprojekt über temporäre Strukturen und ihre Auswirkungen auf den städtischen öffentlichen Raum."
-    }
-  },
-  {
-    "id": "016",
-    "year": 2016,
-    "category": "architecture",
-    "thumbnail": "images/thumbnails/046-thumb.jpg",
-    "images": [
-      "images/projects/016.1.jpg",
-      "images/projects/016.2.jpg"
-    ],
-    "en": {
-      "title": "Versöhnungskirche Dachau",
-      "description": "Architectural proposal for the redesign of the entrance area of the Church of Reconciliation in Dachau."
-    },
-    "de": {
-      "title": "Versöhnungskirche Dachau",
-      "description": "Architektonischer Vorschlag zur Neugestaltung des Eingangsbereichs der Versöhnungskirche in Dachau."
-    }
-  },
-  {
-    "id": "015",
-    "year": 2018,
-    "category": "research",
-    "thumbnail": "images/thumbnails/003-thumb.jpg",
-    "images": [
-      "images/projects/015.1.jpg",
-      "images/projects/015.2.jpg"
-    ],
-    "en": {
-      "title": "Anamorphoses on Ebertplatz",
-      "description": "An artistic research project creating perspective-based anamorphic installations in a public square."
-    },
-    "de": {
-      "title": "Anamorphosen auf dem Ebertplatz",
-      "description": "Ein künstlerisches Forschungsprojekt, bei dem perspektivische anamorphotische Installationen auf einem öffentlichen Platz geschaffen wurden."
-    }
-  },
-  {
-    "id": "014",
-    "year": 2025,
-    "category": "research",
-    "thumbnail": "images/thumbnails/053-thumb.jpg",
-    "images": [
-      "images/projects/014.1.jpg",
-      "images/projects/014.2.jpg"
-    ],
-    "en": {
-      "title": "From Structure to Action II",
-      "description": "A follow-up study expanding on the initial research into conceptual frameworks."
-    },
-    "de": {
-      "title": "Von der Struktur zur Aktion II",
-      "description": "Eine Folgestudie, die die ursprüngliche Forschung zu konzeptionellen Rahmenbedingungen erweitert."
-    }
-  },
-  {
-    "id": "013",
-    "year": 2023,
-    "category": "objects",
-    "thumbnail": "images/thumbnails/052-thumb.jpg",
-    "images": [
-      "images/projects/013.1.jpg"
-    ],
-    "en": {
-      "title": "ZAKK Stool",
-      "description": "A companion piece to the garden chair, this stool uses the same design language and materials."
-    },
-    "de": {
-      "title": "ZAKK Hocker",
-      "description": "Als Ergänzung zum Gartenstuhl verwendet dieser Hocker die gleiche Designsprache und die gleichen Materialien."
-    }
-  },
-  {
-    "id": "012",
-    "year": 2023,
-    "category": "architecture",
-    "thumbnail": "images/thumbnails/051-thumb.jpg",
-    "images": [
-      "images/projects/012.1.jpg",
-      "images/projects/012.2.jpg"
-    ],
-    "en": {
-      "title": "Chapel Extension Study",
-      "description": "Conceptual studies for a potential extension to the Rhöndorf cemetery chapel."
-    },
-    "de": {
-      "title": "Erweiterungsstudie Kapelle",
-      "description": "Konzeptionelle Studien für eine mögliche Erweiterung der Friedhofskapelle Rhöndorf."
-    }
-  },
-  {
-    "id": "011",
-    "year": 2024,
-    "category": "architecture",
-    "thumbnail": "images/thumbnails/050-thumb.jpg",
-    "images": [
-      "images/projects/011.1.jpg",
-      "images/projects/011.2.jpg",
-      "images/projects/011.3.jpg"
-    ],
-    "en": {
-      "title": "Bonn Apartment Remodel",
-      "description": "A second renovation project in Bonn, focusing on maximizing space and light in a compact apartment."
-    },
-    "de": {
-      "title": "Wohnungsumbau Bonn",
-      "description": "Ein zweites Sanierungsprojekt in Bonn, das sich auf die Maximierung von Raum und Licht in einer kompakten Wohnung konzentriert."
-    }
-  },
-  {
-    "id": "010",
-    "year": 2019,
-    "category": "objects",
-    "thumbnail": "images/thumbnails/049-thumb.jpg",
-    "images": [
-      "images/projects/010.1.jpg",
-      "images/projects/010.2.jpg"
-    ],
-    "en": {
-      "title": "Incididunt ut Labore",
-      "description": "A collection of handcrafted wooden utensils, emphasizing ergonomic design and natural finishes."
-    },
-    "de": {
-      "title": "Incididunt ut Labore",
-      "description": "Eine Sammlung handgefertigter Holzutensilien mit Schwerpunkt auf ergonomischem Design und natürlichen Oberflächen."
-    }
-  },
-  {
-    "id": "009",
-    "year": 2019,
-    "category": "objects",
-    "thumbnail": "images/thumbnails/048-thumb.jpg",
-    "images": [
-      "images/projects/009.1.jpg"
-    ],
-    "en": {
-      "title": "Dolore Magna",
-      "description": "A lighting object designed to create diffuse, atmospheric light through layered materials."
-    },
-    "de": {
-      "title": "Dolore Magna",
-      "description": "Ein Leuchtobjekt, das durch geschichtete Materialien ein diffuses, atmosphärisches Licht erzeugt."
-    }
-  },
-  {
-    "id": "008",
-    "year": 2018,
-    "category": "research",
-    "thumbnail": "images/thumbnails/047-thumb.jpg",
-    "images": [
-      "images/projects/008.1.jpg",
-      "images/projects/008.2.jpg"
-    ],
-    "en": {
-      "title": "Tempor Laboris",
-      "description": "Analysis of material decay in temporary installations as a design element."
-    },
-    "de": {
-      "title": "Tempor Laboris",
-      "description": "Analyse des Materialzerfalls bei temporären Installationen als Gestaltungselement."
-    }
-  },
-  {
-    "id": "007",
-    "year": 2016,
-    "category": "architecture",
-    "thumbnail": "images/thumbnails/046-thumb.jpg",
-    "images": [
-      "images/projects/007.1.jpg",
-      "images/projects/007.2.jpg",
-      "images/projects/007.3.jpg"
-    ],
-    "en": {
-      "title": "Dachau Memorial Space",
-      "description": "A conceptual design for a contemplative space within the Dachau memorial site."
-    },
-    "de": {
-      "title": "Gedenkraum Dachau",
-      "description": "Ein konzeptioneller Entwurf für einen kontemplativen Raum innerhalb der KZ-Gedenkstätte Dachau."
-    }
-  },
-  {
-    "id": "006",
-    "year": 2018,
-    "category": "research",
-    "thumbnail": "images/thumbnails/003-thumb.jpg",
-    "images": [
-      "images/projects/006.1.jpg",
-      "images/projects/006.2.jpg"
-    ],
-    "en": {
-      "title": "Urban Interventions",
-      "description": "A study of small-scale artistic interventions and their effect on pedestrian behavior."
-    },
-    "de": {
-      "title": "Urbane Interventionen",
-      "description": "Eine Untersuchung von kleinteiligen künstlerischen Interventionen und deren Auswirkung auf das Fußgängerverhalten."
-    }
-  },
-  {
-    "id": "005",
-    "year": 2025,
-    "category": "research",
-    "thumbnail": "images/thumbnails/053-thumb.jpg",
-    "images": [
-      "images/projects/005.1.jpg"
-    ],
-    "en": {
-      "title": "Actionable Frameworks",
-      "description": "Practical applications derived from the 'Structure to Action' research project."
-    },
-    "de": {
-      "title": "Handlungsfähige Rahmenwerke",
-      "description": "Praktische Anwendungen, die aus dem Forschungsprojekt 'Von der Struktur zur Aktion' abgeleitet wurden."
-    }
-  },
-  {
-    "id": "004",
-    "year": 2023,
-    "category": "objects",
-    "thumbnail": "images/thumbnails/052-thumb.jpg",
-    "images": [
-      "images/projects/004.1.jpg",
-      "images/projects/004.2.jpg"
-    ],
-    "en": {
-      "title": "ZAKK Garden Table",
-      "description": "A matching garden table to accompany the ZAKK chair and stool series."
-    },
-    "de": {
-      "title": "ZAKK Gartentisch",
-      "description": "Ein passender Gartentisch zur Ergänzung der ZAKK Stuhl- und Hockerserie."
-    }
-  },
-  {
-    "id": "003",
-    "year": 2023,
-    "category": "object",
-    "thumbnail": "images/thumbnails/051-thumb.jpg",
-    "images": [
-      "images/projects/003.3.jpg",
-      "images/projects/003.2.jpg",
-      "images/projects/003.3.gif"
-    ],
-    "en": {
-      "title": "Anamorphosis",
-      "description": "A detailed study of local stone and wood for the Rhöndorf chapel competition."
-    },
-    "de": {
-      "title": "Anamorphosen auf dem Ebertplatz",
-      "description": "Eine detaillierte Untersuchung von lokalem Stein und Holz für den Wettbewerb der Kapelle Rhöndorf."
-    }
-  },
-  {
-    "id": "002",
-    "year": 2024,
-    "category": "architecture",
-    "thumbnail": "images/thumbnails/050-thumb.jpg",
-    "images": [
-      "images/projects/002.1.jpg",
-      "images/projects/002.2.jpg"
-    ],
-    "en": {
-      "title": "Bonn Facade Study",
-      "description": "A study on the historical and modern facade treatments for residential buildings in Bonn."
-    },
-    "de": {
-      "title": "Fassadenstudie Bonn",
-      "description": "Eine Studie über historische und moderne Fassadengestaltungen für Wohngebäude in Bonn."
-    }
-  },
-  {
-    "id": "001",
-    "year": 2019,
-    "category": "objects",
-    "thumbnail": "images/thumbnails/049-thumb.jpg",
-    "images": [
-      "images/projects/001.1.jpg",
-      "images/projects/001.2.jpg"
-    ],
-    "en": {
-      "title": "Excepteur Sint Occaecat",
-      "description": "Final project in the series of cast sculptures, focusing on texture and surface finish."
-    },
-    "de": {
-      "title": "Excepteur Sint Occaecat",
-      "description": "Abschlussprojekt der Serie von Gussskulpturen mit Fokus auf Textur und Oberflächenbeschaffenheit."
     }
   }
 ]
