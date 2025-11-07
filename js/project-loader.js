@@ -105,7 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             }
             
-            // --- MOBILE CONTROL (No changes needed) ---
+            // --- MOBILE CONTROL (MODIFIED to prevent zoom/swipe conflict) ---
             let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
             const horizontalSwipeThreshold = 50, verticalSwipeThreshold = 70, tapThreshold = 10;
             const handleHorizontalSwipe = () => {
@@ -113,10 +113,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (touchEndX > touchStartX + horizontalSwipeThreshold) prev();
             };
             const onTouchStart = (e) => {
-                touchStartX = e.changedTouches[0].screenX;
-                touchStartY = e.changedTouches[0].screenY;
+                // Only track single-finger touches. If more than one finger is on the
+                // screen (e.g., for pinch-zoom), invalidate the swipe start point.
+                if (e.touches.length === 1) {
+                    touchStartX = e.touches[0].screenX;
+                    touchStartY = e.touches[0].screenY;
+                } else {
+                    touchStartX = null;
+                    touchStartY = null;
+                }
             };
             const onTouchEnd = (e) => { 
+                // If touchStartX is null, it means the gesture started with more than one finger (e.g., zoom)
+                // or was otherwise invalidated. Do nothing to allow native zoom.
+                if (touchStartX === null) return;
+
                 touchEndX = e.changedTouches[0].screenX; 
                 touchEndY = e.changedTouches[0].screenY;
                 const deltaX = Math.abs(touchStartX - touchEndX), deltaY = Math.abs(touchStartY - touchEndY);
