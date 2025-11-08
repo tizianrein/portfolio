@@ -92,7 +92,7 @@
   },
   {
     "id": "019",
-    "year": 2019,
+    "year": 2024,
     "category": "objects",
     "thumbnail": "images/thumbnails/019.2-thumb.jpg",
     "images": [
@@ -104,11 +104,11 @@
     ],
     "en": {
       "title": "Shelter",
-      "description": "A robust and functional bicycle shelter. The design is also suitable for cargo bikes and provides protection from the weather. As part of the concept, the use of solar modules as roofing was considered to integrate energy generation.<br><br>2022"
+      "description": "A robust and functional bicycle shelter. The design is also suitable for cargo bikes and provides protection from the weather. As part of the concept, the use of solar modules as roofing was considered to integrate energy generation.<br><br>2024"
     },
     "de": {
       "title": "Unterstand",
-      "description": "Planung für einen robusten und funktionalen Fahrradunterstand. Die Konstruktion eignet sich durch ihre Form auch für Lastenfahrräder und bietet Schutz vor Witterungseinflüssen. Im Rahmen der Konzeption kam auch der Einsatz von Solarmodulen als Dacheindeckung in Frage.<br><br>2022"
+      "description": "Planung für einen robusten und funktionalen Fahrradunterstand. Die Konstruktion eignet sich durch ihre Form auch für Lastenfahrräder und bietet Schutz vor Witterungseinflüssen. Im Rahmen der Konzeption kam auch der Einsatz von Solarmodulen als Dacheindeckung in Frage.<br><br>2024"
     }
   },
   {
@@ -124,11 +124,37 @@
     ],
     "en": {
       "title": "ZAKK Garden Chair",
-      "description": "ZAKK can fly.<br>ZAKK can dive.<br>ZAKK is adaptable.<br>ZAKK is durable.<br><br>A robust outdoor chair made from earth sleeves and a basement window grid, built entirely from hardware store materials. Galvanized, weather-resistant, and stable even on uneven ground thanks to the sleeves.<br><br>2023"
+      "description": "ZAKK can fly.<br>ZAKK can dive.<br>ZAKK is adaptable.<br>ZAKK is durable.<br><br>A robust outdoor chair made from earth sleeves and a basement window grid, built entirely from hardware store materials. Galvanized, weather-resistant, and stable even on uneven ground thanks to the sleeves.<br><br>2024"
     },
     "de": {
       "title": "ZAKK Gartenstuhl",
-      "description": "ZAKK kann fliegen.<br>ZAKK kann eintauchen.<br>ZAKK ist variabel.<br>ZAKK ist haltbar.<br><br>Ein robuster Außenstuhl aus Erdhülsen und einem Kellerfenstergitter, vollständig aus verfügbaren Materialien aus dem Baumarkt gefertigt. Verzinkt, wetterbeständig und durch die Erdhülsen auch auf unebenem Boden stabil einsetzbar.<br><br>2023"
+      "description": "ZAKK kann fliegen.<br>ZAKK kann eintauchen.<br>ZAKK ist variabel.<br>ZAKK ist haltbar.<br><br>Ein robuster Außenstuhl aus Erdhülsen und einem Kellerfenstergitter, vollständig aus verfügbaren Materialien aus dem Baumarkt gefertigt. Verzinkt, wetterbeständig und durch die Erdhülsen auch auf unebenem Boden stabil einsetzbar.<br><br>2024"
+    }
+  },
+  {
+    "id": "017",
+    "year": 2024,
+    "category": "architecture",
+    "thumbnail": "images/thumbnails/017-thumb.jpg",
+    "images": [
+      "images/projects/017.1.jpg",
+      "images/projects/017.1.jpg",
+      "images/projects/017.1.jpg",
+      "images/projects/017.1.jpg"
+    ],
+    "video": {
+      "provider": "local",
+      "src": "images/projects/017.video.mp4",
+      "poster": "images/projects/017.frame.jpg",
+      "insertAt": 1
+    },
+    "en": {
+      "title": "Free/Bird",
+      "description": "In 2024 the Immersive Studio of Gramazio Kohler Research at ETH Zurich explored parametrically controlled timber constructions for an industrial component depot on an SBB site in Zurich. The design process was entirely based on three-dimensional CAD models, experienced at full scale through VR. The project combined experimental design and construction methods to translate industrial shelving systems into an adaptable roof structure. A custom Python script defined the cellular geometry of the wooden modules, allowing the roof to dynamically adjust to spatial and structural changes, creating a precise balance between functionality and lightness.<br><br>Master project 2024, ETH Zurich<br>With <a href='https://lancelotburwell.ch' target='_blank'>Lancelot Burwell</a><br>Professorship for Architecture and Digital Fabrication (Fabio Gramazio & Matthias Kohler)<br>Guest critics: Annette Spiro, Gilles Retsin"
+    },
+    "de": {
+      "title": "Free/Bird",
+      "description": "2024 widmete sich das Immersive Studio von Gramazio Kohler Research an der ETH Zürich der Entwicklung parametrisch gesteuerter Holzkonstruktionen für ein Bauteillager auf einem SBB-Areal in Zürich. Der Entwurfsprozess basierte vollständig auf dreidimensionalen CAD-Modellen, die über VR-Brillen im Maßstab 1:1 erlebt wurden. Das Projekt verband experimentelle Entwurfs- und Konstruktionsmethoden, um industrielle Regalsysteme in ein anpassungsfähiges Dachsystem zu überführen. Ein Python-Skript steuerte dabei die zelluläre Geometrie der Holzelemente, sodass sich das Dach dynamisch an Raum und Struktur anpasst und eine präzise Verbindung von Funktionalität und Leichtigkeit entsteht.<br><br>Masterprojekt 2024, ETH Zürich<br>Mit <a href='https://lancelotburwell.ch' target='_blank'>Lancelot Burwell</a><br>Professur für Architektur und Digitale Fabrikation (Fabio Gramazio & Matthias Kohler)<br>Gastkritiker: Annette Spiro, Gilles Retsin"
     }
   }
 ]
