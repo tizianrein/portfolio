@@ -241,22 +241,36 @@ document.addEventListener('DOMContentLoaded', () => {
       // Mobile-Tap
       vid.addEventListener('touchend', (e) => {
         if (e.changedTouches.length === 0) return;
+
         const t = e.changedTouches[0];
         const rect = vid.getBoundingClientRect();
         const localX = t.clientX - rect.left;
         const localY = t.clientY - rect.top;
+
+        // 1) Controls-Zone unten (für native Leiste)
         const safePx = Math.max(CONTROLS_SAFE_PX_MIN, rect.height * CONTROLS_SAFE_FRAC);
         const inControlsZone = (rect.height - localY) <= safePx;
 
-        if (inControlsZone) {
-          // native Controls: erlauben
-          return;
+        // 2) Center-Zone: Tap soll Play/Pause erlauben
+        //    (mittlerer Bereich: 34% Breite x 50% Höhe als Beispiel)
+        const centerMarginX = rect.width * 0.33;
+        const centerMarginTop = rect.height * 0.25;
+        const centerMarginBottom = rect.height * 0.25;
+        const inCenterZone =
+          localX > centerMarginX &&
+          localX < rect.width - centerMarginX &&
+          localY > centerMarginTop &&
+          localY < rect.height - centerMarginBottom;
+
+        if (inControlsZone || inCenterZone) {
+          // Play/Pause soll funktionieren, aber NICHT die Galerie mitwischen lassen
+          e.stopPropagation(); // verhindert, dass der gallery touchend mitnavigiert
+          return;              // kein preventDefault -> native Videoaktion läuft
         }
 
-        // Navigation statt Play/Pause
+        // 3) An den Rändern: Navigation statt Video-Play/Pause
         e.preventDefault();
         e.stopPropagation();
-
         if (localX < rect.width / 2) prev();
         else next();
       }, { passive: false });
