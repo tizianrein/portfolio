@@ -20,34 +20,32 @@ document.addEventListener('DOMContentLoaded', () => {
         while (lightboxContent.firstChild) {
           const node = lightboxContent.firstChild;
           if (node.tagName === 'VIDEO') {
-            try { node.pause(); } catch(e){}
+            try { node.pause(); } catch (e) {}
           }
           lightboxContent.removeChild(node);
         }
       };
 
-      // --- Only the active GIF should load/play; also pause any <video> on non-active slides
+      // --- Only the active GIF should load/play; pause any <video> off-screen
       const updateSlideVisibility = (activeIndex) => {
         slides.forEach((slide, index) => {
           const img = slide.querySelector('img');
           const vid = slide.querySelector('video');
 
-          // Handle GIFs that use data-src (lazy load)
+          // Handle GIFs with data-src (lazy load)
           if (img && img.dataset && img.dataset.src) {
             img.src = (index === activeIndex) ? img.dataset.src : '';
           }
 
-          // Pause videos that are off-screen
+          // Pause videos not on the active slide
           if (vid) {
-            if (index === activeIndex) {
-              // do nothing: user decides to play
-            } else {
-              try { vid.pause(); } catch(e){}
+            if (index !== activeIndex) {
+              try { vid.pause(); } catch (e) {}
             }
           }
         });
 
-        // Update thumbnail active state
+        // Update thumbnail highlight
         thumbnails.forEach((thumb, index) => {
           thumb.classList.toggle('is-active', index === activeIndex);
         });
@@ -93,20 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
           clone.playsInline = true;
           if (videoEl.poster) clone.poster = videoEl.poster;
 
-          // copy source
           const src = videoEl.querySelector('source')?.src || videoEl.src;
           if (src) {
             const source = document.createElement('source');
             source.src = src;
-            // Keep type as MP4 (most common); if you add other types later, add logic to read type attr
             source.type = 'video/mp4';
             clone.appendChild(source);
           }
-
           lightboxContent.appendChild(clone);
-          // Optional: uncomment to autoplay muted in lightbox
-          // clone.muted = true;
-          // clone.play().catch(() => {});
+          // Optional autoplay muted:
+          // clone.muted = true; clone.play().catch(() => {});
           return;
         }
 
@@ -133,17 +127,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const closeLightbox = () => {
         lightbox.classList.remove('is-visible');
         document.body.style.overflow = '';
-        clearLightboxContent(); // stops GIFs/videos in the overlay
+        clearLightboxContent();
       };
 
       // --- DESKTOP NAVIGATION ---
       const setupDesktopNavigation = (element) => {
         const getMediaElement = () => {
           if (element.id === 'lightbox') {
-            // Prefer whatever is currently shown in lightbox
             return lightboxContent.firstChild || null;
           }
-          // In-gallery: use current slide media
           const s = slides[currentSlide];
           return s?.querySelector('img, video, iframe') || null;
         };
@@ -187,7 +179,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       }
 
-      // --- MOBILE CONTROL (prevents zoom/swipe conflict) ---
+      // --- MOBILE CONTROL (prevent zoom/swipe conflict and respect video gestures) ---
       let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
       const horizontalSwipeThreshold = 50, verticalSwipeThreshold = 70, tapThreshold = 10;
 
@@ -197,6 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       const onTouchStart = (e) => {
+        // If gesture starts on a <video> (or its controls), let native video handle it
+        if (e.target.closest('video')) {
+          touchStartX = null;
+          touchStartY = null;
+          return;
+        }
         if (e.touches.length === 1) {
           touchStartX = e.touches[0].screenX;
           touchStartY = e.touches[0].screenY;
@@ -207,7 +205,10 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       const onTouchEnd = (e) => {
-        if (touchStartX === null) return; // multi-touch started, ignore
+        // If interaction ended on a video, ignore gallery swipe
+        if (e.target.closest('video')) return;
+
+        if (touchStartX === null) return; // multi-touch or video gesture
 
         touchEndX = e.changedTouches[0].screenX;
         touchEndY = e.changedTouches[0].screenY;
@@ -238,20 +239,49 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closeLightbox();
       });
 
-      // --- Thumbnails click -> move + open (mobile)
+      // --- Thumbnails click -> move; on mobile, don't open lightbox for video slide, play inline
       thumbnails.forEach(thumb => {
         thumb.addEventListener('click', (e) => {
           e.stopPropagation();
           const index = parseInt(thumb.dataset.index, 10);
           moveToSlide(index);
+
           if (window.innerWidth <= 1024) {
-            openLightbox();
+            const slideEl = slides[index];
+            const vid = slideEl && slideEl.querySelector('video');
+            if (vid) {
+              // First tap plays inline; avoids double-tap UX on iOS
+              vid.setAttribute('playsinline', '');
+              vid.setAttribute('webkit-playsinline', '');
+              vid.play().catch(() => {});
+              // Optional native fullscreen:
+              // if (!document.fullscreenElement) {
+              //   if (vid.requestFullscreen) vid.requestFullscreen();
+              //   else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
+              // }
+              return; // don't open lightbox for video on mobile
+            }
+            openLightbox(); // images keep normal behavior
           }
         });
       });
 
       // Initial state
       updateSlideVisibility(0);
+
+      // Optional: expose a helper to trigger native fullscreen for current slide's video
+      const currentVideoEl = document.querySelector('.gallery-slide video');
+      if (currentVideoEl) {
+        currentVideoEl.setAttribute('playsinline', '');
+        currentVideoEl.setAttribute('webkit-playsinline', '');
+        currentVideoEl.setAttribute('preload', 'metadata');
+        window.__goVideoFullscreen = () => {
+          try {
+            if (currentVideoEl.requestFullscreen) currentVideoEl.requestFullscreen();
+            else if (currentVideoEl.webkitEnterFullscreen) currentVideoEl.webkitEnterFullscreen(); // iOS Safari
+          } catch (e) {}
+        };
+      }
     }
   };
 
@@ -319,14 +349,14 @@ document.addEventListener('DOMContentLoaded', () => {
         slideIndex++;
       });
 
-      // 2) Video last (local or iframe-ready if you add provider === 'youtube' later)
+      // 2) Video last (local video)
       if (project.video && project.video.provider === 'local' && project.video.src) {
         const videoIndex = slideIndex;
         const posterAttr = project.video.poster ? ` poster="../${project.video.poster}"` : '';
 
         galleryHTML += `
           <div class="gallery-slide">
-            <video controls preload="metadata"${posterAttr} playsinline>
+            <video controls preload="metadata"${posterAttr} playsinline webkit-playsinline>
               <source src="../${project.video.src}" type="video/mp4">
               Your browser does not support the video tag.
             </video>
