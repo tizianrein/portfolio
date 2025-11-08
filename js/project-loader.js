@@ -115,10 +115,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (
           e.target.closest('.lightbox-close') ||
           e.target.closest('.fullscreen-arrow') ||
-          e.target.closest('.thumbnail-item')
+          e.target.closest('.thumbnail-item') ||
+          e.target.closest('video') // Klicks auf Video-Fläche ignorieren (Video handler übernimmt Navigation)
         ) return;
-
-        if (slides[currentSlide]?.querySelector('video') && e.target.closest('video')) return;
 
         const pos = getPositionRelative(e);
         if (pos === 'left') prev();
@@ -209,10 +208,58 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // Video-Klick blockieren, damit Galerie nicht reagiert
+    // --- Video: Klick/Tap auf Fläche = Navigation, NICHT Play/Pause ---
+    // Controls-Zone am unteren Rand bleibt der Videoleiste vorbehalten.
+    const CONTROLS_SAFE_PX_MIN = 40;   // mind. 40px
+    const CONTROLS_SAFE_FRAC  = 0.18;  // oder 18% der Videohöhe
+
     slides.forEach((slide) => {
       const vid = slide.querySelector('video');
-      if (vid) vid.addEventListener('click', (e) => e.stopPropagation());
+      if (!vid) return;
+
+      // Desktop-Klick
+      vid.addEventListener('click', (e) => {
+        const rect = vid.getBoundingClientRect();
+        const localX = e.clientX - rect.left;
+        const localY = e.clientY - rect.top;
+        const safePx = Math.max(CONTROLS_SAFE_PX_MIN, rect.height * CONTROLS_SAFE_FRAC);
+        const inControlsZone = (rect.height - localY) <= safePx;
+
+        if (inControlsZone) {
+          // Bedienleiste benutzen -> Standardverhalten erlauben
+          return;
+        }
+
+        // Sonst: keine Wiedergabe, sondern Galerie-Navigation
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (localX < rect.width / 2) prev();
+        else next();
+      });
+
+      // Mobile-Tap
+      vid.addEventListener('touchend', (e) => {
+        if (e.changedTouches.length === 0) return;
+        const t = e.changedTouches[0];
+        const rect = vid.getBoundingClientRect();
+        const localX = t.clientX - rect.left;
+        const localY = t.clientY - rect.top;
+        const safePx = Math.max(CONTROLS_SAFE_PX_MIN, rect.height * CONTROLS_SAFE_FRAC);
+        const inControlsZone = (rect.height - localY) <= safePx;
+
+        if (inControlsZone) {
+          // native Controls: erlauben
+          return;
+        }
+
+        // Navigation statt Play/Pause
+        e.preventDefault();
+        e.stopPropagation();
+
+        if (localX < rect.width / 2) prev();
+        else next();
+      }, { passive: false });
     });
 
     updateSlideVisibility(0);
@@ -282,13 +329,13 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}"></div>`;
       });
 
-      // 2) Optional: lokales Video
+      // 2) Optional: lokales Video (immer am Ende)
       if (project.video && project.video.provider === 'local' && project.video.src) {
         const videoIndex = project.images.length;
         const posterAttr = project.video.poster ? ` poster="../${project.video.poster}"` : '';
         galleryHTML += `
           <div class="gallery-slide">
-            <video controls preload="metadata"${posterAttr}>
+            <video class="js-video" controls preload="metadata" playsinline webkit-playsinline${posterAttr}>
               <source src="../${project.video.src}" type="video/mp4">
               Your browser does not support the video tag.
             </video>
@@ -308,6 +355,27 @@ document.addEventListener('DOMContentLoaded', () => {
       thumbnailGrid.innerHTML = thumbnailsHTML;
 
       initializeGallery();
+
+      // --- NEU: Pager-Position anpassen ---
+      const pager = document.querySelector('.project-pager');
+      const container = document.querySelector('.project-main-layout');
+      const textSection = document.getElementById('project-text');
+      const gallerySection = document.querySelector('.project-gallery');
+
+      const placePager = () => {
+        if (!pager || !container || !textSection || !gallerySection) return;
+        if (window.innerWidth <= 1024) {
+          // Auf Mobile: Pager ans Seitenende nach der Galerie
+          if (pager.parentElement !== container) container.appendChild(pager);
+        } else {
+          // Auf Desktop: Pager wieder unter Text/Thumbnails
+          if (pager.parentElement !== textSection) textSection.appendChild(pager);
+        }
+      };
+
+      placePager();
+      window.addEventListener('resize', placePager);
+
     } catch (error) {
       console.error('Failed to load project data:', error);
       textElement.innerHTML = "<p>Error: Could not load project data.</p>";
