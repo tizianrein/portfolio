@@ -18,18 +18,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isVideoSlide = (index) => !!slides[index]?.querySelector('video');
 
-    // --- Helpers ---
+    // --- Hilfsfunktionen ---
     const updateSlideVisibility = (activeIndex) => {
       slides.forEach((slide, index) => {
         const img = slide.querySelector('img');
         const vid = slide.querySelector('video');
 
-        // GIF lazy (data-src only for active)
+        // GIF Lazy Loading
         if (img && img.dataset.src) {
           img.src = (index === activeIndex) ? img.dataset.src : '';
         }
 
-        // Pause videos that are not active
+        // Pausiere Videos, wenn sie nicht aktiv sind
         if (vid && index !== activeIndex) {
           try { vid.pause(); } catch (e) {}
         }
@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
       track.style.transform = `translateX(-${currentSlide * 100}%)`;
       updateSlideVisibility(currentSlide);
 
-      // Update lightbox image only when not a video
+      // Lightbox nur bei Bildern aktualisieren
       if (lightbox.classList.contains('is-visible') && !isVideoSlide(currentSlide)) {
         updateLightboxImage();
       }
@@ -64,8 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const openLightbox = () => {
-      // Do not open lightbox for videos
-      if (isVideoSlide(currentSlide)) return;
+      if (isVideoSlide(currentSlide)) return; // keine Videos in Lightbox
       updateLightboxImage();
       lightbox.classList.add('is-visible');
       document.body.style.overflow = 'hidden';
@@ -77,20 +76,17 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxContent.innerHTML = '';
     };
 
-    // --- Desktop Navigation (Hover + Click arrows) ---
+    // --- Desktop Navigation (Hover + Click Pfeile) ---
     const setupDesktopNavigation = (element) => {
-      // Keep original behavior: decide left/right relative to the image box.
-      // If the current slide is a video, fall back to the container bounds so cursors still show.
       const getPositionRelative = (event) => {
         let refEl = null;
 
         if (element.id === 'lightbox') {
           refEl = lightboxContent.querySelector('img');
         } else {
-          // Prefer image if present, else video/iframe, else container
           refEl = slides[currentSlide]?.querySelector('img')
-               || slides[currentSlide]?.querySelector('video, iframe')
-               || element;
+            || slides[currentSlide]?.querySelector('video, iframe')
+            || element;
         }
 
         if (!refEl) return 'outside';
@@ -105,7 +101,7 @@ document.addEventListener('DOMContentLoaded', () => {
       element.addEventListener('mousemove', (e) => {
         if (window.innerWidth <= 1024) return;
         const pos = getPositionRelative(e);
-        element.classList.toggle('cursor-left',  pos === 'left');
+        element.classList.toggle('cursor-left', pos === 'left');
         element.classList.toggle('cursor-right', pos === 'right');
         if (pos === 'outside') element.classList.remove('cursor-left', 'cursor-right');
       });
@@ -122,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
           e.target.closest('.thumbnail-item')
         ) return;
 
-        // If clicking the video element itself, do nothing (don’t start/stop via gallery click).
         if (slides[currentSlide]?.querySelector('video') && e.target.closest('video')) return;
 
         const pos = getPositionRelative(e);
@@ -133,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupDesktopNavigation(gallery);
     setupDesktopNavigation(lightbox);
 
-    // --- Fullscreen Arrow (skip for videos) ---
+    // --- Fullscreen Pfeil (öffnet Lightbox, nicht bei Videos) ---
     if (fullscreenArrow) {
       fullscreenArrow.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -141,19 +136,58 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // --- Touch: simple horizontal swipe ---
+    // --- TOUCHGESTEN (Galerie + Lightbox) ---
     let touchStartX = 0, touchEndX = 0;
-    const threshold = 50;
-    gallery.addEventListener('touchstart', (e) => {
-      touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-    gallery.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].screenX;
-      if (touchEndX < touchStartX - threshold) next();
-      if (touchEndX > touchStartX + threshold) prev();
-    });
+    let touchStartY = 0, touchEndY = 0;
+    const horizontalThreshold = 50;
+    const verticalThreshold = 80;
 
-    // --- Lightbox Controls ---
+    // Galerie
+    gallery.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 1) return;
+      touchStartX = e.touches[0].screenX;
+      touchStartY = e.touches[0].screenY;
+    }, { passive: true });
+
+    gallery.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length > 1) return;
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+
+      if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > horizontalThreshold) {
+        if (deltaX < 0) next();
+        else prev();
+      }
+    }, { passive: true });
+
+    // Lightbox (links/rechts + nach oben/unten schließen)
+    lightbox.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 1) return;
+      touchStartX = e.touches[0].screenX;
+      touchStartY = e.touches[0].screenY;
+    }, { passive: true });
+
+    lightbox.addEventListener('touchend', (e) => {
+      if (e.changedTouches.length > 1) return;
+      touchEndX = e.changedTouches[0].screenX;
+      touchEndY = e.changedTouches[0].screenY;
+      const deltaX = touchEndX - touchStartX;
+      const deltaY = touchEndY - touchStartY;
+
+      if (Math.abs(deltaY) > Math.abs(deltaX) && Math.abs(deltaY) > verticalThreshold) {
+        closeLightbox();
+        return;
+      }
+
+      if (Math.abs(deltaX) > horizontalThreshold && Math.abs(deltaX) > Math.abs(deltaY)) {
+        if (deltaX < 0) next();
+        else prev();
+      }
+    }, { passive: true });
+
+    // --- Lightbox Tastatursteuerung ---
     closeButton.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) closeLightbox();
@@ -171,17 +205,14 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
         const index = parseInt(thumb.dataset.index, 10);
         moveToSlide(index);
-        // Only open lightbox on mobile if it's NOT a video
         if (window.innerWidth <= 1024 && !isVideoSlide(index)) openLightbox();
       });
     });
 
-    // Prevent gallery click from controlling playback if user clicks the video element.
+    // Video-Klick blockieren, damit Galerie nicht reagiert
     slides.forEach((slide) => {
       const vid = slide.querySelector('video');
-      if (vid) {
-        vid.addEventListener('click', (e) => e.stopPropagation());
-      }
+      if (vid) vid.addEventListener('click', (e) => e.stopPropagation());
     });
 
     updateSlideVisibility(0);
@@ -240,7 +271,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let galleryHTML = '';
       let thumbnailsHTML = '';
 
-      // 1) Images (keep order)
+      // 1) Bilder
       project.images.forEach((imgSrc, index) => {
         const isGif = imgSrc.toLowerCase().endsWith('.gif');
         if (isGif) {
@@ -251,10 +282,9 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}"></div>`;
       });
 
-      // 2) Optional local video — always append last
-      let videoWasAppended = false;
+      // 2) Optional: lokales Video
       if (project.video && project.video.provider === 'local' && project.video.src) {
-        const videoIndex = project.images.length; // last position
+        const videoIndex = project.images.length;
         const posterAttr = project.video.poster ? ` poster="../${project.video.poster}"` : '';
         galleryHTML += `
           <div class="gallery-slide">
@@ -272,7 +302,6 @@ document.addEventListener('DOMContentLoaded', () => {
             </div>
           `;
         }
-        videoWasAppended = true;
       }
 
       galleryTrack.innerHTML = galleryHTML;
