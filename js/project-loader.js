@@ -15,66 +15,57 @@ document.addEventListener('DOMContentLoaded', () => {
       const closeButton = lightbox.querySelector('.lightbox-close');
       const fullscreenArrow = document.querySelector('.fullscreen-arrow');
 
-      // --- Utility: clear and stop media inside the lightbox
+      const isVideoSlide = (index) => {
+        const s = slides[index];
+        return !!(s && s.querySelector('video'));
+      };
+
+      // Nächstes / vorheriges NICHT-Video in bestimmter Richtung suchen
+      const findNextNonVideo = (fromIndex, step) => {
+        let i = fromIndex;
+        for (let t = 0; t < slideCount; t++) {
+          i = (i + step + slideCount) % slideCount;
+          if (!isVideoSlide(i)) return i;
+        }
+        return fromIndex; // Fallback (falls alles Videos wäre)
+      };
+
+      // --- Lightbox aufräumen
       const clearLightboxContent = () => {
         while (lightboxContent.firstChild) {
           const node = lightboxContent.firstChild;
-          if (node.tagName === 'VIDEO') {
-            try { node.pause(); } catch (e) {}
-          }
+          if (node.tagName === 'VIDEO') { try { node.pause(); } catch(e){} }
           lightboxContent.removeChild(node);
         }
       };
 
-      // --- Only the active GIF should load/play; pause any <video> off-screen
+      // --- Nur aktives GIF laden/abspielen, Videos außerhalb pausieren
       const updateSlideVisibility = (activeIndex) => {
         slides.forEach((slide, index) => {
           const img = slide.querySelector('img');
           const vid = slide.querySelector('video');
 
-          // Handle GIFs with data-src (lazy load)
           if (img && img.dataset && img.dataset.src) {
             img.src = (index === activeIndex) ? img.dataset.src : '';
           }
-
-          // Pause videos not on the active slide
-          if (vid) {
-            if (index !== activeIndex) {
-              try { vid.pause(); } catch (e) {}
-            }
-          }
+          if (vid && index !== activeIndex) { try { vid.pause(); } catch(e){} }
         });
 
-        // Update thumbnail highlight
         thumbnails.forEach((thumb, index) => {
           thumb.classList.toggle('is-active', index === activeIndex);
         });
       };
 
-      const moveToSlide = (targetSlide) => {
-        const newIndex = (targetSlide + slideCount) % slideCount;
-        currentSlide = newIndex;
-
-        track.style.transform = `translateX(-${currentSlide * 100}%)`;
-        updateSlideVisibility(currentSlide);
-
-        if (lightbox.classList.contains('is-visible')) {
-          updateLightboxMedia();
-        }
-      };
-
-      const next = () => moveToSlide(currentSlide + 1);
-      const prev = () => moveToSlide(currentSlide - 1);
-
-      // --- Lightbox: support IMG (incl. GIF via data-src), VIDEO, IFRAME
       const updateLightboxMedia = () => {
         clearLightboxContent();
 
         const currentSlideEl = slides[currentSlide];
         if (!currentSlideEl) return;
 
+        // Videos werden in der Lightbox bewusst NICHT angezeigt
+        if (currentSlideEl.querySelector('video')) return;
+
         const imgEl = currentSlideEl.querySelector('img');
-        const videoEl = currentSlideEl.querySelector('video');
         const iframeEl = currentSlideEl.querySelector('iframe');
 
         if (imgEl) {
@@ -82,25 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
           clone.src = imgEl.dataset?.src || imgEl.src;
           clone.className = 'lightbox-image';
           lightboxContent.appendChild(clone);
-          return;
-        }
-
-        if (videoEl) {
-          const clone = document.createElement('video');
-          clone.controls = true;
-          clone.playsInline = true;
-          if (videoEl.poster) clone.poster = videoEl.poster;
-
-          const src = videoEl.querySelector('source')?.src || videoEl.src;
-          if (src) {
-            const source = document.createElement('source');
-            source.src = src;
-            source.type = 'video/mp4';
-            clone.appendChild(source);
-          }
-          lightboxContent.appendChild(clone);
-          // Optional autoplay muted:
-          // clone.muted = true; clone.play().catch(() => {});
           return;
         }
 
@@ -114,11 +86,45 @@ document.addEventListener('DOMContentLoaded', () => {
           clone.referrerPolicy = 'origin';
           clone.allowFullscreen = true;
           lightboxContent.appendChild(clone);
-          return;
+        }
+      };
+
+      const moveToSlide = (targetSlide) => {
+        let newIndex = (targetSlide + slideCount) % slideCount;
+
+        // Wenn Lightbox offen ist: NIE auf ein Video springen, stattdessen überspringen
+        if (lightbox.classList.contains('is-visible') && isVideoSlide(newIndex)) {
+          const step = (newIndex > currentSlide) ? +1 : -1;
+          newIndex = findNextNonVideo(currentSlide, step);
+        }
+
+        currentSlide = newIndex;
+        track.style.transform = `translateX(-${currentSlide * 100}%)`;
+        updateSlideVisibility(currentSlide);
+
+        if (lightbox.classList.contains('is-visible')) {
+          updateLightboxMedia();
+        }
+      };
+
+      const next = () => {
+        if (lightbox.classList.contains('is-visible')) {
+          moveToSlide(findNextNonVideo(currentSlide, +1));
+        } else {
+          moveToSlide(currentSlide + 1);
+        }
+      };
+      const prev = () => {
+        if (lightbox.classList.contains('is-visible')) {
+          moveToSlide(findNextNonVideo(currentSlide, -1));
+        } else {
+          moveToSlide(currentSlide - 1);
         }
       };
 
       const openLightbox = () => {
+        // Lightbox NIE bei Video-Slide öffnen
+        if (isVideoSlide(currentSlide)) return;
         updateLightboxMedia();
         lightbox.classList.add('is-visible');
         document.body.style.overflow = 'hidden';
@@ -130,14 +136,13 @@ document.addEventListener('DOMContentLoaded', () => {
         clearLightboxContent();
       };
 
-      // --- DESKTOP NAVIGATION ---
+      // --- DESKTOP: Cursor-Navi über dem Medienbereich
       const setupDesktopNavigation = (element) => {
         const getMediaElement = () => {
-          if (element.id === 'lightbox') {
-            return lightboxContent.firstChild || null;
-          }
+          if (element.id === 'lightbox') return lightboxContent.firstChild || null;
           const s = slides[currentSlide];
-          return s?.querySelector('img, video, iframe') || null;
+          // Videos absichtlich ausnehmen, da Lightbox keine Videos zeigt
+          return s?.querySelector('img, iframe') || null;
         };
 
         const getPositionRelativeToMedia = (event) => {
@@ -175,11 +180,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (fullscreenArrow) {
         fullscreenArrow.addEventListener('click', (e) => {
           e.stopPropagation();
-          openLightbox();
+          // Bei Video nichts tun
+          if (!isVideoSlide(currentSlide)) openLightbox();
         });
       }
 
-      // --- MOBILE CONTROL (prevent zoom/swipe conflict and respect video gestures) ---
+      // --- MOBILE: Wischkonflikte vermeiden, Video-Gesten respektieren
       let touchStartX = 0, touchEndX = 0, touchStartY = 0, touchEndY = 0;
       const horizontalSwipeThreshold = 50, verticalSwipeThreshold = 70, tapThreshold = 10;
 
@@ -189,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       const onTouchStart = (e) => {
-        // If gesture starts on a <video> (or its controls), let native video handle it
+        // Start auf Video: Galeriegesten ignorieren
         if (e.target.closest('video')) {
           touchStartX = null;
           touchStartY = null;
@@ -205,10 +211,10 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       const onTouchEnd = (e) => {
-        // If interaction ended on a video, ignore gallery swipe
+        // Ende auf Video: Galeriegesten ignorieren
         if (e.target.closest('video')) return;
 
-        if (touchStartX === null) return; // multi-touch or video gesture
+        if (touchStartX === null) return; // multi-touch oder Video-Geste
 
         touchEndX = e.changedTouches[0].screenX;
         touchEndY = e.changedTouches[0].screenY;
@@ -219,7 +225,11 @@ document.addEventListener('DOMContentLoaded', () => {
           if (deltaY > verticalSwipeThreshold && deltaY > deltaX) { closeLightbox(); return; }
           if (deltaX > horizontalSwipeThreshold && deltaX > deltaY) { handleHorizontalSwipe(); return; }
         } else {
-          if (deltaX < tapThreshold && deltaY < tapThreshold) { openLightbox(); return; }
+          if (deltaX < tapThreshold && deltaY < tapThreshold) {
+            // Tap öffnet Lightbox nur, wenn kein Video aktiv ist
+            if (!isVideoSlide(currentSlide)) openLightbox();
+            return;
+          }
           if (deltaX > horizontalSwipeThreshold && deltaX > deltaY) { handleHorizontalSwipe(); return; }
         }
       };
@@ -228,6 +238,30 @@ document.addEventListener('DOMContentLoaded', () => {
       gallery.addEventListener('touchend', onTouchEnd);
       lightbox.addEventListener('touchstart', onTouchStart, { passive: true });
       lightbox.addEventListener('touchend', onTouchEnd);
+
+      // --- Klicks auf das Video: nie Auto-Play, nur Controls-Play ---
+      slides.forEach((slide) => {
+        const vid = slide.querySelector('video');
+        if (vid) {
+          // iOS Inline
+          vid.setAttribute('playsinline', '');
+          vid.setAttribute('webkit-playsinline', '');
+          vid.setAttribute('preload', 'metadata');
+
+          // Klicks auf die Video-Fläche unterdrücken, damit nur der Play-Button der Controls startet
+          vid.addEventListener('click', (ev) => {
+            // Wenn der Klick nicht auf ein Controls-Element zeigt, verhindere Default
+            // (Browser-spezifisch: sichere Variante – verhindert das ungewollte Auto-Play)
+            ev.preventDefault();
+            ev.stopPropagation();
+          });
+
+          // Auch Pointerdown stoppen (zusätzliche Sicherheit gegen Klick-Delegation)
+          vid.addEventListener('pointerdown', (ev) => {
+            ev.stopPropagation();
+          });
+        }
+      });
 
       // --- GENERAL CONTROL ---
       closeButton.addEventListener('click', closeLightbox);
@@ -239,7 +273,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (e.key === 'Escape') closeLightbox();
       });
 
-      // --- Thumbnails click -> move; on mobile, don't open lightbox for video slide, play inline
+      // --- Thumbnails: bei Video nie Lightbox öffnen, keine Auto-Play-Aktion ---
       thumbnails.forEach(thumb => {
         thumb.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -247,41 +281,17 @@ document.addEventListener('DOMContentLoaded', () => {
           moveToSlide(index);
 
           if (window.innerWidth <= 1024) {
-            const slideEl = slides[index];
-            const vid = slideEl && slideEl.querySelector('video');
-            if (vid) {
-              // First tap plays inline; avoids double-tap UX on iOS
-              vid.setAttribute('playsinline', '');
-              vid.setAttribute('webkit-playsinline', '');
-              vid.play().catch(() => {});
-              // Optional native fullscreen:
-              // if (!document.fullscreenElement) {
-              //   if (vid.requestFullscreen) vid.requestFullscreen();
-              //   else if (vid.webkitEnterFullscreen) vid.webkitEnterFullscreen();
-              // }
-              return; // don't open lightbox for video on mobile
+            if (isVideoSlide(index)) {
+              // kein openLightbox, kein programmatic play
+              return;
             }
-            openLightbox(); // images keep normal behavior
+            openLightbox();
           }
         });
       });
 
-      // Initial state
+      // Initial
       updateSlideVisibility(0);
-
-      // Optional: expose a helper to trigger native fullscreen for current slide's video
-      const currentVideoEl = document.querySelector('.gallery-slide video');
-      if (currentVideoEl) {
-        currentVideoEl.setAttribute('playsinline', '');
-        currentVideoEl.setAttribute('webkit-playsinline', '');
-        currentVideoEl.setAttribute('preload', 'metadata');
-        window.__goVideoFullscreen = () => {
-          try {
-            if (currentVideoEl.requestFullscreen) currentVideoEl.requestFullscreen();
-            else if (currentVideoEl.webkitEnterFullscreen) currentVideoEl.webkitEnterFullscreen(); // iOS Safari
-          } catch (e) {}
-        };
-      }
     }
   };
 
@@ -320,12 +330,12 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!p) { p = document.createElement('p'); textElement.prepend(p); }
       p.innerHTML = `${project.id}<br>${content.title}<br><br>${content.description.replace(/\n/g, '<br>')}`;
 
-      // --- Build gallery & thumbnails ---
+      // --- Galerie & Thumbs aufbauen ---
       let galleryHTML = '';
       let thumbnailsHTML = '';
-      let slideIndex = 0; // true index as we append slides
+      let slideIndex = 0;
 
-      // 1) Images first (keep GIF lazy behavior)
+      // 1) Bilder zuerst (GIF lazy via data-src)
       project.images.forEach((imgSrc) => {
         const isGif = imgSrc.toLowerCase().endsWith('.gif');
 
@@ -349,7 +359,7 @@ document.addEventListener('DOMContentLoaded', () => {
         slideIndex++;
       });
 
-      // 2) Video last (local video)
+      // 2) Video am Schluss (nur auf Standard-Seite sichtbar, keine Lightbox)
       if (project.video && project.video.provider === 'local' && project.video.src) {
         const videoIndex = slideIndex;
         const posterAttr = project.video.poster ? ` poster="../${project.video.poster}"` : '';
@@ -376,7 +386,6 @@ document.addEventListener('DOMContentLoaded', () => {
         slideIndex++;
       }
 
-      // Inject built markup and init
       galleryTrack.innerHTML = galleryHTML;
       thumbnailGrid.innerHTML = thumbnailsHTML;
 

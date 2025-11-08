@@ -176,5 +176,28 @@
       "title": "Harboring Histories",
       "description": "As part of Studio Meteora at the Chair of Digital Architectonics at ETH Zurich, the project <em>Harboring Histories</em> was conducted in the autumn semester 2023 by Virginia “Ginny” Zaretskie and Tizian Rein. The speculative catalogue <em>Reluctant Relics</em> (<a href='catalog.pdf' target='_blank'>link to catalogue</a>) envisions a future Palermo where monuments, narratives, and artifacts merge into an architectural stageplay. Drawing from literary, cinematic, and digital sources, the project explores how collective memory and algorithmic design processes can shape the transformation of urban form.<br><br>Unfolding across several speculative stage sets of the city, the work combines documentary strategies with experimental design. Philosophical, technological, and narrative approaches accompany a poetic yet critical reflection on the relationship between architecture, city, and memory.<br><br>Studio Meteora – Chair of Digital Architectonics (Prof. Dr. Ludger Hovestadt)<br>Instructors: Jorge Orozco, Adil Bokhari, Miro Roman<br>With Virginia “Ginny” Zaretskie<br>ETH Zurich, Autumn Semester 2023"
     }
+  },
+{
+  "id": "013",
+  "year": 2023,
+  "category": "research",
+  "thumbnail": "images/thumbnails/013-thumb.jpg",
+  "images": [
+    "images/projects/013.1.jpg",
+    "images/projects/013.3.jpg",
+    "images/projects/013.2.jpg",
+    "images/projects/013.5.jpg",
+    "images/projects/013.6.jpg",
+    "images/projects/013.7.jpg"
+  ],
+  "en": {
+    "title": "RoboSgraffito",
+    "description": "The studio project <em>RoboSgraffito</em> explored how traditional plaster techniques can be reinterpreted through robotic fabrication. Conducted under Prof. Andreas Hild (Chair of Design, Conversion and Preservation) and Prof. Dr. Kathrin Dörfler (Chair of Digital Fabrication) at the Technical University of Munich, the project investigated how rhythm and repetition emerge through programmed linear geometries.<br><br>By translating craft-based gestures such as scraping, grinding, carving, and stamping into robotic toolpaths, the students developed a series of methods for layered, multicolored facade designs. Through experiments with material behavior, tool design, and digital control, the work revealed how collaborative robotics can extend architectural expression while maintaining tactile qualities of handcraft.<br><br>The studio critically reflected on the evolving role of human expertise in construction and the potential of technology to foster new synergies between material, machine, and maker.<br><br>Studio <em>RoboSgraffito</em><br>Prof. Andreas Hild – Chair of Design, Conversion and Preservation<br>Prof. Dr. Kathrin Dörfler – Chair of Digital Fabrication<br>Technical University of Munich, Winter Semester 2022/2023"
+  },
+  "de": {
+    "title": "RoboSgraffito",
+    "description": "Das Studio <em>RoboSgraffito</em> erforschte die Verbindung traditioneller Putztechniken mit digitaler und robotischer Fertigung. Unter der Leitung von Prof. Andreas Hild (Lehrstuhl für Entwerfen, Umbau und Denkmalpflege) und Prof. Dr. Kathrin Dörfler (Lehrstuhl für Digitale Fabrikation) an der Technischen Universität München untersuchte das Projekt, wie durch Reihung und Wiederholung von Linien rhythmische Strukturen entstehen, die eine architektonische Oberfläche prägen.<br><br>Durch die Übersetzung handwerklicher Verfahren wie Kratzen, Schleifen, Hobeln, Ziehen und Stempeln in robotische Bewegungsabläufe wurden neue Methoden für mehrschichtige, mehrfarbige Fassadengestaltungen entwickelt. Die Kombination aus Materialexperiment, Werkzeugentwicklung und digitaler Steuerung zeigte, wie kollaborative Robotik handwerkliche Ausdrucksformen erweitern und zugleich den Dialog zwischen Mensch, Maschine und Material neu definieren kann.<br><br>Das Studio reflektierte kritisch die Rolle des Handwerks im Zeitalter der Automatisierung und das Potenzial digitaler Technologien, Wissenstransfer, Präzision und Gestaltungskraft miteinander zu verbinden.<br><br>Studio <em>RoboSgraffito</em><br>Prof. Andreas Hild – Lehrstuhl für Entwerfen, Umbau und Denkmalpflege<br>Prof. Dr. Kathrin Dörfler – Lehrstuhl für Digitale Fabrikation<br>Technische Universität München, Wintersemester 2022/2023"
   }
+}
+
 ]
