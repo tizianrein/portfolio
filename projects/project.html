@@ -1,268 +1,339 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
-    <title>Tizian Rein - Project</title>
-    <link rel="stylesheet" href="../css/style.css">
-    <style>
-        /* --- PROJECT SPECIFIC LAYOUT --- */
-        main {
-            padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3));
-            padding-bottom: 80px;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
+  <title>Tizian Rein - Project</title>
+  <link rel="stylesheet" href="../css/style.css">
 
-        .project-main-layout { 
-            align-items: start; 
-        }
+  <style>
+    /* --- PROJECT SPECIFIC LAYOUT --- */
+    main {
+      padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3));
+      padding-bottom: 80px;
+    }
 
-        .project-text { 
-            grid-column: 1 / 3; 
-            position: sticky; 
-            top: 40px; 
-            padding-right: 40px; 
-            box-sizing: border-box; 
-        }
+    .project-main-layout { align-items: start; }
 
-        .project-text p { 
-            font-family: Arial, sans-serif; 
-            font-size: 15px; 
-            line-height: 1.3; 
-            margin: 0; 
-            max-width: 100%; 
-        }
+    .project-text {
+      grid-column: 1 / 3;
+      position: sticky;
+      top: 40px;
+      padding-right: 40px;
+      box-sizing: border-box;
+    }
 
-        .project-gallery { 
-            grid-column: 3 / -1; 
-            position: relative; 
-            overflow: hidden; 
-            cursor: default; 
-        }
+    .project-text p {
+      font-family: Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.3;
+      margin: 0;
+      max-width: 100%;
+    }
 
-        .gallery-track { display: flex; height: 100%; transition: transform 0.7s ease-in-out; }
-        .gallery-slide { flex-shrink: 0; width: 100%; height: 100%; display: flex; justify-content: flex-start; align-items: center; }
-        .gallery-slide img { width: auto; height: auto; max-width: 100%; max-height: 85vh; object-fit: contain; display: block; }
+    .project-gallery {
+      grid-column: 3 / -1;
+      position: relative;
+      overflow: hidden;
+      cursor: default;
+    }
 
-        .gallery-slide iframe {
-            width: 100%;
-            height: 85vh;
-            border: none;
-            display: block;
-            object-fit: contain;
-        }
-        
-        .fullscreen-arrow {
-            position: absolute;
-            bottom: 10px;
-            right: 15px;
-            width: 24px; 
-            height: 24px;
-            color: var(--text-color);
-            cursor: pointer;
-            z-index: 10;
-        }
-        
-        .fullscreen-arrow svg {
-            width: 100%;
-            height: 100%;
-            transform: rotate(-45deg);
-        }
+    .gallery-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.7s ease-in-out;
+    }
 
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            margin: -1px;
-            padding: 0;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-        }
+    .gallery-slide {
+      flex-shrink: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .lightbox-overlay { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            background: #000;
-            z-index: 1000; 
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            padding: 20px; 
-            box-sizing: border-box; 
-            opacity: 0; 
-            pointer-events: none; 
-            transition: opacity 0.3s ease; 
-            cursor: default;
-        }
+    .gallery-slide img,
+    .gallery-slide video,
+    .gallery-slide iframe {
+      width: auto;
+      height: auto;
+      max-width: 100%;
+      max-height: 85vh;
+      object-fit: contain;
+      display: block;
+    }
 
-        .lightbox-overlay.is-visible { opacity: 1; pointer-events: auto; }
-        .lightbox-image { 
-            max-width: 95vw;
-            max-height: 95vh;
-            object-fit: contain; 
-        }
-        .lightbox-close { position: fixed; top: 20px; right: 20px; font-size: 2rem; color: #FFF; background: none; border: none; cursor: pointer; z-index: 1002; }
-        
-        /* KORREKTUR: Styling der Thumbnails */
-        .thumbnail-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr); 
-            gap: 8px;
-            margin-top: 20px;
-            margin-bottom: 8px;
-            align-items: start; 
-        }
-        .thumbnail-wrapper {
-            display: contents; /* Wichtig, damit die Bilder direkt im Grid liegen */
-        }
-        .thumbnail-item {
-            width: 100%;
-            height: auto; /* Behält das Seitenverhältnis bei */
-            object-fit: cover; /* Stellt sicher, dass das Bild den Bereich ausfüllt */
-            cursor: pointer;
-            transition: opacity 0.2s ease-in-out;
-        }
-        /* Opazität für aktive und inaktive Thumbnails */
-        .thumbnail-item { opacity: 0.5; }
-        .thumbnail-item.is-active { opacity: 1; }
+    /* --- THUMBNAILS --- */
+    .thumbnail-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      margin-top: 20px;
+      margin-bottom: 8px;
+      align-items: start;
+    }
 
-        /* --- VIDEO STYLING --- */
-        .gallery-slide video {
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            max-height: 85vh;
-            object-fit: contain;
-            display: block;
-        }
+    .thumbnail-wrapper { display: contents; }
 
-        .lightbox-content {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
-            height: 100%;
-        }
+    .thumbnail-item {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.2s ease;
+    }
 
-        .lightbox-content video,
-        .lightbox-content img {
-            max-width: 95vw;
-            max-height: 95vh;
-            object-fit: contain;
-        }
-        
-        /* Die :has()-Selektoren wurden entfernt, da sie in älteren Browsern nicht immer gut funktionieren */
+    .thumbnail-item.is-active { opacity: 1; }
 
-        @media (hover: hover) and (min-width: 1025px) {
-            /* Desktop-Cursor-Stile bleiben unverändert */
-            .project-gallery.cursor-left, .lightbox-overlay.cursor-left {
-                 cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
-            }
-            .project-gallery.cursor-right, .lightbox-overlay.cursor-right {
-                cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
-            }
-            .lightbox-overlay.is-visible.cursor-left {
-                 cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
-            }
-            .lightbox-overlay.is-visible.cursor-right {
-                cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
-            }
-        }
+    /* --- ORIGINAL 45° FULLSCREEN ARROW --- */
+    .fullscreen-arrow {
+      position: absolute;
+      bottom: 10px;
+      right: 15px;
+      width: 20px;
+      height: 20px;
+      color: var(--text-color);
+      cursor: pointer;
+      z-index: 10;
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
 
-        @media (max-width: 1024px) {
-            .project-main-layout { display: flex; flex-direction: column; gap: 40px; }
-            .project-text, .project-gallery { grid-column: auto; width: 100%; position: relative; }
-            .project-text { position: static; padding-right: 0; }
-            .project-text p { font-size: 15px; max-width: 100%; }
-            .lightbox-overlay { padding: 0; justify-content: center; }
-            .lightbox-image { max-width: 100%; max-height: 100%; }
+    .fullscreen-arrow:hover { opacity: 1; }
 
-            /* 45-Grad-Pfeil auf Mobilgeräten ausblenden */
-            .fullscreen-arrow {
-                display: none;
-            }
-        }
-    </style>
+    .fullscreen-arrow svg {
+      width: 100%;
+      height: 100%;
+      transform: rotate(-45deg);
+      stroke: var(--text-color);
+    }
+
+    /* --- PROJECT PAGER --- */
+    .project-pager {
+      margin-top: 120px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .pager-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text-color);
+      opacity: 0.8;
+      transition: opacity 0.2s ease;
+      font-size: 12px;
+    }
+
+    .pager-link:hover { opacity: 0.5; }
+
+    .pager-link .icon {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+    }
+
+    .pager-link .icon svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* --- LIGHTBOX --- */
+    .lightbox-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #000;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      box-sizing: border-box;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .lightbox-overlay.is-visible { opacity: 1; pointer-events: auto; }
+
+    .lightbox-content {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      height: 100%;
+    }
+
+    .lightbox-content img,
+    .lightbox-content video {
+      max-width: 95vw;
+      max-height: 95vh;
+      object-fit: contain;
+    }
+
+    .lightbox-close {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      font-size: 2rem;
+      color: #FFF;
+      background: none;
+      border: none;
+      cursor: pointer;
+      z-index: 1002;
+    }
+
+    /* --- DESKTOP CURSOR ARROWS (für Galerie & Lightbox) --- */
+    @media (hover: hover) and (min-width: 1025px) {
+      .project-gallery.cursor-left,
+      .lightbox-overlay.cursor-left {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+      }
+      .project-gallery.cursor-right,
+      .lightbox-overlay.cursor-right {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+      }
+      .lightbox-overlay.is-visible.cursor-left {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+      }
+      .lightbox-overlay.is-visible.cursor-right {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .project-main-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+      }
+
+      .project-text, .project-gallery {
+        grid-column: auto;
+        width: 100%;
+        position: relative;
+      }
+
+      .project-text { position: static; padding-right: 0; }
+
+      .project-text p { font-size: 15px; max-width: 100%; }
+
+      .fullscreen-arrow { display: none; }
+    }
+  </style>
 </head>
+
 <body>
 
-    <!-- Header bleibt unverändert -->
-    <div class="lang-switcher-desktop">
-        <a href="#" class="lang-btn" data-lang="de">de</a>
-        <a href="#" class="lang-btn" data-lang="en">en</a>
+  <!-- Header -->
+  <div class="lang-switcher-desktop">
+    <a href="#" class="lang-btn" data-lang="de">de</a>
+    <a href="#" class="lang-btn" data-lang="en">en</a>
+  </div>
+
+  <div class="corner-nav" aria-label="Mobile corner navigation">
+    <a class="corner top-left" href="../index.html">tizian rein</a>
+    <a class="corner top-right" href="../info.html" data-lang-en>info</a>
+    <a class="corner top-right" href="../info.html" data-lang-de style="display:none;">information</a>
+    <div class="corner bottom-left lang-switcher">
+      <a href="#" class="lang-btn" data-lang="de">de</a>
+      <a href="#" class="lang-btn" data-lang="en">en</a>
     </div>
-    <div class="corner-nav" aria-label="Mobile corner navigation">
-        <a class="corner top-left" href="../index.html">tizian rein</a>
-        <a class="corner top-right" href="../info.html" data-lang-en>info</a>
-        <a class="corner top-right" href="../info.html" data-lang-de style="display:none;">info</a>
-        <div class="corner bottom-left lang-switcher">
-            <a href="#" class="lang-btn" data-lang="de">de</a>
-            <a href="#" class="lang-btn" data-lang="en">en</a>
+    <a class="corner bottom-right" href="../contact.html" data-lang-en>contact</a>
+    <a class="corner bottom-right" href="../contact.html" data-lang-de style="display:none;">kontakt</a>
+  </div>
+
+  <header>
+    <div class="grid-container">
+      <h1 class="site-title"><a class="site-title-link" href="../index.html">tizian rein</a></h1>
+      <div id="nav-work-container">
+        <a href="../index.html" id="nav-work" class="filter-btn active" data-filter="all" data-lang-en>projects</a>
+        <a href="../index.html" id="nav-work-de" class="filter-btn active" data-filter="all" data-lang-de style="display:none;">projekte</a>
+        <div class="work-submenu">
+          <a href="../index.html#architecture" data-filter="architecture" data-lang-en>architecture</a>
+          <a href="../index.html#architecture" data-filter="architecture" data-lang-de style="display:none;">architektur</a>
+          <a href="../index.html#objects" data-filter="objects" data-lang-en>objects</a>
+          <a href="../index.html#objects" data-filter="objects" data-lang-de style="display:none;">objekte</a>
+          <a href="../index.html#research" data-filter="research" data-lang-en>research</a>
+          <a href="../index.html#research" data-filter="research" data-lang-de style="display:none;">forschung</a>
         </div>
-        <a class="corner bottom-right" href="../contact.html" data-lang-en>contact</a>
-        <a class="corner bottom-right" href="../contact.html" data-lang-de style="display:none;">kontakt</a>
+      </div>
+      <a href="../info.html" id="nav-info" data-lang-en>information</a>
+      <a href="../info.html" id="nav-info-de" data-lang-de style="display:none;">information</a>
+      <a href="../contact.html" id="nav-contact" data-lang-en>contact</a>
+      <a href="../contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
     </div>
-    <header>
-        <div class="grid-container">
-            <h1 class="site-title"><a class="site-title-link" href="../index.html">tizian rein</a></h1>
-            <div id="nav-work-container">
-                <a href="../index.html" id="nav-work" class="filter-btn active" data-filter="all" data-lang-en>projects</a>
-                <a href="../index.html" id="nav-work-de" class="filter-btn active" data-filter="all" data-lang-de style="display:none;">projekte</a>
-                <div class="work-submenu">
-                    <a href="../index.html#architecture" data-filter="architecture" data-lang-en>architecture</a>
-                    <a href="../index.html#architecture" data-filter="architecture" data-lang-de style="display:none;">architektur</a>
-                    <a href="../index.html#objects" data-filter="objects" data-lang-en>objects</a>
-                    <a href="../index.html#objects" data-filter="objects" data-lang-de style="display:none;">objekte</a>
-                    <a href="../index.html#research" data-filter="research" data-lang-en>research</a>
-                    <a href="../index.html#research" data-filter="research" data-lang-de style="display:none;">forschung</a>
-                </div>
-            </div>
-            <a href="../info.html" id="nav-info" data-lang-en>information</a>
-            <a href="../info.html" id="nav-info-de" data-lang-de style="display:none;">information</a>
-            <a href="../contact.html" id="nav-contact" data-lang-en>contact</a>
-            <a href="../contact.html" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
+  </header>
+
+  <!-- MAIN -->
+  <main>
+    <div class="grid-container project-main-layout">
+
+      <!-- LEFT COLUMN -->
+      <section class="project-text" id="project-text">
+        <p>Loading project...</p>
+        <div class="thumbnail-grid" id="thumbnail-grid"></div>
+
+        <!-- PROJECT PAGER -->
+        <nav class="project-pager" aria-label="Project navigation">
+          <a href="#" id="next-project" class="pager-link">
+            <span class="icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </span>
+            <span data-lang-en>next project</span>
+            <span data-lang-de style="display:none;">nächstes projekt</span>
+          </a>
+
+          <a href="#" id="prev-project" class="pager-link">
+            <span class="icon" aria-hidden="true">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+            </span>
+            <span data-lang-en>previous project</span>
+            <span data-lang-de style="display:none;">vorheriges projekt</span>
+          </a>
+        </nav>
+      </section>
+
+      <!-- RIGHT COLUMN (GALLERY) -->
+      <section class="project-gallery">
+        <div class="gallery-track" id="gallery-track"></div>
+
+        <!-- ORIGINAL 45° FULLSCREEN ARROW -->
+        <div class="fullscreen-arrow">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
         </div>
-    </header>
+      </section>
 
-    <main>
-        <div class="grid-container project-main-layout">
-            
-            <section class="project-text" id="project-text">
-                 <p>Loading project...</p>
-                 <div class="thumbnail-grid" id="thumbnail-grid"></div>
-            </section>
-
-            <section class="project-gallery">
-                <div class="gallery-track" id="gallery-track">
-                    <!-- Images will be injected here by JavaScript -->
-                </div>
-                
-                <button class="slider-btn prev-btn visually-hidden" aria-hidden="true"></button>
-                <button class="slider-btn next-btn visually-hidden" aria-hidden="true"></button>
-                
-                <div class="fullscreen-arrow">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <line x1="5" y1="12" x2="19" y2="12"></line>
-                        <polyline points="12 5 19 12 12 19"></polyline>
-                    </svg>
-                </div>
-            </section>
-        </div>
-    </main>
-
-    <div id="lightbox" class="lightbox-overlay">
-        <button class="lightbox-close">&times;</button>
-        <!-- This container will hold either an image or a video -->
-        <div class="lightbox-content"></div>
     </div>
+  </main>
 
-    <!-- SCRIPT SECTION -->
-    <script src="../js/main.js" defer></script>
-    <script src="../js/project-loader.js"></script>
+  <!-- LIGHTBOX -->
+  <div id="lightbox" class="lightbox-overlay">
+    <button class="lightbox-close">&times;</button>
+    <div class="lightbox-content"></div>
+  </div>
 
+  <script src="../js/main.js" defer></script>
+  <script src="../js/project-loader.js" defer></script>
 </body>
 </html>
