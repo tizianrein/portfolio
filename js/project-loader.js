@@ -51,11 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
         updateLightboxImage();
       }
       
+      // KORREKTUR 1: Pfeil-Logik angepasst
+      // Setzt den Style auf 'none' für Videos oder entfernt ihn (''), 
+      // damit die CSS Media Query auf Mobilgeräten greifen kann.
       if (fullscreenArrow) {
-        fullscreenArrow.style.display = isVideoSlide(currentSlide) ? 'none' : 'block';
+        fullscreenArrow.style.display = isVideoSlide(currentSlide) ? 'none' : '';
       }
     };
-
 
     const next = () => moveToSlide(currentSlide + 1);
     const prev = () => moveToSlide(currentSlide - 1);
@@ -143,21 +145,21 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- TOUCHGESTEN (Galerie + Lightbox) ---
     let touchStartX = 0, touchEndX = 0;
     let touchStartY = 0, touchEndY = 0;
-    let startTouchCount = 0; // NEU: Zählt die Finger beim Start der Geste
+    let startTouchCount = 0;
     const horizontalThreshold = 50;
     const verticalThreshold = 80;
 
     // Galerie
     gallery.addEventListener('touchstart', (e) => {
-      startTouchCount = e.touches.length; // Finger zählen
-      if (startTouchCount > 1) return; // Bei mehr als einem Finger, keine Startkoordinaten setzen
+      startTouchCount = e.touches.length;
+      if (startTouchCount > 1) return;
 
       touchStartX = e.touches[0].screenX;
       touchStartY = e.touches[0].screenY;
     }, { passive: true });
 
     gallery.addEventListener('touchend', (e) => {
-      if (startTouchCount > 1) return; // Wenn mit >1 Finger gestartet, dann war es Zoom -> ignorieren
+      if (startTouchCount > 1) return;
       if (e.changedTouches.length > 1) return;
 
       touchEndX = e.changedTouches[0].screenX;
@@ -173,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Lightbox (links/rechts + nach oben/unten schließen)
     lightbox.addEventListener('touchstart', (e) => {
-      startTouchCount = e.touches.length; // Finger zählen
+      startTouchCount = e.touches.length;
       if (startTouchCount > 1) return;
 
       touchStartX = e.touches[0].screenX;
@@ -181,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     lightbox.addEventListener('touchend', (e) => {
-      if (startTouchCount > 1) return; // Wenn mit >1 Finger gestartet, dann war es Zoom -> ignorieren
+      if (startTouchCount > 1) return;
       if (e.changedTouches.length > 1) return;
 
       touchEndX = e.changedTouches[0].screenX;
@@ -223,9 +225,8 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- Video: Klick/Tap auf Fläche = Navigation, NICHT Play/Pause ---
-    // Controls-Zone am unteren Rand bleibt der Videoleiste vorbehalten.
-    const CONTROLS_SAFE_PX_MIN = 40;   // mind. 40px
-    const CONTROLS_SAFE_FRAC  = 0.18;  // oder 18% der Videohöhe
+    const CONTROLS_SAFE_PX_MIN = 40;
+    const CONTROLS_SAFE_FRAC  = 0.18;
 
     slides.forEach((slide) => {
       const vid = slide.querySelector('video');
@@ -239,12 +240,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const safePx = Math.max(CONTROLS_SAFE_PX_MIN, rect.height * CONTROLS_SAFE_FRAC);
         const inControlsZone = (rect.height - localY) <= safePx;
 
-        if (inControlsZone) {
-          // Bedienleiste benutzen -> Standardverhalten erlauben
-          return;
-        }
+        if (inControlsZone) return;
 
-        // Sonst: keine Wiedergabe, sondern Galerie-Navigation
         e.preventDefault();
         e.stopPropagation();
 
@@ -261,15 +258,12 @@ document.addEventListener('DOMContentLoaded', () => {
         const localX = t.clientX - rect.left;
         const localY = t.clientY - rect.top;
 
-        // 1) Controls-Zone unten (für native Leiste)
         const safePx = Math.max(CONTROLS_SAFE_PX_MIN, rect.height * CONTROLS_SAFE_FRAC);
         const inControlsZone = (rect.height - localY) <= safePx;
 
-        // 2) Center-Zone: Tap soll Play/Pause erlauben
-        //    (mittlerer Bereich: 50% Breite x 60% Höhe, vergrößert für einfachere Bedienung)
-        const centerMarginX = rect.width * 0.25; // War 0.33
-        const centerMarginTop = rect.height * 0.20; // War 0.25
-        const centerMarginBottom = rect.height * 0.20; // War 0.25
+        const centerMarginX = rect.width * 0.25;
+        const centerMarginTop = rect.height * 0.20;
+        const centerMarginBottom = rect.height * 0.20;
         const inCenterZone =
           localX > centerMarginX &&
           localX < rect.width - centerMarginX &&
@@ -277,12 +271,13 @@ document.addEventListener('DOMContentLoaded', () => {
           localY < rect.height - centerMarginBottom;
 
         if (inControlsZone || inCenterZone) {
-          // Play/Pause soll funktionieren, aber NICHT die Galerie mitwischen lassen
-          e.stopPropagation(); // verhindert, dass der gallery touchend mitnavigiert
-          return;              // kein preventDefault -> native Videoaktion läuft
+          e.stopPropagation();
+          // KORREKTUR 2: Setzt den Startpunkt des Swipes auf den Endpunkt.
+          // Das neutralisiert die Wisch-Berechnung in der Galerie (deltaX wird 0).
+          touchStartX = t.screenX;
+          return;
         }
 
-        // 3) An den Rändern: Navigation statt Video-Play/Pause
         e.preventDefault();
         e.stopPropagation();
         if (localX < rect.width / 2) prev();
@@ -290,7 +285,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: false });
     });
 
-    updateSlideVisibility(0);
+    // Ruft moveToSlide auf, um den Startzustand (inkl. Pfeil) korrekt zu setzen.
+    moveToSlide(0);
   };
 
   const loadProjectData = async () => {
@@ -384,7 +380,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       initializeGallery();
 
-      // --- NEU: Pager-Position anpassen ---
+      // --- Pager-Position anpassen ---
       const pager = document.querySelector('.project-pager');
       const container = document.querySelector('.project-main-layout');
       const textSection = document.getElementById('project-text');
@@ -393,10 +389,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const placePager = () => {
         if (!pager || !container || !textSection || !gallerySection) return;
         if (window.innerWidth <= 1024) {
-          // Auf Mobile: Pager ans Seitenende nach der Galerie
           if (pager.parentElement !== container) container.appendChild(pager);
         } else {
-          // Auf Desktop: Pager wieder unter Text/Thumbnails
           if (pager.parentElement !== textSection) textSection.appendChild(pager);
         }
       };
