@@ -352,7 +352,7 @@ header a.active { color: var(--text-color); }
   /* --- Stile für die Projekt-ÜBERSICHTSSEITE (index.html) --- */
   #project-grid { 
       padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3)) !important; 
-      padding-bottom: 20px; 
+      padding-bottom: 70px; 
       gap: 20; 
   }
   .project-item { 
