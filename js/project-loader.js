@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeButton = lightbox.querySelector('.lightbox-close');
     const fullscreenArrow = document.querySelector('.fullscreen-arrow');
 
+    // NEU: Flag, um zu verhindern, dass ein Video-Tap als Wischen interpretiert wird.
+    let isVideoInteraction = false;
+
     const isVideoSlide = (index) => !!slides[index]?.querySelector('video');
 
     // --- Hilfsfunktionen ---
@@ -24,12 +27,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const img = slide.querySelector('img');
         const vid = slide.querySelector('video');
 
-        // GIF Lazy Loading
         if (img && img.dataset.src) {
           img.src = (index === activeIndex) ? img.dataset.src : '';
         }
 
-        // Pausiere Videos, wenn sie nicht aktiv sind
         if (vid && index !== activeIndex) {
           try { vid.pause(); } catch (e) {}
         }
@@ -46,14 +47,10 @@ document.addEventListener('DOMContentLoaded', () => {
       track.style.transform = `translateX(-${currentSlide * 100}%)`;
       updateSlideVisibility(currentSlide);
 
-      // Lightbox nur bei Bildern aktualisieren
       if (lightbox.classList.contains('is-visible') && !isVideoSlide(currentSlide)) {
         updateLightboxImage();
       }
       
-      // KORREKTUR 1: Pfeil-Logik angepasst
-      // Setzt den Style auf 'none' für Videos oder entfernt ihn (''), 
-      // damit die CSS Media Query auf Mobilgeräten greifen kann.
       if (fullscreenArrow) {
         fullscreenArrow.style.display = isVideoSlide(currentSlide) ? 'none' : '';
       }
@@ -71,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const openLightbox = () => {
-      if (isVideoSlide(currentSlide)) return; // keine Videos in Lightbox
+      if (isVideoSlide(currentSlide)) return;
       updateLightboxImage();
       lightbox.classList.add('is-visible');
       document.body.style.overflow = 'hidden';
@@ -123,7 +120,7 @@ document.addEventListener('DOMContentLoaded', () => {
           e.target.closest('.lightbox-close') ||
           e.target.closest('.fullscreen-arrow') ||
           e.target.closest('.thumbnail-item') ||
-          e.target.closest('video') // Klicks auf Video-Fläche ignorieren (Video handler übernimmt Navigation)
+          e.target.closest('video')
         ) return;
 
         const pos = getPositionRelative(e);
@@ -134,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupDesktopNavigation(gallery);
     setupDesktopNavigation(lightbox);
 
-    // --- Fullscreen Pfeil (öffnet Lightbox, nicht bei Videos) ---
+    // --- Fullscreen Pfeil ---
     if (fullscreenArrow) {
       fullscreenArrow.addEventListener('click', (e) => {
         e.stopPropagation();
@@ -142,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
-    // --- TOUCHGESTEN (Galerie + Lightbox) ---
+    // --- TOUCHGESTEN ---
     let touchStartX = 0, touchEndX = 0;
     let touchStartY = 0, touchEndY = 0;
     let startTouchCount = 0;
@@ -151,6 +148,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Galerie
     gallery.addEventListener('touchstart', (e) => {
+      // GEÄNDERT: Flag bei jeder neuen Berührung zurücksetzen.
+      isVideoInteraction = false;
       startTouchCount = e.touches.length;
       if (startTouchCount > 1) return;
 
@@ -159,6 +158,9 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     gallery.addEventListener('touchend', (e) => {
+      // GEÄNDERT: Wenn die Video-Sperre aktiv ist, wird die Wisch-Logik komplett übersprungen.
+      if (isVideoInteraction) return;
+
       if (startTouchCount > 1) return;
       if (e.changedTouches.length > 1) return;
 
@@ -173,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }, { passive: true });
 
-    // Lightbox (links/rechts + nach oben/unten schließen)
+    // Lightbox
     lightbox.addEventListener('touchstart', (e) => {
       startTouchCount = e.touches.length;
       if (startTouchCount > 1) return;
@@ -224,7 +226,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
-    // --- Video: Klick/Tap auf Fläche = Navigation, NICHT Play/Pause ---
+    // --- Video Interaktion ---
     const CONTROLS_SAFE_PX_MIN = 40;
     const CONTROLS_SAFE_FRAC  = 0.18;
 
@@ -271,10 +273,8 @@ document.addEventListener('DOMContentLoaded', () => {
           localY < rect.height - centerMarginBottom;
 
         if (inControlsZone || inCenterZone) {
-          e.stopPropagation();
-          // KORREKTUR 2: Setzt den Startpunkt des Swipes auf den Endpunkt.
-          // Das neutralisiert die Wisch-Berechnung in der Galerie (deltaX wird 0).
-          touchStartX = t.screenX;
+          // GEÄNDERT: Setzt die Sperre. Das ist alles, was wir hier tun müssen.
+          isVideoInteraction = true;
           return;
         }
 
@@ -285,7 +285,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }, { passive: false });
     });
 
-    // Ruft moveToSlide auf, um den Startzustand (inkl. Pfeil) korrekt zu setzen.
     moveToSlide(0);
   };
 
@@ -342,7 +341,6 @@ document.addEventListener('DOMContentLoaded', () => {
       let galleryHTML = '';
       let thumbnailsHTML = '';
 
-      // 1) Bilder
       project.images.forEach((imgSrc, index) => {
         const isGif = imgSrc.toLowerCase().endsWith('.gif');
         if (isGif) {
@@ -353,7 +351,6 @@ document.addEventListener('DOMContentLoaded', () => {
         thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}"></div>`;
       });
 
-      // 2) Optional: lokales Video (immer am Ende)
       if (project.video && project.video.provider === 'local' && project.video.src) {
         const videoIndex = project.images.length;
         const posterAttr = project.video.poster ? ` poster="../${project.video.poster}"` : '';
@@ -380,7 +377,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       initializeGallery();
 
-      // --- Pager-Position anpassen ---
+      // --- Pager-Position ---
       const pager = document.querySelector('.project-pager');
       const container = document.querySelector('.project-main-layout');
       const textSection = document.getElementById('project-text');
