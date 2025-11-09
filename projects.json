@@ -202,6 +202,10 @@
     "category": "research",
     "thumbnail": "images/thumbnails/012-thumb.jpg",
     "images": [
+      "images/projects/012.3.jpg",
+      "images/projects/012.4.jpg",
+      "images/projects/012.1.jpg",
+      "images/projects/012.2.jpg"
     ],
     "en": {
       "title": "Structural Patterns",
