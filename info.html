@@ -102,9 +102,7 @@
       <div class="project-item">
         <div class="project-image-container" id="profile-image-container">
           <canvas class="pixelation-canvas"></canvas>
-          <!-- MODIFIED: Changed src to the second image and updated alt text. -->
-          <img src="images/about/profile_2.jpg" class="image current-image" alt="A photo of Tizian Rein">
-          <!-- REMOVED: The second image tag (.next-image) is no longer here. -->
+          <img data-src="images/about/profile_2.jpg" src="" class="image current-image" alt="A photo of Tizian Rein">
         </div>
       </div>
 
@@ -256,15 +254,22 @@
       }
 
       function prepareStaticPixelatedImage(){
-        const img = new Image();
-        img.src = current.getAttribute('src');
-        img.onload = () => {
-          container.imageObject = img;
-          const aspect = img.naturalHeight / img.naturalWidth;
-          container.style.paddingTop = `${100 * aspect}%`;
-          drawPixelated(img, canvas, 4);
-        };
-        img.onerror = () => container.classList.add('is-loaded');
+          const img = new Image();
+          const imagePath = current.getAttribute('data-src'); // <-- Liest aus data-src
+          if (!imagePath) return; // Sicherheits-Check
+
+          img.src = imagePath; // Startet das Laden im Hintergrund
+          img.onload = () => {
+              container.imageObject = img;
+              const aspect = img.naturalHeight / img.naturalWidth;
+              container.style.paddingTop = `${100 * aspect}%`;
+              drawPixelated(img, canvas, 4);
+
+              // NEU: Erst jetzt geben wir dem <img>-Tag die Quelle,
+              // damit es unter dem Canvas erscheinen kann.
+              current.src = imagePath;
+          };
+          img.onerror = () => container.classList.add('is-loaded');
       }
 
       function setupHoverListeners(){
