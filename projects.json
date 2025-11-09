@@ -197,6 +197,22 @@
     }
   },
   {
+    "id": "012",
+    "year": 2022,
+    "category": "research",
+    "thumbnail": "images/thumbnails/012-thumb.jpg",
+    "images": [
+    ],
+    "en": {
+      "title": "Structural Patterns",
+      "description": "TU Munich, Summer Semester 2022<br>Prof. Pierluigi D'Acunto"
+    },
+    "de": {
+      "title": "Structural Patterns",
+      "description": "TU München, Sommersemester 2022<br>Prof. Pierluigi D'Acunto"
+    }
+  },  
+  {
     "id": "009",
     "year": 2019,
     "category": "architecture",
