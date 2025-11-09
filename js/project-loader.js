@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeButton = lightbox.querySelector('.lightbox-close');
     const fullscreenArrow = document.querySelector('.fullscreen-arrow');
 
-    // NEU: Flag, um zu verhindern, dass ein Video-Tap als Wischen interpretiert wird.
+    // Flag, um zu verhindern, dass ein Video-Tap als Wischen interpretiert wird.
     let isVideoInteraction = false;
 
     const isVideoSlide = (index) => !!slides[index]?.querySelector('video');
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxContent.innerHTML = '';
     };
 
-    // --- Desktop Navigation (Hover + Click Pfeile) ---
+    // --- Desktop Navigation ---
     const setupDesktopNavigation = (element) => {
       const getPositionRelative = (event) => {
         let refEl = null;
@@ -148,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Galerie
     gallery.addEventListener('touchstart', (e) => {
-      // GEÄNDERT: Flag bei jeder neuen Berührung zurücksetzen.
       isVideoInteraction = false;
       startTouchCount = e.touches.length;
       if (startTouchCount > 1) return;
@@ -158,7 +157,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     gallery.addEventListener('touchend', (e) => {
-      // GEÄNDERT: Wenn die Video-Sperre aktiv ist, wird die Wisch-Logik komplett übersprungen.
       if (isVideoInteraction) return;
 
       if (startTouchCount > 1) return;
@@ -179,7 +177,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.addEventListener('touchstart', (e) => {
       startTouchCount = e.touches.length;
       if (startTouchCount > 1) return;
-
       touchStartX = e.touches[0].screenX;
       touchStartY = e.touches[0].screenY;
     }, { passive: true });
@@ -187,7 +184,6 @@ document.addEventListener('DOMContentLoaded', () => {
     lightbox.addEventListener('touchend', (e) => {
       if (startTouchCount > 1) return;
       if (e.changedTouches.length > 1) return;
-
       touchEndX = e.changedTouches[0].screenX;
       touchEndY = e.changedTouches[0].screenY;
       const deltaX = touchEndX - touchStartX;
@@ -243,10 +239,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const inControlsZone = (rect.height - localY) <= safePx;
 
         if (inControlsZone) return;
-
         e.preventDefault();
         e.stopPropagation();
-
         if (localX < rect.width / 2) prev();
         else next();
       });
@@ -273,8 +267,12 @@ document.addEventListener('DOMContentLoaded', () => {
           localY < rect.height - centerMarginBottom;
 
         if (inControlsZone || inCenterZone) {
-          // GEÄNDERT: Setzt die Sperre. Das ist alles, was wir hier tun müssen.
+          // --- KORREKTUR: Die doppelte Sicherung ---
+          // 1. Setze die Sperre für den Galerie-Handler.
           isVideoInteraction = true;
+          // 2. Manipuliere zusätzlich die Start-Koordinate, um die Wisch-Berechnung
+          //    auf jeden Fall zu neutralisieren (deltaX wird 0).
+          touchStartX = t.screenX;
           return;
         }
 
@@ -311,7 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
 
-      // --- PROJECT NAVIGATION ---
+      // Project Navigation
       const prevBtn = document.getElementById('prev-project');
       const nextBtn = document.getElementById('next-project');
       if (prevBtn && nextBtn) {
@@ -324,20 +322,19 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       }
 
-      // --- TEXT & TITLE ---
+      // Text & Title
       const lang = localStorage.getItem('userLanguage') || 'en';
       const content = project[lang] || project.en;
       if (!content) {
         textElement.innerHTML = `<p>Error: No content found for this project.</p>`;
         return;
       }
-
       document.title = `Tizian Rein - ${content.title}`;
       let p = textElement.querySelector('p');
       if (!p) { p = document.createElement('p'); textElement.prepend(p); }
       p.innerHTML = `${project.id}<br>${content.title}<br><br>${content.description.replace(/\n/g, '<br>')}`;
 
-      // --- GALLERY + THUMBNAILS ---
+      // Gallery & Thumbnails
       let galleryHTML = '';
       let thumbnailsHTML = '';
 
@@ -377,21 +374,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
       initializeGallery();
 
-      // --- Pager-Position ---
+      // Pager Position
       const pager = document.querySelector('.project-pager');
       const container = document.querySelector('.project-main-layout');
       const textSection = document.getElementById('project-text');
-      const gallerySection = document.querySelector('.project-gallery');
-
       const placePager = () => {
-        if (!pager || !container || !textSection || !gallerySection) return;
+        if (!pager || !container || !textSection) return;
         if (window.innerWidth <= 1024) {
           if (pager.parentElement !== container) container.appendChild(pager);
         } else {
           if (pager.parentElement !== textSection) textSection.appendChild(pager);
         }
       };
-
       placePager();
       window.addEventListener('resize', placePager);
 
