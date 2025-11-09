@@ -113,8 +113,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let startTouchCount = 0;
     let isSwiping = false;
     let isScrolling = false;
-    const horizontalThreshold = 50; // Mindestdistanz für einen gültigen Swipe
-    const intentThreshold = 10;   // Mindestdistanz, um die Absicht (Swipe/Scroll) zu erkennen
+    const horizontalThreshold = 50;
+    const intentThreshold = 10;
 
     const touchStartHandler = (e) => {
       startTouchCount = e.touches.length;
@@ -139,7 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const touchEndHandler = (e) => {
-      if (startTouchCount > 1 || !isSwiping) return; // Aktion nur ausführen, wenn es ein Swipe war
+      if (startTouchCount > 1 || !isSwiping) return;
       touchEndX = e.changedTouches[0].screenX;
       const deltaX = touchEndX - touchStartX;
       if (Math.abs(deltaX) > horizontalThreshold) {
@@ -152,17 +152,27 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.addEventListener('touchmove', touchMoveHandler, { passive: true });
     gallery.addEventListener('touchend', touchEndHandler, { passive: true });
 
-    // Lightbox Touch-Logik (vereinfacht, da hier keine Videos sind)
+    // Lightbox Touch-Logik
     lightbox.addEventListener('touchstart', touchStartHandler, { passive: true });
+    // KORREKTUR: Der fehlende Move-Handler für die Lightbox wird hier hinzugefügt.
+    lightbox.addEventListener('touchmove', touchMoveHandler, { passive: true });
     lightbox.addEventListener('touchend', (e) => {
         if (startTouchCount > 1) return;
-        const touchEndY = e.changedTouches[0].screenY;
-        const deltaY = touchEndY - touchStartY;
-        if (Math.abs(deltaY) > 80) { // Vertikaler Swipe zum Schließen
-            closeLightbox();
-            return;
+        
+        // Priorität: Vertikales Wischen zum Schließen
+        if (isScrolling) {
+            const touchEndY = e.changedTouches[0].screenY;
+            const deltaY = touchEndY - touchStartY;
+            if (Math.abs(deltaY) > 80) {
+                closeLightbox();
+                return;
+            }
         }
-        touchEndHandler(e); // Horizontale Swipe-Logik wiederverwenden
+        
+        // Horizontale Wisch-Logik für Links/Rechts-Navigation
+        if (isSwiping) {
+            touchEndHandler(e);
+        }
     }, { passive: true });
     
 
@@ -186,21 +196,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- VIDEO-HANDLER (VEREINFACHT) ---
-    // Wir entfernen die benutzerdefinierten 'touchend'-Handler für Videos.
-    // Die neue Galerie-Logik ignoriert Taps, sodass der Browser die native Play/Pause-Funktion ausführen kann.
     slides.forEach((slide) => {
       const vid = slide.querySelector('video');
       if (!vid) return;
-
-      // Desktop-Klick-Navigation bleibt erhalten, wird aber auf >1024px beschränkt.
       vid.addEventListener('click', (e) => {
         if (window.innerWidth <= 1024) return;
-
         const rect = vid.getBoundingClientRect();
         const localY = e.clientY - rect.top;
         const safePx = Math.max(40, rect.height * 0.18);
-        if ((rect.height - localY) <= safePx) return; // Klick in der Kontrollleiste
-
+        if ((rect.height - localY) <= safePx) return;
         e.preventDefault();
         e.stopPropagation();
         if ((e.clientX - rect.left) < rect.width / 2) prev();
