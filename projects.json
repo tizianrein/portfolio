@@ -209,11 +209,11 @@
     ],
     "en": {
       "title": "Structural Patterns",
-      "description": "TU Munich, Summer Semester 2022<br>Prof. Pierluigi D'Acunto"
+      "description": "This project explores how equilibrium in architectural assemblies can be achieved through stereotomic principles, intentional voids, and interlocking geometries. Developed at the Chair of Structural Design at TU Munich, it investigates how mass-shifting, decomposition, and contact-surface design can generate stability in leaning and cantilevering forms. Through computational modeling and physical 3D-printed tests, the work demonstrates how geometric operations influence center of mass, incremental stability, and assembly behavior.<br><br>TU Munich, Summersemester 2023<br>Supervised by Prof. Pierluigi D'Acunto and Sebastian Dietrich – Professorship of Structural Design<br><br><a href='/projects/structural_patterns.pdf' target='_blank' rel='noopener noreferrer'>Full Project PDF</a> ↗"
     },
     "de": {
       "title": "Structural Patterns",
-      "description": "TU München, Sommersemester 2022<br>Prof. Pierluigi D'Acunto"
+      "description": "Dieses Projekt untersucht, wie Gleichgewicht in architektonischen Strukturen durch stereotomische Prinzipien, gezielte Hohlräume und ineinandergreifende Geometrien erreicht werden kann. Massenverschiebung, Segmentierung und die Gestaltung von Kontaktflächen erzeugen Stabilität und mannigfaltige Entwurfsmöglichkeiten. Durch digitale Simulationen und physische 3D-Drucktests wird gezeigt, wie geometrische Eingriffe den Schwerpunkt, die inkrementelle Stabilität und das Montageverhalten beeinflussen.<br><br>TU München, Sommersemester 2023<br>Betreut von Prof. Pierluigi D'Acunto und Sebastian Dietrich – Professur für Structural Design<br><br><a href='/projects/structural_patterns.pdf' target='_blank' rel='noopener noreferrer'>Projekt-PDF</a> <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' style='vertical-align: middle;'><path d='M7 17L17 7M17 7H7M17 7V17' stroke='currentColor' stroke-width='2' fill='none' stroke-linecap='round'/></svg>"
     }
   },  
   {
