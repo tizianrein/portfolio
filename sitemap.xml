@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
+  <!-- Main Pages -->
   <url><loc>https://www.tizianrein.de/</loc></url>
   <url><loc>https://www.tizianrein.de/info.html</loc></url>
   <url><loc>https://www.tizianrein.de/contact.html</loc></url>
 
-  <!-- Kategorie-Übersichten -->
+  <!-- Filter Categories -->
   <url><loc>https://www.tizianrein.de/?filter=architecture</loc></url>
   <url><loc>https://www.tizianrein.de/?filter=objects</loc></url>
   <url><loc>https://www.tizianrein.de/?filter=research</loc></url>
 
-  <!-- Jede Projektseite -->
+  <!-- Project Pages -->
   <url><loc>https://www.tizianrein.de/projects/project.html?id=023</loc></url>
   <url><loc>https://www.tizianrein.de/projects/project.html?id=022</loc></url>
   <url><loc>https://www.tizianrein.de/projects/project.html?id=021</loc></url>
@@ -34,4 +35,5 @@
   <url><loc>https://www.tizianrein.de/projects/project.html?id=003</loc></url>
   <url><loc>https://www.tizianrein.de/projects/project.html?id=002</loc></url>
   <url><loc>https://www.tizianrein.de/projects/project.html?id=001</loc></url>
+
 </urlset>

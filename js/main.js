@@ -43,7 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
       projectElement.innerHTML = `
         <div class="project-image-container">
           <canvas class="pixelation-canvas"></canvas>
-          <img data-src="${project.thumbnail}" class="full-res-image" alt="${title}" loading="lazy" decoding="async">
+          <img 
+            src="${project.thumbnail}"
+            data-src="${project.thumbnail}"
+            class="full-res-image"
+            alt="${title}"
+            loading="lazy"
+            decoding="async">
         </div>
         <div class="project-info"><h3>${project.id}</h3><p>${title}</p></div>
       `;
