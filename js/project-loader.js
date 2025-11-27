@@ -18,12 +18,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const isVideoSlide = (index) => !!slides[index]?.querySelector('video');
 
+    // --- Hilfsfunktionen ---
     const updateSlideVisibility = (activeIndex) => {
       slides.forEach((slide, index) => {
         const img = slide.querySelector('img');
         const vid = slide.querySelector('video');
         if (img && img.dataset.src) {
-          img.src = (index === activeIndex) ? img.dataset.src : img.dataset.src;
+          img.src = (index === activeIndex) ? img.dataset.src : '';
         }
         if (vid && index !== activeIndex) {
           try { vid.pause(); } catch (e) {}
@@ -71,6 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
       lightboxContent.innerHTML = '';
     };
 
+    // --- Desktop Navigation ---
     const setupDesktopNavigation = (element) => {
       const getPositionRelative = (event) => {
         let refEl = (element.id === 'lightbox') ? lightboxContent.querySelector('img') : (slides[currentSlide]?.querySelector('img, video, iframe') || element);
@@ -95,7 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
         else if (pos === 'right') next();
       });
     };
-
     setupDesktopNavigation(gallery);
     setupDesktopNavigation(lightbox);
 
@@ -106,6 +107,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
 
+    // --- NEUE, ROBUSTE TOUCH-LOGIK ---
     let touchStartX = 0, touchStartY = 0;
     let touchEndX = 0;
     let startTouchCount = 0;
@@ -150,26 +152,33 @@ document.addEventListener('DOMContentLoaded', () => {
     gallery.addEventListener('touchmove', touchMoveHandler, { passive: true });
     gallery.addEventListener('touchend', touchEndHandler, { passive: true });
 
+    // Lightbox Touch-Logik
     lightbox.addEventListener('touchstart', touchStartHandler, { passive: true });
+    // KORREKTUR: Der fehlende Move-Handler für die Lightbox wird hier hinzugefügt.
     lightbox.addEventListener('touchmove', touchMoveHandler, { passive: true });
     lightbox.addEventListener('touchend', (e) => {
-      if (startTouchCount > 1) return;
-      if (isScrolling) {
-        const touchEndY = e.changedTouches[0].screenY;
-        const deltaY = touchEndY - touchStartY;
-        if (Math.abs(deltaY) > 80) {
-          closeLightbox();
-          return;
+        if (startTouchCount > 1) return;
+        
+        // Priorität: Vertikales Wischen zum Schließen
+        if (isScrolling) {
+            const touchEndY = e.changedTouches[0].screenY;
+            const deltaY = touchEndY - touchStartY;
+            if (Math.abs(deltaY) > 80) {
+                closeLightbox();
+                return;
+            }
         }
-      }
-      if (isSwiping) {
-        touchEndHandler(e);
-      }
+        
+        // Horizontale Wisch-Logik für Links/Rechts-Navigation
+        if (isSwiping) {
+            touchEndHandler(e);
+        }
     }, { passive: true });
+    
 
+    // --- Lightbox & Thumbnails ---
     closeButton.addEventListener('click', closeLightbox);
     lightbox.addEventListener('click', (e) => { if (e.target === lightbox) closeLightbox(); });
-
     document.addEventListener('keydown', (e) => {
       if (!lightbox.classList.contains('is-visible')) return;
       if (e.key === 'ArrowRight') next();
@@ -186,6 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    // --- VIDEO-HANDLER (VEREINFACHT) ---
     slides.forEach((slide) => {
       const vid = slide.querySelector('video');
       if (!vid) return;
@@ -211,18 +221,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const textElement = document.getElementById('project-text');
     const galleryTrack = document.getElementById('gallery-track');
     const thumbnailGrid = document.getElementById('thumbnail-grid');
-
     if (!projectId) { textElement.innerHTML = "<p>Error: No project ID specified.</p>"; return; }
-
     try {
       const response = await fetch('../projects.json');
       if (!response.ok) throw new Error('Network response was not ok');
-
       const allProjects = await response.json();
       const project = allProjects.find(p => p.id === projectId);
-
       if (!project) { textElement.innerHTML = `<p>Error: Project with ID "${projectId}" not found.</p>`; return; }
-
       const prevBtn = document.getElementById('prev-project'), nextBtn = document.getElementById('next-project');
       if (prevBtn && nextBtn) {
         const currentIndex = allProjects.findIndex(p => p.id === projectId);
@@ -233,54 +238,41 @@ document.addEventListener('DOMContentLoaded', () => {
           nextBtn.href = `project.html?id=${next.id}`;
         }
       }
-
       const lang = localStorage.getItem('userLanguage') || 'en';
       const content = project[lang] || project.en;
-
+      if (!content) { textElement.innerHTML = `<p>Error: No content found for this project.</p>`; return; }
       document.title = `Tizian Rein - ${content.title}`;
-
       let p = textElement.querySelector('p');
       if (!p) { p = document.createElement('p'); textElement.prepend(p); }
       p.innerHTML = `${project.id}<br>${content.title}<br><br>${content.description.replace(/\n/g, '<br>')}`;
-
-      let galleryHTML = '';
-      let thumbnailsHTML = '';
-
+      let galleryHTML = '', thumbnailsHTML = '';
       project.images.forEach((imgSrc, index) => {
-        galleryHTML += `
-          <div class="gallery-slide">
-            <img 
-              src="${imgSrc}"
-              data-src="${imgSrc}" 
-              class="slide-image"
-              alt="${content.title} - image ${index + 1}"
-              loading="lazy"
-              decoding="async">
-          </div>
-        `;
-
-        thumbnailsHTML += `
-          <img 
-            src="${imgSrc}"
-            data-src="${imgSrc}" 
-            class="thumbnail-item"
-            data-index="${index}"
-            alt="${content.title} - thumbnail ${index + 1}"
-            loading="lazy"
-            decoding="async">
-        `;
+        const isGif = imgSrc.toLowerCase().endsWith('.gif');
+        galleryHTML += `<div class="gallery-slide"><img ${isGif ? `data-src="../${imgSrc}"` : `src="../${imgSrc}"`} alt="${content.title} view ${index + 1}"></div>`;
+        thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}"></div>`;
       });
-
+      if (project.video && project.video.provider === 'local' && project.video.src) {
+        const videoIndex = project.images.length;
+        const posterAttr = project.video.poster ? ` poster="../${project.video.poster}"` : '';
+        galleryHTML += `<div class="gallery-slide"><video class="js-video" controls preload="metadata" playsinline webkit-playsinline${posterAttr}><source src="../${project.video.src}" type="video/mp4"></video></div>`;
+        const thumbSrc = project.video.poster || project.images[project.images.length - 1] || '';
+        if (thumbSrc) { thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${thumbSrc}" class="thumbnail-item" data-index="${videoIndex}" alt="Video preview"></div>`; }
+      }
       galleryTrack.innerHTML = galleryHTML;
       thumbnailGrid.innerHTML = thumbnailsHTML;
-
       initializeGallery();
-
+      const pager = document.querySelector('.project-pager'), container = document.querySelector('.project-main-layout'), textSection = document.getElementById('project-text');
+      const placePager = () => {
+        if (!pager || !container || !textSection) return;
+        if (window.innerWidth <= 1024) { if (pager.parentElement !== container) container.appendChild(pager); }
+        else { if (pager.parentElement !== textSection) textSection.appendChild(pager); }
+      };
+      placePager();
+      window.addEventListener('resize', placePager);
     } catch (error) {
-      console.error("Could not load project:", error);
-      textElement.innerHTML = '<p style="text-align: center; color: red;">Error loading project.</p>';
+      console.error('Failed to load project data:', error);
+      textElement.innerHTML = "<p>Error: Could not load project data.</p>";
     }
   };
-
   loadProjectData();
 });
