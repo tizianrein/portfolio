@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url><loc>https://www.tizianrein.de/</loc></url>
+  <url><loc>https://www.tizianrein.de/info.html</loc></url>
+  <url><loc>https://www.tizianrein.de/contact.html</loc></url>
+
+  <!-- Kategorie-Übersichten -->
+  <url><loc>https://www.tizianrein.de/?filter=architecture</loc></url>
+  <url><loc>https://www.tizianrein.de/?filter=objects</loc></url>
+  <url><loc>https://www.tizianrein.de/?filter=research</loc></url>
+
+  <!-- Jede Projektseite -->
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=023</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=022</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=021</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=020</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=019</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=018</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=017</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=016</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=015</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=014</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=013</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=012</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=011</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=010</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=009</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=008</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=007</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=006</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=005</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=004</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=003</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=002</loc></url>
+  <url><loc>https://www.tizianrein.de/projects/project.html?id=001</loc></url>
+</urlset>
