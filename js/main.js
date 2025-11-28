@@ -165,3 +165,116 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- START THE APPLICATION ---
   initializePage();
 });
+
+/* ========================================================= */
+/* === PIXEL INVERSION TRAIL EFFECT ======================== */
+/* ========================================================= */
+document.addEventListener('DOMContentLoaded', () => {
+    // 1. Create and append the canvas
+    const canvas = document.createElement('canvas');
+    canvas.id = 'pixel-trail';
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    
+    // Configuration
+    const FADE_DURATION = 2000; // How long the effect lasts (in ms)
+    const GRID_SUBDIVISIONS = 4; // "One fourth of the width" -> 4 subdivisions
+    const COLUMNS_COUNT = 6;     // Your main grid has 6 columns
+    
+    let activeCells = [];
+    let cellSize = 50; // Will be calculated dynamically
+    let gridOffsetX = 0;
+
+    // 2. Function to resize canvas and calculate grid alignment
+    function handleResize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Find the grid container to align our squares perfectly
+        const container = document.querySelector('.grid-container');
+        if (container) {
+            const rect = container.getBoundingClientRect();
+            const computedStyle = window.getComputedStyle(container);
+            const paddingLeft = parseFloat(computedStyle.paddingLeft);
+            const paddingRight = parseFloat(computedStyle.paddingRight);
+
+            // Calculate the actual width of the content area
+            const contentWidth = rect.width - paddingLeft - paddingRight;
+            
+            // Calculate width of one main column
+            const columnWidth = contentWidth / COLUMNS_COUNT;
+            
+            // Your request: "Quadrant is one fourth of the width size of a column"
+            cellSize = columnWidth / GRID_SUBDIVISIONS;
+            
+            // Calculate offset so squares align with the grid lines
+            // rect.left might be negative if window is smaller than container, but usually it's positive or 0
+            gridOffsetX = rect.left + paddingLeft;
+        }
+    }
+
+    // 3. Animation Loop
+    function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        
+        const now = Date.now();
+        
+        // Loop backwards so we can remove items cleanly
+        for (let i = activeCells.length - 1; i >= 0; i--) {
+            const cell = activeCells[i];
+            const age = now - cell.time;
+            
+            if (age > FADE_DURATION) {
+                // Remove cell if it's too old
+                activeCells.splice(i, 1);
+            } else {
+                // Calculate opacity: starts at 1, fades to 0
+                const opacity = 1 - (age / FADE_DURATION);
+                
+                // Draw the square
+                // We draw WHITE. The CSS 'mix-blend-mode: difference' turns white into Inversion.
+                ctx.fillStyle = `rgba(255, 255, 255, ${opacity})`;
+                ctx.fillRect(cell.x, cell.y, cellSize, cellSize); // Using squares (width = height)
+            }
+        }
+        
+        requestAnimationFrame(render);
+    }
+
+    // 4. Mouse Move Handler
+    let lastGridX = -1;
+    let lastGridY = -1;
+
+    window.addEventListener('mousemove', (e) => {
+        // Calculate which "grid cell" the mouse is currently over
+        // We subtract gridOffsetX to align 0 with the start of the content
+        const relativeX = e.clientX - gridOffsetX;
+        
+        const colIndex = Math.floor(relativeX / cellSize);
+        const rowIndex = Math.floor(e.clientY / cellSize);
+
+        // Optimization: Only add a new cell if we moved to a new coordinate
+        if (colIndex !== lastGridX || rowIndex !== lastGridY) {
+            
+            // Snap the visual square to the grid
+            const snapX = (colIndex * cellSize) + gridOffsetX;
+            const snapY = rowIndex * cellSize;
+
+            // Add to active cells
+            activeCells.push({
+                x: snapX,
+                y: snapY,
+                time: Date.now()
+            });
+
+            lastGridX = colIndex;
+            lastGridY = rowIndex;
+        }
+    });
+
+    // Initialize
+    window.addEventListener('resize', handleResize);
+    handleResize();
+    requestAnimationFrame(render);
+});

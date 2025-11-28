@@ -25,7 +25,7 @@ body::-webkit-scrollbar {
     --text-color-active: #787878;
     --font-main: Arial, sans-serif;
     --header-font-size: 18pt;
-    --header-padding: 15px;
+    --header-padding: 25px;
     --main-max-width: 1200px;
     --main-side-padding: 80px;
     --project-info-padding: 0.2rem;
@@ -192,7 +192,7 @@ header a.active { color: var(--text-color); }
 /* ========================================================= */
 
 #project-grid {
-    padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3));
+    padding-top: calc(var(--header-font-size) + (var(--header-padding) * 3.05));
     padding-bottom: 120px;
     /* ENTFERNT: gap: 0; (wird nun vom .grid-container geerbt) */
 }
@@ -420,4 +420,18 @@ header a.active { color: var(--text-color); }
   }
   .lightbox-overlay .prev-btn { left: 10px; }
   .lightbox-overlay .next-btn { right: 10px; }
+}
+
+/* ========================================================= */
+/* === PIXEL TRAIL EFFECT ================================== */
+/* ========================================================= */
+#pixel-trail {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* Allows clicks to pass through to links below */
+    z-index: 9999;        /* Ensures it sits on top of images */
+    mix-blend-mode: difference; /* This creates the color inversion effect */
 }
