@@ -2,47 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-
-  <!-- Mobile viewport -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
-
   <title>Tizian Rein - Project</title>
-
   <link rel="stylesheet" href="../css/style.css">
-
-  <!-- ========================================================= -->
-  <!-- SEO OPTIMIZATION (NEW, INVISIBLE TO USERS)                -->
-  <!-- ========================================================= -->
-
-  <!-- Placeholder meta description (dynamically replaced by JS) -->
-  <meta name="description" content="Architecture and research project by Tizian Rein.">
-
-  <!-- Canonical URL (dynamically updated) -->
-  <link id="canonical-link" rel="canonical" href="https://www.tizianrein.de/projects/project.html">
-
-  <!-- OpenGraph: dynamically updated -->
-  <meta property="og:title" content="Project – Tizian Rein">
-  <meta property="og:description" content="Architecture and research project by Tizian Rein.">
-  <meta property="og:image" content="">
-  <meta property="og:type" content="article">
-  <meta property="og:site_name" content="Tizian Rein">
-
-  <!-- JSON-LD structured data (updated dynamically) -->
-  <script type="application/ld+json" id="structured-data">
-  {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "name": "Project",
-    "description": "Architecture and research project by Tizian Rein.",
-    "creator": {
-      "@type": "Person",
-      "name": "Tizian Rein"
-    },
-    "image": ""
-  }
-  </script>
 
   <style>
     /* --- PROJECT SPECIFIC LAYOUT --- */
@@ -228,15 +191,21 @@
       z-index: 1002;
     }
 
-    /* --- DESKTOP CURSOR ARROWS --- */
+    /* --- DESKTOP CURSOR ARROWS (für Galerie & Lightbox) --- */
     @media (hover: hover) and (min-width: 1025px) {
       .project-gallery.cursor-left,
       .lightbox-overlay.cursor-left {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' ... etc ..."), auto;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
       }
       .project-gallery.cursor-right,
       .lightbox-overlay.cursor-right {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' ... etc ..."), auto;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+      }
+      .lightbox-overlay.is-visible.cursor-left {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+      }
+      .lightbox-overlay.is-visible.cursor-right {
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
       }
     }
 
@@ -258,12 +227,18 @@
       .project-text p { font-size: 15px; max-width: 100%; }
 
       .fullscreen-arrow {
+        /* GELÖSCHT: "display: block;" wurde zu "display: none;" geändert, um den Pfeil auf Mobilgeräten auszublenden, da er hier nicht benötigt wird. */
         display: none;
+        width: 24px;
+        height: 24px;
+        bottom: 12px;
+        right: 12px;
+        z-index: 20;
+        opacity: .9;
       }
     }
   </style>
 </head>
-
 
 <body>
 
@@ -276,7 +251,7 @@
   <div class="corner-nav" aria-label="Mobile corner navigation">
     <a class="corner top-left" href="../index.html">tizian rein</a>
     <a class="corner top-right" href="../info.html" data-lang-en>info</a>
-    <a class="corner top-right" href="../info.html" data-lang-de style="display:none;">info</a>
+    <a class="corner top-right" href="../info.html" data-lang-de style="display:none;">information</a>
     <div class="corner bottom-left lang-switcher">
       <a href="#" class="lang-btn" data-lang="de">de</a>
       <a href="#" class="lang-btn" data-lang="en">en</a>
@@ -320,7 +295,8 @@
         <nav class="project-pager" aria-label="Project navigation">
           <a href="#" id="next-project" class="pager-link">
             <span class="icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" ... >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
@@ -331,7 +307,8 @@
 
           <a href="#" id="prev-project" class="pager-link">
             <span class="icon" aria-hidden="true">
-              <svg xmlns="http://www.w3.org/2000/svg" ... >
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
               </svg>
@@ -348,7 +325,8 @@
 
         <!-- ORIGINAL 45° FULLSCREEN ARROW -->
         <div class="fullscreen-arrow">
-          <svg xmlns="http://www.w3.org/2000/svg" ... >
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>
@@ -366,79 +344,5 @@
 
   <script src="../js/main.js" defer></script>
   <script src="../js/project-loader.js" defer></script>
-
-  <!-- ========================================================= -->
-  <!-- DYNAMIC SEO INJECTION                                     -->
-  <!-- ========================================================= -->
-  <script>
-  document.addEventListener("DOMContentLoaded", () => {
-      const qs = new URLSearchParams(window.location.search);
-      const id = qs.get("id");
-      if (!id) return;
-
-      // update canonical URL
-      const canonical = document.getElementById("canonical-link");
-      if (canonical) {
-          canonical.href = `https://www.tizianrein.de/projects/project.html?id=${id}`;
-      }
-
-      // wait for project-loader.js to fill content
-      const observer = new MutationObserver(() => {
-          const p = document.querySelector("#project-text p");
-          if (!p) return;
-
-          const raw = p.innerText.trim();
-          const lines = raw.split("\n");
-
-          const projectID = lines[0] || id;
-          const projectTitle = lines[1] || "Project";
-          const projectDesc = lines.slice(2).join(" ").trim();
-
-          // dynamic title
-          document.title = `Tizian Rein – ${projectID} ${projectTitle}`;
-
-          // meta description
-          const metaDesc = document.querySelector('meta[name="description"]');
-          if (metaDesc) {
-              metaDesc.setAttribute("content", projectDesc.substring(0, 160));
-          }
-
-          // OG tags
-          const ogT = document.querySelector('meta[property="og:title"]');
-          const ogD = document.querySelector('meta[property="og:description"]');
-          const ogI = document.querySelector('meta[property="og:image"]');
-
-          if (ogT) ogT.setAttribute("content", `${projectID} – ${projectTitle}`);
-          if (ogD) ogD.setAttribute("content", projectDesc.substring(0, 200));
-
-          // first image for og:image
-          const firstImg = document.querySelector(".gallery-track img");
-          if (firstImg && ogI) {
-              ogI.setAttribute("content", firstImg.src);
-          }
-
-          // JSON-LD
-          const ld = document.getElementById("structured-data");
-          if (ld) {
-              ld.textContent = JSON.stringify({
-                  "@context": "https://schema.org",
-                  "@type": "CreativeWork",
-                  "name": `${projectID} - ${projectTitle}`,
-                  "description": projectDesc,
-                  "creator": {
-                      "@type": "Person",
-                      "name": "Tizian Rein"
-                  },
-                  "image": firstImg ? firstImg.src : ""
-              });
-          }
-
-          observer.disconnect();
-      });
-
-      observer.observe(document.getElementById("project-text"), { childList: true, subtree: true });
-  });
-  </script>
-
 </body>
 </html>
