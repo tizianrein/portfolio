@@ -246,18 +246,85 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!p) { p = document.createElement('p'); textElement.prepend(p); }
       p.innerHTML = `${project.id}<br>${content.title}<br><br>${content.description.replace(/\n/g, '<br>')}`;
       let galleryHTML = '', thumbnailsHTML = '';
+
       project.images.forEach((imgSrc, index) => {
+        const alt = `${content.title} – Project ${projectId} – view ${index + 1}`;
         const isGif = imgSrc.toLowerCase().endsWith('.gif');
-        galleryHTML += `<div class="gallery-slide"><img ${isGif ? `data-src="../${imgSrc}"` : `src="../${imgSrc}"`} alt="${content.title} view ${index + 1}"></div>`;
-        thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${imgSrc}" class="thumbnail-item" data-index="${index}" alt="Preview ${index + 1}"></div>`;
+        // --- Galerie-Bild ---
+        galleryHTML += `
+          <div class="gallery-slide">
+            <img 
+              ${isGif ? `data-src="../${imgSrc}"` : `src="../${imgSrc}"`}
+              alt="${alt}"
+            >
+            <!-- SEO FALLBACK -->
+            <noscript>
+              <img src="../${imgSrc}" alt="${alt}">
+            </noscript>
+
+          </div>
+        `;
+
+        // --- Thumbnail ---
+        thumbnailsHTML += `
+          <div class="thumbnail-wrapper">
+            <img 
+              src="../${imgSrc}" 
+              class="thumbnail-item" 
+              data-index="${index}" 
+              alt="${alt}"
+            >
+            <noscript>
+              <img src="../${imgSrc}" alt="${alt}">
+            </noscript>
+          </div>
+        `;
       });
+
+      // --- Video-Bereich ---
       if (project.video && project.video.provider === 'local' && project.video.src) {
         const videoIndex = project.images.length;
-        const posterAttr = project.video.poster ? ` poster="../${project.video.poster}"` : '';
-        galleryHTML += `<div class="gallery-slide"><video class="js-video" controls preload="metadata" playsinline webkit-playsinline${posterAttr}><source src="../${project.video.src}" type="video/mp4"></video></div>`;
+        const posterAttr = project.video.poster
+          ? ` poster="../${project.video.poster}"`
+          : '';
+
+        // Galerie-Video
+        galleryHTML += `
+          <div class="gallery-slide">
+            <video 
+              class="js-video" 
+              controls 
+              preload="metadata" 
+              playsinline 
+              webkit-playsinline
+              ${posterAttr}>
+              <source src="../${project.video.src}" type="video/mp4">
+            </video>
+          </div>
+        `;
+
+        // Poster-Thumbnail + SEO-Fallback
         const thumbSrc = project.video.poster || project.images[project.images.length - 1] || '';
-        if (thumbSrc) { thumbnailsHTML += `<div class="thumbnail-wrapper"><img src="../${thumbSrc}" class="thumbnail-item" data-index="${videoIndex}" alt="Video preview"></div>`; }
+        if (thumbSrc) {
+
+          const altPoster = `${content.title} – Project ${projectId} – video poster`;
+
+          thumbnailsHTML += `
+            <div class="thumbnail-wrapper">
+              <img 
+                src="../${thumbSrc}" 
+                class="thumbnail-item" 
+                data-index="${videoIndex}" 
+                alt="${altPoster}"
+              >
+              <noscript>
+                <img src="../${thumbSrc}" alt="${altPoster}">
+              </noscript>
+            </div>
+          `;
+        }
       }
+
       galleryTrack.innerHTML = galleryHTML;
       thumbnailGrid.innerHTML = thumbnailsHTML;
       initializeGallery();

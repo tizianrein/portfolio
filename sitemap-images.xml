@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset 
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ============================ -->
+  <!-- INDEX THUMBNAILS            -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/023-thumb.jpg</image:loc><image:title>Project 023 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/022-thumb.jpg</image:loc><image:title>Project 022 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/021-thumb.jpg</image:loc><image:title>Project 021 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/020-thumb.jpg</image:loc><image:title>Project 020 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/019.2-thumb.jpg</image:loc><image:title>Project 019 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/018-thumb.jpg</image:loc><image:title>Project 018 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/017-thumb.jpg</image:loc><image:title>Project 017 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/016-thumb.jpg</image:loc><image:title>Project 016 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/013-thumb.jpg</image:loc><image:title>Project 013 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/012-thumb.jpg</image:loc><image:title>Project 012 – Thumbnail</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/thumbnails/009-thumb.jpg</image:loc><image:title>Project 009 – Thumbnail</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 023                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=023</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.2.jpg</image:loc><image:title>Project 023 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.23.jpg</image:loc><image:title>Project 023 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.26.jpg</image:loc><image:title>Project 023 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.22.jpg</image:loc><image:title>Project 023 – view 4</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.27.jpg</image:loc><image:title>Project 023 – view 5</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.29.jpg</image:loc><image:title>Project 023 – view 6</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.20.jpg</image:loc><image:title>Project 023 – view 7</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.21.jpg</image:loc><image:title>Project 023 – view 8</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.14.jpg</image:loc><image:title>Project 023 – view 9</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.4.jpg</image:loc><image:title>Project 023 – view 10</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.3.jpg</image:loc><image:title>Project 023 – view 11</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/023.8.jpg</image:loc><image:title>Project 023 – view 12</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 022                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=022</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/022.5.jpg</image:loc><image:title>Project 022 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/022.4.jpg</image:loc><image:title>Project 022 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/022.3.jpg</image:loc><image:title>Project 022 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/022.1.jpg</image:loc><image:title>Project 022 – view 4</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 021                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=021</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/021.1.jpg</image:loc><image:title>Project 021 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/021.2.jpg</image:loc><image:title>Project 021 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/021.3.jpg</image:loc><image:title>Project 021 – view 3</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 020                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=020</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/020.1.jpg</image:loc><image:title>Project 020 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/020.2.jpg</image:loc><image:title>Project 020 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/020.3.jpg</image:loc><image:title>Project 020 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/020.5.jpg</image:loc><image:title>Project 020 – view 4</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 019                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=019</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/019.1.jpg</image:loc><image:title>Project 019 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/019.2.jpg</image:loc><image:title>Project 019 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/019.3.jpg</image:loc><image:title>Project 019 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/019.4.jpg</image:loc><image:title>Project 019 – view 4</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/019.5.jpg</image:loc><image:title>Project 019 – view 5</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 018                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=018</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/zakk.1.jpg</image:loc><image:title>Project 018 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/zakk.2.gif</image:loc><image:title>Project 018 – animated view</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/zakk.3.jpg</image:loc><image:title>Project 018 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/zakk.4.jpg</image:loc><image:title>Project 018 – view 4</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 017                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=017</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/017.1.jpg</image:loc><image:title>Project 017 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/017.frame.jpg</image:loc><image:title>Project 017 – video poster</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 016                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=016</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/016.1.jpg</image:loc><image:title>Project 016 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/016.2.jpg</image:loc><image:title>Project 016 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/016.3.jpg</image:loc><image:title>Project 016 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/016.4.jpg</image:loc><image:title>Project 016 – view 4</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/016.5.jpg</image:loc><image:title>Project 016 – view 5</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/016.7.jpg</image:loc><image:title>Project 016 – view 6</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/016.6.jpg</image:loc><image:title>Project 016 – view 7</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 013                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=013</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/013.1.jpg</image:loc><image:title>Project 013 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/013.3.jpg</image:loc><image:title>Project 013 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/013.2.jpg</image:loc><image:title>Project 013 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/013.5.jpg</image:loc><image:title>Project 013 – view 4</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/013.6.jpg</image:loc><image:title>Project 013 – view 5</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/013.7.jpg</image:loc><image:title>Project 013 – view 6</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 012                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=012</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/012.3.jpg</image:loc><image:title>Project 012 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/012.4.jpg</image:loc><image:title>Project 012 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/012.1.jpg</image:loc><image:title>Project 012 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/012.2.jpg</image:loc><image:title>Project 012 – view 4</image:title></image:image>
+  </url>
+
+  <!-- ============================ -->
+  <!-- PROJECT 009                  -->
+  <!-- ============================ -->
+
+  <url>
+    <loc>https://www.tizianrein.de/projects/project.html?id=009</loc>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/009.3.jpg</image:loc><image:title>Project 009 – view 1</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/009.4.jpg</image:loc><image:title>Project 009 – view 2</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/009.1.jpg</image:loc><image:title>Project 009 – view 3</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/009.2.jpg</image:loc><image:title>Project 009 – view 4</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/009.5.jpg</image:loc><image:title>Project 009 – view 5</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/009.6.jpg</image:loc><image:title>Project 009 – view 6</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/009.7.jpg</image:loc><image:title>Project 009 – view 7</image:title></image:image>
+    <image:image><image:loc>https://www.tizianrein.de/images/projects/009.9.jpg</image:loc><image:title>Project 009 – view 8</image:title></image:image>
+  </url>
+
+</urlset>

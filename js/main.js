@@ -37,21 +37,34 @@ document.addEventListener('DOMContentLoaded', () => {
       projectElement.classList.add(`layout-${layoutType}`);
       
       // *** KEY CHANGE HERE ***
-      // We now select the title dynamically based on the current language (lang).
-      const title = project[lang]?.title || project['en'].title; // Fallback to English
+      // Dynamischer Titel basierend auf der aktiven Sprache
+      const title = project[lang]?.title || project['en'].title;
+
+      // --- SEO-optimierter ALT-Text ---
+      const altText = `${project.id} – ${title} – ${project.category} by Tizian Rein`;
 
       projectElement.innerHTML = `
         <div class="project-image-container">
           <canvas class="pixelation-canvas"></canvas>
+
           <img 
             src="${project.thumbnail}"
             data-src="${project.thumbnail}"
             class="full-res-image"
-            alt="${title}"
+            alt="${altText}"
             loading="lazy"
             decoding="async">
+
+          <!-- --- SEO FALLBACK (unsichtbar für User, sichtbar für Google) --- -->
+          <noscript>
+            <img src="${project.thumbnail}" alt="${altText}">
+          </noscript>
         </div>
-        <div class="project-info"><h3>${project.id}</h3><p>${title}</p></div>
+
+        <div class="project-info">
+          <h3>${project.id}</h3>
+          <p>${title}</p>
+        </div>
       `;
       projectGrid.appendChild(projectElement);
     });
