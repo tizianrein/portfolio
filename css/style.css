@@ -297,7 +297,7 @@ main {
     .corner { 
         position: fixed; z-index: 200; padding: 20px; 
         background: none; 
-        font-size: 30px; 
+        font-size: 28px; 
     }
     .top-left { top: 0; left: 0; }
     .top-right { top: 0; right: 0; }
