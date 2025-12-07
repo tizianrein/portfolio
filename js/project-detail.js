@@ -287,8 +287,19 @@ function prevImage() {
  * isInitial = true -> Das allererste Bild beim Öffnen (keine Skalierung).
  * isInitial = false -> Weitere Bilder werden "gestapelt".
  */
+/* IN DATEI: js/project-detail.js */
+
 function updateFullscreenImage(isInitial = false) {
     
+    // === NEU: ALLES PAUSIEREN ===
+    // Bevor wir das neue Bild/Video zeigen, stoppen wir alle Videos, 
+    // die sich aktuell im Hintergrund (Stack) befinden.
+    Array.from(stack.children).forEach(child => {
+        if (child.tagName === 'VIDEO') {
+            child.pause();
+        }
+    });
+
     // Prüfen, ob dieses Bild (Index) schon im Stack existiert
     const existingEl = Array.from(stack.children).find(el => parseInt(el.dataset.index) === currentImageIndex);
 
@@ -296,10 +307,11 @@ function updateFullscreenImage(isInitial = false) {
     let isNew = false;
 
     if (existingEl) {
-        // === BEREITS VORHANDEN: Nach oben holen ===
+        // === BEREITS VORHANDEN ===
         el = existingEl;
-        stack.appendChild(el); // Ans Ende des DOM schieben
+        stack.appendChild(el); // Ans Ende schieben
         
+        // Falls das AKTUELLE Element ein Video ist -> wieder starten
         if (el.tagName === 'VIDEO') {
             el.currentTime = 0;
             el.play().catch(e => console.log("Auto-Play prevented:", e));
@@ -314,24 +326,19 @@ function updateFullscreenImage(isInitial = false) {
         stack.appendChild(el);
     }
 
-    // === FIX: Z-INDEX DYNAMISCH STEUERN ===
-    // Wir setzen alle anderen Elemente im Stack nach hinten
+    // === Z-INDEX DYNAMISCH ===
+    // Alle nach hinten setzen
     Array.from(stack.children).forEach(child => {
         child.style.zIndex = '1'; 
     });
-
-    // Das AKTUELLE Element kommt nach ganz vorne (über Klick-Zonen mit z-50)
-    // Bilder haben 'pointer-events: none', Klicks gehen also durch zur Navigation.
-    // Videos haben 'pointer-events: auto', damit Controls bedienbar bleiben.
+    // Aktuelles nach vorne
     el.style.zIndex = '60';
 
-
-    // Skalierungs-Logik (+- 7.5%)
+    // Skalierungs-Logik
     let scale = 1;
     if (!isInitial) {
         scale = (0.85 + Math.random() * 0.25).toFixed(3);
     }
-    
     el.style.transform = `scale(${scale})`;
 
     // Fade-In Logik
@@ -345,7 +352,7 @@ function updateFullscreenImage(isInitial = false) {
         el.style.opacity = '1';
     }
 
-    // Stack Cleanup (Speicher schonen)
+    // Stack Cleanup
     if (stack.children.length > 10 && isNew) {
         const bottomEl = stack.firstElementChild;
         if (bottomEl !== el) {
