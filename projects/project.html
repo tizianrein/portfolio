@@ -104,10 +104,11 @@
 
     .fullscreen-arrow:hover { opacity: 1; }
 
+    /* Hier auch der neue, feinere Stil */
     .fullscreen-arrow svg {
       width: 100%;
       height: 100%;
-      transform: rotate(-45deg);
+      transform: rotate(-45deg); /* 45 Grad rotiert */
       stroke: var(--text-color);
     }
 
@@ -122,7 +123,7 @@
     .pager-link {
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 15px; /* Etwas mehr Abstand für den Pfeil */
       text-decoration: none;
       color: var(--text-color);
       opacity: 0.8;
@@ -133,14 +134,17 @@
     .pager-link:hover { opacity: 0.5; }
 
     .pager-link .icon {
-      width: 20px;
+      width: 30px; /* Breite angepasst für den neuen Pfeil */
       height: 20px;
       display: inline-block;
+      display: flex;
+      align-items: center;
     }
 
     .pager-link .icon svg {
       width: 100%;
       height: 100%;
+      stroke-width: 1.5; /* Feinere Strichstärke */
     }
 
     /* --- LIGHTBOX --- */
@@ -191,21 +195,30 @@
       z-index: 1002;
     }
 
-    /* --- DESKTOP CURSOR ARROWS (für Galerie & Lightbox) --- */
+    /* --- CUSTOM CURSORS (Updated to new Arrow Style) --- */
+    /* Die SVGs wurden hier encodiert eingefügt */
+    
     @media (hover: hover) and (min-width: 1025px) {
+      /* PFEIL NACH LINKS (SCHWARZ) */
       .project-gallery.cursor-left,
       .lightbox-overlay.cursor-left {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 16 16, auto;
       }
+      
+      /* PFEIL NACH RECHTS (SCHWARZ) */
       .project-gallery.cursor-right,
       .lightbox-overlay.cursor-right {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 16 16, auto;
       }
+
+      /* PFEIL NACH LINKS (WEISS - für Lightbox) */
       .lightbox-overlay.is-visible.cursor-left {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='19' y1='12' x2='5' y2='12'%3E%3C/line%3E%3Cpolyline points='12 19 5 12 12 5'%3E%3C/polyline%3E%3C/svg%3E") 16 16, auto;
       }
+
+      /* PFEIL NACH RECHTS (WEISS - für Lightbox) */
       .lightbox-overlay.is-visible.cursor-right {
-        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 12 12, auto;
+        cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cline x1='5' y1='12' x2='19' y2='12'%3E%3C/line%3E%3Cpolyline points='12 5 19 12 12 19'%3E%3C/polyline%3E%3C/svg%3E") 16 16, auto;
       }
     }
 
@@ -226,18 +239,10 @@
       }
 
       .project-text { position: static; padding-right: 0; }
-
       .project-text p { font-size: 15px; max-width: 100%; }
 
       .fullscreen-arrow {
-        /* GELÖSCHT: "display: block;" wurde zu "display: none;" geändert, um den Pfeil auf Mobilgeräten auszublenden, da er hier nicht benötigt wird. */
         display: none;
-        width: 24px;
-        height: 24px;
-        bottom: 12px;
-        right: 12px;
-        z-index: 20;
-        opacity: .9;
       }
     }
   </style>
@@ -296,10 +301,13 @@
 
         <!-- PROJECT PAGER -->
         <nav class="project-pager" aria-label="Project navigation">
+          
+          <!-- NEXT PROJECT (Pfeil nach RECHTS) -->
           <a href="#" id="next-project" class="pager-link">
             <span class="icon" aria-hidden="true">
+              <!-- Neuer Pfeil Stil -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
@@ -308,10 +316,12 @@
             <span data-lang-de style="display:none;">nächstes projekt</span>
           </a>
 
+          <!-- PREVIOUS PROJECT (Pfeil nach LINKS) -->
           <a href="#" id="prev-project" class="pager-link">
             <span class="icon" aria-hidden="true">
+               <!-- Neuer Pfeil Stil -->
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-                   stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                   stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
               </svg>
@@ -319,6 +329,7 @@
             <span data-lang-en>previous project</span>
             <span data-lang-de style="display:none;">vorheriges projekt</span>
           </a>
+
         </nav>
       </section>
 
@@ -326,10 +337,10 @@
       <section class="project-gallery">
         <div class="gallery-track" id="gallery-track"></div>
 
-        <!-- ORIGINAL 45° FULLSCREEN ARROW -->
+        <!-- ORIGINAL 45° FULLSCREEN ARROW (Updated Style) -->
         <div class="fullscreen-arrow">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
-               stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+               stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="5" y1="12" x2="19" y2="12"></line>
             <polyline points="12 5 19 12 12 19"></polyline>
           </svg>

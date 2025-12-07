@@ -1,146 +1,73 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
-    <title>Tizian Rein - Portfolio</title>
-
-    <!-- Favicon (unverändert) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tizian Rein</title>
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
-
     <link rel="stylesheet" href="css/style.css">
-
-    <!-- ========================================================= -->
-    <!-- SEO Optimierung (NEU)                                     -->
-    <!-- ========================================================= -->
-
-    <!-- Beschreibung -->
-    <meta name="description" content="Portfolio von Tizian Rein – Architektur, Forschung, digitale Fabrikation, KI-basierte Repair Logics.">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://www.tizianrein.de/">
-
-    <!-- OpenGraph für Google / Social -->
-    <meta property="og:title" content="Tizian Rein – Portfolio">
-    <meta property="og:description" content="Architecture, Research, Digital Fabrication, AI-driven Repair Logics.">
-    <meta property="og:image" content="https://www.tizianrein.de/images/preview.jpg">
-    <meta property="og:url" content="https://www.tizianrein.de/">
-    <meta property="og:type" content="website">
-
-    <meta name="twitter:card" content="summary_large_image">
-
-    <!-- Sitelinks / Navigationsstruktur (Structured Data) -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "Tizian Rein",
-      "url": "https://www.tizianrein.de",
-      "hasPart": [
-        {
-          "@type": "WebPage",
-          "name": "Projects",
-          "url": "https://www.tizianrein.de/"
-        },
-        {
-          "@type": "WebPage",
-          "name": "Information",
-          "url": "https://www.tizianrein.de/info.html"
-        },
-        {
-          "@type": "WebPage",
-          "name": "Contact",
-          "url": "https://www.tizianrein.de/contact.html"
-        },
-        {
-          "@type": "WebPage",
-          "name": "Architecture",
-          "url": "https://www.tizianrein.de/?filter=architecture"
-        },
-        {
-          "@type": "WebPage",
-          "name": "Objects",
-          "url": "https://www.tizianrein.de/?filter=objects"
-        },
-        {
-          "@type": "WebPage",
-          "name": "Research",
-          "url": "https://www.tizianrein.de/?filter=research"
-        }
-      ]
-    }
-    </script>
-
-    <!-- UNSICHTBARER About-Me-Text (für Google, NICHT sichtbar auf der Seite) -->
-    <div style="display:none;">
-      Tizian Rein (born 1997 in Rhöndorf) is an architect working at the intersection 
-      of computational design, repair logics and architectural heritage. He studied 
-      at TU Munich, ETH Zurich and TH Cologne. His master’s thesis 
-      “From Structure to Action: Machine Reasoning and the Logics of Repair” explores 
-      how AI-driven design processes can support preservation, repair and transformation 
-      of buildings. He has worked at the Professorship of Digital Fabrication (TUM) and 
-      at Gramazio Kohler Research (ETH Zurich), and currently operates independently 
-      focusing on building transformation and research-led design practice.
-    </div>
-
 </head>
-
 <body>
-    <!-- Standalone Desktop Language Switcher (Fixed Position) -->
-    <div class="lang-switcher-desktop">
-        <a href="#" class="lang-btn" data-lang="de">de</a>
-        <a href="#" class="lang-btn" data-lang="en">en</a>
-    </div>
 
-    <!-- Mobile Corner Navigation -->
-    <div class="corner-nav" aria-label="Mobile corner navigation">
-        <a class="corner top-left" href="/">tizian rein</a>
+    <!-- === MOBILE CORNER NAVIGATION === -->
+    <nav class="mobile-nav">
+        <a href="/" class="corner top-left">tizian rein</a>
+        <a href="info.html" class="corner top-right">info</a>
         
-        <a class="corner top-right" href="info" data-lang-en>info</a>
-        <a class="corner top-right" href="info" data-lang-de style="display:none;">info</a>
-
-        <div class="corner bottom-left lang-switcher">
-            <a href="#" class="lang-btn" data-lang="de">de</a>
+        <div class="corner bottom-left lang-switch">
+            <a href="#" class="lang-btn active" data-lang="de">de</a>
             <a href="#" class="lang-btn" data-lang="en">en</a>
         </div>
 
-        <a class="corner bottom-right" href="contact" data-lang-en>contact</a>
-        <a class="corner bottom-right" href="contact" data-lang-de style="display:none;">kontakt</a>
-    </div>
+        <div class="corner bottom-right project-trigger">
+            <span id="mobile-proj-btn">projekte</span>
+            <div class="mobile-submenu">
+                <a href="#" data-filter="architecture">architektur</a>
+                <a href="#" data-filter="objects">objekte</a>
+                <a href="#" data-filter="research">forschung</a>
+            </div>
+        </div>
+    </nav>
 
-    <!-- Desktop Header -->
-    <header>
-        <div class="grid-container">
-            <h1 class="site-title"><a class="site-title-link" href="/">tizian rein</a></h1>
+    <!-- === DESKTOP HEADER === -->
+    <header class="desktop-header">
+        <div class="grid-container header-grid">
+            <div class="header-col title-col">
+                <a href="/">tizian rein</a>
+            </div>
             
-            <div id="nav-work-container">
-                <a href="/" id="nav-work" class="filter-btn active" data-filter="all" data-lang-en>projects</a>
-                <a href="/" id="nav-work-de" class="filter-btn active" data-filter="all" data-lang-de style="display:none;">projekte</a>
-                <div class="work-submenu">
-                    <a href="#" data-filter="architecture" data-lang-en>architecture</a>
-                    <a href="#" data-filter="architecture" data-lang-de style="display:none;">architektur</a>
-                    <a href="#" data-filter="objects" data-lang-en>objects</a>
-                    <a href="#" data-filter="objects" data-lang-de style="display:none;">objekte</a>
-                    <a href="#" data-filter="research" data-lang-en>research</a>
-                    <a href="#" data-filter="research" data-lang-de style="display:none;">forschung</a>
+            <div class="header-col projects-col">
+                <div class="dropdown-wrapper">
+                    <a href="/" class="nav-link">projekte</a>
+                    <div class="submenu">
+                        <a href="#" data-filter="architecture">architektur</a>
+                        <a href="#" data-filter="objects">objekte</a>
+                        <a href="#" data-filter="research">forschung</a>
+                    </div>
                 </div>
             </div>
 
-            <a href="info" id="nav-info" data-lang-en>information</a>
-            <a href="info" id="nav-info-de" data-lang-de style="display:none;">information</a>
-            
-            <a href="contact" id="nav-contact" data-lang-en>contact</a>
-            <a href="contact" id="nav-contact-de" data-lang-de style="display:none;">kontakt</a>
+            <div class="header-col info-col">
+                <a href="info.html" class="nav-link">info</a>
+            </div>
+
+            <div class="header-col lang-col">
+                <!-- WICHTIG: class="lang-btn" und data-lang="..." hinzufügen -->
+                <a href="#" class="lang-btn active" data-lang="de">de</a> 
+                <a href="#" class="lang-btn" data-lang="en">en</a>
+            </div>
         </div>
     </header>
 
+    <!-- === MAIN GRID === -->
     <main>
-        <div id="project-grid" class="grid-container">
-            <!-- Projects are injected here by js/main.js -->
+        <div id="grid-container" class="grid-container">
+            <!-- Inhalte werden per JS generiert -->
         </div>
     </main>
 
-    <script src="js/main.js" defer></script>
+    <!-- Dummy Data & Logic -->
+    <script src="js/grid-layout.js"></script>
+    <script src="js/pixel-trail.js"></script>
 </body>
 </html>

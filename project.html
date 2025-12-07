@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tizian Rein - Projekt</title>
+    
+    <meta name="robots" content="index, follow">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
+    <link rel="stylesheet" href="css/style.css">
+
+    <style>
+        /* === RESET FÜR PRÄZISION === */
+        .project-layout, .project-layout * {
+            box-sizing: border-box;
+        }
+
+        /* === DESKTOP LAYOUT (Standard) === */
+        .project-layout {
+            display: grid;
+            /* Spalte 1: 400px | Lücke: 50px | Spalte 2: 750px */
+            /* Header "projekte" steht bei 450px, das passt also exakt */
+            grid-template-columns: 400px 750px;
+            column-gap: 50px;
+            
+            width: 1200px;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        /* SPALTE 1: TEXT */
+        .col-text {
+            position: sticky;
+            top: 100px; 
+            height: fit-content;
+            margin: 0;
+        }
+
+        /* SPALTE 2: THUMBNAILS CONTAINER */
+        #thumbnail-grid {
+            width: 100%; 
+            display: grid;
+            
+            /* NEU: 6 Spalten à 100px */
+            grid-template-columns: repeat(6, 100px);
+            
+            /* NEU: Abstand berechnet (150px Rest / 5 Lücken = 30px) */
+            gap: 30px;
+            
+            align-content: start;
+        }
+
+        /* === THUMBNAIL ELEMENTE === */
+        .thumb-item {
+            width: 100px; /* NEU: 100px Breite */
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin: 0;
+        }
+
+        .thumb-index {
+            font-size: 12px;
+            display: block;
+            color: var(--color-text);
+        }
+
+        .thumb-item img {
+            width: 100px; /* NEU: 100px Breite */
+            height: auto;
+            display: block;
+            transition: opacity 0.2s;
+        }
+        .thumb-item:hover img { opacity: 0.7; }
+
+
+        /* === TEXT STYLING === */
+        .info-text {
+            font-family: Arial, sans-serif;
+            font-size: 15px;
+            line-height: 1.35;
+            color: var(--color-text);
+            margin-top: 0;
+        }
+        
+        .info-text a { text-decoration: underline; color: inherit; }
+        .info-text a:hover { color: var(--color-grey); }
+
+        .project-id-block { display: block; margin-bottom: 0; font-weight: normal; }
+        .project-title-block { display: block; margin-bottom: 20px; text-decoration: none; font-weight: normal; }
+
+
+        /* === FULLSCREEN OVERLAY === */
+        #fs-overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh; background: #000; color: #fff;
+            z-index: 99999; overflow: hidden;
+        }
+        #fs-overlay.active { display: block; }
+
+        .fs-header {
+            position: absolute; top: 0; left: 0; width: 100%;
+            padding-top: 25px; pointer-events: none; z-index: 100;
+        }
+        .fs-header .grid-container { position: relative; height: 0; }
+        
+        .fs-col {
+            font-size: 30px; line-height: 1; position: absolute;
+            top: 0; pointer-events: auto; color: #fff; text-decoration: none;
+        }
+        .fs-title-left { left: 0; } 
+        .fs-title-center { 
+            position: fixed; top: 25px; left: 0; width: 100%;
+            text-align: center; pointer-events: none; 
+        } 
+        .fs-close-right { right: 0; cursor: pointer; }
+
+        .click-zone {
+            position: absolute; top: 0; bottom: 0; width: 50%; z-index: 50;
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1'%3E%3Cpath d='M15 18l-6-6 6-6'/%3E%3C/svg%3E"), auto;
+        }
+        .zone-right { 
+            right: 0; left: auto; 
+            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1'%3E%3Cpath d='M9 18l6-6-6-6'/%3E%3C/svg%3E"), auto;
+        }
+        
+        #fs-image-stack {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center; pointer-events: none;
+        }
+        .fs-img {
+            position: absolute; max-width: 90vw; max-height: 80vh;
+            object-fit: contain; display: block;
+            transition: opacity 0.3s ease, transform 0.3s ease; 
+        }
+
+        /* === MOBILE LAYOUT === */
+        .mobile-fs-ui { display: none; }
+
+        @media (max-width: 1240px) {
+            .project-layout {
+                display: flex;
+                flex-direction: column;
+                width: 100%;
+                grid-template-columns: none; 
+                gap: 0;
+            }
+
+            .col-text {
+                width: 100%;
+                position: static;
+                margin-bottom: 50px;
+            }
+
+            #thumbnail-grid {
+                width: 100%;
+                /* Mobil bleiben wir bei 4 Spalten flexibel, da 6 zu klein wären */
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px; 
+            }
+            
+            .thumb-item { width: 100%; }
+            .thumb-item img { width: 100%; }
+
+            /* Overlay Mobile */
+            .fs-header { display: none; }
+            .mobile-fs-ui { display: block; }
+
+            .fs-corner {
+                position: absolute; padding: 20px; font-size: 30px; 
+                color: #fff; z-index: 101; line-height: 1; cursor: pointer;
+            }
+            .fs-top-left { top: 0; left: 0; pointer-events: none; } 
+            .fs-top-right { top: 0; right: 0; }
+            .fs-btm-left { bottom: 0; left: 0; }
+            .fs-btm-right { bottom: 0; right: 0; text-align: right; }
+            .fs-img { max-width: 95vw; max-height: 70vh; }
+        }
+    </style>
+</head>
+<body>
+    <!-- === NAVIGATION === -->
+    <nav class="mobile-nav">
+        <a href="/" class="corner top-left">tizian rein</a>
+        <a href="info.html" class="corner top-right">info</a>
+        <div class="corner bottom-left lang-switch">
+            <a href="#" class="lang-btn active" data-lang="de">de</a>
+            <a href="#" class="lang-btn" data-lang="en">en</a>
+        </div>
+        <div class="corner bottom-right project-trigger">
+            <span>projekte</span>
+            <div class="mobile-submenu">
+                <a href="/?filter=architecture">architektur</a>
+                <a href="/?filter=objects">objekte</a>
+                <a href="/?filter=research">forschung</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="desktop-header">
+        <div class="grid-container header-grid">
+            <div class="header-col title-col"><a href="/">tizian rein</a></div>
+            <div class="header-col projects-col"><a href="/" class="nav-link active">projekte</a></div>
+            <div class="header-col info-col"><a href="info.html" class="nav-link">info</a></div>
+            <div class="header-col lang-col">
+                <a href="#" class="lang-btn active" data-lang="de">de</a> 
+                <a href="#" class="lang-btn" data-lang="en">en</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- === CONTENT === -->
+    <main>
+        <div class="grid-container">
+            <div class="project-layout">
+                
+                <!-- TEXT SPALTE -->
+                <div class="col-text">
+                    <div id="project-description">
+                        <h2 class="info-text">Lade Projekt...</h2>
+                    </div>
+                </div>
+
+                <!-- GALERIE SPALTE -->
+                <div class="col-gallery" id="thumbnail-grid">
+                    <!-- Thumbnails per JS -->
+                </div>
+
+            </div>
+        </div>
+
+        <!-- === NEU: FOOTER NAVIGATION (Feather Style) === -->
+        <div class="project-footer-nav">
+        </div>
+    </main>
+
+    <!-- === FULLSCREEN OVERLAY === -->
+    <div id="fs-overlay">
+        
+        <!-- DESKTOP UI -->
+        <div class="fs-header">
+            <!-- TITEL MITTIG (Ausserhalb Grid, relativ zum Fenster) -->
+            <div class="fs-col fs-title-center">
+                <span id="fs-project-title">Projektname</span>
+            </div>
+
+            <!-- GRID CONTAINER für Links/Rechts Ausrichtung -->
+            <div class="grid-container">
+                <!-- Link zur Startseite -->
+                <a href="/" class="fs-col fs-title-left">tizian rein</a>
+                
+                <!-- Close Button -->
+                <div class="fs-col fs-close-right" onclick="closeGallery()">x</div>
+            </div>
+        </div>
+
+        <!-- MOBILE UI -->
+        <div class="mobile-fs-ui">
+            <!-- Titel Oben Links -->
+            <div class="fs-corner fs-top-left" id="fs-mob-title">Projektname</div>
+            <!-- X Oben Rechts -->
+            <div class="fs-corner fs-top-right" onclick="closeGallery()">x</div>
+            <!-- X Unten Links -->
+            <div class="fs-corner fs-btm-left" onclick="closeGallery()">x</div>
+            <!-- Projekte Unten Rechts (Schließt Galerie) -->
+            <div class="fs-corner fs-btm-right" onclick="closeGallery()">projekte</div>
+        </div>
+
+        <!-- NAVIGATION -->
+        <div class="click-zone zone-left" onclick="prevImage()"></div>
+        <div class="click-zone zone-right" onclick="nextImage()"></div>
+
+        <!-- STACK -->
+        <div id="fs-image-stack"></div>
+    </div>
+
+    <script src="js/pixel-trail.js"></script>
+    <script src="js/project-detail.js"></script>
+</body>
+</html>
