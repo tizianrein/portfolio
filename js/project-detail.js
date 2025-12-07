@@ -416,172 +416,267 @@ function setupMobileMenu() {
 }
 
 /* === FÜGE DIES AM ENDE VON js/project-detail.js EIN === */
+/* === FÜGE DIES AM ENDE VON js/project-detail.js EIN (Ersetze den vorherigen Block) === */
 
 (function() {
-    // Variablen für den Zoom-Status
-    let currentScale = 1;
-    let currentTranslateX = 0;
-    let currentTranslateY = 0;
-    let isZooming = false;
-    let isPanning = false;
+    // Status-Variablen
+    let state = {
+        scale: 1,
+        pX: 0,
+        pY: 0,
+        x: 0,
+        y: 0
+    };
 
-    // Start-Werte für Gesten
-    let startDist = 0;
-    let startScale = 1;
-    let startX = 0;
-    let startY = 0;
-    let initialTranslateX = 0;
-    let initialTranslateY = 0;
+    // Temporäre Variablen für die Geste
+    let gesture = {
+        startX: 0,
+        startY: 0,
+        startScale: 1,
+        startDist: 0,
+        // Für Focal Point Zoom
+        midX: 0,
+        midY: 0,
+        isZooming: false,
+        isPanning: false,
+        wasInteracting: false // Flag um Klicks nach Zoom zu blockieren
+    };
 
-    // Hilfsfunktion: Aktives Bild im Stack finden
+    const overlay = document.getElementById('fs-overlay');
+
+    // Hilfsfunktion: Aktives Bild holen
     function getActiveImage() {
         const stack = document.getElementById('fs-image-stack');
-        // Wir nehmen an, das letzte Element im Stack ist das sichtbare
         if (stack && stack.lastElementChild) {
             return stack.lastElementChild;
         }
         return null;
     }
 
-    // Hilfsfunktion: Distanz zwischen zwei Fingern
-    function getDistance(touches) {
-        return Math.hypot(
-            touches[0].pageX - touches[1].pageX,
-            touches[0].pageY - touches[1].pageY
-        );
+    // Hilfsfunktion: Distanz zwischen 2 Fingern
+    function getDistance(t1, t2) {
+        return Math.hypot(t1.pageX - t2.pageX, t1.pageY - t2.pageY);
     }
 
-    // Transformation anwenden
+    // Hilfsfunktion: Mittelpunkt zwischen 2 Fingern
+    function getMidpoint(t1, t2) {
+        return {
+            x: (t1.pageX + t2.pageX) / 2,
+            y: (t1.pageY + t2.pageY) / 2
+        };
+    }
+
+    // Transform anwenden
     function updateTransform(el) {
-        if (el) {
-            // Wichtig: transform-origin muss zentriert sein
-            el.style.transformOrigin = "center center";
-            el.style.transform = `translate(${currentTranslateX}px, ${currentTranslateY}px) scale(${currentScale})`;
-        }
+        if (!el) return;
+        // Wir nutzen Matrix-ähnliche Logik mit Translate und Scale
+        // WICHTIG: Im CSS muss .fs-img { transform-origin: 0 0; } stehen!
+        el.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
     }
 
-    // Zoom zurücksetzen (wird beim Bildwechsel aufgerufen)
+    // Reset
     function resetZoom() {
-        const activeImg = getActiveImage();
-        if (activeImg) {
-            // Animation entfernen für Reset, damit es nicht springt
-            activeImg.style.transition = 'none';
-            activeImg.style.transform = '';
-            // Timeout, um Transition wieder zu aktivieren (falls gewünscht)
-            setTimeout(() => { activeImg.style.transition = ''; }, 50);
+        state = { scale: 1, pX: 0, pY: 0, x: 0, y: 0 };
+        const el = getActiveImage();
+        if (el) {
+            el.style.transition = 'transform 0.3s ease';
+            el.style.transform = '';
+            setTimeout(() => { el.style.transition = ''; }, 300);
         }
-        currentScale = 1;
-        currentTranslateX = 0;
-        currentTranslateY = 0;
-        isZooming = false;
-        isPanning = false;
+        gesture.isZooming = false;
+        gesture.isPanning = false;
+        // Flag kurz halten, um Klicks beim Loslassen noch zu blocken
+        setTimeout(() => { gesture.wasInteracting = false; }, 100);
     }
 
-    // === TOUCH LOGIK INITIALISIEREN ===
-    const overlay = document.getElementById('fs-overlay');
     if (overlay) {
-        // 1. TOUCH START
+        // === TOUCH START ===
         overlay.addEventListener('touchstart', function(e) {
-            const activeImg = getActiveImage();
-            if (!activeImg) return;
+            const el = getActiveImage();
+            if (!el) return;
 
-            // Zwei Finger = ZOOM Start
+            // Transition ausschalten für direkte Reaktion
+            el.style.transition = 'none';
+
             if (e.touches.length === 2) {
-                isZooming = true;
-                startDist = getDistance(e.touches);
-                startScale = currentScale;
-                e.preventDefault(); // Browser Zoom verhindern
-            } 
-            // Ein Finger & bereits gezoomt = PAN (Verschieben) Start
-            else if (e.touches.length === 1 && currentScale > 1.05) {
-                isPanning = true;
-                startX = e.touches[0].pageX;
-                startY = e.touches[0].pageY;
-                initialTranslateX = currentTranslateX;
-                initialTranslateY = currentTranslateY;
-                // Hier kein preventDefault, damit Klicks theoretisch noch möglich wären, 
-                // aber swipe wird abgefangen.
-            }
-        }, { passive: false });
+                // --- ZOOM START ---
+                gesture.isZooming = true;
+                gesture.wasInteracting = true;
+                
+                const t1 = e.touches[0];
+                const t2 = e.touches[1];
 
-        // 2. TOUCH MOVE
-        overlay.addEventListener('touchmove', function(e) {
-            const activeImg = getActiveImage();
-            if (!activeImg) return;
+                gesture.startDist = getDistance(t1, t2);
+                gesture.startScale = state.scale;
 
-            // Zoom Bewegung
-            if (isZooming && e.touches.length === 2) {
+                // Mittelpunkt der Finger berechnen
+                const mid = getMidpoint(t1, t2);
+                
+                // Wir speichern, wo wir "gegriffen" haben relativ zum aktuellen Bild
+                gesture.midX = mid.x;
+                gesture.midY = mid.y;
+                
+                // Position speichern vor dem neuen Zoom
+                gesture.startX = state.x;
+                gesture.startY = state.y;
+
                 e.preventDefault();
-                const newDist = getDistance(e.touches);
-                const scaleFactor = newDist / startDist;
-                // Skalierung berechnen (min 1, max 4)
-                currentScale = Math.min(Math.max(1, startScale * scaleFactor), 4);
-                updateTransform(activeImg);
-            }
-            // Pan Bewegung
-            else if (isPanning && e.touches.length === 1) {
-                e.preventDefault(); // Scrollen der Seite verhindern
-                const dx = e.touches[0].pageX - startX;
-                const dy = e.touches[0].pageY - startY;
-                currentTranslateX = initialTranslateX + dx;
-                currentTranslateY = initialTranslateY + dy;
-                updateTransform(activeImg);
+            } 
+            else if (e.touches.length === 1 && state.scale > 1.05) {
+                // --- PANNING START (Nur wenn schon gezoomt) ---
+                gesture.isPanning = true;
+                gesture.wasInteracting = true;
+                gesture.startX = e.touches[0].pageX - state.x;
+                gesture.startY = e.touches[0].pageY - state.y;
+                // Kein preventDefault hier, falls es doch ein Tap sein soll? 
+                // Doch, um Scrollen zu verhindern. Klick wird später simuliert falls keine Bewegung war.
+                // Aber wir blocken hier Browser-Scroll:
+                e.preventDefault(); 
             }
         }, { passive: false });
 
-        // 3. TOUCH END
-        overlay.addEventListener('touchend', function(e) {
-            if (e.touches.length === 0) {
-                // Verzögerung beim Beenden des Zoom-Status, um Klicks direkt danach zu blockieren
-                if (isZooming) {
-                    setTimeout(() => { isZooming = false; }, 200);
-                }
-                isPanning = false;
+        // === TOUCH MOVE ===
+        overlay.addEventListener('touchmove', function(e) {
+            const el = getActiveImage();
+            if (!el) return;
 
-                // Optional: Snap back wenn Skalierung sehr klein ist
-                if (currentScale < 1.1) {
+            if (gesture.isZooming && e.touches.length === 2) {
+                e.preventDefault();
+
+                const t1 = e.touches[0];
+                const t2 = e.touches[1];
+                const newDist = getDistance(t1, t2);
+                
+                // Skalierungsfaktor der aktuellen Geste
+                const scaleChange = newDist / gesture.startDist;
+                
+                // Neuer absoluter Scale
+                let newScale = gesture.startScale * scaleChange;
+                // Limits
+                newScale = Math.min(Math.max(1, newScale), 5);
+
+                // Focal Point Logik:
+                // Das Bild soll sich so verschieben, dass der Punkt zwischen den Fingern (midX, midY)
+                // an der gleichen Stelle auf dem Bildschirm bleibt.
+                const mid = getMidpoint(t1, t2);
+                
+                // Wie viel hat sich der Mittelpunkt bewegt?
+                const moveX = mid.x - gesture.midX;
+                const moveY = mid.y - gesture.midY;
+
+                // Mathe für Zoom zum Punkt:
+                // Alte Pos + Bewegung + (Mittelpunkt - Alte Pos) * (1 - Wachstumsfaktor)
+                // Es ist einfacher, das Delta zu berechnen:
+                
+                // Position berechnen:
+                // StartPos + Verschiebung der Finger + Zoom-Korrektur
+                // (Das ist eine vereinfachte Focal-Point Rechnung, funktioniert aber meist gut)
+                const ratio = 1 - (newScale / gesture.startScale);
+                
+                state.x = gesture.startX + (mid.x - gesture.startX) * ratio + moveX;
+                state.y = gesture.startY + (mid.y - gesture.startY) * ratio + moveY;
+                state.scale = newScale;
+
+                updateTransform(el);
+            }
+            else if (gesture.isPanning && e.touches.length === 1) {
+                e.preventDefault();
+                state.x = e.touches[0].pageX - gesture.startX;
+                state.y = e.touches[0].pageY - gesture.startY;
+                updateTransform(el);
+            }
+        }, { passive: false });
+
+        // === TOUCH END ===
+        overlay.addEventListener('touchend', function(e) {
+            // Wenn alle Finger weg sind
+            if (e.touches.length === 0) {
+                const el = getActiveImage();
+                
+                // Snap Back, wenn scale < 1
+                if (state.scale < 1.1) {
                     resetZoom();
+                } else {
+                    // Limits beim Panning (damit man das Bild nicht wegwerfen kann)
+                    // (Optional: Hier könnte man Grenzen berechnen)
                 }
+
+                gesture.isZooming = false;
+                gesture.isPanning = false;
+
+                // WICHTIG: Flag erst verzögert löschen, damit nachfolgende Klick-Events
+                // (die der Browser 300ms später feuert) geblockt werden können.
+                setTimeout(() => {
+                    gesture.wasInteracting = false;
+                }, 300); // 300ms Puffer
             }
         });
+
+        // === KLICKS ABFANGEN ===
+        // Wir fangen ALLE Klicks im Overlay ab.
+        // Wenn gerade gezoomt wurde, stoppen wir den Klick (kein Close, kein Next).
+        // Wenn nicht gezoomt wurde, müssen wir entscheiden, was passiert.
+        overlay.addEventListener('click', function(e) {
+            
+            // 1. Wenn wir gerade gezoomt/bewegt haben -> BLOCKIEREN
+            if (gesture.wasInteracting || state.scale > 1.1) {
+                e.stopPropagation();
+                e.preventDefault();
+                console.log("Klick blockiert wegen Zoom");
+                return false;
+            }
+
+            // 2. Normale Navigation Logik (Tap links/rechts)
+            // Da wir .click-zone auf pointer-events: none gesetzt haben (für Touch),
+            // müssen wir jetzt manuell berechnen, ob links oder rechts getippt wurde.
+            
+            // Nur wenn KEIN Zoom aktiv ist:
+            const width = window.innerWidth;
+            const clickX = e.clientX;
+
+            // Klick auf Close Button? (Muss manuell geprüft werden, da im Overlay)
+            // Prüfen ob das Target ein Close-Button ist oder darin liegt
+            if (e.target.closest('.fs-close-right') || e.target.closest('.fs-corner')) {
+                // Close Button Logik lassen wir durch (Browser bubbling)
+                return; 
+            }
+
+            // Zone Links (0 - 30% der Breite) -> Zurück
+            if (clickX < width * 0.3) {
+                window.prevImage();
+            } 
+            // Zone Rechts (70% - 100% der Breite) -> Vor
+            else if (clickX > width * 0.7) {
+                window.nextImage();
+            }
+            // Mitte -> Optional: Close oder nichts
+            else {
+                // closeGallery(); // Oder nichts tun
+            }
+
+        }, true); // Use Capture phase to catch it early
     }
 
-    // === NAVIGATION ÜBERSCHREIBEN ===
-    // Wir speichern deine originalen Funktionen (falls vorhanden)
-    // und wickeln sie in eine Prüfung ein.
 
-    // Next Image patchen
+    // === NAVIGATION ÜBERSCHREIBEN (Sicherheitshalber) ===
     const originalNext = window.nextImage;
     window.nextImage = function() {
-        // Blockieren, wenn gezoomt ist
-        if (currentScale > 1.1 || isZooming) {
-            console.log("Navigation blockiert durch Zoom");
-            return;
-        }
-        // Erst Reset, dann Original-Funktion
+        if (state.scale > 1.1) return; // Blockieren
         resetZoom();
-        if (typeof originalNext === 'function') originalNext();
+        if (originalNext) originalNext();
     };
 
-    // Prev Image patchen
     const originalPrev = window.prevImage;
     window.prevImage = function() {
-        // Blockieren, wenn gezoomt ist
-        if (currentScale > 1.1 || isZooming) {
-            console.log("Navigation blockiert durch Zoom");
-            return;
-        }
-        // Erst Reset, dann Original-Funktion
+        if (state.scale > 1.1) return; // Blockieren
         resetZoom();
-        if (typeof originalPrev === 'function') originalPrev();
+        if (originalPrev) originalPrev();
     };
 
-    // Gallery Close patchen (damit Zoom resettet wird beim Schließen)
     const originalClose = window.closeGallery;
     window.closeGallery = function() {
         resetZoom();
-        if (typeof originalClose === 'function') originalClose();
+        if (originalClose) originalClose();
     };
 
 })();
-
