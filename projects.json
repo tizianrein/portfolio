@@ -33,12 +33,14 @@
     "category": "architecture",
     "thumbnail": "images/thumbnails/022-thumb.jpg",
     "images": [
-      "images/projects/022.7.jpg",
-      "images/projects/022.6.gif",
-      "images/projects/022.5.jpg",
-      "images/projects/022.4.jpg",
       "images/projects/022.3.jpg",
-      "images/projects/022.1.jpg"
+      "images/projects/022.1.jpg",
+      "images/projects/022.9.jpg",
+      "images/projects/022.10.jpg",
+      "images/projects/022.6.gif",
+      "images/projects/022.8.jpg",
+      "images/projects/022.5.jpg",
+      "images/projects/022.4.jpg"
     ],
     "en": {
       "title": "Detached Apartment",
