@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- === SEO === -->
+    <title>Detached Apartment Bonn - Umbau & Sanierung | Tizian Rein</title>
+    <meta name="description" content="Umbau und Neuordnung eines freistehenden Wohnhauses in Bonn (Baujahr 1958). Schaffung einer separaten Wohneinheit. Architektur Tizian Rein.">
+    <meta name="robots" content="index, follow">
+    
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
+    <link rel="stylesheet" href="../css/style.css">
+
+    <style>
+        /* === ORIGINAL LAYOUT === */
+        .project-layout, .project-layout * { box-sizing: border-box; }
+
+        .project-layout {
+            display: grid; grid-template-columns: 400px 750px; column-gap: 50px;
+            width: 1200px; max-width: 1200px; margin: 0 auto; position: relative;
+        }
+
+        .col-text { position: sticky; top: 100px; height: fit-content; margin: 0; }
+
+        #thumbnail-grid {
+            width: 100%; display: grid; grid-template-columns: repeat(6, 100px);
+            gap: 30px; align-content: start;
+        }
+
+        .thumb-item {
+            width: 100px; cursor: pointer; display: flex; flex-direction: column;
+            gap: 5px; margin: 0;
+        }
+
+        .thumb-index {
+            font-size: 12px; display: block; color: var(--color-text);
+            font-family: Arial, sans-serif;
+        }
+
+        .thumb-item img, .thumb-item video {
+            width: 100px; height: auto; display: block; object-fit: cover; border: none;
+        }
+
+        .info-text {
+            font-family: Arial, sans-serif; font-size: 15px; line-height: 1.35;
+            color: var(--color-text); margin-top: 0;
+        }
+        
+        .info-text a { text-decoration: underline; color: inherit; }
+        .info-text a:hover { color: var(--color-grey); }
+
+        .project-id-block { display: block; margin-bottom: 0; font-weight: normal; }
+        .project-title-block { display: block; margin-bottom: 20px; text-decoration: none; font-weight: normal; font-size: 15px; margin-top: 0; }
+
+        /* FULLSCREEN OVERLAY */
+        #fs-overlay {
+            display: none; position: fixed; top: 0; left: 0;
+            width: 100vw; height: 100vh; background: #000; color: #fff;
+            z-index: 99999; overflow: hidden;
+        }
+        #fs-overlay.active { display: block; }
+
+        .fs-header {
+            position: absolute; top: 0; left: 0; width: 100%;
+            padding-top: 25px; pointer-events: none; z-index: 100;
+        }
+        .fs-header .grid-container { position: relative; height: 0; }
+        
+        .fs-col {
+            font-size: 28px; line-height: 1; position: absolute;
+            top: 0; pointer-events: auto; color: #fff; text-decoration: none;
+        }
+        .fs-title-left { left: 0; } 
+        .fs-title-center { 
+            position: fixed; top: 25px; left: 0; width: 100%;
+            text-align: center; pointer-events: none; 
+        } 
+        .fs-close-right { right: 0; cursor: pointer; }
+
+        .click-zone { position: absolute; top: 0; bottom: 0; width: 50%; z-index: 50; }
+        .zone-right { right: 0; left: auto; }
+        
+        #fs-image-stack {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            display: flex; align-items: center; justify-content: center; pointer-events: none;
+        }
+
+        .fs-img {
+            position: absolute; max-width: 90vw; max-height: 80vh;
+            object-fit: contain; display: block;
+            transition: opacity 0.3s ease, transform 0.3s ease; border: none; pointer-events: none; 
+        }
+
+        .mobile-fs-ui { display: none; }
+
+        @media (max-width: 1240px) {
+            .project-layout { display: flex; flex-direction: column; width: 100%; grid-template-columns: none; gap: 0; }
+            .col-text { width: 100%; position: static; margin-bottom: 50px; }
+            #thumbnail-grid { width: 100%; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+            .thumb-item { width: 100%; }
+            .thumb-item img { width: 100%; }
+            .fs-header { display: none; }
+            .mobile-fs-ui { display: block; }
+            .fs-corner { position: absolute; padding: 20px; font-size: 28px; color: #fff; z-index: 101; line-height: 1; cursor: pointer; }
+            .fs-top-left { top: 0; left: 0; pointer-events: none; } 
+            .fs-top-right { top: 0; right: 0; }
+            .fs-btm-left { bottom: 0; left: 0; }
+            .fs-btm-right { bottom: 0; right: 0; text-align: right; }
+            .fs-img { max-width: 95vw; max-height: 70vh; }
+        }
+    </style>
+</head>
+<body>
+    <!-- === NAVIGATION === -->
+    <nav class="mobile-nav">
+        <a href="../" class="corner top-left">tizian rein</a>
+        <a href="../info.html" class="corner top-right">info</a>
+        <div class="corner bottom-left lang-switch">
+            <a href="#" class="lang-btn active" data-lang="de">de</a>
+            <a href="#" class="lang-btn" data-lang="en">en</a>
+        </div>
+        <div class="corner bottom-right project-trigger">
+            <span>projekte</span>
+            <div class="mobile-submenu">
+                <a href="../?filter=architecture">architektur</a>
+                <a href="../?filter=objects">objekte</a>
+                <a href="../?filter=research">forschung</a>
+            </div>
+        </div>
+    </nav>
+
+    <header class="desktop-header">
+        <div class="grid-container header-grid">
+            <div class="header-col title-col"><a href="../">tizian rein</a></div>
+            <div class="header-col projects-col"><a href="../" class="nav-link active">projekte</a></div>
+            <div class="header-col info-col"><a href="../info.html" class="nav-link">info</a></div>
+            <div class="header-col lang-col">
+                <a href="#" class="lang-btn active" data-lang="de">de</a> 
+                <a href="#" class="lang-btn" data-lang="en">en</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- === CONTENT === -->
+    <main>
+        <div class="grid-container">
+            <div class="project-layout">
+                
+                <!-- TEXT SPALTE -->
+                <div class="col-text">
+                    <div id="project-description">
+                        <span class="project-id-block">022</span>
+                        
+                        <!-- TITEL: Hier ändern wir dynamisch oder zeigen beide an? 
+                             Meistens bleibt der Titel gleich, ansonsten hier auch IDs nutzen. -->
+                        <h1 class="project-title-block" id="project-title-text">Separate Wohneinheit</h1> <!-- Default DE Title -->
+                        
+                        <!-- TEXT CONTAINER DEUTSCH -->
+                        <div id="txt-de" class="info-text" style="display: block;">
+                            <p>
+                                Umbau und Neuordnung eines freistehenden Wohnhauses in Bonn, Baujahr 1958. 
+                                Der bestehende Grundriss wurde überarbeitet, Bad und Küche neu gestaltet. 
+                                Durch Abtrennung und Ausbau der ehemaligen Waschküche und Abstellräume entsteht 
+                                eine eigenständige Wohneinheit mit separatem Eingang.
+                            </p>
+                            <p>2025–2026</p>
+                        </div>
+
+                        <!-- TEXT CONTAINER ENGLISCH (Standardmäßig ausgeblendet) -->
+                        <div id="txt-en" class="info-text" style="display: none;">
+                            <p>
+                                Renovation and reorganization of a detached house in Bonn, built in 1958. 
+                                The existing floor plan was revised, with a new design for the bathroom and kitchen. 
+                                By separating and converting the former laundry and storage rooms, an independent 
+                                living unit with a private entrance was created.
+                            </p>
+                            <p>2025–2026</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GALERIE SPALTE -->
+                <div class="col-gallery" id="thumbnail-grid">
+                    
+                    <!-- BILD 022.01 -->
+                    <div class="thumb-item" onclick="openGallery(0)">
+                        <span class="thumb-index">022.01</span>
+                        <img src="../images/projects/detached-apartment-bonn-01.jpg" alt="Axonometrie Küche">
+                    </div>
+
+                    <!-- BILD 022.02 -->
+                    <div class="thumb-item" onclick="openGallery(1)">
+                        <span class="thumb-index">022.02</span>
+                        <img src="../images/projects/detached-apartment-bonn-02.jpg" alt="Axonometrie Badezimmer">
+                    </div>
+
+                    <!-- BILD 022.03 -->
+                    <div class="thumb-item" onclick="openGallery(2)">
+                        <span class="thumb-index">022.03</span>
+                        <img src="../images/projects/detached-apartment-bonn-03.jpg" alt="Architektur Detail Küche">
+                    </div>
+
+                    <!-- BILD 022.04 -->
+                    <div class="thumb-item" onclick="openGallery(3)">
+                        <span class="thumb-index">022.04</span>
+                        <img src="../images/projects/detached-apartment-bonn-04.jpg" alt="Architektur Detail Wohnzimmer">
+                    </div>
+
+                    <!-- BILD 022.05 -->
+                    <div class="thumb-item" onclick="openGallery(4)">
+                        <span class="thumb-index">022.05</span>
+                        <img src="../images/projects/detached-apartment-bonn-05.gif" alt="Animation Duschkabine Badezimmer">
+                    </div>
+
+                    <!-- BILD 022.06 -->
+                    <div class="thumb-item" onclick="openGallery(5)">
+                        <span class="thumb-index">022.06</span>
+                        <img src="../images/projects/detached-apartment-bonn-06.jpg" alt="Architektur Detail Badezimmer">
+                    </div>
+
+                    <!-- BILD 022.07 -->
+                    <div class="thumb-item" onclick="openGallery(6)">
+                        <span class="thumb-index">022.07</span>
+                        <img src="../images/projects/detached-apartment-bonn-07.jpg" alt="Architektur Badplanung Detail">
+                    </div>
+                    
+                    <!-- BILD 022.08 -->
+                    <div class="thumb-item" onclick="openGallery(7)">
+                        <span class="thumb-index">022.08</span>
+                        <img src="../images/projects/detached-apartment-bonn-08.jpg" alt="Grundriss Wohnung Bonn">
+                    </div>
+
+                    <!-- BILD 022.09 -->
+                    <div class="thumb-item" onclick="openGallery(8)">
+                        <span class="thumb-index">022.09</span>
+                        <img src="../images/projects/detached-apartment-bonn-09.jpg" alt="Fassadenansicht Bonn">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <!-- === FOOTER NAVIGATION === -->
+        <div class="project-footer-nav">
+            <a href="graveyard-chapel-rhoendorf.html" id="prev-project-link" class="nav-arrow-link">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.0" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span id="prev-label">Vorheriges Projekt</span>
+            </a>
+
+            <a href="from-structure-to-action.html" id="next-project-link" class="nav-arrow-link">
+                <span id="next-label">Nächstes Projekt</span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+            </a>
+        </div>
+    </main>
+
+    <!-- === FULLSCREEN OVERLAY === -->
+    <div id="fs-overlay">
+        <div class="fs-header">
+            <div class="fs-col fs-title-center">
+                <!-- Auch der Titel im Overlay sollte ggf. wechseln, wir lassen ihn erstmal neutral -->
+                <span id="fs-project-title">Detached Apartment</span>
+            </div>
+            <div class="grid-container">
+                <a href="../" class="fs-col fs-title-left">tizian rein</a>
+                <div class="fs-col fs-close-right" onclick="closeGallery()">x</div>
+            </div>
+        </div>
+
+        <div class="mobile-fs-ui">
+            <div class="fs-corner fs-top-left" id="fs-mob-title">Detached Apartment</div>
+            <div class="fs-corner fs-top-right" onclick="closeGallery()">x</div>
+            <div class="fs-corner fs-btm-left" onclick="closeGallery()">x</div>
+            <div class="fs-corner fs-btm-right" onclick="closeGallery()">projekte</div>
+        </div>
+
+        <div class="click-zone zone-left" onclick="prevImage()"></div>
+        <div class="click-zone zone-right" onclick="nextImage()"></div>
+
+        <div id="fs-image-stack">
+            <img id="fs-img-tag" class="fs-img" src="" alt="">
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="../js/pixel-trail.js"></script>
+    <script src="../js/main.js"></script>
+
+    <script>
+        // === SPRACHUMSCHALTER LOGIK ===
+        // Diese Funktion sucht alle Language-Buttons und schaltet den Text um
+        function initLanguageSwitcher() {
+            const langBtns = document.querySelectorAll('.lang-btn');
+            const txtDe = document.getElementById('txt-de');
+            const txtEn = document.getElementById('txt-en');
+            const titleBlock = document.getElementById('project-title-text');
+            const prevLabel = document.getElementById('prev-label');
+            const nextLabel = document.getElementById('next-label');
+
+            // Titel für das Projekt in beiden Sprachen
+            const titleDE = "Separate Wohneinheit";
+            const titleEN = "Detached Apartment";
+
+            langBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const lang = this.getAttribute('data-lang');
+
+                    // Buttons Status aktualisieren
+                    langBtns.forEach(b => b.classList.remove('active'));
+                    // Alle Buttons mit dieser Sprache aktivieren (Desktop & Mobile)
+                    document.querySelectorAll(`.lang-btn[data-lang="${lang}"]`).forEach(b => b.classList.add('active'));
+
+                    // Text Umschalten
+                    if (lang === 'de') {
+                        if (txtDe) txtDe.style.display = 'block';
+                        if (txtEn) txtEn.style.display = 'none';
+                        if (titleBlock) titleBlock.innerText = titleDE;
+                        if (prevLabel) prevLabel.innerText = "Vorheriges Projekt";
+                        if (nextLabel) nextLabel.innerText = "Nächstes Projekt";
+                    } else {
+                        if (txtDe) txtDe.style.display = 'none';
+                        if (txtEn) txtEn.style.display = 'block';
+                        if (titleBlock) titleBlock.innerText = titleEN;
+                        if (prevLabel) prevLabel.innerText = "Previous Project";
+                        if (nextLabel) nextLabel.innerText = "Next Project";
+                    }
+                });
+            });
+        }
+
+        // Sprachumschalter starten
+        document.addEventListener('DOMContentLoaded', initLanguageSwitcher);
+
+
+        // === GALERIE LOGIK ===
+        const projectImages = [
+            "../images/projects/detached-apartment-bonn-01.jpg",
+            "../images/projects/detached-apartment-bonn-02.jpg",
+            "../images/projects/detached-apartment-bonn-03.jpg",
+            "../images/projects/detached-apartment-bonn-04.jpg",
+            "../images/projects/detached-apartment-bonn-05.gif",
+            "../images/projects/detached-apartment-bonn-06.jpg",
+            "../images/projects/detached-apartment-bonn-07.jpg",
+            "../images/projects/detached-apartment-bonn-08.jpg",
+            "../images/projects/detached-apartment-bonn-09.jpg"
+        ];
+
+        let currentIndex = 0;
+        const overlay = document.getElementById('fs-overlay');
+        const imgTag = document.getElementById('fs-img-tag');
+
+        function openGallery(index) {
+            currentIndex = index;
+            showImage();
+            overlay.classList.add('active');
+            document.body.style.overflow = 'hidden'; 
+        }
+
+        function closeGallery() {
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
+            setTimeout(() => { imgTag.src = ""; }, 300); 
+        }
+
+        function showImage() {
+            imgTag.style.opacity = '0.5'; 
+            imgTag.src = projectImages[currentIndex];
+            imgTag.alt = "Detached Apartment Image " + (currentIndex + 1);
+            setTimeout(() => { imgTag.style.opacity = '1'; }, 50);
+        }
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % projectImages.length;
+            showImage();
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + projectImages.length) % projectImages.length;
+            showImage();
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (!overlay.classList.contains('active')) return;
+            if (e.key === 'Escape') closeGallery();
+            if (e.key === 'ArrowRight') nextImage();
+            if (e.key === 'ArrowLeft') prevImage();
+        });
+    </script>
+</body>
+</html>

@@ -84,7 +84,7 @@ async function renderGrid() {
         // Wie viele sind insgesamt noch übrig?
         let remaining = loadedProjects.length - currentIndex;
         
-        // Zufallszahl zwischen 2 und 4 generieren
+        // Zufallszahl zwischen 3 und 4 generieren
         let count = getRandomInt(3, 4);
 
         /* 
