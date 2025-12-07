@@ -306,7 +306,7 @@ function updateFullscreenImage(isInitial = false) {
     // 4. Skalierung
     let scale = 1;
     if (!isInitial) {
-        scale = (0.85 + Math.random() * 0.25).toFixed(3);
+        scale = (0.80 + Math.random() * 0.25).toFixed(3);
     }
     el.style.transform = `scale(${scale})`;
 
@@ -414,3 +414,174 @@ function setupMobileMenu() {
         });
     }
 }
+
+/* === FÜGE DIES AM ENDE VON js/project-detail.js EIN === */
+
+(function() {
+    // Variablen für den Zoom-Status
+    let currentScale = 1;
+    let currentTranslateX = 0;
+    let currentTranslateY = 0;
+    let isZooming = false;
+    let isPanning = false;
+
+    // Start-Werte für Gesten
+    let startDist = 0;
+    let startScale = 1;
+    let startX = 0;
+    let startY = 0;
+    let initialTranslateX = 0;
+    let initialTranslateY = 0;
+
+    // Hilfsfunktion: Aktives Bild im Stack finden
+    function getActiveImage() {
+        const stack = document.getElementById('fs-image-stack');
+        // Wir nehmen an, das letzte Element im Stack ist das sichtbare
+        if (stack && stack.lastElementChild) {
+            return stack.lastElementChild;
+        }
+        return null;
+    }
+
+    // Hilfsfunktion: Distanz zwischen zwei Fingern
+    function getDistance(touches) {
+        return Math.hypot(
+            touches[0].pageX - touches[1].pageX,
+            touches[0].pageY - touches[1].pageY
+        );
+    }
+
+    // Transformation anwenden
+    function updateTransform(el) {
+        if (el) {
+            // Wichtig: transform-origin muss zentriert sein
+            el.style.transformOrigin = "center center";
+            el.style.transform = `translate(${currentTranslateX}px, ${currentTranslateY}px) scale(${currentScale})`;
+        }
+    }
+
+    // Zoom zurücksetzen (wird beim Bildwechsel aufgerufen)
+    function resetZoom() {
+        const activeImg = getActiveImage();
+        if (activeImg) {
+            // Animation entfernen für Reset, damit es nicht springt
+            activeImg.style.transition = 'none';
+            activeImg.style.transform = '';
+            // Timeout, um Transition wieder zu aktivieren (falls gewünscht)
+            setTimeout(() => { activeImg.style.transition = ''; }, 50);
+        }
+        currentScale = 1;
+        currentTranslateX = 0;
+        currentTranslateY = 0;
+        isZooming = false;
+        isPanning = false;
+    }
+
+    // === TOUCH LOGIK INITIALISIEREN ===
+    const overlay = document.getElementById('fs-overlay');
+    if (overlay) {
+        // 1. TOUCH START
+        overlay.addEventListener('touchstart', function(e) {
+            const activeImg = getActiveImage();
+            if (!activeImg) return;
+
+            // Zwei Finger = ZOOM Start
+            if (e.touches.length === 2) {
+                isZooming = true;
+                startDist = getDistance(e.touches);
+                startScale = currentScale;
+                e.preventDefault(); // Browser Zoom verhindern
+            } 
+            // Ein Finger & bereits gezoomt = PAN (Verschieben) Start
+            else if (e.touches.length === 1 && currentScale > 1.05) {
+                isPanning = true;
+                startX = e.touches[0].pageX;
+                startY = e.touches[0].pageY;
+                initialTranslateX = currentTranslateX;
+                initialTranslateY = currentTranslateY;
+                // Hier kein preventDefault, damit Klicks theoretisch noch möglich wären, 
+                // aber swipe wird abgefangen.
+            }
+        }, { passive: false });
+
+        // 2. TOUCH MOVE
+        overlay.addEventListener('touchmove', function(e) {
+            const activeImg = getActiveImage();
+            if (!activeImg) return;
+
+            // Zoom Bewegung
+            if (isZooming && e.touches.length === 2) {
+                e.preventDefault();
+                const newDist = getDistance(e.touches);
+                const scaleFactor = newDist / startDist;
+                // Skalierung berechnen (min 1, max 4)
+                currentScale = Math.min(Math.max(1, startScale * scaleFactor), 4);
+                updateTransform(activeImg);
+            }
+            // Pan Bewegung
+            else if (isPanning && e.touches.length === 1) {
+                e.preventDefault(); // Scrollen der Seite verhindern
+                const dx = e.touches[0].pageX - startX;
+                const dy = e.touches[0].pageY - startY;
+                currentTranslateX = initialTranslateX + dx;
+                currentTranslateY = initialTranslateY + dy;
+                updateTransform(activeImg);
+            }
+        }, { passive: false });
+
+        // 3. TOUCH END
+        overlay.addEventListener('touchend', function(e) {
+            if (e.touches.length === 0) {
+                // Verzögerung beim Beenden des Zoom-Status, um Klicks direkt danach zu blockieren
+                if (isZooming) {
+                    setTimeout(() => { isZooming = false; }, 200);
+                }
+                isPanning = false;
+
+                // Optional: Snap back wenn Skalierung sehr klein ist
+                if (currentScale < 1.1) {
+                    resetZoom();
+                }
+            }
+        });
+    }
+
+    // === NAVIGATION ÜBERSCHREIBEN ===
+    // Wir speichern deine originalen Funktionen (falls vorhanden)
+    // und wickeln sie in eine Prüfung ein.
+
+    // Next Image patchen
+    const originalNext = window.nextImage;
+    window.nextImage = function() {
+        // Blockieren, wenn gezoomt ist
+        if (currentScale > 1.1 || isZooming) {
+            console.log("Navigation blockiert durch Zoom");
+            return;
+        }
+        // Erst Reset, dann Original-Funktion
+        resetZoom();
+        if (typeof originalNext === 'function') originalNext();
+    };
+
+    // Prev Image patchen
+    const originalPrev = window.prevImage;
+    window.prevImage = function() {
+        // Blockieren, wenn gezoomt ist
+        if (currentScale > 1.1 || isZooming) {
+            console.log("Navigation blockiert durch Zoom");
+            return;
+        }
+        // Erst Reset, dann Original-Funktion
+        resetZoom();
+        if (typeof originalPrev === 'function') originalPrev();
+    };
+
+    // Gallery Close patchen (damit Zoom resettet wird beim Schließen)
+    const originalClose = window.closeGallery;
+    window.closeGallery = function() {
+        resetZoom();
+        if (typeof originalClose === 'function') originalClose();
+    };
+
+})();
+
