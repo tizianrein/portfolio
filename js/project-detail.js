@@ -4,7 +4,7 @@
 let allProjects = [];
 let currentProject = null;
 let currentImageIndex = 0;
-let mediaList = []; 
+let mediaList = []; // Enthält Strings (Bilder) oder Objekte (Video)
 
 // === 1. INITIALISIERUNG ===
 document.addEventListener('DOMContentLoaded', async () => {
@@ -25,12 +25,21 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (currentProject) {
-            // Daten zusammenführen (Bilder + Video)
+            // 1. Bilder kopieren
             mediaList = [...(currentProject.images || [])];
 
+            // 2. Video einfügen (als Objekt mit Poster!)
             if (currentProject.video && currentProject.video.src) {
                 const insertPos = currentProject.video.insertAt || 1; 
-                mediaList.splice(insertPos, 0, currentProject.video.src);
+                
+                // Wir speichern ein Objekt, um auch das Poster zu haben
+                const videoObj = {
+                    src: currentProject.video.src,
+                    poster: currentProject.video.poster || null, 
+                    type: 'video'
+                };
+                
+                mediaList.splice(insertPos, 0, videoObj);
             }
 
             initPage();
@@ -50,6 +59,7 @@ function initPage() {
     setupFooterNav();
     setupLanguageSwitcher();
     setupKeyboardNav();
+    setupTouchGestures(); // NEU: Wischen für Mobile
 }
 
 function renderText() {
@@ -83,35 +93,47 @@ function renderText() {
 
 /**
  * Erstellt Smart-Media-Elemente (Video/Bild/Iframe)
+ * resource kann String (URL) oder Objekt ({src, poster}) sein
  */
-function createMediaElement(src, isThumbnail = false) {
+function createMediaElement(resource, isThumbnail = false) {
+    let src = resource;
+    let poster = null;
+
+    // Prüfen ob es ein Video-Objekt ist
+    if (typeof resource === 'object' && resource !== null) {
+        src = resource.src;
+        poster = resource.poster;
+    }
+
     // 1. Video (MP4, WEBM, MOV)
     if (src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov')) {
         const video = document.createElement('video');
         
+        // Poster setzen falls vorhanden (wichtig für Mobile Thumbnails)
+        if (poster) {
+            video.poster = poster;
+        }
+
         if (isThumbnail) {
             // === THUMBNAIL EINSTELLUNGEN ===
             video.className = 'thumb-video'; 
-            video.autoplay = false;  // NICHT automatisch starten
-            video.muted = true;      // Stumm
-            video.controls = false;  // Keine Leiste
+            video.autoplay = false;
+            video.muted = true;
+            video.controls = false;
             video.loop = false;
-            
-            // Damit man das erste Bild sieht, muss man preload aktivieren
-            // Oder dem Video per Maus-Hover play() geben (optional)
             video.preload = "metadata"; 
             
-            // Optional: Maus-Hover Effekt für Thumbnails
+            // Hover-Effekt (Desktop)
             video.onmouseover = () => video.play();
             video.onmouseout = () => { video.pause(); video.currentTime = 0; };
             
         } else {
             // === VOLLBILD EINSTELLUNGEN ===
             video.className = 'fs-img';
-            video.autoplay = true;   // Startet automatisch beim Öffnen
-            video.muted = false;     // Ton AN (Browser blockieren das evtl. ohne User-Interaktion)
-            video.controls = true;   // ZEIGT DIE VIDEO-LEISTE (Play, Volume, Timeline)
-            video.loop = false;      // Kein Loop, wenn Leiste da ist (Standard Player Verhalten)
+            video.autoplay = true;   
+            video.muted = false;     
+            video.controls = true;   
+            video.loop = false;
             video.preload = "auto";
         }
 
@@ -165,15 +187,16 @@ function renderThumbnails() {
 
     if (mediaList.length === 0) return;
 
-    mediaList.forEach((src, index) => {
+    mediaList.forEach((item, index) => {
         const wrapper = document.createElement('div');
         wrapper.className = 'thumb-item';
         
         const num = document.createElement('span');
         num.className = 'thumb-index';
+        // ID Formatierung: 021.01
         num.innerText = `${currentProject.id}.${(index + 1).toString().padStart(2, '0')}`;
-                
-        const mediaEl = createMediaElement(src, true); 
+        
+        const mediaEl = createMediaElement(item, true); 
         
         wrapper.appendChild(num);
         wrapper.appendChild(mediaEl);
@@ -216,40 +239,110 @@ function updateFooterLabels() {
     }
 }
 
-// === GALERIE LOGIK ===
+// === GALERIE LOGIK (STACKING) ===
 const overlay = document.getElementById('fs-overlay');
 const stack = document.getElementById('fs-image-stack');
 
 function openGallery(index) {
     currentImageIndex = index;
     overlay.classList.add('active');
-    updateFullscreenImage();
+    
+    // Beim ersten Öffnen Stack leeren und erstes Bild ohne Skalierung anzeigen
+    stack.innerHTML = '';
+    updateFullscreenImage(true); 
 }
 
 function closeGallery() {
     overlay.classList.remove('active');
-    stack.innerHTML = ''; 
+    // Stack leeren, damit Videos stoppen und Speicher frei wird
+    setTimeout(() => { stack.innerHTML = ''; }, 300);
 }
 
 function nextImage() {
     if (mediaList.length === 0) return;
     currentImageIndex++;
     if (currentImageIndex >= mediaList.length) currentImageIndex = 0;
-    updateFullscreenImage();
+    updateFullscreenImage(false); // false = Stacking mit Skalierung
 }
 
 function prevImage() {
     if (mediaList.length === 0) return;
     currentImageIndex--;
     if (currentImageIndex < 0) currentImageIndex = mediaList.length - 1;
-    updateFullscreenImage();
+    updateFullscreenImage(false); // false = Stacking mit Skalierung
 }
 
-function updateFullscreenImage() {
-    stack.innerHTML = '';
-    const src = mediaList[currentImageIndex];
-    const el = createMediaElement(src, false);
+/**
+ * Zeigt das Bild an.
+ * isInitial = true -> Das allererste Bild beim Öffnen (keine Skalierung).
+ * isInitial = false -> Weitere Bilder werden "gestapelt" (mit Random Scale).
+ */
+function updateFullscreenImage(isInitial = false) {
+    // KEIN stack.innerHTML = ''; -> Wir stapeln!
+    
+    const item = mediaList[currentImageIndex];
+    const el = createMediaElement(item, false);
+
+    // Skalierungs-Logik (+- 7.5%)
+    let scale = 1;
+    if (!isInitial) {
+        // Start bei 0.925, Spanne 0.15 -> ergibt 0.925 bis 1.075
+        scale = (0.925 + Math.random() * 0.15).toFixed(3);
+    }
+
+    // Nur Skalierung anwenden, keine Rotation
+    el.style.transform = `scale(${scale})`;
+
     stack.appendChild(el);
+
+    // Fade-In aktivieren
+    setTimeout(() => {
+        el.style.opacity = '1';
+    }, 50);
+
+    // Optional: Wenn zu viele Bilder im Stack sind (z.B. > 10), das Unterste entfernen
+    if (stack.children.length > 10) {
+        stack.removeChild(stack.firstElementChild);
+    }
+}
+
+// === TOUCH GESTEN (Wischen) ===
+function setupTouchGestures() {
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    const minSwipeDistance = 50; // Mindeststrecke in Pixeln
+
+    overlay.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    overlay.addEventListener('touchend', (e) => {
+        touchEndX = e.changedTouches[0].screenX;
+        touchEndY = e.changedTouches[0].screenY;
+        handleGesture();
+    }, { passive: true });
+
+    function handleGesture() {
+        const deltaX = touchEndX - touchStartX;
+        const deltaY = touchEndY - touchStartY;
+
+        // Unterscheidung: Horizontal oder Vertikal?
+        if (Math.abs(deltaX) > Math.abs(deltaY)) {
+            // Horizontal -> Blättern
+            if (Math.abs(deltaX) > minSwipeDistance) {
+                if (deltaX < 0) nextImage(); // Swipe Links
+                else prevImage();            // Swipe Rechts
+            }
+        } else {
+            // Vertikal -> Schließen
+            if (Math.abs(deltaY) > minSwipeDistance) {
+                closeGallery();
+            }
+        }
+    }
 }
 
 // === HELPERS ===
