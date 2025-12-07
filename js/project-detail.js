@@ -171,8 +171,8 @@ function renderThumbnails() {
         
         const num = document.createElement('span');
         num.className = 'thumb-index';
-        num.innerText = (index + 1).toString().padStart(2, '0');
-        
+        num.innerText = `${currentProject.id}.${(index + 1).toString().padStart(2, '0')}`;
+                
         const mediaEl = createMediaElement(src, true); 
         
         wrapper.appendChild(num);
