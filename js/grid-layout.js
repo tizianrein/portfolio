@@ -85,7 +85,7 @@ async function renderGrid() {
         let remaining = loadedProjects.length - currentIndex;
         
         // Zufallszahl zwischen 2 und 4 generieren
-        let count = getRandomInt(2, 4);
+        let count = getRandomInt(3, 4);
 
         /* 
            LOGIK-ANPASSUNG: KEINE EINZELNEN PROJEKTE 
