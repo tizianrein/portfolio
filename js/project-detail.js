@@ -1,191 +1,267 @@
-document.addEventListener('DOMContentLoaded', () => {
-    
-    const params = new URLSearchParams(window.location.search);
-    const projectId = params.get('id');
-    
-    // Globale Variablen für Zugriff innerhalb der Funktionen
-    let currentProject = null;
-    let allProjectsData = [];
+/* js/project-detail.js */
 
-    // DOM Elemente
-    const descContainer = document.getElementById('project-description');
-    const thumbGrid = document.getElementById('thumbnail-grid');
-    const titleEl = document.getElementById('fs-project-title');
-    const mobTitleEl = document.getElementById('fs-mob-title');
+// Globale Variablen
+let allProjects = [];
+let currentProject = null;
+let currentImageIndex = 0;
+
+// === 1. INITIALISIERUNG ===
+document.addEventListener('DOMContentLoaded', async () => {
+    try {
+        const response = await fetch('projects.json');
+        allProjects = await response.json();
+
+        const params = new URLSearchParams(window.location.search);
+        const projectId = params.get('id');
+
+        if (projectId) {
+            currentProject = allProjects.find(p => p.id === projectId);
+        }
+
+        // Fallback
+        if (!currentProject && allProjects.length > 0) {
+            currentProject = allProjects[0];
+        }
+
+        if (currentProject) {
+            initPage();
+        } else {
+            document.querySelector('#project-description').innerHTML = "<h2>Projekt nicht gefunden.</h2>";
+        }
+
+    } catch (error) {
+        console.error("Fehler beim Laden:", error);
+    }
+});
+
+// === 2. SEITE AUFBAUEN ===
+function initPage() {
+    renderText();
+    renderThumbnails();
+    setupFooterNav();
+    setupLanguageSwitcher();
+    setupKeyboardNav();
+}
+
+/**
+ * Rendert Titel und Beschreibung (Clean: Ohne extra Year/Category Labels am Ende)
+ */
+function renderText() {
+    const lang = localStorage.getItem('userLanguage') || 'de';
     
-    // Footer Elemente
+    // UI Buttons Status
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        if (btn.dataset.lang === lang) btn.classList.add('active');
+        else btn.classList.remove('active');
+    });
+
+    const data = currentProject[lang] || currentProject.en;
+    const title = data.title;
+    const desc = data.description; // HTML erlaubt
+
+    const container = document.getElementById('project-description');
+    
+    // KORREKTUR: Nur ID, Titel und Beschreibung. Keine automatischen Zusatzinfos unten drunter.
+    container.innerHTML = `
+        <span class="project-id-block">${currentProject.id}</span>
+        <h1 class="project-title-block">${title}</h1>
+        <div class="info-text">
+            ${desc}
+        </div>
+    `;
+
+    // Titel für Overlay
+    const overlayTitle = document.getElementById('fs-project-title');
+    if(overlayTitle) overlayTitle.innerText = title;
+    
+    const mobTitle = document.getElementById('fs-mob-title');
+    if(mobTitle) mobTitle.innerText = title;
+}
+
+/**
+ * Erstellt Smart-Media-Elemente
+ */
+function createMediaElement(src, isThumbnail = false) {
+    // 1. Video (MP4, WEBM, MOV)
+    if (src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov')) {
+        const video = document.createElement('video');
+        
+        // Klassen setzen
+        if (!isThumbnail) {
+            video.className = 'fs-img';
+        } else {
+            video.className = 'thumb-video'; // Neue Klasse für Grid
+        }
+
+        video.src = src;
+        video.autoplay = true;
+        video.loop = true;
+        video.muted = true;       
+        video.playsInline = true; 
+        video.controls = false; 
+        
+        // WICHTIG: Metadata laden lassen, damit Aspect Ratio stimmt
+        video.preload = "metadata";
+        
+        return video;
+    }
+
+    // 2. Iframe (YouTube / Vimeo)
+    if (src.includes('youtube') || src.includes('vimeo')) {
+        if (isThumbnail) {
+            // Im Grid zeigen wir besser ein Bild-Placeholder oder ein Icon,
+            // da 100 Auto-Play Iframes den Browser killen.
+            // Falls du ein Thumbnail-Bild im JSON hast, könnte man das hier nutzen.
+            // Hier simple Lösung: Graues Feld vermeiden, wenn möglich -> wir nehmen ein Video-Icon
+            const div = document.createElement('div');
+            div.className = 'thumb-iframe-placeholder';
+            div.innerHTML = '<span>▶</span>'; 
+            return div;
+        }
+
+        const iframe = document.createElement('iframe');
+        iframe.className = 'fs-img';
+        
+        let finalSrc = src;
+        if (src.includes('vimeo') && !src.includes('?')) {
+            finalSrc += '?autoplay=1&loop=1&background=1&muted=1';
+        }
+        
+        iframe.src = finalSrc;
+        iframe.frameBorder = '0';
+        iframe.allow = "autoplay; fullscreen";
+        return iframe;
+    }
+
+    // 3. Bild
+    const img = document.createElement('img');
+    if (!isThumbnail) {
+        img.className = 'fs-img';
+    }
+    img.src = src;
+    return img;
+}
+
+/**
+ * Thumbnails rendern
+ */
+function renderThumbnails() {
+    const grid = document.getElementById('thumbnail-grid');
+    grid.innerHTML = '';
+
+    if (!currentProject.images) return;
+
+    currentProject.images.forEach((src, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'thumb-item';
+        
+        const num = document.createElement('span');
+        num.className = 'thumb-index';
+        num.innerText = (index + 1).toString().padStart(2, '0');
+        
+        const mediaEl = createMediaElement(src, true); 
+        
+        wrapper.appendChild(num);
+        wrapper.appendChild(mediaEl);
+
+        wrapper.onclick = () => openGallery(index);
+        grid.appendChild(wrapper);
+    });
+}
+
+// === 3. FOOTER & NAV (Bleibt gleich) ===
+function setupFooterNav() {
+    const currentIndex = allProjects.findIndex(p => p.id === currentProject.id);
+    let prevIndex = currentIndex - 1;
+    if (prevIndex < 0) prevIndex = allProjects.length - 1;
+    let nextIndex = currentIndex + 1;
+    if (nextIndex >= allProjects.length) nextIndex = 0;
+
+    const prevProj = allProjects[prevIndex];
+    const nextProj = allProjects[nextIndex];
+
     const prevLink = document.getElementById('prev-project-link');
+    if(prevLink) prevLink.href = `project.html?id=${prevProj.id}`;
+    
     const nextLink = document.getElementById('next-project-link');
+    if(nextLink) nextLink.href = `project.html?id=${nextProj.id}`;
+
+    updateFooterLabels();
+}
+
+function updateFooterLabels() {
+    const lang = localStorage.getItem('userLanguage') || 'de';
     const prevLabel = document.getElementById('prev-label');
     const nextLabel = document.getElementById('next-label');
 
-    // Init
-    fetch('projects.json')
-        .then(response => response.json())
-        .then(allProjects => {
-            allProjectsData = allProjects;
-            currentProject = allProjects.find(p => p.id === projectId);
-            
-            if (currentProject) {
-                initProjectPage();
-                initLanguageSwitcher(); // Event Listener starten
-            } else {
-                showError();
-            }
-        })
-        .catch(err => console.error('Fehler beim Laden der Projekte:', err));
-
-
-    function initProjectPage() {
-        // 1. Text rendern (initial)
-        const savedLang = localStorage.getItem('userLanguage') || 'de';
-        renderText(savedLang);
-
-        // 2. Bilder rendern (nur einmal nötig)
-        renderImages();
-
-        // 3. Footer Navigation Links setzen
-        setupNavigation();
+    if (lang === 'de') {
+        if(prevLabel) prevLabel.innerText = "Vorheriges Projekt";
+        if(nextLabel) nextLabel.innerText = "Nächstes Projekt";
+    } else {
+        if(prevLabel) prevLabel.innerText = "Previous Project";
+        if(nextLabel) nextLabel.innerText = "Next Project";
     }
+}
 
-    /* === SPRACH-LOGIK & RENDERING === */
-    function renderText(lang) {
-        // Sprache Button Styles updaten
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            if(btn.dataset.lang === lang) btn.classList.add('active');
-            else btn.classList.remove('active');
-        });
+// === 4. GALERIE LOGIK ===
+const overlay = document.getElementById('fs-overlay');
+const stack = document.getElementById('fs-image-stack');
 
-        // Content holen
-        const content = currentProject[lang] || currentProject.en; // Fallback
-        
-        // Beschreibungstext HTML
-        const textHtml = `
-            <div class="info-text">
-                <span class="project-id-block">${currentProject.id}</span>
-                <span class="project-title-block">${content.title}</span>
-                <p>${content.description}</p>
-            </div>
-        `;
-        if(descContainer) descContainer.innerHTML = textHtml;
+function openGallery(index) {
+    currentImageIndex = index;
+    overlay.classList.add('active');
+    updateFullscreenImage();
+}
 
-        // Overlay Titel
-        if(titleEl) titleEl.innerText = content.title;
-        if(mobTitleEl) mobTitleEl.innerText = content.title;
+function closeGallery() {
+    overlay.classList.remove('active');
+    stack.innerHTML = ''; 
+}
 
-        // Footer Labels übersetzen
-        if(prevLabel) prevLabel.innerText = lang === 'de' ? 'Vorheriges Projekt' : 'Previous Project';
-        if(nextLabel) nextLabel.innerText = lang === 'de' ? 'Nächstes Projekt' : 'Next Project';
-    }
+function nextImage() {
+    if (!currentProject.images) return;
+    currentImageIndex++;
+    if (currentImageIndex >= currentProject.images.length) currentImageIndex = 0;
+    updateFullscreenImage();
+}
 
-    function initLanguageSwitcher() {
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                const newLang = btn.dataset.lang;
-                
-                // Speichern & Neu rendern
-                localStorage.setItem('userLanguage', newLang);
-                renderText(newLang);
-            });
-        });
-    }
+function prevImage() {
+    if (!currentProject.images) return;
+    currentImageIndex--;
+    if (currentImageIndex < 0) currentImageIndex = currentProject.images.length - 1;
+    updateFullscreenImage();
+}
 
-    /* === BILDER LOGIK === */
-    function renderImages() {
-        thumbGrid.innerHTML = ''; // Reset
-        
-        if (currentProject.images && currentProject.images.length > 0) {
-            currentProject.images.forEach((imgSrc, index) => {
-                const thumb = document.createElement('figure');
-                thumb.className = 'thumb-item';
-                thumb.onclick = () => openGallery(index);
+function updateFullscreenImage() {
+    stack.innerHTML = '';
+    const src = currentProject.images[currentImageIndex];
+    const el = createMediaElement(src, false);
+    stack.appendChild(el);
+}
 
-                const idxNum = (index + 1).toString().padStart(2, '0');
-                
-                // Alt-Tag nehmen wir einfach vom englischen Titel als Standard
-                const altTitle = currentProject.en.title;
+// === 5. HELPERS ===
+window.closeGallery = closeGallery;
+window.nextImage = nextImage;
+window.prevImage = prevImage;
 
-                thumb.innerHTML = `
-                    <span class="thumb-index">${currentProject.id}.${idxNum}</span>
-                    <img src="${imgSrc}" alt="${altTitle}" loading="lazy">
-                `;
-                thumbGrid.appendChild(thumb);
-            });
-        }
-    }
+function setupLanguageSwitcher() {
+    const btns = document.querySelectorAll('.lang-btn');
+    btns.forEach(btn => {
+        btn.onclick = (e) => {
+            e.preventDefault();
+            const lang = btn.dataset.lang;
+            localStorage.setItem('userLanguage', lang);
+            renderText();
+            updateFooterLabels();
+        };
+    });
+}
 
-    /* === FOOTER NAVIGATION LOGIK === */
-    function setupNavigation() {
-        const currentIndex = allProjectsData.findIndex(p => p.id === currentProject.id);
-        
-        // Zyklische Navigation (Loop)
-        const prevIndex = (currentIndex - 1 + allProjectsData.length) % allProjectsData.length;
-        const nextIndex = (currentIndex + 1) % allProjectsData.length;
-
-        const prevProj = allProjectsData[prevIndex];
-        const nextProj = allProjectsData[nextIndex];
-
-        if(prevLink) prevLink.href = `project.html?id=${prevProj.id}`;
-        if(nextLink) nextLink.href = `project.html?id=${nextProj.id}`;
-    }
-
-
-    /* === GALERIE / OVERLAY LOGIK (Wie gehabt) === */
-    const overlay = document.getElementById('fs-overlay');
-    const stackContainer = document.getElementById('fs-image-stack');
-    let currentImageIndex = 0;
-
-    window.openGallery = (index) => {
-        currentImageIndex = index;
-        stackContainer.innerHTML = ''; 
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        addToStack(index);
-    };
-
-    window.closeGallery = () => {
-        overlay.classList.remove('active');
-        document.body.style.overflow = '';
-        stackContainer.innerHTML = '';
-    };
-
-    function addToStack(index) {
-        const imgSrc = currentProject.images[index];
-        const imgEl = document.createElement('img');
-        imgEl.src = imgSrc;
-        imgEl.className = 'fs-img';
-        
-        const scale = 0.85 + Math.random() * 0.15;
-        imgEl.style.zIndex = stackContainer.children.length + 1;
-        imgEl.style.opacity = '0';
-        imgEl.style.transform = `scale(${scale})`;
-        
-        stackContainer.appendChild(imgEl);
-        
-        requestAnimationFrame(() => {
-            imgEl.style.opacity = '1';
-        });
-    }
-
-    window.nextImage = () => {
-        currentImageIndex = (currentImageIndex + 1) % currentProject.images.length;
-        addToStack(currentImageIndex);
-    };
-
-    window.prevImage = () => {
-        currentImageIndex = (currentImageIndex - 1 + currentProject.images.length) % currentProject.images.length;
-        addToStack(currentImageIndex);
-    };
-
+function setupKeyboardNav() {
     document.addEventListener('keydown', (e) => {
-        if (!overlay || !overlay.classList.contains('active')) return;
+        if (!overlay.classList.contains('active')) return;
         if (e.key === 'Escape') closeGallery();
         if (e.key === 'ArrowRight') nextImage();
         if (e.key === 'ArrowLeft') prevImage();
     });
-
-    function showError() {
-        if(descContainer) descContainer.innerHTML = '<p class="info-text">Projekt nicht gefunden.</p>';
-    }
-});
+}
