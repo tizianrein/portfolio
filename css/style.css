@@ -367,7 +367,29 @@ main {
     .fs-btm-left { bottom: 0; left: 0; }
     .fs-btm-right { bottom: 0; right: 0; text-align: right; }
     .fs-img { max-width: 95vw; max-height: 70vh; }
-} 
+
+    /* 1. PIXEL TRAIL AUSBLENDEN */
+    #pixel-trail {
+        display: none !important;
+        pointer-events: none;
+        width: 0;
+        height: 0;
+    }
+
+    /* 2. SUBMENÜ STEUERUNG VERBESSERN */
+    /* Das Menü soll sich öffnen, wenn die Klasse .is-open gesetzt ist */
+    .project-trigger.is-open .mobile-submenu {
+        display: flex;
+    }
+    
+    /* Optional: Damit das Menü "nach oben" aufklappt und nicht den Text verdeckt */
+    .project-trigger {
+        display: flex;
+        flex-direction: column-reverse; /* Menü über dem Text */
+        align-items: flex-end;
+        cursor: pointer; /* Zeigt an, dass es klickbar ist */
+    }
+}
 
 /* === PIXEL TRAIL EFFECT (GLOBAL) === */
 #pixel-trail {
