@@ -286,8 +286,7 @@ function updateFullscreenImage(isInitial = false) {
     // Skalierungs-Logik (+- 7.5%)
     let scale = 1;
     if (!isInitial) {
-        // Start bei 0.925, Spanne 0.15 -> ergibt 0.925 bis 1.075
-        scale = (0.925 + Math.random() * 0.15).toFixed(3);
+        scale = (0.9 + Math.random() * 0.15).toFixed(3);
     }
 
     // Nur Skalierung anwenden, keine Rotation
