@@ -80,10 +80,33 @@ async function renderGrid() {
 
     // Grid Algorithmus
     while (currentIndex < loadedProjects.length) {
+        
+        // Wie viele sind insgesamt noch übrig?
+        let remaining = loadedProjects.length - currentIndex;
+        
+        // Zufallszahl zwischen 2 und 4 generieren
         let count = getRandomInt(2, 4);
-        if (currentIndex + count > loadedProjects.length) {
-            count = loadedProjects.length - currentIndex;
+
+        /* 
+           LOGIK-ANPASSUNG: KEINE EINZELNEN PROJEKTE 
+        */
+
+        // Fall A: Wir sind fast am Ende (nur noch 2, 3 oder 4 übrig)
+        // Dann nehmen wir einfach alle restlichen in diese Reihe, 
+        // damit keiner einzeln übrig bleibt.
+        if (remaining <= 4) {
+            count = remaining;
+        } 
+        // Fall B: Wir sind mitten drin, aber der Zufall würde dazu führen,
+        // dass für die NÄCHSTE Runde genau 1 übrig bleibt.
+        else if (remaining - count === 1) {
+            // Beispiel: 5 übrig. Zufall sagt 4. Rest wäre 1 (Böse).
+            // Lösung: Wir reduzieren diese Reihe auf 3.
+            // Dann bleiben 2 für die nächste Reihe (Gut).
+            count--; 
         }
+
+        /* ------------------------------------- */
 
         const rowItems = [];
         for (let i = 0; i < count; i++) {
@@ -115,12 +138,16 @@ async function renderGrid() {
         rowDiv.className = 'grid-row';
 
         finalItems.forEach(item => {
-            let rawHeight = item.width / item.aspectRatio;
+            // Hier ein Sicherheitscheck, falls item.aspectRatio 0 oder undefined ist
+            let safeAR = item.aspectRatio || 1; 
+            let rawHeight = item.width / safeAR;
             let snappedHeight = Math.round(rawHeight / GRID_UNIT) * GRID_UNIT;
+            
+            // Mindesthöhe
             if (snappedHeight < GRID_UNIT) snappedHeight = GRID_UNIT;
 
             // Titel je nach Sprache
-            const title = item[lang] ? item[lang].title : item.en.title;
+            const title = (item[lang] && item[lang].title) ? item[lang].title : (item.en ? item.en.title : item.id);
 
             const link = document.createElement('a');
             link.className = 'grid-item';
