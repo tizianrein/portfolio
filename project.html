@@ -9,6 +9,7 @@
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
     <link rel="stylesheet" href="css/style.css">
 
+    <!-- IN DATEI: project.html -->
     <style>
         /* === RESET FÜR PRÄZISION === */
         .project-layout, .project-layout * {
@@ -18,11 +19,8 @@
         /* === DESKTOP LAYOUT (Standard) === */
         .project-layout {
             display: grid;
-            /* Spalte 1: 400px | Lücke: 50px | Spalte 2: 750px */
-            /* Header "projekte" steht bei 450px, das passt also exakt */
             grid-template-columns: 400px 750px;
             column-gap: 50px;
-            
             width: 1200px;
             max-width: 1200px;
             margin: 0 auto;
@@ -41,19 +39,14 @@
         #thumbnail-grid {
             width: 100%; 
             display: grid;
-            
-            /* NEU: 6 Spalten à 100px */
             grid-template-columns: repeat(6, 100px);
-            
-            /* NEU: Abstand berechnet (150px Rest / 5 Lücken = 30px) */
             gap: 30px;
-            
             align-content: start;
         }
 
         /* === THUMBNAIL ELEMENTE === */
         .thumb-item {
-            width: 100px; /* NEU: 100px Breite */
+            width: 100px; 
             cursor: pointer;
             display: flex;
             flex-direction: column;
@@ -68,7 +61,7 @@
         }
 
         .thumb-item img {
-            width: 100px; /* NEU: 100px Breite */
+            width: 100px;
             height: auto;
             display: block;
             transition: opacity 0.2s;
@@ -117,13 +110,17 @@
         } 
         .fs-close-right { right: 0; cursor: pointer; }
 
+        /* 
+        HIER WURDE GEÄNDERT:
+        Die cursor-Definitionen wurden entfernt, damit die style.css greift!
+        */
         .click-zone {
             position: absolute; top: 0; bottom: 0; width: 50%; z-index: 50;
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1'%3E%3Cpath d='M15 18l-6-6 6-6'/%3E%3C/svg%3E"), auto;
+            /* cursor entfernt */
         }
         .zone-right { 
             right: 0; left: auto; 
-            cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='1'%3E%3Cpath d='M9 18l6-6-6-6'/%3E%3C/svg%3E"), auto;
+            /* cursor entfernt */
         }
         
         #fs-image-stack {
@@ -156,7 +153,6 @@
 
             #thumbnail-grid {
                 width: 100%;
-                /* Mobil bleiben wir bei 4 Spalten flexibel, da 6 zu klein wären */
                 grid-template-columns: repeat(4, 1fr);
                 gap: 10px; 
             }
