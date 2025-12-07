@@ -60,6 +60,7 @@ function initPage() {
     setupLanguageSwitcher();
     setupKeyboardNav();
     setupTouchGestures(); 
+    setupMobileMenu(); // <--- Menü initialisieren
 }
 
 function renderText() {
@@ -93,29 +94,23 @@ function renderText() {
 
 /**
  * Erstellt Smart-Media-Elemente (Video/Bild/Iframe)
- * resource kann String (URL) oder Objekt ({src, poster}) sein
  */
 function createMediaElement(resource, isThumbnail = false) {
     let src = resource;
     let poster = null;
 
-    // Prüfen ob es ein Video-Objekt ist
     if (typeof resource === 'object' && resource !== null) {
         src = resource.src;
         poster = resource.poster;
     }
 
-    // 1. Video (MP4, WEBM, MOV)
+    // 1. Video
     if (src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov')) {
         const video = document.createElement('video');
         
-        // Poster setzen falls vorhanden (wichtig für Mobile Thumbnails)
-        if (poster) {
-            video.poster = poster;
-        }
+        if (poster) video.poster = poster;
 
         if (isThumbnail) {
-            // === THUMBNAIL EINSTELLUNGEN ===
             video.className = 'thumb-video'; 
             video.autoplay = false;
             video.muted = true;
@@ -123,12 +118,10 @@ function createMediaElement(resource, isThumbnail = false) {
             video.loop = false;
             video.preload = "metadata"; 
             
-            // Hover-Effekt (Desktop)
             video.onmouseover = () => video.play();
             video.onmouseout = () => { video.pause(); video.currentTime = 0; };
             
         } else {
-            // === VOLLBILD EINSTELLUNGEN ===
             video.className = 'fs-img';
             video.autoplay = true;   
             video.muted = false;     
@@ -139,11 +132,10 @@ function createMediaElement(resource, isThumbnail = false) {
 
         video.src = src;
         video.playsInline = true; 
-        
         return video;
     }
 
-    // 2. Iframe (YouTube / Vimeo)
+    // 2. Iframe
     if (src.includes('youtube') || src.includes('vimeo')) {
         if (isThumbnail) {
             const div = document.createElement('div');
@@ -160,12 +152,10 @@ function createMediaElement(resource, isThumbnail = false) {
 
         const iframe = document.createElement('iframe');
         iframe.className = 'fs-img';
-        
         let finalSrc = src;
         if (src.includes('vimeo') && !src.includes('?')) {
             finalSrc += '?autoplay=1&loop=1&background=1&muted=1';
         }
-        
         iframe.src = finalSrc;
         iframe.frameBorder = '0';
         iframe.allow = "autoplay; fullscreen";
@@ -174,9 +164,7 @@ function createMediaElement(resource, isThumbnail = false) {
 
     // 3. Bild
     const img = document.createElement('img');
-    if (!isThumbnail) {
-        img.className = 'fs-img';
-    }
+    if (!isThumbnail) img.className = 'fs-img';
     img.src = src;
     return img;
 }
@@ -193,7 +181,6 @@ function renderThumbnails() {
         
         const num = document.createElement('span');
         num.className = 'thumb-index';
-        // ID Formatierung: 021.01
         num.innerText = `${currentProject.id}.${(index + 1).toString().padStart(2, '0')}`;
         
         const mediaEl = createMediaElement(item, true); 
@@ -247,25 +234,20 @@ function openGallery(index) {
     currentImageIndex = index;
     overlay.classList.add('active');
     
-    // Sicherstellen, dass Thumbnails gestoppt sind (Verhindert Audio-Doppelung)
+    // Sicherstellen, dass Thumbnails gestoppt sind
     document.querySelectorAll('.thumb-video').forEach(v => {
         v.pause();
         v.currentTime = 0;
     });
 
-    // Beim ersten Öffnen Stack leeren und erstes Bild anzeigen
+    // Beim ersten Öffnen Stack leeren
     stack.innerHTML = '';
     updateFullscreenImage(true); 
 }
 
 function closeGallery() {
     overlay.classList.remove('active');
-    
-    // Stack leeren, damit Videos stoppen und Speicher frei wird
-    // Verzögert, damit Fade-Out noch sichtbar ist (falls CSS Transition vorhanden)
-    setTimeout(() => { 
-        stack.innerHTML = ''; 
-    }, 300);
+    setTimeout(() => { stack.innerHTML = ''; }, 300);
 }
 
 function nextImage() {
@@ -283,42 +265,31 @@ function prevImage() {
 }
 
 /**
- * Zeigt das Bild an.
- * isInitial = true -> Das allererste Bild beim Öffnen (keine Skalierung).
- * isInitial = false -> Weitere Bilder werden "gestapelt".
+ * Zeigt das Bild an. (Mit Z-Index Fix und Video-Pause)
  */
-/* IN DATEI: js/project-detail.js */
-
 function updateFullscreenImage(isInitial = false) {
     
-    // === NEU: ALLES PAUSIEREN ===
-    // Bevor wir das neue Bild/Video zeigen, stoppen wir alle Videos, 
-    // die sich aktuell im Hintergrund (Stack) befinden.
+    // 1. Alle Videos im Hintergrund pausieren
     Array.from(stack.children).forEach(child => {
         if (child.tagName === 'VIDEO') {
             child.pause();
         }
     });
 
-    // Prüfen, ob dieses Bild (Index) schon im Stack existiert
+    // 2. Element holen oder erstellen
     const existingEl = Array.from(stack.children).find(el => parseInt(el.dataset.index) === currentImageIndex);
-
     let el;
     let isNew = false;
 
     if (existingEl) {
-        // === BEREITS VORHANDEN ===
         el = existingEl;
         stack.appendChild(el); // Ans Ende schieben
         
-        // Falls das AKTUELLE Element ein Video ist -> wieder starten
         if (el.tagName === 'VIDEO') {
             el.currentTime = 0;
             el.play().catch(e => console.log("Auto-Play prevented:", e));
         }
-
     } else {
-        // === NEU ERSTELLEN ===
         isNew = true;
         const item = mediaList[currentImageIndex];
         el = createMediaElement(item, false);
@@ -326,22 +297,20 @@ function updateFullscreenImage(isInitial = false) {
         stack.appendChild(el);
     }
 
-    // === Z-INDEX DYNAMISCH ===
-    // Alle nach hinten setzen
+    // 3. Z-Index setzen (WICHTIG!)
     Array.from(stack.children).forEach(child => {
         child.style.zIndex = '1'; 
     });
-    // Aktuelles nach vorne
-    el.style.zIndex = '60';
+    el.style.zIndex = '60'; // Aktuelles nach vorne
 
-    // Skalierungs-Logik
+    // 4. Skalierung
     let scale = 1;
     if (!isInitial) {
         scale = (0.85 + Math.random() * 0.25).toFixed(3);
     }
     el.style.transform = `scale(${scale})`;
 
-    // Fade-In Logik
+    // 5. Animation
     if (isNew) {
         el.style.opacity = '0';
         requestAnimationFrame(() => {
@@ -352,7 +321,7 @@ function updateFullscreenImage(isInitial = false) {
         el.style.opacity = '1';
     }
 
-    // Stack Cleanup
+    // 6. Cleanup
     if (stack.children.length > 10 && isNew) {
         const bottomEl = stack.firstElementChild;
         if (bottomEl !== el) {
@@ -367,7 +336,7 @@ function setupTouchGestures() {
     let touchStartY = 0;
     let touchEndX = 0;
     let touchEndY = 0;
-    const minSwipeDistance = 50; // Mindeststrecke in Pixeln
+    const minSwipeDistance = 50;
 
     overlay.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
@@ -384,16 +353,14 @@ function setupTouchGestures() {
         const deltaX = touchEndX - touchStartX;
         const deltaY = touchEndY - touchStartY;
 
-        // Prüfen, ob die Bewegung eher horizontal oder vertikal war
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            // === HORIZONTAL (Blättern) ===
+            // Horizontal
             if (Math.abs(deltaX) > minSwipeDistance) {
-                if (deltaX < 0) nextImage(); // Swipe Links -> Nächstes
-                else prevImage();            // Swipe Rechts -> Vorheriges
+                if (deltaX < 0) nextImage();
+                else prevImage();
             }
         } else {
-            // === VERTIKAL (Schließen) ===
-            // Nur Wischen nach UNTEN (deltaY > 0) soll schließen
+            // Vertikal (nur nach unten = Schließen)
             if (deltaY > minSwipeDistance) {
                 closeGallery();
             }
@@ -401,7 +368,7 @@ function setupTouchGestures() {
     }
 }
 
-// === HELPERS ===
+// === HELPERS & SETUP ===
 window.closeGallery = closeGallery;
 window.nextImage = nextImage;
 window.prevImage = prevImage;
@@ -425,6 +392,25 @@ function setupKeyboardNav() {
         if (e.key === 'Escape') closeGallery();
         if (e.key === 'ArrowRight') nextImage();
         if (e.key === 'ArrowLeft') prevImage();
-        if (e.key === 'ArrowDown') closeGallery(); // Optional: Pfeil runter schließt auch
+        if (e.key === 'ArrowDown') closeGallery(); 
     });
+} // <--- HIER WAR DIE FEHLENDE KLAMMER!
+
+function setupMobileMenu() {
+    const trigger = document.querySelector('.project-trigger');
+    const submenu = document.querySelector('.mobile-submenu');
+
+    if (trigger && submenu) {
+        trigger.onclick = (e) => {
+            if (e.target.tagName === 'A') return;
+            e.stopPropagation(); 
+            submenu.classList.toggle('active');
+        };
+
+        document.addEventListener('click', (e) => {
+            if (!trigger.contains(e.target)) {
+                submenu.classList.remove('active');
+            }
+        });
+    }
 }
