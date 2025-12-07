@@ -64,10 +64,28 @@
             width: 100px;
             height: auto;
             display: block;
-            transition: opacity 0.2s;
         }
-        .thumb-item:hover img { opacity: 0.7; }
 
+        /* NEU: CSS FÜR VIDEOS IM GRID */
+        .thumb-item video, 
+        .thumb-video {
+            width: 100px;       /* Gleiche Breite wie Images */
+            height: auto;       /* Höhe automatisch */
+            display: block;
+            object-fit: cover;  /* Inhalt füllen */
+        }
+
+        /* OPTIONAL: Platzhalter für Iframes stylen */
+        .thumb-iframe-placeholder {
+            width: 100px;
+            height: 100px; /* Quadratisch oder angepasst */
+            background: #f0f0f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: #999;
+        }
 
         /* === TEXT STYLING === */
         .info-text {
