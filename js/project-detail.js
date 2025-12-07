@@ -59,7 +59,7 @@ function initPage() {
     setupFooterNav();
     setupLanguageSwitcher();
     setupKeyboardNav();
-    setupTouchGestures(); // NEU: Wischen für Mobile
+    setupTouchGestures(); 
 }
 
 function renderText() {
@@ -247,61 +247,110 @@ function openGallery(index) {
     currentImageIndex = index;
     overlay.classList.add('active');
     
-    // Beim ersten Öffnen Stack leeren und erstes Bild ohne Skalierung anzeigen
+    // Sicherstellen, dass Thumbnails gestoppt sind (Verhindert Audio-Doppelung)
+    document.querySelectorAll('.thumb-video').forEach(v => {
+        v.pause();
+        v.currentTime = 0;
+    });
+
+    // Beim ersten Öffnen Stack leeren und erstes Bild anzeigen
     stack.innerHTML = '';
     updateFullscreenImage(true); 
 }
 
 function closeGallery() {
     overlay.classList.remove('active');
+    
     // Stack leeren, damit Videos stoppen und Speicher frei wird
-    setTimeout(() => { stack.innerHTML = ''; }, 300);
+    // Verzögert, damit Fade-Out noch sichtbar ist (falls CSS Transition vorhanden)
+    setTimeout(() => { 
+        stack.innerHTML = ''; 
+    }, 300);
 }
 
 function nextImage() {
     if (mediaList.length === 0) return;
     currentImageIndex++;
     if (currentImageIndex >= mediaList.length) currentImageIndex = 0;
-    updateFullscreenImage(false); // false = Stacking mit Skalierung
+    updateFullscreenImage(false);
 }
 
 function prevImage() {
     if (mediaList.length === 0) return;
     currentImageIndex--;
     if (currentImageIndex < 0) currentImageIndex = mediaList.length - 1;
-    updateFullscreenImage(false); // false = Stacking mit Skalierung
+    updateFullscreenImage(false);
 }
 
 /**
  * Zeigt das Bild an.
  * isInitial = true -> Das allererste Bild beim Öffnen (keine Skalierung).
- * isInitial = false -> Weitere Bilder werden "gestapelt" (mit Random Scale).
+ * isInitial = false -> Weitere Bilder werden "gestapelt".
  */
 function updateFullscreenImage(isInitial = false) {
-    // KEIN stack.innerHTML = ''; -> Wir stapeln!
     
-    const item = mediaList[currentImageIndex];
-    const el = createMediaElement(item, false);
+    // Prüfen, ob dieses Bild (Index) schon im Stack existiert
+    const existingEl = Array.from(stack.children).find(el => parseInt(el.dataset.index) === currentImageIndex);
+
+    let el;
+    let isNew = false;
+
+    if (existingEl) {
+        // === BEREITS VORHANDEN: Nach oben holen ===
+        el = existingEl;
+        stack.appendChild(el); // Ans Ende des DOM schieben
+        
+        if (el.tagName === 'VIDEO') {
+            el.currentTime = 0;
+            el.play().catch(e => console.log("Auto-Play prevented:", e));
+        }
+
+    } else {
+        // === NEU ERSTELLEN ===
+        isNew = true;
+        const item = mediaList[currentImageIndex];
+        el = createMediaElement(item, false);
+        el.dataset.index = currentImageIndex; 
+        stack.appendChild(el);
+    }
+
+    // === FIX: Z-INDEX DYNAMISCH STEUERN ===
+    // Wir setzen alle anderen Elemente im Stack nach hinten
+    Array.from(stack.children).forEach(child => {
+        child.style.zIndex = '1'; 
+    });
+
+    // Das AKTUELLE Element kommt nach ganz vorne (über Klick-Zonen mit z-50)
+    // Bilder haben 'pointer-events: none', Klicks gehen also durch zur Navigation.
+    // Videos haben 'pointer-events: auto', damit Controls bedienbar bleiben.
+    el.style.zIndex = '60';
+
 
     // Skalierungs-Logik (+- 7.5%)
     let scale = 1;
     if (!isInitial) {
-        scale = (0.9 + Math.random() * 0.15).toFixed(3);
+        scale = (0.85 + Math.random() * 0.25).toFixed(3);
     }
-
-    // Nur Skalierung anwenden, keine Rotation
+    
     el.style.transform = `scale(${scale})`;
 
-    stack.appendChild(el);
-
-    // Fade-In aktivieren
-    setTimeout(() => {
+    // Fade-In Logik
+    if (isNew) {
+        el.style.opacity = '0';
+        requestAnimationFrame(() => {
+            el.style.transition = 'opacity 0.5s ease, transform 0.3s ease';
+            el.style.opacity = '1';
+        });
+    } else {
         el.style.opacity = '1';
-    }, 50);
+    }
 
-    // Optional: Wenn zu viele Bilder im Stack sind (z.B. > 10), das Unterste entfernen
-    if (stack.children.length > 10) {
-        stack.removeChild(stack.firstElementChild);
+    // Stack Cleanup (Speicher schonen)
+    if (stack.children.length > 10 && isNew) {
+        const bottomEl = stack.firstElementChild;
+        if (bottomEl !== el) {
+            stack.removeChild(bottomEl);
+        }
     }
 }
 
@@ -328,16 +377,17 @@ function setupTouchGestures() {
         const deltaX = touchEndX - touchStartX;
         const deltaY = touchEndY - touchStartY;
 
-        // Unterscheidung: Horizontal oder Vertikal?
+        // Prüfen, ob die Bewegung eher horizontal oder vertikal war
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            // Horizontal -> Blättern
+            // === HORIZONTAL (Blättern) ===
             if (Math.abs(deltaX) > minSwipeDistance) {
-                if (deltaX < 0) nextImage(); // Swipe Links
-                else prevImage();            // Swipe Rechts
+                if (deltaX < 0) nextImage(); // Swipe Links -> Nächstes
+                else prevImage();            // Swipe Rechts -> Vorheriges
             }
         } else {
-            // Vertikal -> Schließen
-            if (Math.abs(deltaY) > minSwipeDistance) {
+            // === VERTIKAL (Schließen) ===
+            // Nur Wischen nach UNTEN (deltaY > 0) soll schließen
+            if (deltaY > minSwipeDistance) {
                 closeGallery();
             }
         }
@@ -368,5 +418,6 @@ function setupKeyboardNav() {
         if (e.key === 'Escape') closeGallery();
         if (e.key === 'ArrowRight') nextImage();
         if (e.key === 'ArrowLeft') prevImage();
+        if (e.key === 'ArrowDown') closeGallery(); // Optional: Pfeil runter schließt auch
     });
 }
