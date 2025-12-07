@@ -4,7 +4,6 @@
 let allProjects = [];
 let currentProject = null;
 let currentImageIndex = 0;
-// NEU: Eine gemeinsame Liste für Bilder UND Videos
 let mediaList = []; 
 
 // === 1. INITIALISIERUNG ===
@@ -26,13 +25,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         if (currentProject) {
-            // === NEU: DATEN ZUSAMMENFÜHREN ===
-            // Wir kopieren die Bilder in eine neue Liste
+            // Daten zusammenführen (Bilder + Video)
             mediaList = [...(currentProject.images || [])];
 
-            // Wenn es ein Video-Objekt gibt, fügen wir es an der gewünschten Stelle ein
             if (currentProject.video && currentProject.video.src) {
-                const insertPos = currentProject.video.insertAt || 1; // Standard: an 2. Stelle
+                const insertPos = currentProject.video.insertAt || 1; 
                 mediaList.splice(insertPos, 0, currentProject.video.src);
             }
 
@@ -55,9 +52,6 @@ function initPage() {
     setupKeyboardNav();
 }
 
-/**
- * Rendert Text (ID, Titel, Beschreibung)
- */
 function renderText() {
     const lang = localStorage.getItem('userLanguage') || 'de';
     
@@ -95,19 +89,34 @@ function createMediaElement(src, isThumbnail = false) {
     if (src.endsWith('.mp4') || src.endsWith('.webm') || src.endsWith('.mov')) {
         const video = document.createElement('video');
         
-        if (!isThumbnail) {
-            video.className = 'fs-img';
-        } else {
+        if (isThumbnail) {
+            // === THUMBNAIL EINSTELLUNGEN ===
             video.className = 'thumb-video'; 
+            video.autoplay = false;  // NICHT automatisch starten
+            video.muted = true;      // Stumm
+            video.controls = false;  // Keine Leiste
+            video.loop = false;
+            
+            // Damit man das erste Bild sieht, muss man preload aktivieren
+            // Oder dem Video per Maus-Hover play() geben (optional)
+            video.preload = "metadata"; 
+            
+            // Optional: Maus-Hover Effekt für Thumbnails
+            video.onmouseover = () => video.play();
+            video.onmouseout = () => { video.pause(); video.currentTime = 0; };
+            
+        } else {
+            // === VOLLBILD EINSTELLUNGEN ===
+            video.className = 'fs-img';
+            video.autoplay = true;   // Startet automatisch beim Öffnen
+            video.muted = false;     // Ton AN (Browser blockieren das evtl. ohne User-Interaktion)
+            video.controls = true;   // ZEIGT DIE VIDEO-LEISTE (Play, Volume, Timeline)
+            video.loop = false;      // Kein Loop, wenn Leiste da ist (Standard Player Verhalten)
+            video.preload = "auto";
         }
 
         video.src = src;
-        video.autoplay = true;
-        video.loop = true;
-        video.muted = true;       
         video.playsInline = true; 
-        video.controls = false; 
-        video.preload = "metadata"; // Wichtig für Thumbnail-Anzeige
         
         return video;
     }
@@ -150,9 +159,6 @@ function createMediaElement(src, isThumbnail = false) {
     return img;
 }
 
-/**
- * Thumbnails rendern (nutzt jetzt mediaList statt images)
- */
 function renderThumbnails() {
     const grid = document.getElementById('thumbnail-grid');
     grid.innerHTML = '';
@@ -177,7 +183,6 @@ function renderThumbnails() {
     });
 }
 
-// === 3. FOOTER & NAV ===
 function setupFooterNav() {
     const currentIndex = allProjects.findIndex(p => p.id === currentProject.id);
     let prevIndex = currentIndex - 1;
@@ -211,7 +216,7 @@ function updateFooterLabels() {
     }
 }
 
-// === 4. GALERIE LOGIK ===
+// === GALERIE LOGIK ===
 const overlay = document.getElementById('fs-overlay');
 const stack = document.getElementById('fs-image-stack');
 
@@ -242,13 +247,12 @@ function prevImage() {
 
 function updateFullscreenImage() {
     stack.innerHTML = '';
-    // Hier nutzen wir jetzt mediaList statt images!
     const src = mediaList[currentImageIndex];
     const el = createMediaElement(src, false);
     stack.appendChild(el);
 }
 
-// === 5. HELPERS ===
+// === HELPERS ===
 window.closeGallery = closeGallery;
 window.nextImage = nextImage;
 window.prevImage = prevImage;
