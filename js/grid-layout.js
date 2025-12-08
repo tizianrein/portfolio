@@ -152,7 +152,12 @@ async function renderGrid() {
             const link = document.createElement('a');
             link.className = 'grid-item';
             link.style.width = item.width + 'px';
-            link.href = `project.html?id=${item.id}`;
+            // Wenn eine statische URL hinterlegt ist (SEO!), nimm die. Sonst Fallback.
+            if (item.url) {
+                link.href = item.url;
+            } else {
+                link.href = `project.html?id=${item.id}`;
+            }
 
             link.innerHTML = `
                 <div class="image-wrapper" style="height: ${snappedHeight}px;">

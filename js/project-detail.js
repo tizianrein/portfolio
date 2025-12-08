@@ -4,7 +4,7 @@
 let allProjects = [];
 let currentProject = null;
 let currentImageIndex = 0;
-let mediaList = []; // Enthält Strings (Bilder) oder Objekte (Video)
+let mediaList = []; 
 
 // === 1. INITIALISIERUNG ===
 document.addEventListener('DOMContentLoaded', async () => {
@@ -32,7 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (currentProject.video && currentProject.video.src) {
                 const insertPos = currentProject.video.insertAt || 1; 
                 
-                // Wir speichern ein Objekt, um auch das Poster zu haben
                 const videoObj = {
                     src: currentProject.video.src,
                     poster: currentProject.video.poster || null, 
@@ -60,7 +59,7 @@ function initPage() {
     setupLanguageSwitcher();
     setupKeyboardNav();
     setupTouchGestures(); 
-    setupMobileMenu(); // <--- Menü initialisieren
+    setupMobileMenu();
 }
 
 function renderText() {
@@ -74,6 +73,24 @@ function renderText() {
     const data = currentProject[lang] || currentProject.en;
     const title = data.title;
     const desc = data.description; 
+
+    // === SEO UPDATE START ===
+    
+    // 1. Browser-Titel setzen (Wichtig für Google Ranking)
+    document.title = "Tizian Rein - " + title;
+
+    // 2. Meta Description dynamisch setzen (Wichtig für Snippet)
+    let metaDesc = document.querySelector('meta[name="description"]');
+    if (!metaDesc) {
+        metaDesc = document.createElement('meta');
+        metaDesc.name = "description";
+        document.head.appendChild(metaDesc);
+    }
+    // HTML Tags (wie <br>) aus der Beschreibung entfernen für das Meta-Tag
+    const plainTextDesc = desc.replace(/<[^>]*>?/gm, ' ').substring(0, 160) + "...";
+    metaDesc.content = plainTextDesc;
+
+    // === SEO UPDATE END ===
 
     const container = document.getElementById('project-description');
     
@@ -94,8 +111,9 @@ function renderText() {
 
 /**
  * Erstellt Smart-Media-Elemente (Video/Bild/Iframe)
+ * UPDATE: Nimmt jetzt 'altText' entgegen für SEO
  */
-function createMediaElement(resource, isThumbnail = false) {
+function createMediaElement(resource, isThumbnail = false, altText = "") {
     let src = resource;
     let poster = null;
 
@@ -109,6 +127,8 @@ function createMediaElement(resource, isThumbnail = false) {
         const video = document.createElement('video');
         
         if (poster) video.poster = poster;
+        // Videos haben kein Alt-Attribut, aber wir setzen ein Title-Attribut
+        if (altText) video.title = altText;
 
         if (isThumbnail) {
             video.className = 'thumb-video'; 
@@ -141,6 +161,7 @@ function createMediaElement(resource, isThumbnail = false) {
             const div = document.createElement('div');
             div.className = 'thumb-iframe-placeholder';
             div.innerHTML = '<span>▶</span>'; 
+            div.setAttribute('aria-label', altText); // Accessibility für Placeholder
             div.style.display = 'flex';
             div.style.alignItems = 'center';
             div.style.justifyContent = 'center';
@@ -152,6 +173,7 @@ function createMediaElement(resource, isThumbnail = false) {
 
         const iframe = document.createElement('iframe');
         iframe.className = 'fs-img';
+        iframe.title = altText; // Iframes sollten Titles haben
         let finalSrc = src;
         if (src.includes('vimeo') && !src.includes('?')) {
             finalSrc += '?autoplay=1&loop=1&background=1&muted=1';
@@ -162,10 +184,19 @@ function createMediaElement(resource, isThumbnail = false) {
         return iframe;
     }
 
-    // 3. Bild
+    // 3. Bild (Wichtigster Teil für Google Images)
     const img = document.createElement('img');
     if (!isThumbnail) img.className = 'fs-img';
+    
     img.src = src;
+    
+    // === SEO FIX: ALT ATTRIBUTE SETZEN ===
+    if (altText) {
+        img.alt = altText;
+    } else {
+        img.alt = "Tizian Rein Project Image"; // Fallback
+    }
+    
     return img;
 }
 
@@ -175,6 +206,10 @@ function renderThumbnails() {
 
     if (mediaList.length === 0) return;
 
+    // Aktuellen Titel holen für Alt-Texte
+    const lang = localStorage.getItem('userLanguage') || 'de';
+    const projectTitle = (currentProject[lang] || currentProject.en).title;
+
     mediaList.forEach((item, index) => {
         const wrapper = document.createElement('div');
         wrapper.className = 'thumb-item';
@@ -183,7 +218,11 @@ function renderThumbnails() {
         num.className = 'thumb-index';
         num.innerText = `${currentProject.id}.${(index + 1).toString().padStart(2, '0')}`;
         
-        const mediaEl = createMediaElement(item, true); 
+        // SEO ALT TEXT GENERIEREN
+        // z.B.: "Detached Apartment - Bild 01 - Architektur Tizian Rein"
+        const altString = `${projectTitle} - Ansicht ${index + 1} - ${currentProject.category} Tizian Rein`;
+
+        const mediaEl = createMediaElement(item, true, altString); 
         
         wrapper.appendChild(num);
         wrapper.appendChild(mediaEl);
@@ -292,7 +331,13 @@ function updateFullscreenImage(isInitial = false) {
     } else {
         isNew = true;
         const item = mediaList[currentImageIndex];
-        el = createMediaElement(item, false);
+        
+        // Titel und Alt-Text auch für Fullscreen Bild generieren
+        const lang = localStorage.getItem('userLanguage') || 'de';
+        const projectTitle = (currentProject[lang] || currentProject.en).title;
+        const altString = `${projectTitle} - Detail ${currentImageIndex + 1} - Tizian Rein`;
+
+        el = createMediaElement(item, false, altString);
         el.dataset.index = currentImageIndex; 
         stack.appendChild(el);
     }
@@ -382,6 +427,8 @@ function setupLanguageSwitcher() {
             localStorage.setItem('userLanguage', lang);
             renderText();
             updateFooterLabels();
+            // Wenn wir die Sprache ändern, müssen wir Thumbnails neu rendern für neue Alt-Texte
+            renderThumbnails(); 
         };
     });
 }
@@ -394,7 +441,7 @@ function setupKeyboardNav() {
         if (e.key === 'ArrowLeft') prevImage();
         if (e.key === 'ArrowDown') closeGallery(); 
     });
-} // <--- HIER WAR DIE FEHLENDE KLAMMER!
+}
 
 function setupMobileMenu() {
     const trigger = document.querySelector('.project-trigger');
