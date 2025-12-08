@@ -142,7 +142,9 @@
     "category": "architecture",
     "thumbnail": "images/thumbnails/Tizian-Rein-Free-Bird-017-thumb.jpg",
     "images": [
-      "images/projects/Tizian-Rein-Free-Bird-017.1.jpg"
+      "images/projects/Tizian-Rein-Free-Bird-017.1.jpg",
+      "images/projects/Tizian-Rein-Free-Bird-017.2.jpg",
+      "images/projects/Tizian-Rein-Free-Bird-017.3.jpg"
     ],
     "video": {
       "provider": "local",
