@@ -1,6 +1,7 @@
 [
   {
     "id": "023",
+    "url": "projects/023-from-structure-to-action",
     "year": 2025,
     "category": "research",
     "thumbnail": "images/thumbnails/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023-thumb.jpg",
@@ -55,6 +56,7 @@
   },
   {
     "id": "021",
+    "url": "projects/021-waldfriedhofskapelle-rhoendorf-graveyard-chapel",
     "year": 2023,
     "category": "architecture",
     "thumbnail": "images/thumbnails/Tizian-Rein-Waldfriedhofskapelle-Rhöndorf-021-thumb.jpg",
@@ -77,6 +79,7 @@
   },
   {
     "id": "020",
+    "url": "projects/020-beamtenwohnung-bonn-apartment-of-a-clerk",
     "year": 2024,
     "category": "architecture",
     "thumbnail": "images/thumbnails/Tizian-Rein-Wohnung-eines-Beamten-020-thumb.jpg",
@@ -97,6 +100,7 @@
   },
   {
     "id": "019",
+    "url": "projects/019-unterstand-shelter",
     "year": 2024,
     "category": "objects",
     "thumbnail": "images/thumbnails/Tizian-Rein-Fahrrad-Unterstand-019-thumb.jpg",
@@ -118,6 +122,7 @@
   },
   {
     "id": "018",
+    "url": "projects/018-zakk",
     "year": 2024,
     "category": "objects",
     "thumbnail": "images/thumbnails/Tizian-Rein-Zakk-Gartenstuhl-018-thumb.jpg",
@@ -138,6 +143,7 @@
   },
   {
     "id": "017",
+    "url": "projects/017-immersive-studio-free-bird",
     "year": 2024,
     "category": "architecture",
     "thumbnail": "images/thumbnails/Tizian-Rein-Free-Bird-017-thumb.jpg",
@@ -162,6 +168,7 @@
   },
   {
     "id": "016",
+    "url": "projects/016-harboring-histories-stuio-meteora",
     "year": 2023,
     "category": "architecture",
     "thumbnail": "images/thumbnails/Tizian-Rein-Harboring-Histories-016-thumb.jpg",
@@ -185,6 +192,7 @@
   },
   {
     "id": "013",
+    "url": "projects/013-robosgraffito",
     "year": 2023,
     "category": "research",
     "thumbnail": "images/thumbnails/Tizian-Rein-RoboSgraffito-013-thumb.jpg",
@@ -207,6 +215,7 @@
   },
   {
     "id": "012",
+    "url": "projects/012-structural-patterns",
     "year": 2022,
     "category": "research",
     "thumbnail": "images/thumbnails/Tizian-Rein-Structural-Patterns-012-thumb.jpg",
@@ -227,6 +236,7 @@
   },  
   {
     "id": "009",
+    "url": "projects/009-wohnen-in-nippes",
     "year": 2019,
     "category": "architecture",
     "thumbnail": "images/thumbnails/Tizian-Rein-Wohnungsbau-Nippes-009-thumb.jpg",
