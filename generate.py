@@ -123,7 +123,7 @@ def generate_html(project, prev_proj, next_proj):
     <meta property="og:image" content="https://www.tizianrein.de/{project['thumbnail']}">
     <meta property="og:type" content="article">
 
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🟥</text></svg>">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="../css/style.css">
 
     <script type="application/ld+json">
