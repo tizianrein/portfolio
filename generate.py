@@ -1,8 +1,8 @@
 import json
 import os
-# random import removed as we don't scale thumbnails anymore
 
 # 1. Load projects.json
+# Ensure projects.json exists in the same directory
 with open('projects.json', 'r', encoding='utf-8') as f:
     projects = json.load(f)
 
@@ -21,9 +21,16 @@ def generate_html(project, prev_proj, next_proj):
     
     # --- DATA PREP ---
     p_id = project['id']
+    
+    # Clean description for Meta Tags (remove HTML)
     desc_clean = project['en']['description'].replace('<br>', ' ').replace('<a>', '').replace('</a>', '')[:160] + "..."
+    
+    # Page Title
     page_title = f"{project['de']['title']} – Tizian Rein"
 
+    # Year handling for Body Text
+    year_str = project.get('year', '')
+    
     # --- THUMBNAIL GRID ---
     gallery_html = ""
     gallery_assets = [] 
@@ -37,27 +44,28 @@ def generate_html(project, prev_proj, next_proj):
         
         # Number: 023.01
         num_str = f"{p_id}.{display_counter:02d}"
+        alt_text = get_alt_text(project, display_counter)
         
-        # NO RANDOM SCALE (Removed style attribute)
         gallery_html += f"""
         <div class="thumb-item" onclick="openGallery(0)">
             <span class="thumb-index">{num_str}</span>
             <video class="thumb-video" src="{vid_src}" poster="{vid_poster}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>
         </div>"""
         
-        gallery_assets.append({'type': 'video', 'src': vid_src, 'poster': vid_poster, 'alt': get_alt_text(project, display_counter)})
+        gallery_assets.append({'type': 'video', 'src': vid_src, 'poster': vid_poster, 'alt': alt_text})
         display_counter += 1
 
     # 2. Image Loop
     for img_path in project['images']:
-        img_src_rel = f"/{img_path}"
+        # Ensure path starts with / if not present
+        img_src_rel = f"/{img_path}" if not img_path.startswith('/') else img_path
+        
         js_index = len(gallery_assets)
         
         # Number: 023.02
         num_str = f"{p_id}.{display_counter:02d}"
         alt_text = get_alt_text(project, display_counter)
         
-        # NO RANDOM SCALE (Removed style attribute)
         gallery_html += f"""
         <div class="thumb-item" onclick="openGallery({js_index})">
             <span class="thumb-index">{num_str}</span>
@@ -68,6 +76,9 @@ def generate_html(project, prev_proj, next_proj):
         display_counter += 1
 
     # --- FOOTER LINKS ---
+    # Note: Using {id}.html for links as specific slugs (like 'from-structure-to-action') 
+    # cannot be determined automatically without extra logic. 
+    
     prev_link_html = ""
     if prev_proj:
         prev_link_html = f"""
@@ -78,8 +89,6 @@ def generate_html(project, prev_proj, next_proj):
                 </svg>
                 <span id="prev-label">Vorheriges Projekt</span>
             </a>"""
-    else:
-        prev_link_html = "<span></span>"
 
     next_link_html = ""
     if next_proj:
@@ -91,8 +100,6 @@ def generate_html(project, prev_proj, next_proj):
                     <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
             </a>"""
-    else:
-         next_link_html = "<span></span>"
 
 
     # --- JSON DATA ---
@@ -109,6 +116,7 @@ def generate_html(project, prev_proj, next_proj):
     assets_json = json.dumps(gallery_assets)
 
     # --- HTML TEMPLATE ---
+    # This template matches your provided index.html structure exactly.
     html_content = f"""<!DOCTYPE html>
 <html lang="de">
 <head>
@@ -220,7 +228,7 @@ def generate_html(project, prev_proj, next_proj):
 <body>
     <nav class="mobile-nav">
         <a href="/" class="corner top-left">tizian rein</a>
-        <a href="/info.html" class="corner top-right">info</a>
+        <a href="/info" class="corner top-right">info</a>
         <div class="corner bottom-left lang-switch">
             <a href="#" class="lang-btn active" data-lang="de">de</a>
             <a href="#" class="lang-btn" data-lang="en">en</a>
@@ -239,7 +247,7 @@ def generate_html(project, prev_proj, next_proj):
         <div class="grid-container header-grid">
             <div class="header-col title-col"><a href="/">tizian rein</a></div>
             <div class="header-col projects-col"><a href="/" class="nav-link active">projekte</a></div>
-            <div class="header-col info-col"><a href="/info.html" class="nav-link">info</a></div>
+            <div class="header-col info-col"><a href="/info" class="nav-link">info</a></div>
             <div class="header-col lang-col">
                 <a href="#" class="lang-btn active" data-lang="de">de</a> 
                 <a href="#" class="lang-btn" data-lang="en">en</a>
@@ -254,12 +262,12 @@ def generate_html(project, prev_proj, next_proj):
                     <div data-lang-content="de">
                         <span class="info-text project-id-block">{p_id}</span>
                         <h1 class="info-text project-title-block">{project['de']['title']}</h1>
-                        <p class="info-text">{project['de']['description']}</p>
+                        <p class="info-text">{project['de']['description']}<br><br>{year_str}</p>
                     </div>
                     <div data-lang-content="en" style="display:none;">
                         <span class="info-text project-id-block">{p_id}</span>
                         <h1 class="info-text project-title-block">{project['en']['title']}</h1>
-                        <p class="info-text">{project['en']['description']}</p>
+                        <p class="info-text">{project['en']['description']}<br><br>{year_str}</p>
                     </div>
                 </div>
                 <div class="col-gallery" id="thumbnail-grid">
@@ -477,6 +485,7 @@ if isinstance(projects, list):
         
         html = generate_html(proj, prev_proj, next_proj)
         
+        # Writes to projects/022.html (based on ID)
         fname = os.path.join(output_dir, f"{proj['id']}.html")
         with open(fname, 'w', encoding='utf-8') as f:
             f.write(html)
