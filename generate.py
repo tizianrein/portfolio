@@ -32,8 +32,8 @@ def generate_html(project, prev_proj, next_proj):
     
     # 1. Video Check
     if 'video' in project:
-        vid_src = f"../{project['video']['src']}"
-        vid_poster = f"../{project['video']['poster']}"
+        vid_src = f"/{project['video']['src']}"
+        vid_poster = f"/{project['video']['poster']}"
         
         # Number: 023.01
         num_str = f"{p_id}.{display_counter:02d}"
@@ -50,7 +50,7 @@ def generate_html(project, prev_proj, next_proj):
 
     # 2. Image Loop
     for img_path in project['images']:
-        img_src_rel = f"../{img_path}"
+        img_src_rel = f"/{img_path}"
         js_index = len(gallery_assets)
         
         # Number: 023.02
@@ -124,7 +124,7 @@ def generate_html(project, prev_proj, next_proj):
     <meta property="og:type" content="article">
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
 
     <script type="application/ld+json">
     {schema_json}
@@ -220,7 +220,7 @@ def generate_html(project, prev_proj, next_proj):
 <body>
     <nav class="mobile-nav">
         <a href="/" class="corner top-left">tizian rein</a>
-        <a href="../info.html" class="corner top-right">info</a>
+        <a href="/info.html" class="corner top-right">info</a>
         <div class="corner bottom-left lang-switch">
             <a href="#" class="lang-btn active" data-lang="de">de</a>
             <a href="#" class="lang-btn" data-lang="en">en</a>
@@ -239,7 +239,7 @@ def generate_html(project, prev_proj, next_proj):
         <div class="grid-container header-grid">
             <div class="header-col title-col"><a href="/">tizian rein</a></div>
             <div class="header-col projects-col"><a href="/" class="nav-link active">projekte</a></div>
-            <div class="header-col info-col"><a href="../info.html" class="nav-link">info</a></div>
+            <div class="header-col info-col"><a href="/info.html" class="nav-link">info</a></div>
             <div class="header-col lang-col">
                 <a href="#" class="lang-btn active" data-lang="de">de</a> 
                 <a href="#" class="lang-btn" data-lang="en">en</a>
@@ -292,8 +292,8 @@ def generate_html(project, prev_proj, next_proj):
         <div id="fs-image-stack"></div>
     </div>
 
-    <script src="../js/pixel-trail.js"></script>
-    <script src="../js/main.js"></script>
+    <script src="/js/pixel-trail.js"></script>
+    <script src="/js/main.js"></script>
     
     <!-- FULL PROJECT DETAIL LOGIC INJECTED -->
     <script>
