@@ -1,39 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
 
-  <!-- Main Pages -->
-  <url><loc>https://www.tizianrein.de/</loc></url>
-  <url><loc>https://www.tizianrein.de/info.html</loc></url>
-  <url><loc>https://www.tizianrein.de/contact.html</loc></url>
+    <!-- STATIC PAGES -->
+    <url>
+        <loc>https://www.tizianrein.de/</loc>
+        <changefreq>weekly</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://www.tizianrein.de/info</loc>
+        <changefreq>monthly</changefreq>
+        <priority>0.8</priority>
+    </url>
 
-  <!-- Filter Categories -->
-  <url><loc>https://www.tizianrein.de/?filter=architecture</loc></url>
-  <url><loc>https://www.tizianrein.de/?filter=objects</loc></url>
-  <url><loc>https://www.tizianrein.de/?filter=research</loc></url>
+    <!-- PROJECTS -->
 
-  <!-- Project Pages -->
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=023</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=022</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=021</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=020</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=019</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=018</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=017</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=016</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=015</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=014</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=013</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=012</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=011</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=010</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=009</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=008</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=007</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=006</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=005</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=004</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=003</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=002</loc></url>
-  <url><loc>https://www.tizianrein.de/projects/project.html?id=001</loc></url>
+    <!-- 023 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/023-from-structure-to-action/</loc>
+        <lastmod>2025-01-01</lastmod>
+        <priority>0.9</priority>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023-thumb.jpg</image:loc>
+            <image:title>From Structure to Action</image:title>
+        </image:image>
+    </url>
+
+    <!-- 022 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/022-separate-wohneinheit-detached-apartment/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Separate-Wohneinheit-022-thumb.jpg</image:loc>
+            <image:title>Detached Apartment</image:title>
+        </image:image>
+    </url>
+
+    <!-- 021 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/021-waldfriedhofskapelle-rhoendorf-graveyard-chapel/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Waldfriedhofskapelle-Rhöndorf-021-thumb.jpg</image:loc>
+            <image:title>Graveyard Chapel Rhöndorf</image:title>
+        </image:image>
+    </url>
+
+    <!-- 020 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/020-beamtenwohnung-bonn-apartment-of-a-clerk/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Wohnung-eines-Beamten-020-thumb.jpg</image:loc>
+            <image:title>Apartment of a Clerk</image:title>
+        </image:image>
+    </url>
+
+    <!-- 019 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/019-unterstand-shelter/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Fahrrad-Unterstand-019-thumb.jpg</image:loc>
+            <image:title>Shelter</image:title>
+        </image:image>
+    </url>
+
+    <!-- 018 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/018-zakk/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Zakk-Gartenstuhl-018-thumb.jpg</image:loc>
+            <image:title>ZAKK Garden Chair</image:title>
+        </image:image>
+    </url>
+
+    <!-- 017 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/017-immersive-studio-free-bird/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Free-Bird-017-thumb.jpg</image:loc>
+            <image:title>Free/Bird</image:title>
+        </image:image>
+    </url>
+
+    <!-- 016 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/016-harboring-histories-studio-meteora/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Harboring-Histories-016-thumb.jpg</image:loc>
+            <image:title>Harboring Histories</image:title>
+        </image:image>
+    </url>
+
+    <!-- 013 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/013-robosgraffito/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-RoboSgraffito-013-thumb.jpg</image:loc>
+            <image:title>RoboSgraffito</image:title>
+        </image:image>
+    </url>
+
+    <!-- 012 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/012-structural-patterns/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Structural-Patterns-012-thumb.jpg</image:loc>
+            <image:title>Structural Patterns</image:title>
+        </image:image>
+    </url>
+
+    <!-- 009 -->
+    <url>
+        <loc>https://www.tizianrein.de/projects/009-wohnen-in-nippes/</loc>
+        <image:image>
+            <image:loc>https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Wohnungsbau-Nippes-009-thumb.jpg</image:loc>
+            <image:title>Living in Nippes</image:title>
+        </image:image>
+    </url>
 
 </urlset>
