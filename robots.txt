@@ -1,4 +1,9 @@
 User-agent: *
 Allow: /
 
+# Disallow system folders if you have them, but allow CSS/JS for rendering
+Disallow: /bin/
+Disallow: /private/
+
+# Point to the sitemap
 Sitemap: https://www.tizianrein.de/sitemap.xml
