@@ -234,27 +234,35 @@
       "description": "Dieses Projekt untersucht, wie Gleichgewicht in architektonischen Strukturen durch stereotomische Prinzipien, gezielte Hohlräume und ineinandergreifende Geometrien erreicht werden kann. Massenverschiebung, Segmentierung und die Gestaltung von Kontaktflächen erzeugen Stabilität und mannigfaltige Entwurfsmöglichkeiten. Durch digitale Simulationen und physische 3D-Drucktests wird gezeigt, wie geometrische Eingriffe den Schwerpunkt, die inkrementelle Stabilität und das Montageverhalten beeinflussen.<br><br>TU München, Sommersemester 2023<br>Betreut von Prof. Pierluigi D'Acunto und Sebastian Dietrich – Professur für Structural Design<br><br><a href='/projects/structural_patterns.pdf' target='_blank' rel='noopener noreferrer'>Projekt-PDF</a> <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' style='vertical-align: middle;'><path d='M7 17L17 7M17 7H7M17 7V17' stroke='currentColor' stroke-width='2' fill='none' stroke-linecap='round'/></svg>"
     }
   },
-  {
+{
     "id": "011",
     "url": "projects/011-bachelor-thesis",
     "year": 2022,
-    "category": "research",
-    "thumbnail": "images/thumbnails/Tizian-Rein-Master-Thesis-Rheinschwimmbad-TH-Koeln-011-thumb.jpg",
+    "category": "architecture",
+    "thumbnail": "images/thumbnails/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011-thumb.jpg",
     "images": [
-      "images/projects/Tizian-Rein-Structural-Patterns-012.3.jpg",
-      "images/projects/Tizian-Rein-Structural-Patterns-012.4.jpg",
-      "images/projects/Tizian-Rein-Structural-Patterns-012.1.jpg",
-      "images/projects/Tizian-Rein-Structural-Patterns-012.2.jpg"
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.1.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.2.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.3.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.4.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.5.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.6.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.7.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.8.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.9.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.10.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.11.jpg",
+      "images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.12.jpg"
     ],
     "en": {
-      "title": "Structural Patterns",
-      "description": "This project explores how equilibrium in architectural assemblies can be achieved through stereotomic principles, intentional voids, and interlocking geometries. Developed at the Chair of Structural Design at TU Munich, it investigates how mass-shifting, decomposition, and contact-surface design can generate stability in leaning and cantilevering forms. Through computational modeling and physical 3D-printed tests, the work demonstrates how geometric operations influence center of mass, incremental stability, and assembly behavior.<br><br>TU Munich, Summersemester 2023<br>Supervised by Prof. Pierluigi D'Acunto and Sebastian Dietrich – Professorship of Structural Design<br><br><a href='/projects/structural_patterns.pdf' target='_blank' rel='noopener noreferrer'>Full Project PDF</a> <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' style='vertical-align: middle;'><path d='M7 17L17 7M17 7H7M17 7V17' stroke='currentColor' stroke-width='2' fill='none' stroke-linecap='round'/></svg>"
+      "title": "Puplic Baths",
+      "description": "This bachelor thesis envisions floating puplic baths on the Rhine that responds to the river's constantly fluctuating water levels. The design aims to make the river's hydraulic dynamics a tangible part of the spatial experience while ensuring safe operation. Distinct functions—such as a sauna tower, bathing halls, and gastronomy—are organized into monolithic volumes that create defined intermediate spaces and curated views of the surrounding landscape.<br><br>The onshore head building acts as the structural anchor, connecting the promenade to the floating platform. A complex internal topography of ramps and inclined planes accommodates the significant height differences, ensuring a seamless, barrier-free transition from the embankment to the water at any tide level without the use of stairs.<br><br>TH Köln, 2022<br>Bachelor Thesis",
     },
     "de": {
-      "title": "Structural Patterns",
-      "description": "Dieses Projekt untersucht, wie Gleichgewicht in architektonischen Strukturen durch stereotomische Prinzipien, gezielte Hohlräume und ineinandergreifende Geometrien erreicht werden kann. Massenverschiebung, Segmentierung und die Gestaltung von Kontaktflächen erzeugen Stabilität und mannigfaltige Entwurfsmöglichkeiten. Durch digitale Simulationen und physische 3D-Drucktests wird gezeigt, wie geometrische Eingriffe den Schwerpunkt, die inkrementelle Stabilität und das Montageverhalten beeinflussen.<br><br>TU München, Sommersemester 2023<br>Betreut von Prof. Pierluigi D'Acunto und Sebastian Dietrich – Professur für Structural Design<br><br><a href='/projects/structural_patterns.pdf' target='_blank' rel='noopener noreferrer'>Projekt-PDF</a> <svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' style='vertical-align: middle;'><path d='M7 17L17 7M17 7H7M17 7V17' stroke='currentColor' stroke-width='2' fill='none' stroke-linecap='round'/></svg>"
+      "title": "Rheinschwimmbad",
+      "description": "Ziel des Entwurfs ist es, bei verschiedenen Wasserständen nicht nur eine sichere Nutzung zu gewährleisten, sondern diese natürliche Eigenschaft des Rheins zum räumlichen Erlebnis zu machen. Unterschiedliche Funktionen wie Saunaturm, Badehallen und Restaurant werden in monolithische Baukörper gegliedert, die definierte Zwischenräume und gezielte Ausblicke in die Landschaft erzeugen.<br><br>Das Hauptgebäude fungiert als einziger fest mit der Promenade verwachsener Körper und dient als Gelenk zwischen Ufer und schwimmender Plattform. Ein komplexes System aus Rampen und schrägen Böden im Inneren ermöglicht es, die starken Höhenunterschiede ohne Treppen zu meistern. Über eine bewegliche Rampenfassade reagiert das Gebäude dynamisch auf den Pegelstand und stellt einen permanenten, barrierefreien Übergang her.<br><br>TH Köln, 2022<br>Bachelor Thesis",
     }
-  },  
+  }, 
   {
     "id": "009",
     "url": "projects/009-wohnen-in-nippes",
