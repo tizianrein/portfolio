@@ -9,11 +9,16 @@ let mediaList = [];
 // === 1. INITIALISIERUNG ===
 document.addEventListener('DOMContentLoaded', async () => {
     try {
-        const response = await fetch('projects.json');
+        // [CHANGE 1] Use absolute path for data.json
+        // Since we are deep in folders, we must use "/" to go to root
+        const response = await fetch('/data.json'); 
         allProjects = await response.json();
 
-        const params = new URLSearchParams(window.location.search);
-        const projectId = params.get('id');
+        // [CHANGE 2] Get ID from URL Path (Folder Structure)
+        // Looks for 3 digits (e.g. "023") inside the current URL
+        const path = window.location.pathname;
+        const idMatch = path.match(/(\d{3})/); 
+        const projectId = idMatch ? idMatch[1] : null;
 
         if (projectId) {
             currentProject = allProjects.find(p => p.id === projectId);
@@ -21,6 +26,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Fallback
         if (!currentProject && allProjects.length > 0) {
+            // Optional: Redirect to home or handle error
+            console.warn("Project ID not found in URL, loading first project as fallback.");
             currentProject = allProjects[0];
         }
 
@@ -75,21 +82,16 @@ function renderText() {
     const desc = data.description; 
 
     // === SEO UPDATE START ===
-    
-    // 1. Browser-Titel setzen (Wichtig für Google Ranking)
     document.title = "Tizian Rein - " + title;
-
-    // 2. Meta Description dynamisch setzen (Wichtig für Snippet)
+    
     let metaDesc = document.querySelector('meta[name="description"]');
     if (!metaDesc) {
         metaDesc = document.createElement('meta');
         metaDesc.name = "description";
         document.head.appendChild(metaDesc);
     }
-    // HTML Tags (wie <br>) aus der Beschreibung entfernen für das Meta-Tag
     const plainTextDesc = desc.replace(/<[^>]*>?/gm, ' ').substring(0, 160) + "...";
     metaDesc.content = plainTextDesc;
-
     // === SEO UPDATE END ===
 
     const container = document.getElementById('project-description');
@@ -109,10 +111,6 @@ function renderText() {
     if(mobTitle) mobTitle.innerText = title;
 }
 
-/**
- * Erstellt Smart-Media-Elemente (Video/Bild/Iframe)
- * UPDATE: Nimmt jetzt 'altText' entgegen für SEO
- */
 function createMediaElement(resource, isThumbnail = false, altText = "") {
     let src = resource;
     let poster = null;
@@ -127,7 +125,6 @@ function createMediaElement(resource, isThumbnail = false, altText = "") {
         const video = document.createElement('video');
         
         if (poster) video.poster = poster;
-        // Videos haben kein Alt-Attribut, aber wir setzen ein Title-Attribut
         if (altText) video.title = altText;
 
         if (isThumbnail) {
@@ -161,7 +158,7 @@ function createMediaElement(resource, isThumbnail = false, altText = "") {
             const div = document.createElement('div');
             div.className = 'thumb-iframe-placeholder';
             div.innerHTML = '<span>▶</span>'; 
-            div.setAttribute('aria-label', altText); // Accessibility für Placeholder
+            div.setAttribute('aria-label', altText);
             div.style.display = 'flex';
             div.style.alignItems = 'center';
             div.style.justifyContent = 'center';
@@ -173,7 +170,7 @@ function createMediaElement(resource, isThumbnail = false, altText = "") {
 
         const iframe = document.createElement('iframe');
         iframe.className = 'fs-img';
-        iframe.title = altText; // Iframes sollten Titles haben
+        iframe.title = altText;
         let finalSrc = src;
         if (src.includes('vimeo') && !src.includes('?')) {
             finalSrc += '?autoplay=1&loop=1&background=1&muted=1';
@@ -184,17 +181,16 @@ function createMediaElement(resource, isThumbnail = false, altText = "") {
         return iframe;
     }
 
-    // 3. Bild (Wichtigster Teil für Google Images)
+    // 3. Bild
     const img = document.createElement('img');
     if (!isThumbnail) img.className = 'fs-img';
     
     img.src = src;
     
-    // === SEO FIX: ALT ATTRIBUTE SETZEN ===
     if (altText) {
         img.alt = altText;
     } else {
-        img.alt = "Tizian Rein Project Image"; // Fallback
+        img.alt = "Tizian Rein Project Image";
     }
     
     return img;
@@ -202,11 +198,12 @@ function createMediaElement(resource, isThumbnail = false, altText = "") {
 
 function renderThumbnails() {
     const grid = document.getElementById('thumbnail-grid');
+    if(!grid) return; // Safety check
+    
     grid.innerHTML = '';
 
     if (mediaList.length === 0) return;
 
-    // Aktuellen Titel holen für Alt-Texte
     const lang = localStorage.getItem('userLanguage') || 'de';
     const projectTitle = (currentProject[lang] || currentProject.en).title;
 
@@ -218,8 +215,6 @@ function renderThumbnails() {
         num.className = 'thumb-index';
         num.innerText = `${currentProject.id}.${(index + 1).toString().padStart(2, '0')}`;
         
-        // SEO ALT TEXT GENERIEREN
-        // z.B.: "Detached Apartment - Bild 01 - Architektur Tizian Rein"
         const altString = `${projectTitle} - Ansicht ${index + 1} - ${currentProject.category} Tizian Rein`;
 
         const mediaEl = createMediaElement(item, true, altString); 
@@ -232,6 +227,7 @@ function renderThumbnails() {
     });
 }
 
+// [CHANGE 3] Fix Footer Navigation for Folder Structure
 function setupFooterNav() {
     const currentIndex = allProjects.findIndex(p => p.id === currentProject.id);
     let prevIndex = currentIndex - 1;
@@ -243,10 +239,11 @@ function setupFooterNav() {
     const nextProj = allProjects[nextIndex];
 
     const prevLink = document.getElementById('prev-project-link');
-    if(prevLink) prevLink.href = `project.html?id=${prevProj.id}`;
+    // Ensure we use the clean URL from data.json and add a leading slash
+    if(prevLink) prevLink.href = '/' + prevProj.url + '/';
     
     const nextLink = document.getElementById('next-project-link');
-    if(nextLink) nextLink.href = `project.html?id=${nextProj.id}`;
+    if(nextLink) nextLink.href = '/' + nextProj.url + '/';
 
     updateFooterLabels();
 }
@@ -271,22 +268,22 @@ const stack = document.getElementById('fs-image-stack');
 
 function openGallery(index) {
     currentImageIndex = index;
-    overlay.classList.add('active');
+    if(overlay) overlay.classList.add('active');
     
-    // Sicherstellen, dass Thumbnails gestoppt sind
     document.querySelectorAll('.thumb-video').forEach(v => {
         v.pause();
         v.currentTime = 0;
     });
 
-    // Beim ersten Öffnen Stack leeren
-    stack.innerHTML = '';
-    updateFullscreenImage(true); 
+    if(stack) {
+        stack.innerHTML = '';
+        updateFullscreenImage(true); 
+    }
 }
 
 function closeGallery() {
-    overlay.classList.remove('active');
-    setTimeout(() => { stack.innerHTML = ''; }, 300);
+    if(overlay) overlay.classList.remove('active');
+    if(stack) setTimeout(() => { stack.innerHTML = ''; }, 300);
 }
 
 function nextImage() {
@@ -303,26 +300,22 @@ function prevImage() {
     updateFullscreenImage(false);
 }
 
-/**
- * Zeigt das Bild an. (Mit Z-Index Fix und Video-Pause)
- */
 function updateFullscreenImage(isInitial = false) {
-    
-    // 1. Alle Videos im Hintergrund pausieren
+    if(!stack) return;
+
     Array.from(stack.children).forEach(child => {
         if (child.tagName === 'VIDEO') {
             child.pause();
         }
     });
 
-    // 2. Element holen oder erstellen
     const existingEl = Array.from(stack.children).find(el => parseInt(el.dataset.index) === currentImageIndex);
     let el;
     let isNew = false;
 
     if (existingEl) {
         el = existingEl;
-        stack.appendChild(el); // Ans Ende schieben
+        stack.appendChild(el); 
         
         if (el.tagName === 'VIDEO') {
             el.currentTime = 0;
@@ -332,7 +325,6 @@ function updateFullscreenImage(isInitial = false) {
         isNew = true;
         const item = mediaList[currentImageIndex];
         
-        // Titel und Alt-Text auch für Fullscreen Bild generieren
         const lang = localStorage.getItem('userLanguage') || 'de';
         const projectTitle = (currentProject[lang] || currentProject.en).title;
         const altString = `${projectTitle} - Detail ${currentImageIndex + 1} - Tizian Rein`;
@@ -342,20 +334,17 @@ function updateFullscreenImage(isInitial = false) {
         stack.appendChild(el);
     }
 
-    // 3. Z-Index setzen (WICHTIG!)
     Array.from(stack.children).forEach(child => {
         child.style.zIndex = '1'; 
     });
-    el.style.zIndex = '60'; // Aktuelles nach vorne
+    el.style.zIndex = '60'; 
 
-    // 4. Skalierung
     let scale = 1;
     if (!isInitial) {
         scale = (0.80 + Math.random() * 0.25).toFixed(3);
     }
     el.style.transform = `scale(${scale})`;
 
-    // 5. Animation
     if (isNew) {
         el.style.opacity = '0';
         requestAnimationFrame(() => {
@@ -366,7 +355,6 @@ function updateFullscreenImage(isInitial = false) {
         el.style.opacity = '1';
     }
 
-    // 6. Cleanup
     if (stack.children.length > 10 && isNew) {
         const bottomEl = stack.firstElementChild;
         if (bottomEl !== el) {
@@ -375,8 +363,8 @@ function updateFullscreenImage(isInitial = false) {
     }
 }
 
-// === TOUCH GESTEN (Wischen) ===
 function setupTouchGestures() {
+    if(!overlay) return;
     let touchStartX = 0;
     let touchStartY = 0;
     let touchEndX = 0;
@@ -399,13 +387,11 @@ function setupTouchGestures() {
         const deltaY = touchEndY - touchStartY;
 
         if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            // Horizontal
             if (Math.abs(deltaX) > minSwipeDistance) {
                 if (deltaX < 0) nextImage();
                 else prevImage();
             }
         } else {
-            // Vertikal (nur nach unten = Schließen)
             if (deltaY > minSwipeDistance) {
                 closeGallery();
             }
@@ -427,7 +413,6 @@ function setupLanguageSwitcher() {
             localStorage.setItem('userLanguage', lang);
             renderText();
             updateFooterLabels();
-            // Wenn wir die Sprache ändern, müssen wir Thumbnails neu rendern für neue Alt-Texte
             renderThumbnails(); 
         };
     });
@@ -435,7 +420,7 @@ function setupLanguageSwitcher() {
 
 function setupKeyboardNav() {
     document.addEventListener('keydown', (e) => {
-        if (!overlay.classList.contains('active')) return;
+        if (!overlay || !overlay.classList.contains('active')) return;
         if (e.key === 'Escape') closeGallery();
         if (e.key === 'ArrowRight') nextImage();
         if (e.key === 'ArrowLeft') prevImage();
