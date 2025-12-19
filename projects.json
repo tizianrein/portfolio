@@ -191,6 +191,24 @@
     }
   },
   {
+    "id": "015",
+    "url": "/",
+    "year": 2024,
+    "category": "architecture",
+    "thumbnail": "images/thumbnails/Tizian-Rein-Arbor-Forum-015-thumb.jpg",
+    "images": [
+      "images/projects/Tizian-Rein-Arbor-Forum-015.1.jpg"
+    ],
+    "en": {
+      "title": "Arbor Forum",
+      "description": "The studio project <em>RoboSgraffito</em> explored how traditional plaster techniques can be reinterpreted through robotic fabrication. By translating craft-based gestures such as scraping, grinding, carving, and stamping into robotic toolpaths, the students developed a series of methods for layered, multicolored facade designs. Through experiments with material behavior, tool design, and digital control, the work revealed how collaborative robotics can extend architectural expression while maintaining tactile qualities of handcraft. The studio critically reflected on the evolving role of human expertise in construction and the potential of technology to foster new synergies between material, machine, and maker.<br><br>TU Munich, Wintersemester 2022<br>Prof. Andreas Hild – Chair of Design, Conversion and Preservation & Prof. Dr. Kathrin Dörfler – Chair of Digital Fabrication"
+    },
+    "de": {
+      "title": "Arbor Forum",
+      "description": "Das Studio <em>RoboSgraffito</em> erforschte die Verbindung traditioneller Putztechniken mit digitaler und robotischer Fertigung. Durch die Übersetzung handwerklicher Verfahren wie Kratzen, Schleifen, Hobeln, Ziehen und Stempeln in robotische Bewegungsabläufe wurden neue Methoden für mehrschichtige, mehrfarbige Fassadengestaltungen entwickelt. Die Kombination aus Materialexperiment, Werkzeugentwicklung und digitaler Steuerung zeigte, wie kollaborative Robotik handwerkliche Ausdrucksformen erweitern und zugleich den Dialog zwischen Mensch, Maschine und Material neu definieren kann. Das Studio reflektierte kritisch die Rolle des Handwerks im Zeitalter der Automatisierung und das Potenzial digitaler Technologien, Wissenstransfer, Präzision und Gestaltungskraft miteinander zu verbinden.<br><br>TU München, Wintersemester 2023<br>Prof. Andreas Hild – Lehrstuhl für Entwerfen, Umbau und Denkmalpflege & Prof. Dr. Kathrin Dörfler – Lehrstuhl für Digitale Fabrikation"
+    }
+  },
+  {
     "id": "013",
     "url": "projects/013-robosgraffito",
     "year": 2023,
