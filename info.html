@@ -1,6 +1,48 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
+    <script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@graph": [
+        {
+        "@type": "Person",
+        "@id": "https://www.tizianrein.de/#person",
+        "name": "Tizian Rein",
+        "url": "https://www.tizianrein.de/",
+        "image": "https://www.tizianrein.de/images/about/tizian-rein-profil-bild-profile-pic-tizian-rein.jpg",
+        "jobTitle": "Architectural Designer and Researcher",
+        "affiliation": {
+            "@type": "Organization",
+            "name": "Technical University of Munich",
+            "url": "https://www.tum.de/"
+        },
+        "sameAs": [
+            "https://www.linkedin.com/in/tizian-rein-a40b133a0/",
+            "https://www.researchgate.net/profile/Tizian-Rein?ev=hdr_xprf"
+        ],
+        "mainEntityOfPage": "https://www.tizianrein.de/info.html"
+        },
+        {
+        "@type": "WebSite",
+        "@id": "https://www.tizianrein.de/#website",
+        "url": "https://www.tizianrein.de/",
+        "name": "Tizian Rein – Portfolio",
+        "publisher": { "@id": "https://www.tizianrein.de/#person" }
+        },
+        {
+        "@type": "WebPage",
+        "@id": "https://www.tizianrein.de/info.html#webpage",
+        "url": "https://www.tizianrein.de/info.html",
+        "name": "About – Tizian Rein",
+        "isPartOf": { "@id": "https://www.tizianrein.de/#website" },
+        "about": { "@id": "https://www.tizianrein.de/#person" },
+        "mainEntity": { "@id": "https://www.tizianrein.de/#person" }
+        }
+    ]
+    }
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tizian Rein - Info</title>
