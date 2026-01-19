@@ -402,3 +402,29 @@ main {
     z-index: 9999;        
     mix-blend-mode: difference; 
 }
+
+/* === FIX FÜR FOUC (Flash of Unstyled Content) === */
+
+/* 1. Startzustand: Unsichtbar und begrenzte Breite */
+.grid-item {
+    opacity: 0; /* Unsichtbar beim Laden */
+    width: 250px; /* Fallback-Breite, damit sie nicht bildschirmfüllend sind */
+    max-width: 100%; 
+    display: inline-block;
+    vertical-align: top;
+    
+    /* Sanfte Animation beim Einblenden */
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+/* 2. Endzustand: Wenn JS fertig ist, bekommt es diese Klasse */
+.grid-item.is-visible {
+    opacity: 1;
+}
+
+/* Optional: Verhindert Layout-Shift des Containers */
+#grid-container {
+    min-height: 100vh;
+    width: 100%;
+    overflow: hidden; /* Verhindert Scrollbalken während des Ladens */
+}

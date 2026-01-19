@@ -96,7 +96,7 @@ async function initImagesAndLayout() {
 
 /* === LAYOUT ALGORITHMUS (Dein Original-Design) === */
 function calculateLayout() {
-    // 1. Container leeren (aber Elemente behalten wir im Speicher in 'allGridItems')
+    // 1. Container leeren
     container.innerHTML = '';
 
     // 2. Filtern
@@ -113,7 +113,6 @@ function calculateLayout() {
         let remaining = visibleItems.length - currentIndex;
         let count = getRandomInt(3, 4);
 
-        // Logik für letzte Zeile / Waisenvermeidung
         if (remaining <= 4) {
             count = remaining;
         } else if (remaining - count === 1) {
@@ -123,15 +122,9 @@ function calculateLayout() {
         const rowBatch = [];
         for (let i = 0; i < count; i++) {
             let itemObj = visibleItems[currentIndex + i];
-            
-            // Layout-Berechnungsgewicht
-            // Wir klonen das Objekt nicht, sondern fügen temporäre Props hinzu
+            // Gewicht berechnen
             let weight = itemObj.aspectRatio * getRandomModifier();
-            
-            rowBatch.push({ 
-                ...itemObj, 
-                weight: weight 
-            });
+            rowBatch.push({ ...itemObj, weight: weight });
         }
 
         // Breiten berechnen
@@ -144,26 +137,22 @@ function calculateLayout() {
             let rawWidth = (item.weight / totalWeightedAR) * availableWidthPx;
             let snappedWidth = Math.round(rawWidth / GRID_UNIT) * GRID_UNIT;
             
-            // Mindestbreite 4 Units (200px)
             if (snappedWidth < 4 * GRID_UNIT) snappedWidth = 4 * GRID_UNIT;
 
             allocatedWidth += snappedWidth;
             return { ...item, finalWidth: snappedWidth };
         });
 
-        // Lückenkorrektur (Restbreite auf das größte Element addieren)
+        // Lückenkorrektur
         let diff = availableWidthPx - allocatedWidth;
         processedRowItems.sort((a, b) => b.finalWidth - a.finalWidth);
         processedRowItems[0].finalWidth += diff;
-
-        // Sortierung zurücksetzen (optisch original Reihenfolge, optional)
-        // Hier lassen wir es sortiert nach Breite, oder man sortiert nach Index zurück.
 
         // Zeilen-Div erstellen
         const rowDiv = document.createElement('div');
         rowDiv.className = 'grid-row';
 
-        processedRowItems.forEach(processed => {
+        processedRowItems.forEach((processed, index) => {
             const originalEl = processed.element;
             const width = processed.finalWidth;
             
@@ -176,21 +165,26 @@ function calculateLayout() {
             // Styles anwenden
             originalEl.style.width = width + 'px';
             
-            // Bild-Wrapper Höhe setzen
             const imgWrap = originalEl.querySelector('.image-wrapper');
             if (imgWrap) {
                 imgWrap.style.height = snappedHeight + 'px';
             }
 
-            // Element in Zeile einfügen
+            // Element einfügen
             rowDiv.appendChild(originalEl);
+
+            // === NEU: VERZÖGERTES EINBLENDEN ===
+            // Wir nutzen setTimeout, damit der Browser den Style-Wechsel registriert
+            // Kleiner Stagger-Effekt (index * 50) sieht schick aus
+            setTimeout(() => {
+                originalEl.classList.add('is-visible');
+            }, 50 + (index * 30)); 
         });
 
         container.appendChild(rowDiv);
         currentIndex += count;
     }
 }
-
 
 /* === INTERAKTIONEN === */
 function setupInteractions() {
