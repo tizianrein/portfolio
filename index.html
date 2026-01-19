@@ -46,30 +46,23 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- 1. The Title Google displays -->
     <title>Tizian Rein – Architecture, Objects, Research</title>
-    
-    <!-- 2. The Description Google displays (The fix for your problem) -->
     <meta name="description" content="Portfolio of Tizian Rein. Architecture, Objects, and Research. | Portfolio von Tizian Rein. Architektur, Objekte und Forschung in Bonn & München.">    
-    <!-- 3. Authorship -->
     <meta name="author" content="Tizian Rein">
     
-    <!-- 4. Open Graph Tags (Makes the link look good on LinkedIn/WhatsApp/Instagram) -->
     <meta property="og:title" content="Tizian Rein – Architecture, Objects, Research">
     <meta property="og:description" content="Portfolio of Tizian Rein. Architecture, Design, and Research projects focusing on digital fabrication and spatial intervention.">
-    <meta property="og:image" content="https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Free-Bird-017-thumb.jpg"> <!-- Replace with your best project image -->
+    <meta property="og:image" content="https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Free-Bird-017-thumb.jpg">
     <meta property="og:url" content="https://www.tizianrein.de">
     <meta property="og:type" content="website">
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="css/style.css">
-
     <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
 
-    <!-- === MOBILE CORNER NAVIGATION === -->
+    <!-- === MOBILE NAV === -->
     <nav class="mobile-nav">
         <a href="/" class="corner top-left">tizian rein</a>
         <a href="info" class="corner top-right">info</a>
@@ -95,7 +88,6 @@
             <div class="header-col title-col">
                 <a href="/">tizian rein</a>
             </div>
-            
             <div class="header-col projects-col">
                 <div class="dropdown-wrapper">
                     <a href="/" class="nav-link">projekte</a>
@@ -106,27 +98,219 @@
                     </div>
                 </div>
             </div>
-
             <div class="header-col info-col">
                 <a href="info" class="nav-link">info</a>
             </div>
-
             <div class="header-col lang-col">
-                <!-- WICHTIG: class="lang-btn" und data-lang="..." hinzufügen -->
                 <a href="#" class="lang-btn active" data-lang="de">de</a> 
                 <a href="#" class="lang-btn" data-lang="en">en</a>
             </div>
         </div>
     </header>
 
-    <!-- === MAIN GRID === -->
+    <!-- === MAIN GRID (STATISCH FÜR SEO) === -->
     <main>
         <div id="grid-container" class="grid-container">
-            <!-- Inhalte werden per JS generiert -->
+            
+            <!-- PROJEKT 023 -->
+            <article class="grid-item" data-category="research" data-id="023">
+                <a href="projects/023-from-structure-to-action" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023-thumb.jpg" 
+                             alt="From Structure to Action - Master Thesis Architektur KI Tizian Rein TU München"
+                             loading="eager">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">023</span><br>
+                        <span class="meta-title" data-de="From Structure to Action" data-en="From Structure to Action">From Structure to Action</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 022 -->
+            <article class="grid-item" data-category="architecture" data-id="022">
+                <a href="projects/022-separate-wohneinheit-detached-apartment" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Separate-Wohneinheit-022-thumb.jpg" 
+                             alt="Separate Wohneinheit - Umbau Einfamilienhaus Bonn Architektur"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">022</span><br>
+                        <span class="meta-title" data-de="Separate Wohneinheit" data-en="Detached Apartment">Separate Wohneinheit</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 021 -->
+            <article class="grid-item" data-category="architecture" data-id="021">
+                <a href="projects/021-waldfriedhofskapelle-rhoendorf-graveyard-chapel" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Waldfriedhofskapelle-Rhöndorf-021-thumb.jpg" 
+                             alt="Waldfriedhofskapelle Rhöndorf Denkmalpflege und Erhalt"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">021</span><br>
+                        <span class="meta-title" data-de="Waldfriedhofskapelle Rhöndorf" data-en="Graveyard Chapel Rhöndorf">Waldfriedhofskapelle Rhöndorf</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 020 -->
+            <article class="grid-item" data-category="architecture" data-id="020">
+                <a href="projects/020-beamtenwohnung-bonn-apartment-of-a-clerk" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Wohnung-eines-Beamten-020-thumb.jpg" 
+                             alt="Beamtenwohnung Bonn Sanierung und Interieur"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">020</span><br>
+                        <span class="meta-title" data-de="Beamtenwohnung Bonn" data-en="Apartment of a Clerk">Beamtenwohnung Bonn</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 019 -->
+            <article class="grid-item" data-category="objects" data-id="019">
+                <a href="projects/019-unterstand-shelter" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Fahrrad-Unterstand-019-thumb.jpg" 
+                             alt="Fahrradunterstand Shelter Design Lastenrad"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">019</span><br>
+                        <span class="meta-title" data-de="Unterstand" data-en="Shelter">Unterstand</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 018 -->
+            <article class="grid-item" data-category="objects" data-id="018">
+                <a href="projects/018-zakk" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Zakk-Gartenstuhl-018-thumb.jpg" 
+                             alt="ZAKK Gartenstuhl Designmöbel aus Baumarkt-Teilen"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">018</span><br>
+                        <span class="meta-title" data-de="ZAKK Gartenstuhl" data-en="ZAKK Garden Chair">ZAKK Gartenstuhl</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 017 -->
+            <article class="grid-item" data-category="architecture" data-id="017">
+                <a href="projects/017-immersive-studio-free-bird" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Free-Bird-017-thumb.jpg" 
+                             alt="Free/Bird ETH Zürich Immersive Studio Parametrische Holzarchitektur"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">017</span><br>
+                        <span class="meta-title" data-de="Free/Bird" data-en="Free/Bird">Free/Bird</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 016 -->
+            <article class="grid-item" data-category="architecture" data-id="016">
+                <a href="projects/016-harboring-histories-studio-meteora" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Harboring-Histories-016-thumb.jpg" 
+                             alt="Harboring Histories Palermo ETH Zürich Studio Meteora"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">016</span><br>
+                        <span class="meta-title" data-de="Harboring Histories" data-en="Harboring Histories">Harboring Histories</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 015 -->
+            <article class="grid-item" data-category="architecture" data-id="015">
+                <a href="#" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Arbor-Forum-015-thumb.jpg" 
+                             alt="Arbor Forum Architektur Entwurf TU München"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">015</span><br>
+                        <span class="meta-title" data-de="Arbor Forum" data-en="Arbor Forum">Arbor Forum</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 013 -->
+            <article class="grid-item" data-category="research" data-id="013">
+                <a href="projects/013-robosgraffito" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-RoboSgraffito-013-thumb.jpg" 
+                             alt="RoboSgraffito Forschungsprojekt TU München Robotische Fassade"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">013</span><br>
+                        <span class="meta-title" data-de="RoboSgraffito" data-en="RoboSgraffito">RoboSgraffito</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 012 -->
+            <article class="grid-item" data-category="research" data-id="012">
+                <a href="projects/012-structural-patterns" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Structural-Patterns-012-thumb.jpg" 
+                             alt="Structural Patterns TU München 3D Druck Statik Forschung"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">012</span><br>
+                        <span class="meta-title" data-de="Structural Patterns" data-en="Structural Patterns">Structural Patterns</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 011 -->
+            <article class="grid-item" data-category="architecture" data-id="011">
+                <a href="projects/011-bachelor-thesis" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011-thumb.jpg" 
+                             alt="Rheinschwimmbad Bachelor Thesis Architektur TH Köln"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">011</span><br>
+                        <span class="meta-title" data-de="Rheinschwimmbad" data-en="Puplic Baths">Rheinschwimmbad</span>
+                    </div>
+                </a>
+            </article>
+
+            <!-- PROJEKT 009 -->
+            <article class="grid-item" data-category="architecture" data-id="009">
+                <a href="projects/009-wohnen-in-nippes" class="project-link">
+                    <div class="image-wrapper">
+                        <img src="images/thumbnails/Tizian-Rein-Wohnungsbau-Nippes-009-thumb.jpg" 
+                             alt="Wohnen in Nippes Architektur Wohnungsbau Köln"
+                             loading="lazy">
+                    </div>
+                    <div class="meta-data">
+                        <span class="meta-id">009</span><br>
+                        <span class="meta-title" data-de="Wohnen in Nippes" data-en="Living in Nippes">Wohnen in Nippes</span>
+                    </div>
+                </a>
+            </article>
+
         </div>
     </main>
 
-    <!-- Dummy Data & Logic -->
+    <!-- Scripts -->
     <script src="js/grid-layout.js"></script>
     <script src="js/pixel-trail.js"></script>
     <script src="js/main.js"></script>
