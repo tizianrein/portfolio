@@ -58,6 +58,57 @@
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="css/style.css">
+    <style>
+        .intro-grid {
+            margin-top: 26px;
+            margin-bottom: 28px;
+        }
+
+        .home-intro {
+            max-width: 760px;
+        }
+
+        .intro-line {
+            margin: 0;
+            font-size: 15px;
+            line-height: 1.35;
+            color: #111;
+        }
+
+        #typed-text {
+            white-space: normal;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            width: 1px;
+            height: 1em;
+            background: #111;
+            margin-left: 3px;
+            vertical-align: -0.12em;
+            animation: blink 0.9s steps(1) infinite;
+        }
+
+        @keyframes blink {
+            50% { opacity: 0; }
+        }
+
+        @media (max-width: 768px) {
+            .intro-grid {
+                margin-top: 18px;
+                margin-bottom: 22px;
+            }
+
+            .home-intro {
+                max-width: 100%;
+            }
+
+            .intro-line {
+                font-size: 15px;
+                line-height: 1.4;
+            }
+        }
+    </style>
     <link rel="manifest" href="/site.webmanifest">
 </head>
 <body>
@@ -110,6 +161,17 @@
 
     <!-- === MAIN GRID (STATISCH FÜR SEO) === -->
     <main>
+        <div class="grid-container intro-grid">
+            <div class="home-intro">
+                <p class="intro-line">
+                    <span id="typed-text"
+                        data-de="tizian rein ist architekt und forscher an der schnittstelle von digitaler fabrikation, künstlicher intelligenz und architektonischer reparatur."
+                        data-en="tizian rein is an architect and researcher working at the intersection of digital fabrication, artificial intelligence, and architectural repair.">
+                    </span>
+                    <span class="typing-cursor" aria-hidden="true"></span>
+                </p>
+            </div>
+        </div>
         <div id="grid-container" class="grid-container">
             
             <!-- PROJEKT 023 -->
@@ -314,5 +376,53 @@
     <script src="js/grid-layout.js"></script>
     <script src="js/pixel-trail.js"></script>
     <script src="js/main.js"></script>
+    <script>
+    (function () {
+        const typedText = document.getElementById('typed-text');
+        if (!typedText) return;
+
+        let typingTimeout;
+        let currentLang = document.documentElement.lang === 'de' ? 'de' : 'en';
+
+        function getTextForLang(lang) {
+            return typedText.dataset[lang] || typedText.dataset.en || '';
+        }
+
+        function typeText(text, speed = 22) {
+            clearTimeout(typingTimeout);
+            typedText.textContent = '';
+            let i = 0;
+
+            function step() {
+                if (i <= text.length) {
+                    typedText.textContent = text.slice(0, i);
+                    i++;
+                    typingTimeout = setTimeout(step, speed);
+                }
+            }
+
+            step();
+        }
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.lang = lang;
+            typeText(getTextForLang(lang));
+        }
+
+        typeText(getTextForLang(currentLang));
+
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll(`.lang-btn[data-lang="${this.dataset.lang}"]`).forEach(b => b.classList.add('active'));
+
+                setLanguage(this.dataset.lang);
+            });
+        });
+    })();
+    </script>
 </body>
 </html>
