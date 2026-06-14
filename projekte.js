@@ -24,16 +24,8 @@ const METAKEYS={
 };
 
 const P=[
- {n:"023",y:"2024–25",c:"forschung",
-  t:{de:"from structure to action",en:"from structure to action"},
-  d:{de:"Diese Masterarbeit fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt — Fotos, Skizzen, Notizen, Messungen — in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.",
-     en:"This master's thesis asks how artificial intelligence can contribute to architectural repair as a practice that is both systematic and creative. It develops a multimodal framework that turns unstructured information about a damaged object — photographs, sketches, notes, measurements — into structured, fabricable design decisions. Working with ten salvaged stacking chairs, it shows how human expertise and machine reasoning can act together to derive a situated, buildable repair response from a single instance of damage."},
-  meta:{de:{Kontext:"Masterthesis, Professur für Digitale Fabrikation, TU München",Jahr:"2024–2025",Typ:"Forschung, KI-gestützte Reparatur",Betreuung:"Prof. Kathrin Dörfler",Status:"Abgeschlossen, publiziert via mediaTUM"},
-        en:{Context:"Master's thesis, Professorship of Digital Fabrication, TU Munich",Year:"2024–2025",Type:"Research, AI-assisted repair",Supervision:"Prof. Kathrin Dörfler",Status:"Completed, published via mediaTUM"}},
-  pre:"Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.",
-  imgs:["2.jpg","23.jpg","26.jpg","22.jpg","27.jpg","29.jpg","20.jpg","21.jpg","14.jpg","4.jpg","3.jpg","8.jpg"]},
 
- {n:"022",y:"2025–26",c:"umbau",
+ {n:"023",y:"2025–26",c:"umbau",
   t:{de:"separate wohneinheit",en:"detached apartment"},
   d:{de:"Umbau und Neuordnung eines freistehenden Wohnhauses in Bonn aus dem Jahr 1958. Der bestehende Grundriss wird überarbeitet, Bad und Küche werden neu angeordnet und an die heutige Nutzung angepasst. Durch das Abtrennen und den Ausbau der ehemaligen Waschküche und der Abstellräume entsteht im Untergeschoss eine eigenständige Wohneinheit mit separatem Eingang. Wenige, gezielte Eingriffe in den Bestand schaffen so eine zweite, vollwertige Wohnung, ohne den Charakter des Hauses zu überformen.",
      en:"Conversion and reorganisation of a detached house in Bonn dating from 1958. The existing floor plan is reworked, and the bathroom and kitchen are repositioned for contemporary use. By separating and fitting out the former laundry and storage rooms, a self-contained apartment with its own entrance is created on the lower floor. A few precise interventions in the existing fabric produce a second, fully functional dwelling without overwriting the character of the house."},
@@ -41,6 +33,15 @@ const P=[
         en:{Place:"Bonn",Year:"2025–2026",Existing:"Detached house, 1958",Use:"Housing, secondary apartment",Role:"Design and planning",Status:"Under construction"}},
   pre:"Tizian-Rein-Separate-Wohneinheit-022.",
   imgs:["3.jpg","1.jpg","9.jpg","10.jpg","6.gif","11.jpg","8.jpg","5.jpg","4.jpg"]},
+
+      {n:"022",y:"2024–25",c:"forschung",
+  t:{de:"from structure to action",en:"from structure to action"},
+  d:{de:"Diese Masterarbeit fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt — Fotos, Skizzen, Notizen, Messungen — in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.",
+     en:"This master's thesis asks how artificial intelligence can contribute to architectural repair as a practice that is both systematic and creative. It develops a multimodal framework that turns unstructured information about a damaged object — photographs, sketches, notes, measurements — into structured, fabricable design decisions. Working with ten salvaged stacking chairs, it shows how human expertise and machine reasoning can act together to derive a situated, buildable repair response from a single instance of damage."},
+  meta:{de:{Kontext:"Masterthesis, Professur für Digitale Fabrikation, TU München",Jahr:"2024–2025",Typ:"Forschung, KI-gestützte Reparatur",Betreuung:"Prof. Kathrin Dörfler",Status:"Abgeschlossen, publiziert via mediaTUM"},
+        en:{Context:"Master's thesis, Professorship of Digital Fabrication, TU Munich",Year:"2024–2025",Type:"Research, AI-assisted repair",Supervision:"Prof. Kathrin Dörfler",Status:"Completed, published via mediaTUM"}},
+  pre:"Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.",
+  imgs:["2.jpg","23.jpg","26.jpg","22.jpg","27.jpg","29.jpg","20.jpg","21.jpg","14.jpg","4.jpg","3.jpg","8.jpg"]},
 
  {n:"021",y:"seit 2022",c:"umbau",
   t:{de:"waldfriedhofskapelle rhöndorf",en:"woodland cemetery chapel"},
