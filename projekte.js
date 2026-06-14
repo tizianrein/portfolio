@@ -14,7 +14,6 @@ const UI={
       banner:" studio for renovation, new build and research ", orte:"munich <i>●</i> bad honnef"}
 };
 
-
 /* Meta-Schlüssel werden je Sprache beschriftet */
 const METAKEYS={
   de:{ort:"Ort",jahr:"Jahr",nutzung:"Nutzung",rolle:"Rolle",typ:"Typ",
@@ -32,23 +31,23 @@ const P=[
   meta:{de:{Ort:"Bonn",Jahr:"2025–2026",Bestand:"Freistehendes Wohnhaus, 1958",Nutzung:"Wohnen, Einliegerwohnung",Rolle:"Entwurf und Planung",Status:"In Ausführung"},
         en:{Place:"Bonn",Year:"2025–2026",Existing:"Detached house, 1958",Use:"Housing, secondary apartment",Role:"Design and planning",Status:"Under construction"}},
   pre:"Tizian-Rein-Separate-Wohneinheit-022.",
-  imgs:["3.jpg","1.jpg","9.jpg","10.jpg","6.gif","11.jpg","8.jpg","5.jpg","4.jpg"]},
+  imgs:["3.jpg","9.jpg","10.jpg","1.jpg","6.gif","11.jpg","8.jpg","5.jpg","4.jpg"]},
 
       {n:"022",y:"2024–25",c:"forschung",
   t:{de:"from structure to action",en:"from structure to action"},
   d:{de:"Diese Masterarbeit fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt — Fotos, Skizzen, Notizen, Messungen — in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.",
      en:"This master's thesis asks how artificial intelligence can contribute to architectural repair as a practice that is both systematic and creative. It develops a multimodal framework that turns unstructured information about a damaged object — photographs, sketches, notes, measurements — into structured, fabricable design decisions. Working with ten salvaged stacking chairs, it shows how human expertise and machine reasoning can act together to derive a situated, buildable repair response from a single instance of damage."},
-  meta:{de:{Kontext:"Masterthesis, Professur für Digitale Fabrikation, TU München",Jahr:"2024–2025",Typ:"Forschung, KI-gestützte Reparatur",Betreuung:"Prof. Kathrin Dörfler",Status:"Abgeschlossen, publiziert via mediaTUM"},
-        en:{Context:"Master's thesis, Professorship of Digital Fabrication, TU Munich",Year:"2024–2025",Type:"Research, AI-assisted repair",Supervision:"Prof. Kathrin Dörfler",Status:"Completed, published via mediaTUM"}},
+  meta:{de:{Kontext:"Masterthesis, Professur für Digitale Fabrikation, TU München",Jahr:"2025",Typ:"Forschung",Betreuung:"Prof. Kathrin Dörfler"},
+        en:{Context:"Master's thesis, Professorship of Digital Fabrication, TU Munich",Year:"2025",Type:"Research",Supervision:"Prof. Kathrin Dörfler"}},
   pre:"Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.",
   imgs:["2.jpg","23.jpg","26.jpg","22.jpg","27.jpg","29.jpg","20.jpg","21.jpg","14.jpg","4.jpg","3.jpg","8.jpg"]},
 
  {n:"021",y:"seit 2022",c:"umbau",
-  t:{de:"waldfriedhofskapelle rhöndorf",en:"woodland cemetery chapel"},
+  t:{de:"waldfriedhofskapelle rhöndorf",en:"cemetery chapel"},
   d:{de:"Eine fortlaufende Forschungs- und künstlerisch-aktivistische Auseinandersetzung mit der Waldfriedhofskapelle in Rhöndorf, einem feinen Beispiel sakraler Nachkriegsarchitektur. Die Arbeit dokumentiert den Bau, ordnet ihn baugeschichtlich ein und macht seinen kulturellen Wert öffentlich sichtbar. 2024 wurde ein Abrissantrag der Stadtverwaltung nach öffentlicher Besorgnis und erneuter Diskussion über die Bedeutung des Bauwerks zurückgezogen — ein Beleg dafür, wie sorgfältige Vermittlung den Erhalt eines bedrohten Gebäudes mittragen kann.",
      en:"An ongoing research and artistic-activist engagement with the woodland cemetery chapel in Rhöndorf, a fine example of post-war sacred architecture. The work documents the building, situates it within architectural history and makes its cultural value publicly visible. In 2024 a demolition proposal by the municipality was withdrawn after public concern and renewed debate about the building's significance — evidence of how careful advocacy can help preserve a threatened structure."},
-  meta:{de:{Ort:"Rhöndorf, Bad Honnef",Jahr:"seit 2022",Typ:"Denkmalpflege, Erhalt, Vermittlung",Rolle:"Forschung und Aktivismus",Status:"Abrissantrag 2024 zurückgezogen"},
-        en:{Place:"Rhöndorf, Bad Honnef",Year:"since 2022",Type:"Heritage, preservation, advocacy",Role:"Research and activism",Status:"2024 demolition proposal withdrawn"}},
+  meta:{de:{Ort:"Rhöndorf",Jahr:"seit 2022",Typ:"Bauwerkserhaltung, Vermittlung",Rolle:"Forschung",Status:"Instandgesetzt"},
+        en:{Place:"Rhöndorf",Year:"since 2022",Type:"Heritage, preservation",Role:"Research",Status:"repaired"}},
   pre:"Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.",
   imgs:["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg"]},
 
@@ -59,7 +58,7 @@ const P=[
   meta:{de:{Ort:"Bonn",Jahr:"2022–2023",Bestand:"Nachkriegsbau",Nutzung:"Wohnen",Rolle:"Entwurf und Innenausbau",Status:"Realisiert"},
         en:{Place:"Bonn",Year:"2022–2023",Existing:"Post-war building",Use:"Housing",Role:"Design and interior fit-out",Status:"Completed"}},
   pre:"Tizian-Rein-Wohnung-eines-Beamten-020.",
-  imgs:["1.jpg","2.jpg","3.jpg","5.jpg"]},
+  imgs:["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg"]},
 
  {n:"019",y:"2024",c:"neubau",
   t:{de:"unterstand",en:"shelter"},
