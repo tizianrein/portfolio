@@ -1,0 +1,113 @@
+# Benötigte Mediendateien für images/projects/
+# Dateinamen exakt so verwenden, damit projekte.js sie findet.
+
+## 023 — from structure to action
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.2.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.23.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.26.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.22.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.27.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.29.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.20.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.21.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.14.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.4.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.3.jpg
+Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.8.jpg
+
+## 022 — separate wohneinheit
+Tizian-Rein-Separate-Wohneinheit-022.3.jpg
+Tizian-Rein-Separate-Wohneinheit-022.1.jpg
+Tizian-Rein-Separate-Wohneinheit-022.9.jpg
+Tizian-Rein-Separate-Wohneinheit-022.10.jpg
+Tizian-Rein-Separate-Wohneinheit-022.6.gif
+Tizian-Rein-Separate-Wohneinheit-022.11.jpg
+Tizian-Rein-Separate-Wohneinheit-022.8.jpg
+Tizian-Rein-Separate-Wohneinheit-022.5.jpg
+Tizian-Rein-Separate-Wohneinheit-022.4.jpg
+
+## 021 — waldfriedhofskapelle rhöndorf
+Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.1.jpg
+Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.2.jpg
+Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.3.jpg
+Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.4.jpg
+Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.5.jpg
+Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.6.jpg
+
+## 020 — beamtenwohnung bonn
+Tizian-Rein-Wohnung-eines-Beamten-020.1.jpg
+Tizian-Rein-Wohnung-eines-Beamten-020.2.jpg
+Tizian-Rein-Wohnung-eines-Beamten-020.3.jpg
+Tizian-Rein-Wohnung-eines-Beamten-020.5.jpg
+
+## 019 — unterstand
+Tizian-Rein-Fahrrad-Unterstand-019.1.jpg
+Tizian-Rein-Fahrrad-Unterstand-019.2.jpg
+Tizian-Rein-Fahrrad-Unterstand-019.3.jpg
+Tizian-Rein-Fahrrad-Unterstand-019.4.jpg
+Tizian-Rein-Fahrrad-Unterstand-019.5.jpg
+
+## 018 — zakk gartenstuhl
+Tizian-Rein-Zakk-Gartenstuhl-1.jpg
+Tizian-Rein-Zakk-Gartenstuhl-2.gif
+Tizian-Rein-Zakk-Gartenstuhl-3.jpg
+Tizian-Rein-Zakk-Gartenstuhl-4.jpg
+
+## 017 — free/bird
+Tizian-Rein-Free-Bird-017.video.mp4   (Video)
+Tizian-Rein-Free-Bird-017.1.jpg
+Tizian-Rein-Free-Bird-017.2.jpg
+Tizian-Rein-Free-Bird-017.3.jpg
+
+## 016 — harboring histories
+Tizian-Rein-Harboring-Histories-016.1.jpg
+Tizian-Rein-Harboring-Histories-016.2.jpg
+Tizian-Rein-Harboring-Histories-016.3.jpg
+Tizian-Rein-Harboring-Histories-016.4.jpg
+Tizian-Rein-Harboring-Histories-016.5.jpg
+Tizian-Rein-Harboring-Histories-016.7.jpg
+Tizian-Rein-Harboring-Histories-016.6.jpg
+
+## 015 — arbor forum: (noch keine Bilder)
+
+## 013 — robosgraffito
+Tizian-Rein-RoboSgraffito-013.1.jpg
+Tizian-Rein-RoboSgraffito-013.3.jpg
+Tizian-Rein-RoboSgraffito-013.2.jpg
+Tizian-Rein-RoboSgraffito-013.5.jpg
+Tizian-Rein-RoboSgraffito-013.6.jpg
+Tizian-Rein-RoboSgraffito-013.7.jpg
+
+## 012 — structural patterns
+Tizian-Rein-Structural-Patterns-012.3.jpg
+Tizian-Rein-Structural-Patterns-012.4.jpg
+Tizian-Rein-Structural-Patterns-012.1.jpg
+Tizian-Rein-Structural-Patterns-012.2.jpg
+
+## 011 — rheinschwimmbad
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.1.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.2.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.3.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.4.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.5.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.6.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.7.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.8.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.9.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.10.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.11.jpg
+Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.12.jpg
+
+## 009 — wohnen in nippes
+Tizian-Rein-Wohnungsbau-Nippes-009.3.jpg
+Tizian-Rein-Wohnungsbau-Nippes-009.4.jpg
+Tizian-Rein-Wohnungsbau-Nippes-009.1.jpg
+Tizian-Rein-Wohnungsbau-Nippes-009.2.jpg
+Tizian-Rein-Wohnungsbau-Nippes-009.5.jpg
+Tizian-Rein-Wohnungsbau-Nippes-009.6.jpg
+Tizian-Rein-Wohnungsbau-Nippes-009.7.jpg
+Tizian-Rein-Wohnungsbau-Nippes-009.9.jpg
+
+# Summe: 81 Dateien
+
+# Porträt separat:  images/about/tizian-rein-portrait.jpg

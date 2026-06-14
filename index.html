@@ -1,428 +1,587 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-    <script type="application/ld+json">
-    {
-    "@context": "https://schema.org",
-    "@graph": [
-        {
-        "@type": "Person",
-        "@id": "https://www.tizianrein.de/#person",
-        "name": "Tizian Rein",
-        "url": "https://www.tizianrein.de/",
-        "jobTitle": "Architectural Designer and Researcher",
-        "affiliation": {
-            "@type": "Organization",
-            "name": "Technical University of Munich",
-            "url": "https://www.arc.ed.tum.de/en/df/"
-        },
-        "image": "https://tizianrein.de/images/about/tizian-rein-profil-bild-profile-pic-tizian-rein.jpg",
-        "sameAs": [
-            "https://www.linkedin.com/in/tizian-rein-a40b133a0/",
-            "https://www.researchgate.net/profile/Tizian-Rein?ev=hdr_xprf"
-        ]
-        },
-        {
-        "@type": "WebSite",
-        "@id": "https://tizianrein.de/#website",
-        "url": "https://tizianrein.de/",
-        "name": "Tizian Rein – Portfolio",
-        "publisher": {
-            "@id": "https://tizianrein.de/#person"
-        }
-        },
-        {
-        "@type": "WebPage",
-        "@id": "https://tizianrein.de/#home",
-        "url": "https://tizianrein.de/",
-        "name": "Tizian Rein – Architecture & Research",
-        "about": {
-            "@id": "https://tizianrein.de/#person"
-        }
-        }
-    ]
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tizian Rein — Architektur, Umbau, Neubau und Forschung</title>
+<meta name="description" content="Tizian Rein — Architekt und Doktorand an der TU München. Portfolio zu Umbau, Neubau und Forschung: KI-gestützte Reparatur, digitale Fabrikation und Arbeiten im Bestand in München und Bad Honnef.">
+<meta name="author" content="Tizian Rein">
+<meta name="keywords" content="Tizian Rein, Architekt, Architektur, Umbau, Neubau, Forschung, digitale Fabrikation, Reparatur, TU München, Bad Honnef, München, Denkmalpflege">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<link rel="canonical" href="https://www.tizianrein.de/">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Tizian Rein">
+<meta property="og:title" content="Tizian Rein — Architektur, Umbau, Neubau und Forschung">
+<meta property="og:description" content="Portfolio von Tizian Rein: Umbau, Neubau und Forschung. KI-gestützte Reparatur und digitale Fabrikation, München und Bad Honnef.">
+<meta property="og:url" content="https://www.tizianrein.de/">
+<meta property="og:image" content="https://www.tizianrein.de/images/about/tizian-rein-portrait.jpg">
+<meta property="og:locale" content="de_DE">
+<meta property="og:locale:alternate" content="en_US">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Tizian Rein — Architektur, Umbau, Neubau und Forschung">
+<meta name="twitter:description" content="Portfolio von Tizian Rein: Umbau, Neubau und Forschung. KI-gestützte Reparatur und digitale Fabrikation.">
+<meta name="twitter:image" content="https://www.tizianrein.de/images/about/tizian-rein-portrait.jpg">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="manifest" href="site.webmanifest">
+<meta name="theme-color" content="#ffffff">
+
+<!-- Strukturierte Daten: Person -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Tizian Rein",
+  "givenName": "Tizian",
+  "familyName": "Rein",
+  "jobTitle": "Architekt, Doktorand",
+  "url": "https://www.tizianrein.de/",
+  "image": "https://www.tizianrein.de/images/about/tizian-rein-portrait.jpg",
+  "email": "mailto:mail@tizianrein.de",
+  "worksFor": {
+    "@type": "Organization",
+    "name": "Technische Universität München, Professur für Digitale Fabrikation"
+  },
+  "alumniOf": [
+    {"@type":"CollegeOrUniversity","name":"Technische Universität München"},
+    {"@type":"CollegeOrUniversity","name":"ETH Zürich"},
+    {"@type":"CollegeOrUniversity","name":"Technische Hochschule Köln"}
+  ],
+  "knowsAbout": ["Architektur","Umbau","Neubau","Digitale Fabrikation","Reparatur","Denkmalpflege"],
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "München / Bad Honnef",
+    "addressCountry": "DE"
+  }
+}
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,100..900;1,62..125,100..900&display=swap" rel="stylesheet">
+<style>
+  :root{--ink:#101010;--paper:#fff;--accent:#FF3D00}
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html{scrollbar-width:none;-ms-overflow-style:none}
+  html::-webkit-scrollbar{display:none}
+  body{font-family:"Archivo",system-ui,sans-serif;background:var(--paper);color:var(--ink);-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit}
+
+  header{padding:20px 16px 8px;display:flex;justify-content:space-between;align-items:center}
+  .logo{font-weight:800;font-size:26px;letter-spacing:-.03em;line-height:1}
+  .logo span{color:var(--accent)}
+  .info-link{
+    font-size:13px;font-weight:600;text-transform:lowercase;
+    background:var(--ink);color:#fff;cursor:pointer;
+    border:1.5px solid var(--ink);border-radius:999px;
+    padding:6px 15px;
+  }
+  .info-link:active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .header-rechts{display:flex;align-items:center;gap:8px}
+  .lang-toggle{
+    font-size:13px;font-weight:600;text-transform:uppercase;letter-spacing:.02em;
+    background:var(--ink);color:#fff;cursor:pointer;
+    border:1.5px solid var(--ink);border-radius:999px;
+    padding:6px 14px;
+  }
+  .lang-toggle:active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .lang-toggle .akt{color:#fff}
+  .lang-toggle .inakt{color:#888}
+
+  .claim{padding:2px 16px 14px;font-size:13px;color:#666;text-indent:-1px}
+  .claim b{color:var(--ink);font-weight:600}
+  #wort{color:var(--accent);font-weight:700;font-style:normal}
+
+  nav.filter{display:flex;gap:8px;flex-wrap:wrap;padding:0 16px 18px;border-bottom:1.5px solid var(--ink)}
+  .chip{font-size:13px;font-weight:600;text-transform:lowercase;padding:5px 12px;border:1.5px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer}
+  .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+  .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+  ul.index{list-style:none}
+  li.proj{border-bottom:1.5px solid var(--ink)}
+  li.proj:last-child{border-bottom:0}
+  li.proj.hidden{display:none}
+  .row{width:100%;text-align:left;background:none;border:0;cursor:pointer;color:inherit;padding:14px 16px;display:flex;align-items:baseline;gap:10px}
+  .row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .num{font-size:16px;font-weight:600;color:#999;min-width:38px;font-variant-numeric:tabular-nums}
+  .title{flex:1;font-weight:800;font-size:clamp(24px,7.2vw,44px);line-height:1.02;letter-spacing:-.025em;text-transform:lowercase;font-variation-settings:"wdth" 88}
+  .year{font-size:12px;color:#999;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .chev{
+    flex:0 0 auto;width:22px;height:22px;color:#999;
+    transition:transform .3s ease;
+  }
+  li.proj.open .chev{transform:rotate(180deg);color:var(--accent)}
+  .row:active .chev{color:var(--accent)}
+  li.proj.open .title,.row:active .title{color:var(--accent)}
+
+  .panel{display:none;padding:0 0 22px}
+  li.proj.open .panel{display:block}
+
+  .slider-wrap{position:relative;margin-bottom:12px}
+  .slider{
+    display:flex;gap:8px;align-items:center;
+    overflow-x:auto;scroll-snap-type:x proximity;
+    touch-action:pan-x pan-y;
+    overscroll-behavior-x:contain;
+    -webkit-overflow-scrolling:touch;scrollbar-width:none;
+    padding:0 16px;
+  }
+  .slider.vsperre{overflow-x:hidden}
+  .slider::-webkit-scrollbar{display:none}
+  .slide{flex:0 0 86%;scroll-snap-align:center}
+  .slide:only-child{flex-basis:100%}
+  .slide img,.slide video{width:100%;height:auto;display:block;background:#f7f7f7;min-height:120px}
+
+  /* Vollbild-Galerie (Lightbox) — minimal */
+  .galerie{position:fixed;inset:0;z-index:60;background:var(--paper);display:none;flex-direction:column}
+  .galerie.open{display:flex}
+  .galerie-head{
+    position:absolute;top:0;left:0;right:0;z-index:2;
+    display:flex;justify-content:space-between;align-items:flex-start;
+    padding:18px 18px;pointer-events:none;
+  }
+  .galerie-head .g-titel{
+    font-size:clamp(28px,6vw,52px);font-weight:800;text-transform:lowercase;
+    letter-spacing:-.025em;line-height:1;padding-right:14px;
+    font-variation-settings:"wdth" 88;color:var(--ink);
+  }
+  .galerie-head .g-close{
+    width:clamp(56px,12vw,80px);height:clamp(56px,12vw,80px);flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;
+    font-size:clamp(34px,7vw,48px);font-weight:300;
+    background:var(--paper);color:var(--ink);
+    border:2px solid var(--ink);border-radius:999px;
+    cursor:pointer;padding:0;pointer-events:auto;
+  }
+  .galerie-head .g-close span{display:block;line-height:1;transform:translateY(-2px)}
+  .galerie-head .g-close:active{background:var(--accent);border-color:var(--accent);color:#fff}
+  .galerie-bild{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:0;touch-action:pan-y}
+  .galerie-bild img{max-width:100%;max-height:100%;object-fit:contain;display:block;transition:opacity .22s ease}
+  .g-zone{position:absolute;top:0;bottom:0;background:none;border:0;padding:0}
+  .g-zone.links{left:0;width:33%;}
+  .g-zone.mitte{left:33%;width:34%;}
+  .g-zone.rechts{right:0;width:33%;}
+  .g-zone:focus-visible{outline:2px solid var(--accent);outline-offset:-4px}
+  @media (min-width:760px){
+    .galerie-head{padding:24px 28px}
+  }
+  .counter{
+    position:absolute;top:10px;right:24px;
+    font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;
+    background:var(--paper);color:var(--ink);border:1.5px solid var(--ink);
+    padding:3px 8px;border-radius:999px;pointer-events:none;
+  }
+
+  .proj-kopf{padding:0 16px 18px}
+  .panel .text{font-size:14.5px;line-height:1.5;max-width:60ch;padding:0 0 14px;margin:0}
+  .datenblatt{margin:0 0 16px;padding:0}
+  .meta-zeile{display:flex;gap:14px;padding:1px 0;font-size:14.5px;line-height:1.5}
+  .meta-zeile dt{flex:0 0 34%;font-weight:400}
+  .meta-zeile dd{flex:1;margin:0}
+  .tag{display:inline-block;margin:10px 16px 16px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent)}
+
+  .info-panel .portrait{width:100%;height:auto;display:block;margin:0 0 14px;background:#f2f2f2}
+  .info-panel .text{padding:0 16px;overflow:hidden}
+  .info-panel h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent);margin:24px 16px 6px;clear:both}
+  .info-panel ul.cv{list-style:none;margin:0 16px}
+  .info-panel ul.cv li{font-size:13px;line-height:1.5;padding:7px 0;border-top:1px solid #ececec;display:flex;gap:12px}
+  .info-panel ul.cv .j{flex:0 0 74px;color:#999;font-variant-numeric:tabular-nums;font-size:12px;padding-top:1px}
+  .info-panel ul.cv .w{flex:1}
+  .info-panel ul.cv .w b{font-weight:600}
+  .info-panel ul.cv .w i{font-style:italic}
+  .info-panel .kontakt{margin:24px 16px 0;font-size:14px}
+  .info-panel .kontakt a{border-bottom:1.5px solid var(--accent);font-weight:600}
+
+  .marquee{overflow:hidden;border-top:1.5px solid var(--ink);padding:10px 0;background:var(--paper);position:sticky;bottom:0}
+  .marquee-track{display:inline-block;white-space:nowrap;font-size:13px;font-weight:600;text-transform:lowercase;animation:roll 26s linear infinite}
+  .marquee:hover .marquee-track{animation-play-state:paused}
+  @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+  @media (prefers-reduced-motion: reduce){.marquee-track{animation:none}html{scroll-behavior:auto}}
+  .marquee-track i{color:var(--accent);font-style:normal;padding:0 10px}
+  .marquee-track a{color:inherit;text-decoration:none;border-bottom:1.5px solid currentColor}
+
+  footer.imprint{padding:18px 16px 90px;font-size:12px;color:#999}
+
+  /* ===== Desktop / größere Screens ===== */
+  @media (min-width:760px){
+    /* zentrierte Spalte, an der alle Sektionen ausgerichtet sind */
+    header,.claim,nav.filter,ul.index,footer.imprint,.marquee-inner{
+      max-width:1100px;margin-left:auto;margin-right:auto;
     }
-    </script>
+    header{padding:28px 40px 8px}
+    .logo{font-size:32px}
+    .claim{padding:4px 40px 18px;font-size:14px;text-indent:-1.5px}
+    nav.filter{padding:0 40px 22px;gap:10px}
+    .chip{font-size:14px;padding:6px 14px}
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tizian Rein – Architecture, Objects, Research</title>
-    <meta name="description" content="Portfolio of Tizian Rein. Architecture, Objects, and Research. | Portfolio von Tizian Rein. Architektur, Objekte und Forschung in Bonn & München.">    
-    <meta name="author" content="Tizian Rein">
-    
-    <meta property="og:title" content="Tizian Rein – Architecture, Objects, Research">
-    <meta property="og:description" content="Portfolio of Tizian Rein. Architecture, Design, and Research projects focusing on digital fabrication and spatial intervention.">
-    <meta property="og:image" content="https://www.tizianrein.de/images/thumbnails/Tizian-Rein-Free-Bird-017-thumb.jpg">
-    <meta property="og:url" content="https://www.tizianrein.de">
-    <meta property="og:type" content="website">
+    .row{padding:18px 40px;gap:16px;align-items:baseline}
+    .num{font-size:18px;min-width:48px}
+    .title{font-size:clamp(34px,4.6vw,60px)}
+    .year{font-size:13px}
 
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .intro-grid {
-            margin-top: 9px;
-            margin-bottom: 28px;
-        }
+    .panel{padding:0 0 30px}
+    /* Galerie zeigt mehrere Bilder nebeneinander, kein Vollbreiten-Snap */
+    .slider{padding:0 40px;gap:12px;height:auto;max-height:none;scroll-snap-type:x proximity}
+    .slide{flex:0 0 auto;height:62vh;max-height:560px;display:flex;align-items:center}
+    .slide:only-child{flex-basis:auto}
+    .slide img,.slide video{width:auto;height:100%;max-width:none;aspect-ratio:auto !important;min-height:0 !important}
+    .counter{right:48px;top:14px}
 
-        .home-intro {
-            max-width: 760px;
-        }
+    .proj-kopf{display:flex;gap:48px;align-items:flex-start;padding:0 40px 24px}
+    .panel .text{padding:0;font-size:16px;max-width:62ch;flex:1}
+    .datenblatt{flex:0 0 320px;margin:0 0 20px;padding:0}
+    .datenblatt .meta-zeile{font-size:16px;padding:1px 0}
+    .meta-zeile dt{flex-basis:40%}
+    .tag{margin:14px 40px 18px}
 
-        .intro-line {
-            margin: 0;
-            font-size: 28px;
-            line-height: 1.35;
-            color: #111;
-        }
+    .info-panel .portrait{width:42%;max-width:320px;float:left;margin:0 28px 14px 40px}
+    .info-panel .text{padding:0 40px;font-size:16px}
+    .info-panel h3{margin:28px 40px 8px}
+    .info-panel ul.cv{margin:0 40px}
+    .info-panel ul.cv li{font-size:14px}
+    .info-panel ul.cv .j{flex-basis:96px;font-size:13px}
+    .info-panel .kontakt{margin:28px 40px 0;font-size:15px}
 
-        #typed-text {
-            white-space: normal;
-        }
+    footer.imprint{padding:24px 40px 90px}
+  }
 
-        .typing-cursor {
-            display: inline-block;
-            width: 1px;
-            height: 1em;
-            background: #111;
-            margin-left: 3px;
-            vertical-align: -0.12em;
-            animation: blink 0.9s steps(1) infinite;
-        }
-
-        @keyframes blink {
-            50% { opacity: 0; }
-        }
-
-        @media (max-width: 768px) {
-            .intro-grid {
-                margin-top: 18px;
-                margin-bottom: 22px;
-            }
-
-            .home-intro {
-                max-width: 100%;
-            }
-
-            .intro-line {
-                font-size: 28px;
-                line-height: 1.4;
-            }
-        }
-    </style>
-    <link rel="manifest" href="/site.webmanifest">
+  @media (min-width:1100px){
+    .slide{height:64vh}
+  }
+  @media (hover:hover){
+    .row:hover .title{color:var(--accent)}
+  }
+</style>
 </head>
 <body>
 
-    <!-- === MOBILE NAV === -->
-    <nav class="mobile-nav">
-        <a href="/" class="corner top-left">tizian rein</a>
-        <a href="info" class="corner top-right">info</a>
-        
-        <div class="corner bottom-left lang-switch">
-            <a href="#" class="lang-btn active" data-lang="de">de</a>
-            <a href="#" class="lang-btn" data-lang="en">en</a>
-        </div>
+<header>
+  <a class="logo" href="index.html">Tizian Rein</a>
+  <div class="header-rechts">
+    <button class="lang-toggle" id="langBtn" aria-label="Sprache wechseln"><span class="akt" id="langAkt">DE</span> <span class="inakt" id="langInakt">EN</span></button>
+    <button class="info-link" id="infoBtn">info</button>
+  </div>
+</header>
 
-        <div class="corner bottom-right project-trigger">
-            <span id="mobile-proj-btn">projekte</span>
-            <div class="mobile-submenu">
-                <a href="#" data-filter="architecture">architektur</a>
-                <a href="#" data-filter="objects">objekte</a>
-                <a href="#" data-filter="research">forschung</a>
-            </div>
-        </div>
-    </nav>
+<p class="claim"><b id="claimText">büro für</b> <em id="wort">umbau</em></p>
 
-    <!-- === DESKTOP HEADER === -->
-    <header class="desktop-header">
-        <div class="grid-container header-grid">
-            <div class="header-col title-col">
-                <a href="/">tizian rein</a>
-            </div>
-            <div class="header-col projects-col">
-                <div class="dropdown-wrapper">
-                    <a href="/" class="nav-link">projekte</a>
-                    <div class="submenu">
-                        <a href="#" data-filter="architecture">architektur</a>
-                        <a href="#" data-filter="objects">objekte</a>
-                        <a href="#" data-filter="research">forschung</a>
-                    </div>
-                </div>
-            </div>
-            <div class="header-col info-col">
-                <a href="info" class="nav-link">info</a>
-            </div>
-            <div class="header-col lang-col">
-                <a href="#" class="lang-btn active" data-lang="de">de</a> 
-                <a href="#" class="lang-btn" data-lang="en">en</a>
-            </div>
-        </div>
-    </header>
+<nav class="filter" aria-label="Projektfilter">
+  <button class="chip" aria-pressed="true" data-f="alle"><span class="lbl" data-k="alle">alle</span></button>
+  <button class="chip" aria-pressed="false" data-f="umbau"><span class="lbl" data-k="umbau">umbau</span></button>
+  <button class="chip" aria-pressed="false" data-f="neubau"><span class="lbl" data-k="neubau">neubau</span></button>
+  <button class="chip" aria-pressed="false" data-f="forschung"><span class="lbl" data-k="forschung">forschung</span></button>
+</nav>
 
-    <!-- === MAIN GRID (STATISCH FÜR SEO) === -->
-    <main>
-        <div class="grid-container intro-grid" hidden>
-            <div class="home-intro">
-                <p class="intro-line">
-                    <span id="typed-text"
-                        data-de="Tizian Rein ist Junior-Architekt und Forscher an der Schnittstelle von Digitaler Fabrikation, Künstlicher Intelligenz und Architektonischer Reparatur."
-                        data-en="tizian rein is a junior-architect and researcher working at the intersection of digital fabrication, artificial intelligence, and architectural repair.">
-                    </span>
-                    <span class="typing-cursor" aria-hidden="true"></span>
-                </p>
-            </div>
-        </div>
-        <div id="grid-container" class="grid-container">
-            
-            <!-- PROJEKT 023 -->
-            <article class="grid-item" data-category="research" data-id="023">
-                <a href="projects/023-from-structure-to-action" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023-thumb.jpg" 
-                             alt="From Structure to Action - Master Thesis Architektur KI Tizian Rein TU München"
-                             loading="eager">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">023</span><br>
-                        <span class="meta-title" data-de="From Structure to Action" data-en="From Structure to Action">From Structure to Action</span>
-                    </div>
-                </a>
-            </article>
+<ul class="index" id="index"></ul>
 
-            <!-- PROJEKT 022 -->
-            <article class="grid-item" data-category="architecture" data-id="022">
-                <a href="projects/022-separate-wohneinheit-detached-apartment" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Separate-Wohneinheit-022-thumb.jpg" 
-                             alt="Separate Wohneinheit - Umbau Einfamilienhaus Bonn Architektur"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">022</span><br>
-                        <span class="meta-title" data-de="Separate Wohneinheit" data-en="Detached Apartment">Separate Wohneinheit</span>
-                    </div>
-                </a>
-            </article>
+<div class="galerie" id="galerie" role="dialog" aria-modal="true" aria-label="Bildgalerie">
+  <div class="galerie-head">
+    <span class="g-titel" id="gTitel"></span>
+    <button class="g-close" id="gClose" aria-label="Schließen"><span>×</span></button>
+  </div>
+  <div class="galerie-bild" id="gBild">
+    <button class="g-zone links" id="gLinks" aria-label="Vorheriges Bild"></button>
+    <img id="gImg" src="" alt="">
+    <button class="g-zone mitte" id="gMitte" aria-label="Schließen"></button>
+    <button class="g-zone rechts" id="gRechts" aria-label="Nächstes Bild"></button>
+  </div>
+</div>
 
-            <!-- PROJEKT 021 -->
-            <article class="grid-item" data-category="architecture" data-id="021">
-                <a href="projects/021-waldfriedhofskapelle-rhoendorf-graveyard-chapel" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Waldfriedhofskapelle-Rhöndorf-021-thumb.jpg" 
-                             alt="Waldfriedhofskapelle Rhöndorf Denkmalpflege und Erhalt"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">021</span><br>
-                        <span class="meta-title" data-de="Waldfriedhofskapelle Rhöndorf" data-en="Graveyard Chapel Rhöndorf">Waldfriedhofskapelle Rhöndorf</span>
-                    </div>
-                </a>
-            </article>
+<div class="marquee" aria-hidden="true"><div class="marquee-inner"><div class="marquee-track" id="mq"></div></div></div>
 
-            <!-- PROJEKT 020 -->
-            <article class="grid-item" data-category="architecture" data-id="020">
-                <a href="projects/020-beamtenwohnung-bonn-apartment-of-a-clerk" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Wohnung-eines-Beamten-020-thumb.jpg" 
-                             alt="Beamtenwohnung Bonn Sanierung und Interieur"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">020</span><br>
-                        <span class="meta-title" data-de="Beamtenwohnung Bonn" data-en="Apartment of a Clerk">Beamtenwohnung Bonn</span>
-                    </div>
-                </a>
-            </article>
+<footer class="imprint">© 2026 Tizian Rein · München / Bad Honnef · <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a></footer>
 
-            <!-- PROJEKT 019 -->
-            <article class="grid-item" data-category="objects" data-id="019">
-                <a href="projects/019-unterstand-shelter" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Fahrrad-Unterstand-019-thumb.jpg" 
-                             alt="Fahrradunterstand Shelter Design Lastenrad"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">019</span><br>
-                        <span class="meta-title" data-de="Unterstand" data-en="Shelter">Unterstand</span>
-                    </div>
-                </a>
-            </article>
+<script src="projekte.js"></script>
+<script>
+const ul=document.getElementById("index");
 
-            <!-- PROJEKT 018 -->
-            <article class="grid-item" data-category="objects" data-id="018">
-                <a href="projects/018-zakk" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Zakk-Gartenstuhl-018-thumb.jpg" 
-                             alt="ZAKK Gartenstuhl Designmöbel aus Baumarkt-Teilen"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">018</span><br>
-                        <span class="meta-title" data-de="ZAKK Gartenstuhl" data-en="ZAKK Garden Chair">ZAKK Gartenstuhl</span>
-                    </div>
-                </a>
-            </article>
+/* ===== Sprache ===== */
+let LANG="de";
+try{const g=localStorage.getItem("tr_lang");if(g==="de"||g==="en")LANG=g;}catch(e){}
+const TITEL=p=>p.t[LANG]||p.t.de;
+const TEXT=p=>p.d[LANG]||p.d.de;
 
-            <!-- PROJEKT 017 -->
-            <article class="grid-item" data-category="architecture" data-id="017">
-                <a href="projects/017-immersive-studio-free-bird" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Free-Bird-017-thumb.jpg" 
-                             alt="Free/Bird ETH Zürich Immersive Studio Parametrische Holzarchitektur"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">017</span><br>
-                        <span class="meta-title" data-de="Free/Bird" data-en="Free/Bird">Free/Bird</span>
-                    </div>
-                </a>
-            </article>
+/* ===== Vollbild-Galerie ===== */
+const galerie=document.getElementById("galerie"),
+      gImg=document.getElementById("gImg"),
+      gTitel=document.getElementById("gTitel");
+let gListe=[],gIndex=0,gTit="",gSeq=0;
+function gZeige(i){
+  if(!gListe.length)return;
+  gIndex=(i+gListe.length)%gListe.length;
+  const src=gListe[gIndex];
+  const s=++gSeq;
+  gImg.style.opacity=0;
+  const tmp=new Image();
+  tmp.onload=()=>{if(s!==gSeq)return;gImg.src=src;gImg.alt=`${gTit} — Projekt von Tizian Rein, Ansicht ${gIndex+1}`;requestAnimationFrame(()=>gImg.style.opacity=1);};
+  tmp.onerror=()=>{if(s===gSeq)gImg.style.opacity=1;};
+  tmp.src=src;
+  [gIndex+1,gIndex-1].forEach(j=>{const n=gListe[(j+gListe.length)%gListe.length];if(n){const im=new Image();im.src=n;}});
+}
+function gOeffne(liste,start,titel){
+  gListe=liste;gTit=titel;gTitel.textContent=titel;
+  galerie.classList.add("open");document.body.style.overflow="hidden";
+  gZeige(start);
+}
+function gSchliesse(){galerie.classList.remove("open");document.body.style.overflow="";gImg.src="";}
+document.getElementById("gClose").addEventListener("click",gSchliesse);
+document.getElementById("gMitte").addEventListener("click",gSchliesse);
+document.getElementById("gLinks").addEventListener("click",()=>gZeige(gIndex-1));
+document.getElementById("gRechts").addEventListener("click",()=>gZeige(gIndex+1));
+document.addEventListener("keydown",e=>{
+  if(!galerie.classList.contains("open"))return;
+  if(e.key==="Escape")gSchliesse();
+  if(e.key==="ArrowLeft")gZeige(gIndex-1);
+  if(e.key==="ArrowRight")gZeige(gIndex+1);
+});
+let gtx=null,gty=null;
+galerie.addEventListener("touchstart",e=>{gtx=e.touches[0].clientX;gty=e.touches[0].clientY;},{passive:true});
+galerie.addEventListener("touchend",e=>{
+  if(gtx===null)return;
+  const dx=e.changedTouches[0].clientX-gtx;
+  const dy=e.changedTouches[0].clientY-gty;
+  if(Math.abs(dy)>Math.abs(dx)){
+    if(dy>70)gSchliesse();                       /* Wisch nach unten = schließen */
+  }else if(Math.abs(dx)>48){
+    gZeige(gIndex+(dx<0?1:-1));                   /* horizontaler Wisch = blättern */
+  }
+  gtx=null;gty=null;
+},{passive:true});
 
-            <!-- PROJEKT 016 -->
-            <article class="grid-item" data-category="architecture" data-id="016">
-                <a href="projects/016-harboring-histories-studio-meteora" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Harboring-Histories-016-thumb.jpg" 
-                             alt="Harboring Histories Palermo ETH Zürich Studio Meteora"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">016</span><br>
-                        <span class="meta-title" data-de="Harboring Histories" data-en="Harboring Histories">Harboring Histories</span>
-                    </div>
-                </a>
-            </article>
+/* Sanft zur nächsten/vorherigen Slide scrollen */
+function slideUm(slider,richtung){
+  const slides=[...slider.querySelectorAll(".slide")];
+  if(!slides.length)return;
+  const center=slider.scrollLeft+slider.clientWidth/2;
+  let akt=0,bestDist=Infinity;
+  slides.forEach((s,i)=>{
+    const mid=s.offsetLeft+s.offsetWidth/2;
+    const d=Math.abs(mid-center);
+    if(d<bestDist){bestDist=d;akt=i;}
+  });
+  let zi=akt+richtung;
+  if(zi>=slides.length)zi=0;          /* hinten raus → zurück an den Anfang */
+  else if(zi<0)zi=slides.length-1;    /* vorne raus → ans Ende */
+  const ziel=slides[zi];
+  if(ziel)slider.scrollTo({left:ziel.offsetLeft+ziel.offsetWidth/2-slider.clientWidth/2,behavior:"smooth"});
+}
 
-            <!-- PROJEKT 015 -->
-            <article class="grid-item" data-category="architecture" data-id="015">
-                <a href="#" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Arbor-Forum-015-thumb.jpg" 
-                             alt="Arbor Forum Architektur Entwurf TU München"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">015</span><br>
-                        <span class="meta-title" data-de="Arbor Forum" data-en="Arbor Forum">Arbor Forum</span>
-                    </div>
-                </a>
-            </article>
+function makeSlider(p){
+  const wrap=document.createElement("div");
+  wrap.className="slider-wrap";
+  const slider=document.createElement("div");
+  slider.className="slider";
+  if(p.video){
+    const s=document.createElement("div");
+    s.className="slide";
+    s.innerHTML=`<video src="${B+p.video}#t=0.1" controls muted loop playsinline preload="metadata"></video>`;
+    slider.appendChild(s);
+  }
+  p.imgs.forEach((name,j)=>{
+    const s=document.createElement("div");
+    s.className="slide";
+    s.innerHTML=`<img loading="lazy" decoding="async" src="${B+p.pre+name}" alt="${TITEL(p)} — ${KAT[LANG][p.c]||p.c} von Tizian Rein, Bild ${j+1}" onerror="this.closest('.slide').remove()">`;
+    const im=s.querySelector("img");
+    im.addEventListener("load",()=>{
+      if(im.naturalWidth&&im.naturalHeight){
+        im.style.aspectRatio=im.naturalWidth+" / "+im.naturalHeight;
+        im.style.minHeight="0";
+      }
+    },{once:true});
+    slider.appendChild(s);
+  });
+  /* Klickzonen über das GESAMTE Sliderfeld (nicht pro Bild) */
+  slider.addEventListener("click",e=>{
+    if(slider.dataset.gezogen==="1")return;          /* echtes Wischen ist kein Klick */
+    const r=slider.getBoundingClientRect();
+    const x=(e.clientX-r.left)/r.width;
+    if(x<0.33)        slideUm(slider,-1);
+    else if(x>0.67)   slideUm(slider,1);
+    else{
+      const vorhanden=[...slider.querySelectorAll(".slide img")].map(im=>im.currentSrc||im.src);
+      /* aktuell mittiges Bild als Startpunkt */
+      const center=slider.scrollLeft+slider.clientWidth/2;
+      const slides=[...slider.querySelectorAll(".slide")];
+      let start=0,bestDist=Infinity;
+      slides.forEach((sl,i)=>{
+        const mid=sl.offsetLeft+sl.offsetWidth/2;
+        const d=Math.abs(mid-center);
+        if(d<bestDist){bestDist=d;start=i;}
+      });
+      gOeffne(vorhanden,Math.min(start,vorhanden.length-1),TITEL(p));
+    }
+  });
+  /* Drag-Erkennung: unterscheidet Wischen von Klick */
+  let px=null;
+  slider.addEventListener("pointerdown",e=>{px=e.clientX;slider.dataset.gezogen="0";});
+  slider.addEventListener("pointermove",e=>{if(px!==null&&Math.abs(e.clientX-px)>8)slider.dataset.gezogen="1";});
+  slider.addEventListener("pointerup",()=>{px=null;setTimeout(()=>{slider.dataset.gezogen="0";},0);});
+  slider.addEventListener("pointercancel",()=>{px=null;slider.dataset.gezogen="0";});
+  /* Touch-Richtung: bei klar vertikaler Geste horizontales Scrollen sperren,
+     damit die Seite scrollt statt seitlich zu verrutschen */
+  let tsx=0,tsy=0,richtungEntschieden=false;
+  slider.addEventListener("touchstart",e=>{
+    tsx=e.touches[0].clientX;tsy=e.touches[0].clientY;richtungEntschieden=false;
+    slider.classList.remove("vsperre");
+  },{passive:true});
+  slider.addEventListener("touchmove",e=>{
+    if(richtungEntschieden)return;
+    const dx=Math.abs(e.touches[0].clientX-tsx);
+    const dy=Math.abs(e.touches[0].clientY-tsy);
+    if(dx>6||dy>6){
+      richtungEntschieden=true;
+      if(dy>dx)slider.classList.add("vsperre");   /* vertikal → Slider sperren */
+    }
+  },{passive:true});
+  slider.addEventListener("touchend",()=>{slider.classList.remove("vsperre");},{passive:true});
+  slider.addEventListener("touchcancel",()=>{slider.classList.remove("vsperre");},{passive:true});
+  wrap.appendChild(slider);
+  const total=slider.children.length;
+  if(total>1){
+    const counter=document.createElement("span");
+    counter.className="counter";
+    counter.textContent=`01 / ${String(total).padStart(2,"0")}`;
+    wrap.appendChild(counter);
+    slider.addEventListener("scroll",()=>{
+      const slides=[...slider.querySelectorAll(".slide")];
+      if(!slides.length)return;
+      const center=slider.scrollLeft+slider.clientWidth/2;
+      let best=0,bestDist=Infinity;
+      slides.forEach((s,i)=>{
+        const mid=s.offsetLeft+s.offsetWidth/2;
+        const d=Math.abs(mid-center);
+        if(d<bestDist){bestDist=d;best=i;}
+      });
+      counter.textContent=`${String(best+1).padStart(2,"0")} / ${String(slides.length).padStart(2,"0")}`;
+    },{passive:true});
+  }
+  return wrap;
+}
 
-            <!-- PROJEKT 013 -->
-            <article class="grid-item" data-category="research" data-id="013">
-                <a href="projects/013-robosgraffito" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-RoboSgraffito-013-thumb.jpg" 
-                             alt="RoboSgraffito Forschungsprojekt TU München Robotische Fassade"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">013</span><br>
-                        <span class="meta-title" data-de="RoboSgraffito" data-en="RoboSgraffito">RoboSgraffito</span>
-                    </div>
-                </a>
-            </article>
+const zeilen=[];
+P.forEach(p=>{
+  const li=document.createElement("li");
+  li.className="proj";li.dataset.c=p.c;
+  li.innerHTML=`
+    <button class="row" aria-expanded="false">
+      <span class="num">${p.n}</span>
+      <span class="title">${TITEL(p)}</span>
+      <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+    <div class="panel"></div>`;
+  const btn=li.querySelector(".row");
+  const panel=li.querySelector(".panel");
+  const titleEl=li.querySelector(".title");
+  let txtEl=null,metaEl=null;
+  let built=false;
+  function metaHTML(){
+    const m=(p.meta&&p.meta[LANG])||{};
+    return Object.entries(m).map(([k,v])=>
+      `<div class="meta-zeile"><dt>${k}</dt><dd>${v}</dd></div>`).join("");
+  }
+  btn.addEventListener("click",()=>{
+    const wirdGeoeffnet=!li.classList.contains("open");
+    li.classList.toggle("open",wirdGeoeffnet);
+    btn.setAttribute("aria-expanded",wirdGeoeffnet);
+    if(wirdGeoeffnet&&!built){
+      built=true;
+      const kopf=document.createElement("div");
+      kopf.className="proj-kopf";
+      txtEl=document.createElement("p");
+      txtEl.className="text";txtEl.textContent=TEXT(p);
+      metaEl=document.createElement("dl");
+      metaEl.className="datenblatt";
+      metaEl.innerHTML=metaHTML();
+      kopf.appendChild(txtEl);
+      kopf.appendChild(metaEl);
+      panel.appendChild(kopf);
+      if(p.imgs.length||p.video)panel.appendChild(makeSlider(p));
+    }
+  });
+  zeilen.push(()=>{titleEl.textContent=TITEL(p);if(txtEl)txtEl.textContent=TEXT(p);if(metaEl)metaEl.innerHTML=metaHTML();});
+  ul.appendChild(li);
+});
 
-            <!-- PROJEKT 012 -->
-            <article class="grid-item" data-category="research" data-id="012">
-                <a href="projects/012-structural-patterns" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Structural-Patterns-012-thumb.jpg" 
-                             alt="Structural Patterns TU München 3D Druck Statik Forschung"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">012</span><br>
-                        <span class="meta-title" data-de="Structural Patterns" data-en="Structural Patterns">Structural Patterns</span>
-                    </div>
-                </a>
-            </article>
+/* Info-Zeile */
+const infoLi=document.createElement("li");
+infoLi.className="proj";infoLi.dataset.c="alle";
+infoLi.innerHTML=`
+  <button class="row" aria-expanded="false">
+    <span class="num">∗∗∗</span>
+    <span class="title" id="infoTitel">info</span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </button>
+  <div class="panel info-panel" id="infoPanel">${INFO_HTML[LANG]}</div>`;
+const infoBtnRow=infoLi.querySelector(".row");
+infoBtnRow.addEventListener("click",()=>{
+  const wirdGeoeffnet=!infoLi.classList.contains("open");
+  infoLi.classList.toggle("open",wirdGeoeffnet);
+  infoBtnRow.setAttribute("aria-expanded",wirdGeoeffnet);
+});
+ul.appendChild(infoLi);
+document.getElementById("infoBtn").addEventListener("click",()=>{
+  if(!infoLi.classList.contains("open"))infoBtnRow.click();
+  infoLi.scrollIntoView({block:"start"});
+});
 
-            <!-- PROJEKT 011 -->
-            <article class="grid-item" data-category="architecture" data-id="011">
-                <a href="projects/011-bachelor-thesis" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011-thumb.jpg" 
-                             alt="Rheinschwimmbad Bachelor Thesis Architektur TH Köln"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">011</span><br>
-                        <span class="meta-title" data-de="Rheinschwimmbad" data-en="Puplic Baths">Rheinschwimmbad</span>
-                    </div>
-                </a>
-            </article>
+/* Filter */
+document.querySelectorAll(".chip").forEach(ch=>{
+  ch.addEventListener("click",()=>{
+    document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","false"));
+    ch.setAttribute("aria-pressed","true");
+    const f=ch.dataset.f;
+    document.querySelectorAll(".proj").forEach(li=>{
+      const c=li.dataset.c;
+      li.classList.toggle("hidden", f!=="alle" && c!==f && c!=="alle");
+    });
+  });
+});
 
-            <!-- PROJEKT 009 -->
-            <article class="grid-item" data-category="architecture" data-id="009">
-                <a href="projects/009-wohnen-in-nippes" class="project-link">
-                    <div class="image-wrapper">
-                        <img src="images/thumbnails/Tizian-Rein-Wohnungsbau-Nippes-009-thumb.jpg" 
-                             alt="Wohnen in Nippes Architektur Wohnungsbau Köln"
-                             loading="lazy">
-                    </div>
-                    <div class="meta-data">
-                        <span class="meta-id">009</span><br>
-                        <span class="meta-title" data-de="Wohnen in Nippes" data-en="Living in Nippes">Wohnen in Nippes</span>
-                    </div>
-                </a>
-            </article>
+/* ===== Sprache anwenden ===== */
+function applyLang(){
+  const u=UI[LANG];
+  document.documentElement.lang=LANG;
+  document.getElementById("claimText").textContent=u.claim;
+  document.getElementById("langAkt").textContent=LANG.toUpperCase();
+  document.getElementById("langInakt").textContent=(LANG==="de"?"EN":"DE");
+  document.getElementById("infoBtn").textContent=u.info;
+  document.getElementById("infoTitel").textContent=u.info;
+  /* Filter-Labels */
+  document.querySelectorAll(".chip .lbl").forEach(s=>{
+    const k=s.dataset.k;
+    s.textContent = k==="alle" ? u.alle : KAT[LANG][k];
+  });
+  /* Projekt-Titel & offene Texte */
+  zeilen.forEach(fn=>fn());
+  /* Info-Panel neu setzen */
+  document.getElementById("infoPanel").innerHTML=INFO_HTML[LANG];
+  /* Wortrotation & Banner neu */
+  worte=u.worte;wi=0;wortEl.textContent=worte[0];
+  document.getElementById("mq").innerHTML=`${u.banner}<i>●</i> ${u.orte} <i>●</i> <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> <i>●</i> `.repeat(6);
+}
 
-        </div>
-    </main>
+document.getElementById("langBtn").addEventListener("click",()=>{
+  LANG = LANG==="de" ? "en" : "de";
+  try{localStorage.setItem("tr_lang",LANG);}catch(e){}
+  applyLang();
+});
 
-    <!-- Scripts -->
-    <script src="js/grid-layout.js"></script>
-    <script src="js/pixel-trail.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-    (function () {
-        const typedText = document.getElementById('typed-text');
-        if (!typedText) return;
+/* Rotierendes Wort */
+let worte=UI[LANG].worte;
+let wi=0;
+const wortEl=document.getElementById("wort");
+if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
+  setInterval(()=>{wi=(wi+1)%worte.length;wortEl.textContent=worte[wi];},1800);
+}
 
-        let typingTimeout;
-        let currentLang = document.documentElement.lang === 'de' ? 'de' : 'en';
-
-        function getTextForLang(lang) {
-            return typedText.dataset[lang] || typedText.dataset.en || '';
-        }
-
-        function typeText(text, speed = 22) {
-            clearTimeout(typingTimeout);
-            typedText.textContent = '';
-            let i = 0;
-
-            function step() {
-                if (i <= text.length) {
-                    typedText.textContent = text.slice(0, i);
-                    i++;
-                    typingTimeout = setTimeout(step, speed);
-                }
-            }
-
-            step();
-        }
-
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.documentElement.lang = lang;
-            typeText(getTextForLang(lang));
-        }
-
-        typeText(getTextForLang(currentLang));
-
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-            btn.addEventListener('click', function (e) {
-                e.preventDefault();
-
-                document.querySelectorAll('.lang-btn').forEach(b => b.classList.remove('active'));
-                document.querySelectorAll(`.lang-btn[data-lang="${this.dataset.lang}"]`).forEach(b => b.classList.add('active'));
-
-                setLanguage(this.dataset.lang);
-            });
-        });
-    })();
-    </script>
+applyLang();
+</script>
 </body>
 </html>

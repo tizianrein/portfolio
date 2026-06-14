@@ -1,0 +1,12 @@
+{
+  "name": "Tizian Rein",
+  "short_name": "Tizian Rein",
+  "description": "Architektur, Umbau, Neubau und Forschung — Tizian Rein",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffffff",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}
