@@ -190,7 +190,7 @@ en:`
 
     <h3>education</h3>
     <ul class="cv">
-      <li><span class="j">2022–2025</span><span class="w"><b>TU Munich, Architecture M.A.</b> — Mentorship Programme Computational Methods, graduated with distinction</span></li>
+      <li><span class="j">2022–2025</span><span class="w"><b>TU Munich, Architecture M.A.</b> — Mentorship Programme Computational Methods, graduated with high distinction</span></li>
       <li><span class="j">2023–2024</span><span class="w"><b>ETH Zurich, Architecture Master´s Program</b> — scholarship holder</span></li>
       <li><span class="j">2018–2021</span><span class="w"><b>TH Cologne, Architecture B.A.</b></span></li>
     </ul>
