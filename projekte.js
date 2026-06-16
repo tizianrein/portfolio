@@ -166,6 +166,11 @@ de:`
       <li><span class="j">seit 2016</span><span class="w"><b>Selbstständige Tätigkeit</b> — 3D-Druck und Design</span></li>
     </ul>
 
+    <h3>mitgliedschaften</h3>
+    <ul class="cv">
+      <li><span class="j">seit 2026</span><span class="w"><b>Deutscher Werkbund</b></span></li>
+    </ul>
+
     <h3>publikationen / vorträge</h3>
     <ul class="cv">
       <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU München</span></li>
@@ -201,6 +206,11 @@ en:`
       <li><span class="j">since 2016</span><span class="w"><b>Self-employed</b> — 3D printing and design</span></li>
     </ul>
 
+    <h3>memberships</h3>
+    <ul class="cv">
+      <li><span class="j">since 2026</span><span class="w"><b>Deutscher Werkbund</b></span></li>
+    </ul>
+
     <h3>publications / talks</h3>
     <ul class="cv">
       <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU Munich</span></li>
@@ -214,4 +224,3 @@ en:`
 
     <p class="kontakt"><a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · munich / bad honnef</p>`
 };
-
