@@ -55,7 +55,7 @@
   "knowsAbout": ["Architektur","Umbau","Neubau","Digitale Fabrikation","Reparatur","Denkmalpflege"],
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "Bad Honnef",
+    "addressLocality": "München / Bad Honnef",
     "addressCountry": "DE"
   }
 }
@@ -74,7 +74,7 @@
   a{color:inherit;text-decoration:none}
   button{font-family:inherit}
 
-  header{padding:20px 16px 8px;display:flex;justify-content:space-between;align-items:center}
+  header{padding:20px 16px 8px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
   .logo{font-weight:800;font-size:26px;letter-spacing:-.03em;line-height:1}
   .logo span{color:var(--accent)}
   .info-link{
@@ -95,7 +95,11 @@
   .lang-toggle .akt{color:#fff}
   .lang-toggle .inakt{color:#888}
 
-  .claim{padding:2px 16px 14px;font-size:13px;color:#666;text-indent:-1px}
+  .claim{font-size:13px;color:#666;font-weight:400}
+  .logo-zeile{display:flex;align-items:baseline;gap:9px;flex-wrap:wrap}
+  .claim .punkt{color:var(--accent);font-weight:800}
+  .claim b{font-weight:400}
+  .claim em{font-style:normal;color:var(--accent);font-weight:600}
   .claim b{color:var(--ink);font-weight:600}
   #wort{color:var(--accent);font-weight:700;font-style:normal}
 
@@ -217,7 +221,7 @@
     }
     header{padding:28px 40px 8px}
     .logo{font-size:32px}
-    .claim{padding:4px 40px 18px;font-size:14px;text-indent:-1.5px}
+    .claim{font-size:14px}
     nav.filter{padding:0 40px 22px;gap:10px}
     .chip{font-size:14px;padding:6px 14px}
 
@@ -263,14 +267,15 @@
 <body>
 
 <header>
-  <a class="logo" href="index.html">Tizian Rein</a>
+  <div class="logo-zeile">
+    <a class="logo" href="index.html">Tizian Rein</a>
+    <span class="claim"><span class="punkt">.</span> <b id="claimText">büro für</b> <em id="wort">umbau</em></span>
+  </div>
   <div class="header-rechts">
     <button class="lang-toggle" id="langBtn" aria-label="Sprache wechseln"><span class="akt" id="langAkt">DE</span> <span class="inakt" id="langInakt">EN</span></button>
     <button class="info-link" id="infoBtn">info</button>
   </div>
 </header>
-
-<p class="claim"><b id="claimText">büro für</b> <em id="wort">umbau</em></p>
 
 <nav class="filter" aria-label="Projektfilter">
   <button class="chip" aria-pressed="true" data-f="alle"><span class="lbl" data-k="alle">alle</span></button>
@@ -296,7 +301,7 @@
 
 <div class="marquee" aria-hidden="true"><div class="marquee-inner"><div class="marquee-track" id="mq"></div></div></div>
 
-<footer class="imprint">© 2026 Tizian Rein · <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a></footer>
+<footer class="imprint">© 2026 Tizian Rein · München / Bad Honnef · <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a></footer>
 
 <script src="projekte.js"></script>
 <script>

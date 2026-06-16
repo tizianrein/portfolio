@@ -7,11 +7,11 @@ const KAT={
 
 const UI={
   de:{alle:"alle",info:"info",claim:"büro für",
-      worte:["umbau","neubau","forschung","reparatur"],
+      worte:["umbau","neubau","forschung","reparatur","bestand","weiterbauen","denkmalpflege","fabrikation","kontinuität","instandsetzung"],
       banner:" büro für umbau, neubau und forschung ", orte:"münchen <i>●</i> bad honnef"},
   en:{alle:"all",info:"info",claim:"studio for",
-      worte:["renovation","new build","research","repair"],
-      banner:" studio for renovation, new build and research ", orte:"munich <i>●</i> bad honnef"}
+      worte:["transformation","new build","research","repair","the existing","heritage preservation","fabrication","continuity","maintenance"],
+      banner:" studio for transformation, new build and research ", orte:"munich <i>●</i> bad honnef"}
 };
 
 /* Meta-Schlüssel werden je Sprache beschriftet */
