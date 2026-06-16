@@ -156,8 +156,8 @@ de:`
 
     <h3>mitgliedschaften</h3>
     <ul class="cv">
-      <li><span class="j">seit 2026</span><span class="w"><b>Deutscher Werkbund</b></span></li>
-      <li><span class="j">seit 2026</span><span class="w"><b>initiative.umbau</b> (e.V.i.G.)</span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b>Deutscher Werkbund</b> München</span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b>initiative.umbau</b> Köln</span></li>
     </ul>
 
     <h3>erfahrung</h3>
@@ -197,8 +197,8 @@ en:`
 
     <h3>memberships</h3>
     <ul class="cv">
-      <li><span class="j">since 2026</span><span class="w"><b>Deutscher Werkbund</b></span></li>
-      <li><span class="j">since 2026</span><span class="w"><b>initiative.umbau</b> (e.V.i.G.)</span></li>
+      <li><span class="j">since 2026</span><span class="w"><b>Deutscher Werkbund</b> München</span></li>
+      <li><span class="j">since 2026</span><span class="w"><b>initiative.umbau</b> Köln</span></li>
     </ul>
 
     <h3>experience</h3>
