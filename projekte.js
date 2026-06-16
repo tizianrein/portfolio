@@ -6,11 +6,11 @@ const KAT={
 };
 
 const UI={
-  de:{alle:"alle",info:"info",claim:"büro für",
+  de:{alle:"alle",info:"info",claim:"praxis für",
       worte:["umbau","neubau","forschung","reparatur","bestand","weiterbauen","denkmalpflege","fabrikation","kontinuität","instandsetzung"],
       banner:" büro für umbau, neubau und forschung ", orte:"münchen <i>●</i> bad honnef"},
-  en:{alle:"all",info:"info",claim:"studio for",
-      worte:["transformation","new build","research","repair","the existing","heritage preservation","fabrication","continuity","maintenance"],
+  en:{alle:"all",info:"info",claim:"working on",
+      worte:["transformation","new build","research","repair","the existing","heritage","fabrication","continuity","maintenance"],
       banner:" studio for transformation, new build and research ", orte:"munich <i>●</i> bad honnef"}
 };
 
