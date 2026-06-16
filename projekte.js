@@ -149,9 +149,15 @@ de:`
 
     <h3>ausbildung</h3>
     <ul class="cv">
-      <li><span class="j">2022–2025</span><span class="w"><b>M.A. Architektur, TU München</b> — Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
-      <li><span class="j">2023–2024</span><span class="w"><b>Gaststudent ETH Zürich</b> — Stipendiat</span></li>
-      <li><span class="j">2018–2021</span><span class="w"><b>B.A. Architektur, TH Köln</b></span></li>
+      <li><span class="j">2022–2025</span><span class="w"><b>TU München, Architektur M.A.</b> — Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
+      <li><span class="j">2023–2024</span><span class="w"><b>ETH Zürich, Architektur Masterstudiengang</b> — Stipendiat</span></li>
+      <li><span class="j">2018–2021</span><span class="w"><b>TH Köln, Architektur B.A.</b></span></li>
+    </ul>
+
+    <h3>mitgliedschaften</h3>
+    <ul class="cv">
+      <li><span class="j">seit 2026</span><span class="w"><b>Deutscher Werkbund</b></span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b>initiative.umbau</b> (e.V.i.G.)</span></li>
     </ul>
 
     <h3>erfahrung</h3>
@@ -164,12 +170,6 @@ de:`
       <li><span class="j">2020–2021</span><span class="w"><b>Studentischer Prodekan Architektur</b> — gewählter Vertreter an der TH Köln</span></li>
       <li><span class="j">2019–2021</span><span class="w"><b>Tutor für Entwurf und Konstruktion</b> — Prof. Carola Wiese</span></li>
       <li><span class="j">seit 2016</span><span class="w"><b>Selbstständige Tätigkeit</b> — 3D-Druck und Design</span></li>
-    </ul>
-
-    <h3>mitgliedschaften</h3>
-    <ul class="cv">
-      <li><span class="j">seit 2026</span><span class="w"><b>Deutscher Werkbund</b></span></li>
-      <li><span class="j">seit 2026</span><span class="w"><b>initiative.umbau</b> (e.V.i.G.)</span></li>
     </ul>
 
     <h3>publikationen / vorträge</h3>
@@ -190,9 +190,15 @@ en:`
 
     <h3>education</h3>
     <ul class="cv">
-      <li><span class="j">2022–2025</span><span class="w"><b>M.A. Architecture, TU Munich</b> — Mentorship Programme Computational Methods, graduated with distinction</span></li>
-      <li><span class="j">2023–2024</span><span class="w"><b>Visiting student, ETH Zurich</b> — scholarship holder</span></li>
-      <li><span class="j">2018–2021</span><span class="w"><b>B.A. Architecture, TH Cologne</b></span></li>
+      <li><span class="j">2022–2025</span><span class="w"><b>TU Munich, Architecture M.A.</b> — Mentorship Programme Computational Methods, graduated with distinction</span></li>
+      <li><span class="j">2023–2024</span><span class="w"><b>ETH Zurich, Architecture Master´s Program</b> — scholarship holder</span></li>
+      <li><span class="j">2018–2021</span><span class="w"><b>TH Cologne, Architecture B.A.</b></span></li>
+    </ul>
+
+    <h3>memberships</h3>
+    <ul class="cv">
+      <li><span class="j">since 2026</span><span class="w"><b>Deutscher Werkbund</b></span></li>
+      <li><span class="j">since 2026</span><span class="w"><b>initiative.umbau</b> (e.V.i.G.)</span></li>
     </ul>
 
     <h3>experience</h3>
@@ -205,12 +211,6 @@ en:`
       <li><span class="j">2020–2021</span><span class="w"><b>Student vice-dean of architecture</b> — elected representative, TH Cologne</span></li>
       <li><span class="j">2019–2021</span><span class="w"><b>Tutor for design and construction</b> — Prof. Carola Wiese</span></li>
       <li><span class="j">since 2016</span><span class="w"><b>Self-employed</b> — 3D printing and design</span></li>
-    </ul>
-
-    <h3>memberships</h3>
-    <ul class="cv">
-      <li><span class="j">since 2026</span><span class="w"><b>Deutscher Werkbund</b></span></li>
-      <li><span class="j">since 2026</span><span class="w"><b>initiative.umbau</b> (e.V.i.G.)</span></li>
     </ul>
 
     <h3>publications / talks</h3>
