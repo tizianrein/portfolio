@@ -710,22 +710,32 @@ function makeSlider(p){
    so bleibt deren Ueberschrift exakt stehen, statt zu springen.
    Wuerde das alte Panel animiert zuklappen, wanderte die Zeile ueber
    420ms nach oben und der Scroll muesste sichtbar hinterherlaufen. */
-function schliesseAlleSofort(ausser){
+/* Schliesst alle anderen offenen Zeilen ANIMIERT (nicht hart) und meldet,
+   wie viel Panel-Hoehe dabei OBERHALB der angeklickten Zeile verschwindet.
+   Dieser Betrag fliesst ins Scrollziel ein, damit die weiche Bewegung die
+   Zeile direkt an ihre Endposition bringt — ohne harten Zwischensprung. */
+function schliesseAndereAnimiert(ausser){
+  let hoeheDarueber=0;
+  const bezug = ausser ? ausser.getBoundingClientRect().top : 0;
   document.querySelectorAll("li.proj.open").forEach(li=>{
     if(li===ausser)return;
     const h=li.querySelector(".huelle");
-    if(h){
-      h.style.transition="none";      /* kein Zuklapp-Zappeln */
-      h.style.maxHeight="";
+    if(h && (!ausser || h.getBoundingClientRect().top < bezug)){
+      hoeheDarueber += h.offsetHeight;   /* dieses Panel liegt ueber der Zeile */
     }
-    li.classList.remove("open","wechselt");
+    if(h){
+      huelleZu(li);                       /* animiert zuklappen (max-height -> 0) */
+    }
+    li.classList.remove("open");
+    li.classList.add("wechselt");
     const b=li.querySelector(".row");
     if(b)b.setAttribute("aria-expanded","false");
-    if(h){
-      void h.offsetHeight;            /* Reflow, damit "none" greift */
-      h.style.transition="";          /* Transition zurueckgeben */
-    }
+    setTimeout(()=>{
+      li.classList.remove("wechselt");
+      if(h)h.style.maxHeight="";
+    },DAUER+40);
   });
+  return hoeheDarueber;
 }
 
 const DAUER=420;   /* muss zur CSS-Transition passen */
@@ -755,18 +765,12 @@ function umschalten(li,btn,aufbauen){
   const oeffnen=!li.classList.contains("open");
   const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
+  let hoeheDarueber=0;
   if(oeffnen){
-    /* Anderes offenes Projekt sofort (ohne Animation) schliessen.
-       Das laesst alles darunter springen — deshalb den Scroll im selben
-       Frame um genau diesen Betrag zuruecknehmen, damit die angeklickte
-       Zeile optisch stehen bleibt. Erst danach folgt die EINE weiche
-       Bewegung nach oben. */
-    const a=document.getElementById("auslauf");
-    if(a)a.style.height="0px";              /* Auslauf frisch berechnen */
-    const vorher=li.getBoundingClientRect().top;
-    schliesseAlleSofort(li);
-    const versatz=li.getBoundingClientRect().top-vorher;
-    if(versatz)scrollTo({top:scrollY+versatz,behavior:"auto"});
+    /* Anderes offenes Projekt ANIMIERT schliessen (kein harter Sprung).
+       Wir merken uns, wie viel Panel-Hoehe oberhalb der neuen Zeile
+       verschwindet — damit rechnet der Scroll unten das Endziel aus. */
+    hoeheDarueber=schliesseAndereAnimiert(li);
     if(aufbauen)aufbauen();
     vWeg();
   }
@@ -789,16 +793,17 @@ function umschalten(li,btn,aufbauen){
      Titel direkt unter der Kopfzeile andockt (oben links). Immer gleich,
      egal wo die Zeile vorher stand. Keine konkurrierende Nachfuehrung. */
   if(oeffnen && AN.projektScroll){
-    /* Den Titel der angeklickten Zeile nach ganz oben holen.
-       Damit auch die UNTERSTEN Zeilen bis nach oben geschoben werden
-       koennen, geben wir unter der Liste eine volle Fensterhoehe Auslauf.
-       Der Auslauf muss nur die ZEILE nach oben lassen (das Panel liegt
-       darunter) — eine Fensterhoehe genuegt daher immer. Er wird SYNCHRON
-       gesetzt, sonst kappt der Browser das Scrollziel an der alten Hoehe. */
+    /* Den Titel der angeklickten Zeile weich nach ganz oben gleiten lassen.
+       Das Ziel ist die ENDposition: die aktuelle Zeilenposition MINUS der
+       Panel-Hoehe, die oberhalb gerade animiert zuklappt. So gleitet die
+       Zeile in EINER Bewegung an ihren Endplatz, waehrend darueber das alte
+       Panel zusammenklappt — kein harter Zwischensprung.
+       Der Auslauf (eine Fensterhoehe) sorgt dafuer, dass auch die unterste
+       Zeile bis nach oben kann. */
     const rand=12;
     const auslauf=document.getElementById("auslauf");
     if(auslauf)auslauf.style.height=innerHeight+"px";
-    const ziel=Math.max(0, li.getBoundingClientRect().top+scrollY-rand);
+    const ziel=Math.max(0, li.getBoundingClientRect().top+scrollY-hoeheDarueber-rand);
     scrollTo({top:ziel,behavior:reduziert?"auto":"smooth"});
   }
 
