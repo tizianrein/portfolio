@@ -391,7 +391,6 @@
 </header>
 
 <ul class="index" id="index"></ul>
-<div id="auslauf" aria-hidden="true"></div>
 <img class="vorschau" id="vorschau" src="" alt="" aria-hidden="true">
 
 <div class="galerie" id="galerie" role="dialog" aria-modal="true" aria-label="Bildgalerie">
@@ -419,7 +418,6 @@
 const AN = {
   vorschau:      true,    /* schwebendes S/W-Bild beim Ueberfahren der Titel */
   galerieSW:     true,    /* Bilder im Slider erst bei Beruehrung farbig     */
-  projektScroll: true     /* Klick dockt Ueberschrift oben links an (weich)  */
 };
 document.documentElement.classList.toggle("sw-galerie", AN.galerieSW);
 
@@ -714,30 +712,6 @@ function makeSlider(p){
    wie viel Panel-Hoehe dabei OBERHALB der angeklickten Zeile verschwindet.
    Dieser Betrag fliesst ins Scrollziel ein, damit die weiche Bewegung die
    Zeile direkt an ihre Endposition bringt — ohne harten Zwischensprung. */
-function schliesseAndereAnimiert(ausser){
-  let hoeheDarueber=0;
-  const bezug = ausser ? ausser.getBoundingClientRect().top : 0;
-  document.querySelectorAll("li.proj.open").forEach(li=>{
-    if(li===ausser)return;
-    const h=li.querySelector(".huelle");
-    if(h && (!ausser || h.getBoundingClientRect().top < bezug)){
-      hoeheDarueber += h.offsetHeight;   /* dieses Panel liegt ueber der Zeile */
-    }
-    if(h){
-      huelleZu(li);                       /* animiert zuklappen (max-height -> 0) */
-    }
-    li.classList.remove("open");
-    li.classList.add("wechselt");
-    const b=li.querySelector(".row");
-    if(b)b.setAttribute("aria-expanded","false");
-    setTimeout(()=>{
-      li.classList.remove("wechselt");
-      if(h)h.style.maxHeight="";
-    },DAUER+40);
-  });
-  return hoeheDarueber;
-}
-
 const DAUER=420;   /* muss zur CSS-Transition passen */
 
 /* Haelt die angeklickte Zeile waehrend des Auf-/Zuklappens optisch
@@ -748,10 +722,8 @@ const DAUER=420;   /* muss zur CSS-Transition passen */
    danach wieder auf (max-height:none), damit der Slider frei ist. */
 function huelleAuf(li){
   const h=li.querySelector(".huelle");
-  if(!h)return 0;
-  const ziel=h.scrollHeight;          /* volle Endhoehe, schon jetzt bekannt */
-  h.style.maxHeight=ziel+"px";
-  return ziel;                        /* fuer die Auslauf-Berechnung */
+  if(!h)return;
+  h.style.maxHeight=h.scrollHeight+"px";   /* volle Endhoehe, animiert dorthin */
 }
 function huelleZu(li){
   const h=li.querySelector(".huelle");
@@ -765,12 +737,9 @@ function umschalten(li,btn,aufbauen){
   const oeffnen=!li.classList.contains("open");
   const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  let hoeheDarueber=0;
+  /* Einfach: die geklickte Zeile auf- oder zuklappen. Andere offene
+     Projekte bleiben offen. Kein Scrollen, keine Nachkorrektur. */
   if(oeffnen){
-    /* Anderes offenes Projekt ANIMIERT schliessen (kein harter Sprung).
-       Wir merken uns, wie viel Panel-Hoehe oberhalb der neuen Zeile
-       verschwindet — damit rechnet der Scroll unten das Endziel aus. */
-    hoeheDarueber=schliesseAndereAnimiert(li);
     if(aufbauen)aufbauen();
     vWeg();
   }
@@ -782,47 +751,8 @@ function umschalten(li,btn,aufbauen){
   }else{
     huelleZu(li);
     li.classList.remove("open");
-    /* Auslauf erst nach der Schliess-Animation entfernen, damit die
-       Seite nicht unter dem Finger kuerzer wird und nach oben springt. */
-    const a=document.getElementById("auslauf");
-    if(a)setTimeout(()=>{a.style.height="0px";},reduziert?0:DAUER+40);
   }
   btn.setAttribute("aria-expanded",oeffnen);
-
-  /* EINE klare Regel beim Oeffnen: die Zeile sanft so scrollen, dass ihr
-     Titel direkt unter der Kopfzeile andockt (oben links). Immer gleich,
-     egal wo die Zeile vorher stand. Keine konkurrierende Nachfuehrung. */
-  if(oeffnen && AN.projektScroll){
-    /* Den Titel der angeklickten Zeile weich nach ganz oben gleiten lassen.
-       Das Ziel wird vorausgeschaetzt (Zeilenposition minus der oberhalb
-       zuklappenden Panel-Hoehe) — das reicht fuer die weiche Bewegung.
-       Weil sich waehrend der Animation mehrere Hoehen gleichzeitig aendern
-       (und auf dem iPhone zusaetzlich die Adressleiste), ist diese
-       Schaetzung nie ganz exakt. Deshalb korrigieren wir NACH Abschluss
-       aller Animationen die Position final — dann kennt der Browser die
-       echten Werte, und vom vorigen Titel bleibt garantiert nichts stehen. */
-    const rand=12;
-    const auslauf=document.getElementById("auslauf");
-    if(auslauf)auslauf.style.height=innerHeight+"px";
-    const ziel=Math.max(0, li.getBoundingClientRect().top+scrollY-hoeheDarueber-rand);
-    scrollTo({top:ziel,behavior:reduziert?"auto":"smooth"});
-
-    /* Finale Feinkorrektur, nachdem alles ausanimiert ist. Sie entfaellt,
-       falls der Nutzer in der Zwischenzeit selbst gescrollt hat. */
-    let letzteEigene=null;
-    const merkeScroll=()=>{letzteEigene=performance.now();};
-    addEventListener("wheel",merkeScroll,{passive:true});
-    addEventListener("touchmove",merkeScroll,{passive:true});
-    setTimeout(()=>{
-      removeEventListener("wheel",merkeScroll);
-      removeEventListener("touchmove",merkeScroll);
-      if(letzteEigene!==null)return;            /* Nutzer hat selbst gescrollt */
-      const abweichung=li.getBoundingClientRect().top-rand;
-      if(Math.abs(abweichung)>1){
-        scrollTo({top:scrollY+abweichung,behavior:"smooth"});
-      }
-    },reduziert?0:DAUER+80);
-  }
 
   setTimeout(()=>{
     li.classList.remove("wechselt");
@@ -913,9 +843,14 @@ infoBtnRow.addEventListener("mousemove",e=>{
 infoBtnRow.addEventListener("mouseleave",vWeg);
 infoBtnRow.addEventListener("click",()=>umschalten(infoLi,infoBtnRow));
 ul.appendChild(infoLi);   /* Info steht als letzte Zeile im Index */
-/* Info oben rechts: oeffnet und schliesst ebenfalls */
+/* Info oben rechts: oeffnet die Info-Zeile (falls zu) und scrollt hin.
+   Das ist die einzige Stelle mit Scroll — der Info-Bereich liegt ganz
+   unten und waere sonst nach dem Klick nicht im Blick. scrollIntoView
+   ueberlaesst dem Browser die korrekte, ruckelfreie Bewegung. */
 document.getElementById("infoBtn").addEventListener("click",()=>{
-  umschalten(infoLi,infoBtnRow);   /* scrollt jetzt ohnehin zum Feld */
+  const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if(!infoLi.classList.contains("open"))umschalten(infoLi,infoBtnRow);
+  infoLi.scrollIntoView({behavior:reduziert?"auto":"smooth",block:"start"});
 });
 
 /* Filter über die roten Wörter in der Kopfzeile */
