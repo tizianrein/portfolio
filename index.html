@@ -794,17 +794,34 @@ function umschalten(li,btn,aufbauen){
      egal wo die Zeile vorher stand. Keine konkurrierende Nachfuehrung. */
   if(oeffnen && AN.projektScroll){
     /* Den Titel der angeklickten Zeile weich nach ganz oben gleiten lassen.
-       Das Ziel ist die ENDposition: die aktuelle Zeilenposition MINUS der
-       Panel-Hoehe, die oberhalb gerade animiert zuklappt. So gleitet die
-       Zeile in EINER Bewegung an ihren Endplatz, waehrend darueber das alte
-       Panel zusammenklappt — kein harter Zwischensprung.
-       Der Auslauf (eine Fensterhoehe) sorgt dafuer, dass auch die unterste
-       Zeile bis nach oben kann. */
+       Das Ziel wird vorausgeschaetzt (Zeilenposition minus der oberhalb
+       zuklappenden Panel-Hoehe) — das reicht fuer die weiche Bewegung.
+       Weil sich waehrend der Animation mehrere Hoehen gleichzeitig aendern
+       (und auf dem iPhone zusaetzlich die Adressleiste), ist diese
+       Schaetzung nie ganz exakt. Deshalb korrigieren wir NACH Abschluss
+       aller Animationen die Position final — dann kennt der Browser die
+       echten Werte, und vom vorigen Titel bleibt garantiert nichts stehen. */
     const rand=12;
     const auslauf=document.getElementById("auslauf");
     if(auslauf)auslauf.style.height=innerHeight+"px";
     const ziel=Math.max(0, li.getBoundingClientRect().top+scrollY-hoeheDarueber-rand);
     scrollTo({top:ziel,behavior:reduziert?"auto":"smooth"});
+
+    /* Finale Feinkorrektur, nachdem alles ausanimiert ist. Sie entfaellt,
+       falls der Nutzer in der Zwischenzeit selbst gescrollt hat. */
+    let letzteEigene=null;
+    const merkeScroll=()=>{letzteEigene=performance.now();};
+    addEventListener("wheel",merkeScroll,{passive:true});
+    addEventListener("touchmove",merkeScroll,{passive:true});
+    setTimeout(()=>{
+      removeEventListener("wheel",merkeScroll);
+      removeEventListener("touchmove",merkeScroll);
+      if(letzteEigene!==null)return;            /* Nutzer hat selbst gescrollt */
+      const abweichung=li.getBoundingClientRect().top-rand;
+      if(Math.abs(abweichung)>1){
+        scrollTo({top:scrollY+abweichung,behavior:"smooth"});
+      }
+    },reduziert?0:DAUER+80);
   }
 
   setTimeout(()=>{
