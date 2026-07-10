@@ -176,11 +176,16 @@
   }
   .slider.vsperre{overflow-x:hidden}
   .slider::-webkit-scrollbar{display:none}
-  .slide{flex:0 0 86%;scroll-snap-align:center}
-  .slide:only-child{flex-basis:100%}
+  .slide{
+    flex:0 0 auto;                     /* Breite richtet sich nach der Bildhoehe */
+    height:52vh;max-height:460px;      /* alle Bilder gleich hoch (mobil) */
+    display:flex;align-items:center;
+    scroll-snap-align:center;
+  }
+  .slide:only-child{flex:0 0 auto}   /* auch allein: Hoehe bestimmt Breite */
   .slide img,.slide video{
-    width:100%;height:auto;display:block;background:#f7f7f7;
-    aspect-ratio:3 / 2;                 /* reserviert Platz, verhindert Springen */
+    width:auto;height:100%;max-width:none;display:block;background:#f7f7f7;
+    /* Hoehe fuellt die Slide -> alle Bilder gleich hoch, Breite variabel */
   }
 
   /* Inline-Slider: Bilder zunaechst schwarzweiss, Farbe erst bei
