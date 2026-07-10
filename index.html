@@ -556,9 +556,16 @@ function makeSlider(p){
        bzw. gleich rechts daneben), den Rest lazy. Sonst entstehen beim
        Wischen weisse Luecken, weil "lazy" erst am Viewport-Rand greift. */
     const frueh=j<3;
-    s.innerHTML=`<img ${frueh?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" src="${B+p.pre+name}" alt="${TITEL(p)} — ${KAT[LANG][p.c]||p.c} von Tizian Rein, Bild ${j+1}" onerror="this.closest('.slide').remove()">`;
+    /* Bekannte Masse als width/height mitgeben: der Browser reserviert
+       dann von Anfang an die richtige Hoehe, statt beim Laden alles
+       darunter nach unten zu schieben. Die Bilder behalten dabei ihre
+       unterschiedlichen Formate — nur der Platz steht vorher fest. */
+    const wh=(typeof MASSE!=="undefined") ? MASSE[p.pre+name] : null;
+    const masse=wh ? ` width="${wh[0]}" height="${wh[1]}"` : "";
+    s.innerHTML=`<img${masse} ${frueh?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" src="${B+p.pre+name}" alt="${TITEL(p)} — ${KAT[LANG][p.c]||p.c} von Tizian Rein, Bild ${j+1}" onerror="this.closest('.slide').remove()">`;
     const im=s.querySelector("img");
-    im.addEventListener("load",()=>{
+    if(wh)im.style.aspectRatio=wh[0]+" / "+wh[1];   /* sofort, nicht erst nach dem Laden */
+    else im.addEventListener("load",()=>{           /* Rueckfall ohne hinterlegte Masse */
       if(im.naturalWidth&&im.naturalHeight){
         im.style.aspectRatio=im.naturalWidth+" / "+im.naturalHeight;
       }
@@ -666,19 +673,27 @@ function makeSlider(p){
 }
 
 /* ===== Akkordeon: immer nur eine Zeile offen ===== */
-function schliesseAlle(ausser){
+/* Schliesst alle offenen Zeilen SOFORT, ohne Animation.
+   Der Aufrufer misst die Position der angeklickten Zeile davor und
+   danach und gleicht die Differenz im selben Frame per Scroll aus —
+   so bleibt deren Ueberschrift exakt stehen, statt zu springen.
+   Wuerde das alte Panel animiert zuklappen, wanderte die Zeile ueber
+   420ms nach oben und der Scroll muesste sichtbar hinterherlaufen. */
+function schliesseAlleSofort(ausser){
   document.querySelectorAll("li.proj.open").forEach(li=>{
     if(li===ausser)return;
-    li.classList.add("wechselt");
-    huelleZu(li);
-    li.classList.remove("open");
+    const h=li.querySelector(".huelle");
+    if(h){
+      h.style.transition="none";      /* kein Zuklapp-Zappeln */
+      h.style.maxHeight="";
+    }
+    li.classList.remove("open","wechselt");
     const b=li.querySelector(".row");
     if(b)b.setAttribute("aria-expanded","false");
-    setTimeout(()=>{
-      li.classList.remove("wechselt");
-      const h=li.querySelector(".huelle");
-      if(h)h.style.maxHeight="";
-    },DAUER+40);
+    if(h){
+      void h.offsetHeight;            /* Reflow, damit "none" greift */
+      h.style.transition="";          /* Transition zurueckgeben */
+    }
   });
 }
 
@@ -727,12 +742,20 @@ function huelleZu(li){
   h.style.maxHeight="0px";
 }
 
-function umschalten(li,btn,aufbauen){
+function umschalten(li,btn,aufbauen,scrollErzwingen){
   const oeffnen=!li.classList.contains("open");
   const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if(oeffnen){
-    schliesseAlle(li);
+    /* Ein bereits offenes Projekt schliesst OHNE Animation, und der Scroll
+       gleicht die verschwundene Hoehe im selben Frame aus. Dadurch steht
+       die angeklickte Ueberschrift absolut still — kein Hin und Her. */
+    const vorher=li.getBoundingClientRect().top;
+    schliesseAlleSofort(li);
+    const nachher=li.getBoundingClientRect().top;
+    const versatz=nachher-vorher;
+    if(versatz)scrollTo({top:scrollY+versatz,behavior:"auto"});
+
     if(aufbauen)aufbauen();
     vWeg();
   }
@@ -747,17 +770,19 @@ function umschalten(li,btn,aufbauen){
   }
   btn.setAttribute("aria-expanded",oeffnen);
 
-  /* Zeile bleibt stehen, waehrend sich darueber/darunter etwas bewegt. */
-  haltePosition(li,reduziert?0:DAUER+40);
+  /* Waehrend das eigene Panel auf- oder zuklappt, die Zeile festhalten.
+     Beim erzwungenen Scrollen (Info-Knopf) entfaellt das — sonst wuerden
+     Nachfuehrung und Zielscroll gegeneinander arbeiten. */
+  if(!scrollErzwingen)haltePosition(li,reduziert?0:DAUER+40);
 
-  /* Beim Oeffnen: liegt die Zeile ungünstig, sanft unter den Kopf holen.
-     Deaktiviert ueber AN.projektScroll. Die Positions-Stabilisierung
-     (haltePosition) bleibt davon unberuehrt — sonst kaeme der Sprung
-     beim Zuklappen zurueck. */
-  if(oeffnen && AN.projektScroll){
+  /* Beim Oeffnen die Zeile sanft unter den Kopf holen.
+     Fuer Projekte ueber AN.projektScroll abschaltbar; der Info-Knopf
+     oben rechts erzwingt es, weil sein Ziel ganz unten liegt und
+     sonst gar nichts sichtbar passieren wuerde. */
+  if(oeffnen && (AN.projektScroll || scrollErzwingen)){
     const oben=headerHoehe();
     const jetzt=li.getBoundingClientRect().top;
-    if(jetzt<oben-1||jetzt>innerHeight*0.55){
+    if(scrollErzwingen || jetzt<oben-1 || jetzt>innerHeight*0.55){
       setTimeout(()=>{
         haltenBeenden();
         scrollTo({top:li.getBoundingClientRect().top+scrollY-oben,
@@ -861,7 +886,7 @@ infoBtnRow.addEventListener("click",()=>umschalten(infoLi,infoBtnRow));
 ul.appendChild(infoLi);   /* Info steht als letzte Zeile im Index */
 /* Info oben rechts: oeffnet und schliesst ebenfalls */
 document.getElementById("infoBtn").addEventListener("click",()=>{
-  umschalten(infoLi,infoBtnRow);
+  umschalten(infoLi,infoBtnRow,null,true);   /* true = zum Info-Feld scrollen */
 });
 
 /* Filter über die roten Wörter in der Kopfzeile */
