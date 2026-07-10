@@ -1,17 +1,17 @@
 const B="images/projects/";
 
 const KAT={
-  de:{umbau:"umbau",neubau:"neubau",forschung:"forschung"},
-  en:{umbau:"renovation",neubau:"new build",forschung:"research"}
+  de:{umbau:"Umbau",neubau:"Neubau",forschung:"Forschung"},
+  en:{umbau:"Renovation",neubau:"New Build",forschung:"Research"}
 };
 
 const UI={
-  de:{alle:"alle",info:"Info",claim:"Praxis für",
+  de:{alle:"Alle",info:"Info",claim:"Praxis für",
       worte:["umbau","neubau","forschung","reparatur","bestand","weiterbauen","denkmalpflege","fabrikation","kontinuität","instandsetzung"],
-      banner:" büro für umbau, neubau und forschung ", orte:"münchen <i>●</i> bad honnef"},
-  en:{alle:"all",info:"Info",claim:"Practice for",
+      banner:" Praxis für Umbau, Neubau und Forschung ", orte:"München <i>●</i> Bad Honnef"},
+  en:{alle:"All",info:"Info",claim:"Practice for",
       worte:["transformation","new build","research","repair","the existing","heritage","fabrication","continuity","maintenance"],
-      banner:" studio for transformation, new build and research ", orte:"munich <i>●</i> bad honnef"}
+      banner:" Practice for Renovation, New Build and Research ", orte:"Munich <i>●</i> Bad Honnef"}
 };
 
 /* Meta-Schlüssel werden je Sprache beschriftet */
@@ -47,7 +47,7 @@ const P=[
   d:{de:"Eine fortlaufende Forschungs- und künstlerisch-aktivistische Auseinandersetzung mit der Waldfriedhofskapelle in Rhöndorf, einem feinen Beispiel sakraler Nachkriegsarchitektur. Die Arbeit dokumentiert den Bau, ordnet ihn baugeschichtlich ein und macht seinen kulturellen Wert öffentlich sichtbar. 2024 wurde ein Abrissantrag der Stadtverwaltung nach öffentlicher Besorgnis und erneuter Diskussion über die Bedeutung des Bauwerks zurückgezogen. Ein Beleg dafür, wie sorgfältige Vermittlung den Erhalt eines bedrohten Gebäudes mittragen kann.",
      en:"An ongoing research and artistic-activist engagement with the woodland cemetery chapel in Rhöndorf, a fine example of post-war sacred architecture. The work documents the building, situates it within architectural history and makes its cultural value publicly visible. In 2024 a demolition proposal by the municipality was withdrawn after public concern and renewed debate about the building's significance. Evidence of how careful advocacy can help preserve a threatened structure."},
   meta:{de:{Ort:"Rhöndorf",Jahr:"seit 2022",Typ:"Bauwerkserhaltung, Vermittlung",Status:"Instandgesetzt"},
-        en:{Place:"Rhöndorf",Year:"since 2022",Type:"Heritage, preservation",Status:"repaired"}},
+        en:{Place:"Rhöndorf",Year:"since 2022",Type:"Heritage, preservation",Status:"Repaired"}},
   pre:"Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.",
   imgs:["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg"]},
 
@@ -147,20 +147,20 @@ de:`
     <img class="portrait" loading="lazy" src="images/about/tizian-rein-portrait.jpg" alt="Porträt von Tizian Rein, Architekt und Doktorand" onerror="this.remove()">
     <p class="text">Tizian Rein (*1997 in Rhöndorf) studierte Architektur an der Technischen Universität München, der ETH Zürich und der Technischen Hochschule Köln. Nach seinem Bachelorabschluss und seiner Tätigkeit im Atelier Max &amp; Jakob Giese wandte er sich im Master-Studium technisch-forschenden Feldern zu, die computergestützte Prozesse mit Denkmalpflege verbinden. Diese Interessen verfolgte er zudem als wissenschaftliche Hilfskraft an der Professur für Digitale Fabrikation in München und bei Gramazio Kohler Research an der ETH Zürich. Seine Masterarbeit <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> (2025) untersucht, wie digitale Entwurfsprozesse Konzepte der Reparatur und Kontinuität aufgreifen können. Derzeit ist er Doktorand an der Professur für Digital Fabrication innerhalb des Munich Institute for Robotics and Machine Intelligence (MIRMI) sowie am MIT (USA). In seiner Arbeit erforscht er, wie computergestützte Methoden und KI tief in das Handwerk und die Erhaltung von Gebäuden eingebettet werden können. Parallel zu seiner Forschung arbeitet er in selbstständiger Praxis an der Weiterentwicklung und Reprogrammierung im Bestand.</p>
 
-    <h3>ausbildung</h3>
+    <h3>Ausbildung</h3>
     <ul class="cv">
       <li><span class="j">2022–2025</span><span class="w"><b>TU München, Architektur M.A.</b> — Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
       <li><span class="j">2023–2024</span><span class="w"><b>ETH Zürich, Architektur Masterstudiengang</b> — Stipendiat</span></li>
       <li><span class="j">2018–2021</span><span class="w"><b>TH Köln, Architektur B.A.</b></span></li>
     </ul>
 
-    <h3>mitgliedschaften</h3>
+    <h3>Mitgliedschaften</h3>
     <ul class="cv">
       <li><span class="j">seit 2026</span><span class="w"><b>Deutscher Werkbund</b> München</span></li>
       <li><span class="j">seit 2026</span><span class="w"><b>initiative.umbau</b> Köln</span></li>
     </ul>
 
-    <h3>erfahrung</h3>
+    <h3>Erfahrung</h3>
     <ul class="cv">
       <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter / Doktorand</b> — Professur für Digital Fabrication, TU München, im Munich Institute for Robotics and Machine Intelligence (MIRMI) und am MIT, USA</span></li>
       <li><span class="j">seit 2026</span><span class="w"><b>Junior-Architekt AKNW</b> — freischaffende planerische Tätigkeit in Bad Honnef und München</span></li>
@@ -172,7 +172,7 @@ de:`
       <li><span class="j">seit 2016</span><span class="w"><b>Selbstständige Tätigkeit</b> — 3D-Druck und Design</span></li>
     </ul>
 
-    <h3>publikationen / vorträge</h3>
+    <h3>Publikationen / Vorträge</h3>
     <ul class="cv">
       <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU München</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> — Masterthesis, TUM School of Engineering and Design, publiziert via mediaTUM</span></li>
@@ -183,25 +183,25 @@ de:`
       <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> — ISBN 978-3-00-071896-0</span></li>
     </ul>
 
-    <p class="kontakt"><a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · münchen / bad honnef</p>`,
+    <p class="kontakt"><a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · München / Bad Honnef</p>`,
 en:`
     <img class="portrait" loading="lazy" src="images/about/tizian-rein-portrait.jpg" alt="Porträt von Tizian Rein, Architekt und Doktorand" onerror="this.remove()">
     <p class="text">Tizian Rein (*1997 in Rhöndorf) studied architecture at the Technical University of Munich, ETH Zurich, and the University of Applied Sciences Cologne. After completing his bachelor's degree and working as a project assistant at Atelier Max &amp; Jakob Giese, he turned toward more technical and research-oriented fields that connect computational design with building heritage and preservation. He pursued these interests as a research assistant at the Professorship of Digital Fabrication in Munich and at Gramazio Kohler Research at ETH Zurich. His 2025 master's thesis <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> explores how digital design processes can engage with notions of repair and continuity. He is currently a doctoral researcher at the Professorship of Digital Fabrication within the Munich Institute for Robotics and Machine Intelligence (MIRMI) and MIT, USA. Through his work, he investigates how computational methods and artificial intelligence can be deeply embedded in the craft and preservation of buildings. Parallel to his research, he works independently on the transformation and reprogramming of the built environment.</p>
 
-    <h3>education</h3>
+    <h3>Education</h3>
     <ul class="cv">
       <li><span class="j">2022–2025</span><span class="w"><b>TU Munich, Architecture M.A.</b> — Mentorship Programme Computational Methods, graduated with high distinction</span></li>
       <li><span class="j">2023–2024</span><span class="w"><b>ETH Zurich, Architecture Master´s Program</b> — scholarship holder</span></li>
       <li><span class="j">2018–2021</span><span class="w"><b>TH Cologne, Architecture B.A.</b></span></li>
     </ul>
 
-    <h3>memberships</h3>
+    <h3>Memberships</h3>
     <ul class="cv">
       <li><span class="j">since 2026</span><span class="w"><b>Deutscher Werkbund</b> München</span></li>
       <li><span class="j">since 2026</span><span class="w"><b>initiative.umbau</b> Köln</span></li>
     </ul>
 
-    <h3>experience</h3>
+    <h3>Experience</h3>
     <ul class="cv">
       <li><span class="j">since 2026</span><span class="w"><b>Research associate / doctoral researcher</b> — Professorship of Digital Fabrication, TU Munich, within the Munich Institute for Robotics and Machine Intelligence (MIRMI) and at MIT, USA</span></li>
       <li><span class="j">since 2026</span><span class="w"><b>Junior architect AKNW</b> — independent planning practice in Bad Honnef and Munich</span></li>
@@ -213,7 +213,7 @@ en:`
       <li><span class="j">since 2016</span><span class="w"><b>Self-employed</b> — 3D printing and design</span></li>
     </ul>
 
-    <h3>publications / talks</h3>
+    <h3>Publications / Talks</h3>
     <ul class="cv">
       <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU Munich</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> — master's thesis, TUM School of Engineering and Design, published via mediaTUM</span></li>
@@ -224,5 +224,5 @@ en:`
       <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> — ISBN 978-3-00-071896-0</span></li>
     </ul>
 
-    <p class="kontakt"><a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · munich / bad honnef</p>`
+    <p class="kontakt"><a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · Munich / Bad Honnef</p>`
 };
