@@ -184,16 +184,15 @@
   }
   .slide:only-child{flex:0 0 auto}   /* auch allein: Hoehe bestimmt Breite */
   .slide img,.slide video{
-    width:auto;height:100%;max-width:none;display:block;background:#f7f7f7;
+    width:auto;height:100%;max-width:none;display:block;
     /* Hoehe fuellt die Slide -> alle Bilder gleich hoch, Breite variabel */
     opacity:1;
     transition:opacity .5s ease;        /* weiches Einblenden nach dem Laden */
   }
-  /* Solange das Bild laedt: unsichtbar auf ruhigem grauem Feld.
-     Nur opacity animieren (kein transform), damit es sich nicht mit dem
-     GPU-Layer der S/W-Bilder beisst. */
+  /* Solange das Bild laedt: unsichtbar; es blendet dann auf weissem
+     Grund weich ein. Nur opacity animieren (kein transform), damit es
+     sich nicht mit dem GPU-Layer der S/W-Bilder beisst. */
   .slide img.laedt{opacity:0}
-  .slide{background:#f2f2f2}            /* Platzhalterfarbe hinter dem Bild */
   @media (prefers-reduced-motion: reduce){
     .slide img,.slide video{transition:none}
   }
@@ -286,7 +285,7 @@
   .tag{display:inline-block;margin:10px 16px 16px;font-size:var(--txt);font-weight:400;color:var(--accent)}
 
   /* Abstand oben INNEN, damit er beim Zuklappen mitgestaucht wird */
-  .info-panel .portrait{width:100%;height:auto;display:block;margin:20px 0 14px;background:#f2f2f2}
+  .info-panel .portrait{width:100%;height:auto;display:block;margin:20px 0 14px}
   .info-panel .text{padding:0 16px}
   .info-panel h3{font-size:var(--txt);font-weight:400;font-style:italic;color:var(--accent);margin:34px 16px 10px}
   .info-panel ul.cv{list-style:none;margin:0 16px;max-width:80ch}
@@ -580,7 +579,7 @@ function makeSlider(p){
     const masse=wh ? ` width="${wh[0]}" height="${wh[1]}"` : "";
     s.innerHTML=`<img${masse} ${frueh?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" src="${B+p.pre+name}" alt="${TITEL(p)} — ${KAT[LANG][p.c]||p.c} von Tizian Rein, Bild ${j+1}">`;
     const im=s.querySelector("img");
-    im.classList.add("laedt");                      /* startet unsichtbar auf grauem Feld */
+    im.classList.add("laedt");                      /* startet unsichtbar, blendet dann ein */
     const fertig=()=>{
       im.classList.remove("laedt");                 /* weiches Einblenden per CSS */
       if(!wh && im.naturalWidth && im.naturalHeight) /* Rueckfall ohne hinterlegte Masse */
@@ -604,17 +603,25 @@ function makeSlider(p){
     if(x<0.33)        slideUm(slider,-1);
     else if(x>0.67)   slideUm(slider,1);
     else{
-      const vorhanden=[...slider.querySelectorAll(".slide img")].map(im=>im.currentSrc||im.src);
-      /* aktuell mittiges Bild als Startpunkt */
+      /* Klick aufs Video oeffnet KEINE Galerie — das Video hat eigene
+         Controls und laeuft direkt im Slider. Nur bei einem Bild in der
+         Mitte oeffnet sich die Vollbild-Ansicht. */
       const center=slider.scrollLeft+slider.clientWidth/2;
       const slides=[...slider.querySelectorAll(".slide")];
-      let start=0,bestDist=Infinity;
-      slides.forEach((sl,i)=>{
+      let mittig=null,bestDist=Infinity;
+      slides.forEach(sl=>{
         const mid=sl.offsetLeft+sl.offsetWidth/2;
         const d=Math.abs(mid-center);
-        if(d<bestDist){bestDist=d;start=i;}
+        if(d<bestDist){bestDist=d;mittig=sl;}
       });
-      gOeffne(vorhanden,Math.min(start,vorhanden.length-1),TITEL(p));
+      if(!mittig || mittig.querySelector("video")) return;   /* Video: nichts tun */
+
+      /* Galerie NUR aus den Bildern aufbauen (Videos ausgelassen), und den
+         Startindex auf das mittige Bild innerhalb dieser Bildliste setzen. */
+      const bildSlides=slides.filter(sl=>sl.querySelector("img"));
+      const vorhanden=bildSlides.map(sl=>{const im=sl.querySelector("img");return im.currentSrc||im.src;});
+      const start=Math.max(0, bildSlides.indexOf(mittig));
+      gOeffne(vorhanden,start,TITEL(p));
     }
   });
   /* Farbe beim Wischen/Ziehen (Touch): Klasse setzen, kurz nachwirken lassen */
@@ -765,10 +772,9 @@ function umschalten(li,btn,aufbauen){
   }
 
   li.classList.add("wechselt");
-  let panelHoehe=0;
   if(oeffnen){
     li.classList.add("open");
-    panelHoehe=huelleAuf(li);
+    huelleAuf(li);
   }else{
     huelleZu(li);
     li.classList.remove("open");
@@ -783,32 +789,16 @@ function umschalten(li,btn,aufbauen){
      Titel direkt unter der Kopfzeile andockt (oben links). Immer gleich,
      egal wo die Zeile vorher stand. Keine konkurrierende Nachfuehrung. */
   if(oeffnen && AN.projektScroll){
-    /* Ziel: den Titel der angeklickten Zeile ganz nach oben holen.
-
-       Zwei Fallstricke, die beide hier geloest werden:
-       1) Das eigene Panel waechst nach unten -> die Seite wird laenger.
-          Ohne genug Auslauf reicht die Scrollmasse nicht, und OBERE
-          Zeilen bleiben ein Stueck unter dem Rand haengen ("Rest vom
-          Titel darueber sichtbar").
-       2) Fuer UNTERE Zeilen fehlt am Seitenende schlicht der Platz, um
-          sie bis nach oben zu schieben -> es "rutscht gar nicht".
-
-       Loesung: den noetigen Auslauf SYNCHRON setzen (nicht im rAF, sonst
-       kappt der Browser das Scrollziel an der alten Seitenhoehe), dann
-       erst weich scrollen. */
+    /* Den Titel der angeklickten Zeile nach ganz oben holen.
+       Damit auch die UNTERSTEN Zeilen bis nach oben geschoben werden
+       koennen, geben wir unter der Liste eine volle Fensterhoehe Auslauf.
+       Der Auslauf muss nur die ZEILE nach oben lassen (das Panel liegt
+       darunter) — eine Fensterhoehe genuegt daher immer. Er wird SYNCHRON
+       gesetzt, sonst kappt der Browser das Scrollziel an der alten Hoehe. */
     const rand=12;
-    const ziel=Math.max(0, li.getBoundingClientRect().top+scrollY-rand);
     const auslauf=document.getElementById("auslauf");
-    if(auslauf){
-      /* Die Seite ist nach dem Aufklappen so hoch wie: aktuelle Hoehe
-         plus die volle Panel-Endhoehe (die Animation laeuft noch, das
-         Layout kennt sie aber schon via panelHoehe). Der Auslauf muss
-         garantieren, dass die Zielposition erreichbar ist. */
-      const seiteEnde=document.documentElement.scrollHeight+panelHoehe;
-      const maxScroll=seiteEnde-innerHeight;
-      const fehlt=ziel-maxScroll;
-      auslauf.style.height=Math.max(0,fehlt)+"px";
-    }
+    if(auslauf)auslauf.style.height=innerHeight+"px";
+    const ziel=Math.max(0, li.getBoundingClientRect().top+scrollY-rand);
     scrollTo({top:ziel,behavior:reduziert?"auto":"smooth"});
   }
 
