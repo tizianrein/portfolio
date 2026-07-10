@@ -596,29 +596,29 @@ function makeSlider(p){
   /* Klickzonen über das GESAMTE Sliderfeld (nicht pro Bild) */
   slider.addEventListener("click",e=>{
     if(slider.dataset.gezogen==="1")return;          /* echtes Wischen ist kein Klick */
-    const r=slider.getBoundingClientRect();
+
+    /* Welches Slide wurde tatsaechlich getroffen? */
+    const getroffen=e.target.closest(".slide");
+
+    /* Klick auf ein Video: nichts tun. Es hat eigene Controls und soll
+       weder blaettern noch die Galerie oeffnen. */
+    if(getroffen && getroffen.querySelector("video")) return;
+
+    /* Zonen NUR innerhalb des getroffenen Slides auswerten, nicht ueber
+       das ganze Sliderfeld — sonst zaehlt ein Klick auf ein breites Bild
+       faelschlich als "rechts/links" und blaettert weg. */
+    const bezug=getroffen||slider;
+    const r=bezug.getBoundingClientRect();
     const x=(e.clientX-r.left)/r.width;
     if(x<0.33)        slideUm(slider,-1);
     else if(x>0.67)   slideUm(slider,1);
     else{
-      /* Klick aufs Video oeffnet KEINE Galerie — das Video hat eigene
-         Controls und laeuft direkt im Slider. Nur bei einem Bild in der
-         Mitte oeffnet sich die Vollbild-Ansicht. */
-      const center=slider.scrollLeft+slider.clientWidth/2;
+      /* Mitte eines BILDES -> Vollbild-Galerie (nur Bilder, Videos aus). */
       const slides=[...slider.querySelectorAll(".slide")];
-      let mittig=null,bestDist=Infinity;
-      slides.forEach(sl=>{
-        const mid=sl.offsetLeft+sl.offsetWidth/2;
-        const d=Math.abs(mid-center);
-        if(d<bestDist){bestDist=d;mittig=sl;}
-      });
-      if(!mittig || mittig.querySelector("video")) return;   /* Video: nichts tun */
-
-      /* Galerie NUR aus den Bildern aufbauen (Videos ausgelassen), und den
-         Startindex auf das mittige Bild innerhalb dieser Bildliste setzen. */
       const bildSlides=slides.filter(sl=>sl.querySelector("img"));
+      if(!bildSlides.length)return;
+      const start=getroffen ? Math.max(0,bildSlides.indexOf(getroffen)) : 0;
       const vorhanden=bildSlides.map(sl=>{const im=sl.querySelector("img");return im.currentSrc||im.src;});
-      const start=Math.max(0, bildSlides.indexOf(mittig));
       gOeffne(vorhanden,start,TITEL(p));
     }
   });
