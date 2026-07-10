@@ -178,7 +178,10 @@
   .slider::-webkit-scrollbar{display:none}
   .slide{flex:0 0 86%;scroll-snap-align:center}
   .slide:only-child{flex-basis:100%}
-  .slide img,.slide video{width:100%;height:auto;display:block;background:#f7f7f7;min-height:120px}
+  .slide img,.slide video{
+    width:100%;height:auto;display:block;background:#f7f7f7;
+    aspect-ratio:3 / 2;                 /* reserviert Platz, verhindert Springen */
+  }
 
   /* Inline-Slider: Bilder zunaechst schwarzweiss, Farbe erst bei
      Beruehrung. Gilt NICHT fuer die Vollbild-Galerie (#gImg).
@@ -187,6 +190,11 @@
   .sw-galerie .slider .slide img,.sw-galerie .slider .slide video{
     filter:grayscale(1);
     transition:filter .35s ease;
+    /* eigener Compositing-Layer: der Filter wird sonst bei jedem
+       Repaint neu berechnet -> Ruckeln beim Wischen.
+       translateZ statt will-change: will-change haelt den Layer
+       dauerhaft im Speicher, bei 80+ Bildern zu teuer. */
+    transform:translateZ(0);
   }
   /* Maus: nur das ueberfahrene Bild */
   @media (hover:hover){
@@ -216,13 +224,26 @@
   }
   .galerie-head .g-close{
     width:clamp(56px,12vw,80px);height:clamp(56px,12vw,80px);flex:0 0 auto;
-    display:flex;align-items:center;justify-content:center;
-    font-size:clamp(34px,7vw,48px);font-weight:300;
+    position:relative;                       /* Bezug fuer das Kreuz */
     background:var(--paper);color:var(--ink);
     border:1px solid var(--ink);border-radius:999px;
     cursor:pointer;padding:0;pointer-events:auto;
   }
-  .galerie-head .g-close span{display:block;line-height:1;transform:translateY(-2px)}
+  /* Kreuz aus zwei Linien statt des Zeichens "×": ein Glyph sitzt nie
+     exakt in der Mitte seiner Zeilenbox, zwei zentrierte Linien schon. */
+  .galerie-head .g-close span{
+    position:absolute;top:50%;left:50%;
+    width:38%;height:1px;                    /* Laenge des Kreuzes */
+    background:currentColor;
+    transform:translate(-50%,-50%) rotate(45deg);
+    display:block;
+  }
+  /* zweite Linie: erbt die 45deg des Elternteils, +90deg => 135deg */
+  .galerie-head .g-close span::after{
+    content:"";position:absolute;inset:0;
+    background:currentColor;
+    transform:rotate(90deg);
+  }
   .galerie-head .g-close:active{background:var(--accent);border-color:var(--accent);color:#fff}
   .galerie-bild{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:0;touch-action:pan-y}
   .galerie-bild img{max-width:100%;max-height:100%;object-fit:contain;display:block;transition:opacity .22s ease;filter:none}
@@ -263,7 +284,7 @@
   .info-panel .kontakt a{border-bottom:1px solid var(--accent);font-weight:400}
 
   .marquee{overflow:hidden;border-top:1px solid var(--ink);padding:10px 0;background:var(--paper);position:sticky;bottom:0;z-index:3}
-  .marquee-track{display:inline-block;white-space:nowrap;font-size:var(--txt);font-weight:400;animation:roll 26s linear infinite}
+  .marquee-track{display:inline-block;white-space:nowrap;font-size:var(--txt);font-weight:400;animation:roll 50s linear infinite}
   .marquee:hover .marquee-track{animation-play-state:paused}
   @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
   @media (prefers-reduced-motion: reduce){.marquee-track{animation:none}html{scroll-behavior:auto}}
@@ -361,7 +382,7 @@
 <div class="galerie" id="galerie" role="dialog" aria-modal="true" aria-label="Bildgalerie">
   <div class="galerie-head">
     <span class="g-titel" id="gTitel"></span>
-    <button class="g-close" id="gClose" aria-label="Schließen"><span>×</span></button>
+    <button class="g-close" id="gClose" aria-label="Schließen"><span aria-hidden="true"></span></button>
   </div>
   <div class="galerie-bild" id="gBild">
     <button class="g-zone links" id="gLinks" aria-label="Vorheriges Bild"></button>
@@ -424,7 +445,9 @@ function vYbegrenzt(y){
 function vZeige(src,x,y){
   if(!mitMaus)return;
   if(!vErlaubt(x)){vWeg();return;}           /* linke Haelfte: nichts zeigen  */
-  vorschau.src=src;
+  /* Quelle nur wechseln, wenn sie sich wirklich aendert: ein erneutes
+     Setzen von .src verwirft den Dekodier-Zustand und flackert. */
+  if(!vorschau.src.endsWith(src))vorschau.src=src;
   const setzen=()=>{
     vorschau.style.left=vXbegrenzt(x)+"px";
     vorschau.style.top =vYbegrenzt(y)+"px";
@@ -529,12 +552,15 @@ function makeSlider(p){
   p.imgs.forEach((name,j)=>{
     const s=document.createElement("div");
     s.className="slide";
-    s.innerHTML=`<img loading="lazy" decoding="async" src="${B+p.pre+name}" alt="${TITEL(p)} — ${KAT[LANG][p.c]||p.c} von Tizian Rein, Bild ${j+1}" onerror="this.closest('.slide').remove()">`;
+    /* Die ersten Bilder sofort laden (sie sind beim Aufklappen sichtbar
+       bzw. gleich rechts daneben), den Rest lazy. Sonst entstehen beim
+       Wischen weisse Luecken, weil "lazy" erst am Viewport-Rand greift. */
+    const frueh=j<3;
+    s.innerHTML=`<img ${frueh?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" src="${B+p.pre+name}" alt="${TITEL(p)} — ${KAT[LANG][p.c]||p.c} von Tizian Rein, Bild ${j+1}" onerror="this.closest('.slide').remove()">`;
     const im=s.querySelector("img");
     im.addEventListener("load",()=>{
       if(im.naturalWidth&&im.naturalHeight){
         im.style.aspectRatio=im.naturalWidth+" / "+im.naturalHeight;
-        im.style.minHeight="0";
       }
     },{once:true});
     slider.appendChild(s);
@@ -603,17 +629,37 @@ function makeSlider(p){
     counter.className="counter";
     counter.textContent=`01 / ${String(total).padStart(2,"0")}`;
     wrap.appendChild(counter);
+
+    /* Der Scroll-Handler liest Layout-Werte (offsetLeft). Ungedrosselt
+       laeuft er bei jedem Scroll-Event und erzwingt Reflows -> Ruckeln.
+       Deshalb hoechstens einmal pro Frame ausfuehren. */
+    let angefordert=false;
     slider.addEventListener("scroll",()=>{
-      const slides=[...slider.querySelectorAll(".slide")];
-      if(!slides.length)return;
-      const center=slider.scrollLeft+slider.clientWidth/2;
-      let best=0,bestDist=Infinity;
-      slides.forEach((s,i)=>{
-        const mid=s.offsetLeft+s.offsetWidth/2;
-        const d=Math.abs(mid-center);
-        if(d<bestDist){bestDist=d;best=i;}
+      if(angefordert)return;
+      angefordert=true;
+      requestAnimationFrame(()=>{
+        angefordert=false;
+        const slides=[...slider.querySelectorAll(".slide")];
+        if(!slides.length)return;
+        const center=slider.scrollLeft+slider.clientWidth/2;
+        let best=0,bestDist=Infinity;
+        slides.forEach((s,i)=>{
+          const mid=s.offsetLeft+s.offsetWidth/2;
+          const d=Math.abs(mid-center);
+          if(d<bestDist){bestDist=d;best=i;}
+        });
+        counter.textContent=`${String(best+1).padStart(2,"0")} / ${String(slides.length).padStart(2,"0")}`;
+        /* Nachbarn vorab anfordern, damit beim Weiterwischen nichts fehlt.
+           loading="eager" startet den Ladevorgang laut Spec sofort; das
+           Image()-Objekt waermt zusaetzlich den Cache. */
+        [best+1,best+2].forEach(i=>{
+          const im=slides[i]&&slides[i].querySelector("img");
+          if(im&&im.loading==="lazy"){
+            im.loading="eager";
+            const v=new Image(); v.src=im.src;
+          }
+        });
       });
-      counter.textContent=`${String(best+1).padStart(2,"0")} / ${String(slides.length).padStart(2,"0")}`;
     },{passive:true});
   }
   return wrap;
