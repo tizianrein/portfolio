@@ -74,53 +74,48 @@
   header{padding:20px 16px 0px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
   .logo{font-weight:400;font-size:26px;letter-spacing:-.01em;line-height:1}
   .logo span{color:var(--accent)}
-  .info-link{
-    font-size:13px;font-weight:400;text-transform:lowercase;
-    background:transparent;color:var(--ink);cursor:pointer;
-    border:1px solid var(--ink);border-radius:999px;
-    padding:6px 15px;
+  .claim{font-size:15px;color:var(--ink);font-weight:400}
+  .logo-zeile{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .claim .schraeg{color:var(--ink);padding-right:2px}
+  .fwort{
+    background:none;border:0;padding:0;cursor:pointer;
+    font-family:inherit;font-size:inherit;
+    color:var(--accent);text-transform:capitalize;
   }
-  .info-link:active{background:var(--accent);border-color:var(--accent);color:#fff}
-  .header-rechts{display:flex;align-items:center;gap:8px}
-  .lang-toggle{
-    white-space: nowrap;
-    font-size:13px;font-weight:400;text-transform:uppercase;letter-spacing:.02em;
-    background:transparent;color:var(--ink);cursor:pointer;
-    border:1px solid var(--ink);border-radius:999px;
-    padding:6px 14px;
+  .fwort:hover{font-style:italic}
+  .fwort.an{font-style:italic;border-bottom:1px solid var(--accent)}
+  .fwort:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+  .lang-mini{
+    background:none;border:0;padding:0;cursor:pointer;
+    font-family:inherit;font-size:inherit;color:#999;
   }
-  .lang-toggle:active{background:var(--accent);border-color:var(--accent);color:#fff}
-  .lang-toggle .akt{color:var(--accent)}
-  .lang-toggle .inakt{color:#999}
+  .lang-mini .akt{color:var(--accent)}
+  .lang-mini:hover .inakt{color:var(--ink)}
 
-  .claim{font-size:13px;color:#666;font-weight:400}
-  .logo-zeile{display:flex;align-items:baseline;gap:4px;flex-wrap:wrap}
-  .claim .punkt{color:var(--accent);font-weight:700}
-  .claim b{font-weight:400}
-  .claim em{font-style:italic;color:var(--accent);font-weight:400}
-  .claim b{color:var(--ink);font-weight:400}
-  #wort{color:var(--accent);font-weight:400;font-style:italic}
+  ul.index{list-style:none;position:relative;z-index:1;padding:12px 0 8px}
+  header{position:relative;z-index:2}
+  footer.imprint{position:relative;z-index:2}
 
-  nav.filter{display:flex;gap:8px;flex-wrap:wrap;padding:14px 16px 14px;border-bottom:1px solid var(--ink)}  .chip{font-size:13px;font-weight:400;text-transform:lowercase;padding:5px 12px;border:1px solid var(--ink);border-radius:999px;background:transparent;color:var(--ink);cursor:pointer}
-  .chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
-  .chip:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-
-  ul.index{list-style:none}
-  li.proj{border-bottom:1px solid var(--ink)}
+  /* Schwebende S/W-Vorschau: folgt der Maus, liegt hinter den Titeln */
+  .vorschau{
+    position:fixed;left:0;top:0;z-index:0;
+    width:clamp(240px,28vw,420px);height:auto;
+    transform:translate(-50%,-55%) rotate(var(--deg,-1.5deg));
+    filter:grayscale(1);
+    pointer-events:none;
+    opacity:0;transition:opacity .3s ease;
+  }
+  .vorschau.an{opacity:1}
+  li.proj{border-bottom:0}
   li.proj:last-child{border-bottom:0}
   li.proj.hidden{display:none}
-  .row{width:100%;text-align:left;background:none;border:0;cursor:pointer;color:inherit;padding:14px 16px;display:flex;align-items:baseline;gap:10px}
+  .row{width:100%;text-align:left;background:none;border:0;cursor:pointer;color:inherit;padding:2px 16px;display:flex;align-items:baseline;gap:12px}
   .row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-  .num{font-size:12px;font-weight:400;color:var(--accent);min-width:34px;font-variant-numeric:tabular-nums;align-self:flex-start;margin-top:.55em}
-  .title{flex:1;font-weight:400;font-size:clamp(24px,7.2vw,44px);line-height:1.06;letter-spacing:-.01em;text-transform:lowercase}
+  .num{font-size:11px;font-weight:400;color:var(--accent);min-width:34px;font-variant-numeric:tabular-nums;align-self:flex-start;margin-top:.85em}
+  .title{flex:1;font-weight:400;font-size:clamp(30px,6vw,64px);line-height:1.14;letter-spacing:-.01em}
   .year{font-size:12px;color:#999;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .chev{
-    flex:0 0 auto;width:22px;height:22px;color:#999;
-    transition:transform .3s ease;
-  }
-  li.proj.open .chev{transform:rotate(180deg);color:var(--accent)}
-  .row:active .chev{color:var(--accent)}
-  li.proj.open .title,.row:active .title{color:var(--accent)}
+  .chev{display:none}
+  li.proj.open .title,.row:active .title{color:var(--accent);font-style:italic}
 
   .panel{display:none;padding:0 0 22px}
   li.proj.open .panel{display:block}
@@ -149,7 +144,7 @@
     padding:18px 18px;pointer-events:none;
   }
   .galerie-head .g-titel{
-    font-size:clamp(28px,6vw,52px);font-weight:400;text-transform:lowercase;
+    font-size:clamp(28px,6vw,52px);font-weight:400;
     letter-spacing:-.01em;line-height:1;padding-right:14px;
     color:var(--ink);
   }
@@ -200,7 +195,7 @@
   .info-panel .kontakt{margin:24px 16px 0;font-size:14px}
   .info-panel .kontakt a{border-bottom:1px solid var(--accent);font-weight:400}
 
-  .marquee{overflow:hidden;border-top:1px solid var(--ink);padding:10px 0;background:var(--paper);position:sticky;bottom:0}
+  .marquee{overflow:hidden;border-top:1px solid var(--ink);padding:10px 0;background:var(--paper);position:sticky;bottom:0;z-index:2}
   .marquee-track{display:inline-block;white-space:nowrap;font-size:13px;font-weight:400;text-transform:lowercase;animation:roll 26s linear infinite}
   .marquee:hover .marquee-track{animation-play-state:paused}
   @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -215,13 +210,11 @@
     /* volle Breite — keine zentrierte Spalte mehr */
     header{padding:28px 40px 8px}
     .logo{font-size:32px}
-    .claim{font-size:14px}
-    nav.filter{padding:12px 40px 22px;gap:10px}
-    .chip{font-size:14px;padding:6px 14px}
+    .claim{font-size:17px}
 
-    .row{padding:18px 40px;gap:16px;align-items:baseline}
-    .num{font-size:14px;min-width:44px}
-    .title{font-size:clamp(34px,4.6vw,60px)}
+    .row{padding:2px 40px;gap:18px;align-items:baseline}
+    .num{font-size:12px;min-width:44px}
+    .title{font-size:clamp(34px,6vw,72px)}
     .year{font-size:13px}
 
     .panel{padding:0 0 30px}
@@ -254,7 +247,7 @@
     .slide{height:64vh}
   }
   @media (hover:hover){
-    .row:hover .title{color:var(--accent)}
+    .row:hover .title{color:var(--accent);font-style:italic}
   }
 </style>
 </head>
@@ -263,22 +256,12 @@
 <header>
   <div class="logo-zeile">
     <a class="logo" href="index.html">Tizian Rein</a>
-    <span class="claim"><span class="punkt">.</span> <b id="claimText">büro für</b> <em id="wort">umbau</em></span>
-  </div>
-  <div class="header-rechts">
-    <button class="lang-toggle" id="langBtn" aria-label="Sprache wechseln"><span class="akt" id="langAkt">DE</span> <span class="inakt" id="langInakt">EN</span></button>
-    <button class="info-link" id="infoBtn">info</button>
+    <span class="claim"><span class="schraeg">/</span> <span id="claimText">Praxis für</span> <button class="fwort" data-f="umbau">Umbau</button>, <button class="fwort" data-f="neubau">Neubau</button>, <button class="fwort" data-f="forschung">Forschung</button></span>
   </div>
 </header>
 
-<nav class="filter" aria-label="Projektfilter">
-  <button class="chip" aria-pressed="true" data-f="alle"><span class="lbl" data-k="alle">alle</span></button>
-  <button class="chip" aria-pressed="false" data-f="umbau"><span class="lbl" data-k="umbau">umbau</span></button>
-  <button class="chip" aria-pressed="false" data-f="neubau"><span class="lbl" data-k="neubau">neubau</span></button>
-  <button class="chip" aria-pressed="false" data-f="forschung"><span class="lbl" data-k="forschung">forschung</span></button>
-</nav>
-
 <ul class="index" id="index"></ul>
+<img class="vorschau" id="vorschau" src="" alt="" aria-hidden="true">
 
 <div class="galerie" id="galerie" role="dialog" aria-modal="true" aria-label="Bildgalerie">
   <div class="galerie-head">
@@ -295,11 +278,31 @@
 
 <div class="marquee" aria-hidden="true"><div class="marquee-inner"><div class="marquee-track" id="mq"></div></div></div>
 
-<footer class="imprint">© 2026 Tizian Rein · München / Bad Honnef · <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a></footer>
+<footer class="imprint">© 2026 Tizian Rein · München / Bad Honnef · <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · <button class="lang-mini" id="langBtn" aria-label="Sprache wechseln"><span class="akt" id="langAkt">DE</span> / <span class="inakt" id="langInakt">EN</span></button></footer>
 
 <script src="projekte.js"></script>
 <script>
 const ul=document.getElementById("index");
+
+/* ===== S/W-Vorschau (nur Geräte mit Maus): erscheint an der Mausposition,
+   verschwindet nach kurzer Zeit von selbst ===== */
+const vorschau=document.getElementById("vorschau");
+const mitMaus=window.matchMedia("(hover:hover) and (pointer:fine)").matches
+           && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+let vTimer=null,vpx=0,vpy=0;
+function vZeige(src,x,y){
+  if(!mitMaus)return;
+  vorschau.src=src;
+  vorschau.style.left=x+"px";
+  vorschau.style.top=y+"px";
+  vorschau.style.setProperty("--deg",(Math.random()*7-3.5).toFixed(1)+"deg");
+  vpx=x;vpy=y;
+  vorschau.classList.add("an");
+  clearTimeout(vTimer);
+  vTimer=setTimeout(vWeg,1000);   /* nach 1 s wieder ausblenden */
+}
+function vWeg(){clearTimeout(vTimer);vorschau.classList.remove("an");}
+
 
 /* ===== Sprache ===== */
 let LANG="de";
@@ -478,6 +481,18 @@ P.forEach(p=>{
   const btn=li.querySelector(".row");
   const panel=li.querySelector(".panel");
   const titleEl=li.querySelector(".title");
+  /* S/W-Vorschau beim Überfahren der Zeile */
+  if(p.imgs&&p.imgs.length){
+    const quelle=()=>B+p.pre+p.imgs[0];
+    btn.addEventListener("mouseenter",e=>{
+      if(!li.classList.contains("open"))vZeige(quelle(),e.clientX,e.clientY);
+    });
+    btn.addEventListener("mousemove",e=>{
+      if(li.classList.contains("open"))return;
+      if(Math.hypot(e.clientX-vpx,e.clientY-vpy)>150)vZeige(quelle(),e.clientX,e.clientY);
+    });
+    btn.addEventListener("mouseleave",vWeg);
+  }
   let txtEl=null,metaEl=null;
   let built=false;
   function metaHTML(){
@@ -486,9 +501,11 @@ P.forEach(p=>{
       `<div class="meta-zeile"><dt>${k}</dt><dd>${v}</dd></div>`).join("");
   }
   btn.addEventListener("click",()=>{
+    vWeg();                                       /* Vorschau weicht dem Projekt */
     const wirdGeoeffnet=!li.classList.contains("open");
     li.classList.toggle("open",wirdGeoeffnet);
     btn.setAttribute("aria-expanded",wirdGeoeffnet);
+    if(wirdGeoeffnet)vWeg();
     if(wirdGeoeffnet&&!built){
       built=true;
       const kopf=document.createElement("div");
@@ -519,27 +536,31 @@ infoLi.innerHTML=`
   </button>
   <div class="panel info-panel" id="infoPanel">${INFO_HTML[LANG]}</div>`;
 const infoBtnRow=infoLi.querySelector(".row");
+infoBtnRow.addEventListener("mouseenter",e=>{
+  if(!infoLi.classList.contains("open"))vZeige("images/about/tizian-rein-portrait.jpg",e.clientX,e.clientY);
+});
+infoBtnRow.addEventListener("mouseleave",vWeg);
 infoBtnRow.addEventListener("click",()=>{
+  vWeg();
   const wirdGeoeffnet=!infoLi.classList.contains("open");
   infoLi.classList.toggle("open",wirdGeoeffnet);
   infoBtnRow.setAttribute("aria-expanded",wirdGeoeffnet);
 });
-ul.appendChild(infoLi);
-document.getElementById("infoBtn").addEventListener("click",()=>{
-  if(!infoLi.classList.contains("open"))infoBtnRow.click();
-  infoLi.scrollIntoView({block:"start"});
-});
+ul.appendChild(infoLi);   /* Info steht als letzte Zeile im Index */
 
-/* Filter */
-document.querySelectorAll(".chip").forEach(ch=>{
-  ch.addEventListener("click",()=>{
-    document.querySelectorAll(".chip").forEach(c=>c.setAttribute("aria-pressed","false"));
-    ch.setAttribute("aria-pressed","true");
-    const f=ch.dataset.f;
-    document.querySelectorAll(".proj").forEach(li=>{
-      const c=li.dataset.c;
-      li.classList.toggle("hidden", f!=="alle" && c!==f && c!=="alle");
-    });
+/* Filter über die roten Wörter in der Kopfzeile */
+let filterAktiv="alle";
+function filterAnwenden(){
+  document.querySelectorAll(".fwort").forEach(w=>w.classList.toggle("an",w.dataset.f===filterAktiv));
+  document.querySelectorAll(".proj").forEach(li=>{
+    const c=li.dataset.c;
+    li.classList.toggle("hidden", filterAktiv!=="alle" && c!==filterAktiv && c!=="alle");
+  });
+}
+document.querySelectorAll(".fwort").forEach(w=>{
+  w.addEventListener("click",()=>{
+    filterAktiv = (filterAktiv===w.dataset.f) ? "alle" : w.dataset.f;   /* zweiter Klick hebt den Filter auf */
+    filterAnwenden();
   });
 });
 
@@ -550,19 +571,16 @@ function applyLang(){
   document.getElementById("claimText").textContent=u.claim;
   document.getElementById("langAkt").textContent=LANG.toUpperCase();
   document.getElementById("langInakt").textContent=(LANG==="de"?"EN":"DE");
-  document.getElementById("infoBtn").textContent=u.info;
   document.getElementById("infoTitel").textContent=u.info;
-  /* Filter-Labels */
-  document.querySelectorAll(".chip .lbl").forEach(s=>{
-    const k=s.dataset.k;
-    s.textContent = k==="alle" ? u.alle : KAT[LANG][k];
+  /* Kategorienwörter in der Kopfzeile */
+  document.querySelectorAll(".fwort").forEach(w=>{
+    w.textContent=KAT[LANG][w.dataset.f];
   });
   /* Projekt-Titel & offene Texte */
   zeilen.forEach(fn=>fn());
   /* Info-Panel neu setzen */
   document.getElementById("infoPanel").innerHTML=INFO_HTML[LANG];
-  /* Wortrotation & Banner neu */
-  worte=u.worte;wi=0;wortEl.textContent=worte[0];
+  /* Banner neu */
   document.getElementById("mq").innerHTML=`${u.banner}<i>●</i> ${u.orte} <i>●</i> <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> <i>●</i> `.repeat(6);
 }
 
@@ -571,14 +589,6 @@ document.getElementById("langBtn").addEventListener("click",()=>{
   try{localStorage.setItem("tr_lang",LANG);}catch(e){}
   applyLang();
 });
-
-/* Rotierendes Wort */
-let worte=UI[LANG].worte;
-let wi=0;
-const wortEl=document.getElementById("wort");
-if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches){
-  setInterval(()=>{wi=(wi+1)%worte.length;wortEl.textContent=worte[wi];},1800);
-}
 
 applyLang();
 </script>
