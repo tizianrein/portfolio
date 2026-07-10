@@ -64,10 +64,10 @@
 <style>
   :root{--ink:#101010;--paper:#fff;--accent:#d40000;--txt:15px}
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;background:var(--paper)}
   html{scrollbar-width:none;-ms-overflow-style:none}
   html::-webkit-scrollbar{display:none}
-  body{font-family:"Times New Roman",Times,serif;background:var(--paper);color:var(--ink);font-size:var(--txt);line-height:1.45;-webkit-font-smoothing:antialiased}
+  body{font-family:"Times New Roman",Times,serif;background:transparent;color:var(--ink);font-size:var(--txt);line-height:1.45;-webkit-font-smoothing:antialiased}
   a{color:inherit;text-decoration:none}
   button{font-family:inherit}
 
@@ -100,12 +100,14 @@
   .lang-mini:hover .inakt{color:var(--ink)}
   .lang-mini:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
-  ul.index{list-style:none;position:relative;z-index:1;padding:44px 0 40px}
-  header{position:relative;z-index:2}
+  ul.index{list-style:none;position:relative;padding:44px 0 40px}
+  header{position:relative;z-index:3}
 
-  /* Schwebende S/W-Vorschau: folgt der Maus, liegt hinter den Titeln */
+  /* Schwebende S/W-Vorschau: folgt der Maus, liegt hinter den Titeln.
+     z-index bewusst negativ: so bleibt sie hinter Kopfzeile und
+     Laufband, ohne dass diese einen eigenen Hintergrund brauchen. */
   .vorschau{
-    position:fixed;left:0;top:0;z-index:0;
+    position:fixed;left:0;top:0;z-index:-1;
     width:clamp(240px,28vw,420px);height:auto;
     transform:translate(-50%,-55%) rotate(var(--deg,-1.5deg));
     filter:grayscale(1);
@@ -126,10 +128,42 @@
   .title{flex:1;min-width:0;font-weight:400;font-size:clamp(34px,6vw,64px);line-height:1.12;letter-spacing:-.01em}
   .year{font-size:var(--txt);color:#999;font-variant-numeric:tabular-nums;white-space:nowrap}
   .chev{display:none}
+  .title{transition:color .2s ease}
   li.proj.open .title,.row:active .title{color:var(--accent);font-style:italic}
 
-  .panel{display:none;padding:0 0 28px}
-  li.proj.open .panel{display:block}
+  /* Auf-/Zuklappen ueber max-height. Bewusst KEIN Grid-Trick:
+     die Huelle bleibt ein einfacher Block, damit der Bild-Slider
+     und das Datenblatt darin ihr normales Layout behalten. */
+  .huelle{
+    max-height:0;
+    overflow:hidden;
+    opacity:0;
+    visibility:hidden;
+    transition:max-height .42s cubic-bezier(.22,.61,.36,1),
+               opacity .28s ease,
+               visibility 0s linear .42s;
+  }
+  li.proj.open .huelle{
+    /* max-height wird per JS auf die gemessene Hoehe gesetzt */
+    opacity:1;
+    visibility:visible;
+    transition:max-height .42s cubic-bezier(.22,.61,.36,1),
+               opacity .28s ease,
+               visibility 0s;
+  }
+  /* nach der Animation Begrenzung loesen: Slider darf frei scrollen,
+     Bilder duerfen ihre volle Hoehe einnehmen */
+  li.proj.open:not(.wechselt) .huelle{overflow:visible;max-height:none}
+  .panel{padding:0 0 28px}
+  /* Inhalt gleitet sanft nach */
+  .huelle > .panel{
+    transform:translateY(-8px);
+    transition:transform .42s cubic-bezier(.22,.61,.36,1);
+  }
+  li.proj.open .huelle > .panel{transform:none}
+  @media (prefers-reduced-motion: reduce){
+    .huelle,.huelle > .panel{transition:none}
+  }
 
   .slider-wrap{position:relative;margin-bottom:12px}
   .slider{
@@ -145,6 +179,27 @@
   .slide{flex:0 0 86%;scroll-snap-align:center}
   .slide:only-child{flex-basis:100%}
   .slide img,.slide video{width:100%;height:auto;display:block;background:#f7f7f7;min-height:120px}
+
+  /* Inline-Slider: Bilder zunaechst schwarzweiss, Farbe erst bei
+     Beruehrung. Gilt NICHT fuer die Vollbild-Galerie (#gImg).
+     Nur aktiv, wenn <html> die Klasse .sw-galerie traegt —
+     gesteuert ueber AN.galerieSW im Skript. */
+  .sw-galerie .slider .slide img,.sw-galerie .slider .slide video{
+    filter:grayscale(1);
+    transition:filter .35s ease;
+  }
+  /* Maus: nur das ueberfahrene Bild */
+  @media (hover:hover){
+    .sw-galerie .slider .slide:hover img,
+    .sw-galerie .slider .slide:hover video{filter:grayscale(0)}
+  }
+  /* Wischen/Ziehen: alle Bilder des Sliders faerben sich */
+  .sw-galerie .slider.beruehrt .slide img,
+  .sw-galerie .slider.beruehrt .slide video{filter:grayscale(0)}
+  @media (prefers-reduced-motion: reduce){
+    .sw-galerie .slider .slide img,
+    .sw-galerie .slider .slide video{transition:none}
+  }
 
   /* Vollbild-Galerie (Lightbox) — minimal */
   .galerie{position:fixed;inset:0;z-index:60;background:var(--paper);display:none;flex-direction:column}
@@ -170,7 +225,7 @@
   .galerie-head .g-close span{display:block;line-height:1;transform:translateY(-2px)}
   .galerie-head .g-close:active{background:var(--accent);border-color:var(--accent);color:#fff}
   .galerie-bild{flex:1;min-height:0;position:relative;display:flex;align-items:center;justify-content:center;padding:0;touch-action:pan-y}
-  .galerie-bild img{max-width:100%;max-height:100%;object-fit:contain;display:block;transition:opacity .22s ease}
+  .galerie-bild img{max-width:100%;max-height:100%;object-fit:contain;display:block;transition:opacity .22s ease;filter:none}
   .g-zone{position:absolute;top:0;bottom:0;background:none;border:0;padding:0}
   .g-zone.links{left:0;width:33%;}
   .g-zone.mitte{left:33%;width:34%;}
@@ -194,8 +249,8 @@
   .meta-zeile dd{flex:1;margin:0}
   .tag{display:inline-block;margin:10px 16px 16px;font-size:var(--txt);font-weight:400;color:var(--accent)}
 
-  .info-panel{padding-top:20px}
-  .info-panel .portrait{width:100%;height:auto;display:block;margin:0 0 14px;background:#f2f2f2}
+  /* Abstand oben INNEN, damit er beim Zuklappen mitgestaucht wird */
+  .info-panel .portrait{width:100%;height:auto;display:block;margin:20px 0 14px;background:#f2f2f2}
   .info-panel .text{padding:0 16px}
   .info-panel h3{font-size:var(--txt);font-weight:400;font-style:italic;color:var(--accent);margin:34px 16px 10px}
   .info-panel ul.cv{list-style:none;margin:0 16px;max-width:80ch}
@@ -207,7 +262,7 @@
   .info-panel .kontakt{margin:24px 16px 0;padding-bottom:48px;font-size:var(--txt)}
   .info-panel .kontakt a{border-bottom:1px solid var(--accent);font-weight:400}
 
-  .marquee{overflow:hidden;border-top:1px solid var(--ink);padding:10px 0;background:var(--paper);position:sticky;bottom:0;z-index:2}
+  .marquee{overflow:hidden;border-top:1px solid var(--ink);padding:10px 0;background:var(--paper);position:sticky;bottom:0;z-index:3}
   .marquee-track{display:inline-block;white-space:nowrap;font-size:var(--txt);font-weight:400;animation:roll 26s linear infinite}
   .marquee:hover .marquee-track{animation-play-state:paused}
   @keyframes roll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -250,14 +305,14 @@
     .counter{right:48px;top:14px}
 
     .proj-kopf{display:flex;gap:48px;align-items:flex-start;padding:26px 40px 36px}
-    .panel .text{padding:0;max-width:80ch;flex:1 1 48%}
-    .datenblatt{flex:0 1 34%;margin:0 0 20px;padding:0}
+    .panel .text{padding:0;max-width:72ch;flex:1 1 auto}
+    .datenblatt{flex:0 0 auto;width:min(34%,420px);margin:0 0 20px;padding:0}
     .datenblatt .meta-zeile{padding:1px 0}
-    .meta-zeile dt{flex-basis:40%}
+    .meta-zeile dt{flex:0 0 42%}
     .tag{margin:14px 40px 18px}
 
     .info-panel{
-      padding:26px 40px 0;
+      padding:0 40px;
       display:grid;
       grid-template-columns:minmax(220px,320px) 1fr;   /* Porträtspalte | Textkante */
       column-gap:28px;
@@ -267,11 +322,11 @@
        auf seine Höhe strecken und eine Lücke unter dem Text erzeugen.
        "span 30" statt "1 / -1", da -1 nur im expliziten Raster greift. */
     .info-panel .portrait{
-      width:100%;max-width:320px;float:none;margin:0;
+      width:100%;max-width:320px;float:none;margin:26px 0 0;
       grid-column:1;grid-row:1 / span 30;align-self:start;
     }
     /* alles Weitere in Spalte 2, in eigener Zeile, direkt untereinander */
-    .info-panel .text{padding:0;grid-column:2;max-width:80ch;margin:0}
+    .info-panel .text{padding:0;grid-column:2;max-width:80ch;margin:26px 0 0}
     .info-panel h3{margin:34px 0 12px;grid-column:2}
     .info-panel ul.cv{margin:0;grid-column:2}
     .info-panel ul.cv .j{flex-basis:96px}
@@ -321,19 +376,64 @@
 
 <script src="projekte.js"></script>
 <script>
+/* =====================================================================
+   SCHALTER — zum Reaktivieren einfach auf true setzen.
+   Der zugehoerige Code bleibt vollstaendig erhalten.
+   ===================================================================== */
+const AN = {
+  vorschau:      true,    /* schwebendes S/W-Bild beim Ueberfahren der Titel */
+  galerieSW:     true,    /* Bilder im Slider erst bei Beruehrung farbig     */
+  projektScroll: false    /* Seite rueckt geoeffnetes Projekt in den Blick   */
+};
+document.documentElement.classList.toggle("sw-galerie", AN.galerieSW);
+
 const ul=document.getElementById("index");
 
 /* ===== S/W-Vorschau (nur Geräte mit Maus): erscheint an der Mausposition,
    verschwindet nach kurzer Zeit von selbst ===== */
 const vorschau=document.getElementById("vorschau");
-const mitMaus=window.matchMedia("(hover:hover) and (pointer:fine)").matches
+const mitMaus=AN.vorschau
+           && window.matchMedia("(hover:hover) and (pointer:fine)").matches
            && !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 let vTimer=null,vpx=0,vpy=0;
+
+/* Breite der Vorschau aus dem CSS lesen (clamp), statt sie hier zu doppeln. */
+function vBreite(){
+  const b=parseFloat(getComputedStyle(vorschau).width);
+  return isFinite(b)&&b>0 ? b : Math.min(Math.max(240,innerWidth*0.28),420);
+}
+/* Die Vorschau erscheint nur in der rechten Bildschirmhaelfte und wird
+   dort so eingespannt, dass sie weder die Mitte unterschreitet noch
+   rechts aus dem Fenster ragt — sie wird also nie angeschnitten. */
+function vErlaubt(x){ return x >= innerWidth/2; }
+function vXbegrenzt(x){
+  const b=vBreite(), rand=12;
+  const links  = innerWidth/2 + b/2;         /* linke Kante buendig zur Mitte */
+  const rechts = innerWidth - b/2 - rand;    /* rechte Kante im Fenster       */
+  if(rechts<links)return (links+rechts)/2;   /* sehr schmales Fenster         */
+  return Math.min(Math.max(x,links),rechts);
+}
+function vYbegrenzt(y){
+  const h=vorschau.offsetHeight||0;
+  if(!h)return y;                            /* Bild noch nicht geladen       */
+  const rand=12;
+  /* transform ist translateY(-55%): oben 0.55h, unten 0.45h vom Mittelpunkt */
+  return Math.min(Math.max(y,0.55*h+rand), innerHeight-0.45*h-rand);
+}
+
 function vZeige(src,x,y){
   if(!mitMaus)return;
+  if(!vErlaubt(x)){vWeg();return;}           /* linke Haelfte: nichts zeigen  */
   vorschau.src=src;
-  vorschau.style.left=x+"px";
-  vorschau.style.top=y+"px";
+  const setzen=()=>{
+    vorschau.style.left=vXbegrenzt(x)+"px";
+    vorschau.style.top =vYbegrenzt(y)+"px";
+  };
+  setzen();
+  /* Sobald die endgueltige Hoehe feststeht, Y nachkorrigieren:
+     im naechsten Frame (gecachtes Bild) bzw. nach dem Laden. */
+  requestAnimationFrame(setzen);
+  if(!vorschau.complete)vorschau.addEventListener("load",setzen,{once:true});
   vorschau.style.setProperty("--deg",(Math.random()*7-3.5).toFixed(1)+"deg");
   vpx=x;vpy=y;
   vorschau.classList.add("an");
@@ -341,6 +441,7 @@ function vZeige(src,x,y){
   vTimer=setTimeout(vWeg,1000);   /* nach 1 s wieder ausblenden */
 }
 function vWeg(){clearTimeout(vTimer);vorschau.classList.remove("an");}
+function vSichtbar(){return vorschau.classList.contains("an");}
 
 
 /* ===== Sprache ===== */
@@ -459,12 +560,24 @@ function makeSlider(p){
       gOeffne(vorhanden,Math.min(start,vorhanden.length-1),TITEL(p));
     }
   });
+  /* Farbe beim Wischen/Ziehen (Touch): Klasse setzen, kurz nachwirken lassen */
+  let farbTimer=null;
+  function faerben(){
+    clearTimeout(farbTimer);
+    slider.classList.add("beruehrt");
+  }
+  function entfaerben(verzoegert){
+    clearTimeout(farbTimer);
+    farbTimer=setTimeout(()=>slider.classList.remove("beruehrt"),verzoegert||0);
+  }
+  slider.addEventListener("scroll",()=>{faerben();entfaerben(900);},{passive:true});
+
   /* Drag-Erkennung: unterscheidet Wischen von Klick */
   let px=null;
-  slider.addEventListener("pointerdown",e=>{px=e.clientX;slider.dataset.gezogen="0";});
+  slider.addEventListener("pointerdown",e=>{px=e.clientX;slider.dataset.gezogen="0";faerben();});
   slider.addEventListener("pointermove",e=>{if(px!==null&&Math.abs(e.clientX-px)>8)slider.dataset.gezogen="1";});
-  slider.addEventListener("pointerup",()=>{px=null;setTimeout(()=>{slider.dataset.gezogen="0";},0);});
-  slider.addEventListener("pointercancel",()=>{px=null;slider.dataset.gezogen="0";});
+  slider.addEventListener("pointerup",()=>{px=null;setTimeout(()=>{slider.dataset.gezogen="0";},0);entfaerben(900);});
+  slider.addEventListener("pointercancel",()=>{px=null;slider.dataset.gezogen="0";entfaerben(0);});
   /* Touch-Richtung: bei klar vertikaler Geste horizontales Scrollen sperren,
      damit die Seite scrollt statt seitlich zu verrutschen */
   let tsx=0,tsy=0,richtungEntschieden=false;
@@ -506,6 +619,118 @@ function makeSlider(p){
   return wrap;
 }
 
+/* ===== Akkordeon: immer nur eine Zeile offen ===== */
+function schliesseAlle(ausser){
+  document.querySelectorAll("li.proj.open").forEach(li=>{
+    if(li===ausser)return;
+    li.classList.add("wechselt");
+    huelleZu(li);
+    li.classList.remove("open");
+    const b=li.querySelector(".row");
+    if(b)b.setAttribute("aria-expanded","false");
+    setTimeout(()=>{
+      li.classList.remove("wechselt");
+      const h=li.querySelector(".huelle");
+      if(h)h.style.maxHeight="";
+    },DAUER+40);
+  });
+}
+
+const DAUER=420;   /* muss zur CSS-Transition passen */
+
+/* Haelt die angeklickte Zeile waehrend des Auf-/Zuklappens optisch
+   an derselben Stelle im Fenster. Noetig, weil die Hoehe ueber eine
+   Transition animiert wird: der Inhalt darueber schrumpft ueber
+   mehrere Frames, die Seite wuerde sonst unter dem Finger wegfahren. */
+let haltenAktiv=0;   /* laufende Nachfuehrung abbrechbar machen */
+function haltePosition(li,dauer){
+  const lauf=++haltenAktiv;
+  const ziel=li.getBoundingClientRect().top;   /* diese Distanz wollen wir halten */
+  const start=performance.now();
+  /* Eigenes Scrollen des Nutzers bricht die Nachfuehrung ab. */
+  const abbrechen=()=>{if(lauf===haltenAktiv)haltenAktiv++;};
+  addEventListener("wheel",abbrechen,{passive:true,once:true});
+  addEventListener("touchstart",abbrechen,{passive:true,once:true});
+
+  function frame(t){
+    if(lauf!==haltenAktiv)return;                 /* abgebrochen oder ueberholt */
+    const versatz=li.getBoundingClientRect().top-ziel;
+    if(Math.abs(versatz)>0.5)scrollTo({top:scrollY+versatz,behavior:"auto"});
+    if(t-start<dauer)requestAnimationFrame(frame);
+    else{
+      removeEventListener("wheel",abbrechen);
+      removeEventListener("touchstart",abbrechen);
+    }
+  }
+  requestAnimationFrame(frame);
+}
+function haltenBeenden(){haltenAktiv++;}
+
+/* Setzt max-height so, dass die Transition laufen kann, und raeumt
+   danach wieder auf (max-height:none), damit der Slider frei ist. */
+function huelleAuf(li){
+  const h=li.querySelector(".huelle");
+  if(!h)return;
+  h.style.maxHeight=h.scrollHeight+"px";
+}
+function huelleZu(li){
+  const h=li.querySelector(".huelle");
+  if(!h)return;
+  h.style.maxHeight=h.scrollHeight+"px";   /* von der Ist-Hoehe aus schrumpfen */
+  void h.offsetHeight;                     /* Reflow erzwingen */
+  h.style.maxHeight="0px";
+}
+
+function umschalten(li,btn,aufbauen){
+  const oeffnen=!li.classList.contains("open");
+  const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  if(oeffnen){
+    schliesseAlle(li);
+    if(aufbauen)aufbauen();
+    vWeg();
+  }
+
+  li.classList.add("wechselt");
+  if(oeffnen){
+    li.classList.add("open");
+    huelleAuf(li);
+  }else{
+    huelleZu(li);
+    li.classList.remove("open");
+  }
+  btn.setAttribute("aria-expanded",oeffnen);
+
+  /* Zeile bleibt stehen, waehrend sich darueber/darunter etwas bewegt. */
+  haltePosition(li,reduziert?0:DAUER+40);
+
+  /* Beim Oeffnen: liegt die Zeile ungünstig, sanft unter den Kopf holen.
+     Deaktiviert ueber AN.projektScroll. Die Positions-Stabilisierung
+     (haltePosition) bleibt davon unberuehrt — sonst kaeme der Sprung
+     beim Zuklappen zurueck. */
+  if(oeffnen && AN.projektScroll){
+    const oben=headerHoehe();
+    const jetzt=li.getBoundingClientRect().top;
+    if(jetzt<oben-1||jetzt>innerHeight*0.55){
+      setTimeout(()=>{
+        haltenBeenden();
+        scrollTo({top:li.getBoundingClientRect().top+scrollY-oben,
+                  behavior:reduziert?"auto":"smooth"});
+      },reduziert?0:DAUER+60);
+    }
+  }
+
+  setTimeout(()=>{
+    li.classList.remove("wechselt");
+    const h=li.querySelector(".huelle");
+    if(h)h.style.maxHeight="";   /* Begrenzung loesen: Slider frei, Bilder voll */
+  },reduziert?0:DAUER+40);
+}
+function headerHoehe(){
+  const h=document.querySelector("header");
+  return h?h.getBoundingClientRect().height+8:0;
+}
+
 const zeilen=[];
 P.forEach(p=>{
   const li=document.createElement("li");
@@ -516,19 +741,24 @@ P.forEach(p=>{
       <span class="title">${TITEL(p)}</span>
       <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </button>
-    <div class="panel"></div>`;
+    <div class="huelle"><div class="panel"></div></div>`;
   const btn=li.querySelector(".row");
   const panel=li.querySelector(".panel");
   const titleEl=li.querySelector(".title");
-  /* S/W-Vorschau beim Überfahren der Zeile */
+  /* S/W-Vorschau beim Überfahren der Zeile — nur rechte Bildschirmhaelfte */
   if(p.imgs&&p.imgs.length){
     const quelle=()=>B+p.pre+p.imgs[0];
-    btn.addEventListener("mouseenter",e=>{
-      if(!li.classList.contains("open"))vZeige(quelle(),e.clientX,e.clientY);
-    });
+    const zeigen=e=>{
+      if(li.classList.contains("open"))return;
+      vZeige(quelle(),e.clientX,e.clientY);   /* prueft die Haelfte selbst */
+    };
+    btn.addEventListener("mouseenter",zeigen);
     btn.addEventListener("mousemove",e=>{
       if(li.classList.contains("open"))return;
-      if(Math.hypot(e.clientX-vpx,e.clientY-vpy)>150)vZeige(quelle(),e.clientX,e.clientY);
+      /* Verlaesst die Maus die rechte Haelfte, sofort ausblenden. */
+      if(!vErlaubt(e.clientX)){vWeg();return;}
+      /* Sonst nur bei groesserer Bewegung neu setzen (ruhiges Bild). */
+      if(!vSichtbar()||Math.hypot(e.clientX-vpx,e.clientY-vpy)>150)zeigen(e);
     });
     btn.addEventListener("mouseleave",vWeg);
   }
@@ -539,27 +769,24 @@ P.forEach(p=>{
     return Object.entries(m).map(([k,v])=>
       `<div class="meta-zeile"><dt>${k}</dt><dd>${v}</dd></div>`).join("");
   }
-  btn.addEventListener("click",()=>{
-    vWeg();                                       /* Vorschau weicht dem Projekt */
-    const wirdGeoeffnet=!li.classList.contains("open");
-    li.classList.toggle("open",wirdGeoeffnet);
-    btn.setAttribute("aria-expanded",wirdGeoeffnet);
-    if(wirdGeoeffnet)vWeg();
-    if(wirdGeoeffnet&&!built){
-      built=true;
-      const kopf=document.createElement("div");
-      kopf.className="proj-kopf";
-      txtEl=document.createElement("p");
-      txtEl.className="text";txtEl.textContent=TEXT(p);
-      metaEl=document.createElement("dl");
-      metaEl.className="datenblatt";
-      metaEl.innerHTML=metaHTML();
-      kopf.appendChild(txtEl);
-      kopf.appendChild(metaEl);
-      panel.appendChild(kopf);
-      if(p.imgs.length||p.video)panel.appendChild(makeSlider(p));
-    }
-  });
+  /* Inhalt wird erst beim ersten Oeffnen erzeugt — und zwar VOR dem
+     Aufklappen, damit die Huelle die richtige Zielhoehe kennt. */
+  function aufbauen(){
+    if(built)return;
+    built=true;
+    const kopf=document.createElement("div");
+    kopf.className="proj-kopf";
+    txtEl=document.createElement("p");
+    txtEl.className="text";txtEl.textContent=TEXT(p);
+    metaEl=document.createElement("dl");
+    metaEl.className="datenblatt";
+    metaEl.innerHTML=metaHTML();
+    kopf.appendChild(txtEl);
+    kopf.appendChild(metaEl);
+    panel.appendChild(kopf);
+    if(p.imgs.length||p.video)panel.appendChild(makeSlider(p));
+  }
+  btn.addEventListener("click",()=>umschalten(li,btn,aufbauen));
   zeilen.push(()=>{titleEl.textContent=TITEL(p);if(txtEl)txtEl.textContent=TEXT(p);if(metaEl)metaEl.innerHTML=metaHTML();});
   ul.appendChild(li);
 });
@@ -573,22 +800,22 @@ infoLi.innerHTML=`
     <span class="title" id="infoTitel">info</span>
     <svg class="chev" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
   </button>
-  <div class="panel info-panel" id="infoPanel">${INFO_HTML[LANG]}</div>`;
+  <div class="huelle"><div class="panel info-panel" id="infoPanel">${INFO_HTML[LANG]}</div></div>`;
 const infoBtnRow=infoLi.querySelector(".row");
 infoBtnRow.addEventListener("mouseenter",e=>{
   if(!infoLi.classList.contains("open"))vZeige("images/about/tizian-rein-portrait.jpg",e.clientX,e.clientY);
 });
-infoBtnRow.addEventListener("mouseleave",vWeg);
-infoBtnRow.addEventListener("click",()=>{
-  vWeg();
-  const wirdGeoeffnet=!infoLi.classList.contains("open");
-  infoLi.classList.toggle("open",wirdGeoeffnet);
-  infoBtnRow.setAttribute("aria-expanded",wirdGeoeffnet);
+infoBtnRow.addEventListener("mousemove",e=>{
+  if(infoLi.classList.contains("open"))return;
+  if(!vErlaubt(e.clientX)){vWeg();return;}
+  if(!vSichtbar())vZeige("images/about/tizian-rein-portrait.jpg",e.clientX,e.clientY);
 });
+infoBtnRow.addEventListener("mouseleave",vWeg);
+infoBtnRow.addEventListener("click",()=>umschalten(infoLi,infoBtnRow));
 ul.appendChild(infoLi);   /* Info steht als letzte Zeile im Index */
+/* Info oben rechts: oeffnet und schliesst ebenfalls */
 document.getElementById("infoBtn").addEventListener("click",()=>{
-  if(!infoLi.classList.contains("open"))infoBtnRow.click();
-  infoLi.scrollIntoView({block:"start",behavior:"smooth"});
+  umschalten(infoLi,infoBtnRow);
 });
 
 /* Filter über die roten Wörter in der Kopfzeile */
@@ -597,7 +824,13 @@ function filterAnwenden(){
   document.querySelectorAll(".fwort").forEach(w=>w.classList.toggle("an",w.dataset.f===filterAktiv));
   document.querySelectorAll(".proj").forEach(li=>{
     const c=li.dataset.c;
-    li.classList.toggle("hidden", filterAktiv!=="alle" && c!==filterAktiv && c!=="alle");
+    const versteckt = filterAktiv!=="alle" && c!==filterAktiv && c!=="alle";
+    if(versteckt && li.classList.contains("open")){   /* nicht unsichtbar offen lassen */
+      li.classList.remove("open");
+      const b=li.querySelector(".row");
+      if(b)b.setAttribute("aria-expanded","false");
+    }
+    li.classList.toggle("hidden", versteckt);
   });
 }
 document.querySelectorAll(".fwort").forEach(w=>{
