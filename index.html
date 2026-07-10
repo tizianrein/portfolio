@@ -404,7 +404,7 @@
 const AN = {
   vorschau:      true,    /* schwebendes S/W-Bild beim Ueberfahren der Titel */
   galerieSW:     true,    /* Bilder im Slider erst bei Beruehrung farbig     */
-  projektScroll: false    /* Seite rueckt geoeffnetes Projekt in den Blick   */
+  projektScroll: true     /* Klick dockt Ueberschrift oben links an (weich)  */
 };
 document.documentElement.classList.toggle("sw-galerie", AN.galerieSW);
 
@@ -703,30 +703,6 @@ const DAUER=420;   /* muss zur CSS-Transition passen */
    an derselben Stelle im Fenster. Noetig, weil die Hoehe ueber eine
    Transition animiert wird: der Inhalt darueber schrumpft ueber
    mehrere Frames, die Seite wuerde sonst unter dem Finger wegfahren. */
-let haltenAktiv=0;   /* laufende Nachfuehrung abbrechbar machen */
-function haltePosition(li,dauer){
-  const lauf=++haltenAktiv;
-  const ziel=li.getBoundingClientRect().top;   /* diese Distanz wollen wir halten */
-  const start=performance.now();
-  /* Eigenes Scrollen des Nutzers bricht die Nachfuehrung ab. */
-  const abbrechen=()=>{if(lauf===haltenAktiv)haltenAktiv++;};
-  addEventListener("wheel",abbrechen,{passive:true,once:true});
-  addEventListener("touchstart",abbrechen,{passive:true,once:true});
-
-  function frame(t){
-    if(lauf!==haltenAktiv)return;                 /* abgebrochen oder ueberholt */
-    const versatz=li.getBoundingClientRect().top-ziel;
-    if(Math.abs(versatz)>0.5)scrollTo({top:scrollY+versatz,behavior:"auto"});
-    if(t-start<dauer)requestAnimationFrame(frame);
-    else{
-      removeEventListener("wheel",abbrechen);
-      removeEventListener("touchstart",abbrechen);
-    }
-  }
-  requestAnimationFrame(frame);
-}
-function haltenBeenden(){haltenAktiv++;}
-
 /* Setzt max-height so, dass die Transition laufen kann, und raeumt
    danach wieder auf (max-height:none), damit der Slider frei ist. */
 function huelleAuf(li){
@@ -742,20 +718,20 @@ function huelleZu(li){
   h.style.maxHeight="0px";
 }
 
-function umschalten(li,btn,aufbauen,scrollErzwingen){
+function umschalten(li,btn,aufbauen){
   const oeffnen=!li.classList.contains("open");
   const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
 
   if(oeffnen){
-    /* Ein bereits offenes Projekt schliesst OHNE Animation, und der Scroll
-       gleicht die verschwundene Hoehe im selben Frame aus. Dadurch steht
-       die angeklickte Ueberschrift absolut still — kein Hin und Her. */
+    /* Anderes offenes Projekt sofort (ohne Animation) schliessen.
+       Das laesst alles darunter springen — deshalb den Scroll im selben
+       Frame um genau diesen Betrag zuruecknehmen, damit die angeklickte
+       Zeile optisch stehen bleibt. Erst danach folgt die EINE weiche
+       Bewegung nach oben. */
     const vorher=li.getBoundingClientRect().top;
     schliesseAlleSofort(li);
-    const nachher=li.getBoundingClientRect().top;
-    const versatz=nachher-vorher;
+    const versatz=li.getBoundingClientRect().top-vorher;
     if(versatz)scrollTo({top:scrollY+versatz,behavior:"auto"});
-
     if(aufbauen)aufbauen();
     vWeg();
   }
@@ -770,25 +746,15 @@ function umschalten(li,btn,aufbauen,scrollErzwingen){
   }
   btn.setAttribute("aria-expanded",oeffnen);
 
-  /* Waehrend das eigene Panel auf- oder zuklappt, die Zeile festhalten.
-     Beim erzwungenen Scrollen (Info-Knopf) entfaellt das — sonst wuerden
-     Nachfuehrung und Zielscroll gegeneinander arbeiten. */
-  if(!scrollErzwingen)haltePosition(li,reduziert?0:DAUER+40);
-
-  /* Beim Oeffnen die Zeile sanft unter den Kopf holen.
-     Fuer Projekte ueber AN.projektScroll abschaltbar; der Info-Knopf
-     oben rechts erzwingt es, weil sein Ziel ganz unten liegt und
-     sonst gar nichts sichtbar passieren wuerde. */
-  if(oeffnen && (AN.projektScroll || scrollErzwingen)){
-    const oben=headerHoehe();
-    const jetzt=li.getBoundingClientRect().top;
-    if(scrollErzwingen || jetzt<oben-1 || jetzt>innerHeight*0.55){
-      setTimeout(()=>{
-        haltenBeenden();
-        scrollTo({top:li.getBoundingClientRect().top+scrollY-oben,
-                  behavior:reduziert?"auto":"smooth"});
-      },reduziert?0:DAUER+60);
-    }
+  /* EINE klare Regel beim Oeffnen: die Zeile sanft so scrollen, dass ihr
+     Titel direkt unter der Kopfzeile andockt (oben links). Immer gleich,
+     egal wo die Zeile vorher stand. Keine konkurrierende Nachfuehrung. */
+  if(oeffnen && AN.projektScroll){
+    /* Header ist nicht fixiert (scrollt mit), daher docken wir die Zeile
+       mit kleinem festen Rand am oberen Fensterrand an. */
+    const rand=16;
+    const ziel=li.getBoundingClientRect().top+scrollY-rand;
+    scrollTo({top:ziel,behavior:reduziert?"auto":"smooth"});
   }
 
   setTimeout(()=>{
@@ -796,10 +762,6 @@ function umschalten(li,btn,aufbauen,scrollErzwingen){
     const h=li.querySelector(".huelle");
     if(h)h.style.maxHeight="";   /* Begrenzung loesen: Slider frei, Bilder voll */
   },reduziert?0:DAUER+40);
-}
-function headerHoehe(){
-  const h=document.querySelector("header");
-  return h?h.getBoundingClientRect().height+8:0;
 }
 
 const zeilen=[];
@@ -886,7 +848,7 @@ infoBtnRow.addEventListener("click",()=>umschalten(infoLi,infoBtnRow));
 ul.appendChild(infoLi);   /* Info steht als letzte Zeile im Index */
 /* Info oben rechts: oeffnet und schliesst ebenfalls */
 document.getElementById("infoBtn").addEventListener("click",()=>{
-  umschalten(infoLi,infoBtnRow,null,true);   /* true = zum Info-Feld scrollen */
+  umschalten(infoLi,infoBtnRow);   /* scrollt jetzt ohnehin zum Feld */
 });
 
 /* Filter über die roten Wörter in der Kopfzeile */
