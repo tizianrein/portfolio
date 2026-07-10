@@ -71,11 +71,18 @@
   a{color:inherit;text-decoration:none}
   button{font-family:inherit}
 
-  header{padding:20px 16px 0px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-  .logo{font-weight:400;font-size:26px;letter-spacing:-.01em;line-height:1}
+  header{padding:20px 16px 0px;display:flex;justify-content:space-between;align-items:baseline;gap:12px;font-size:15px}
+  .logo{font-weight:400;letter-spacing:-.01em;line-height:1.3}
   .logo span{color:var(--accent)}
-  .claim{font-size:15px;color:var(--ink);font-weight:400}
+  .claim{font-size:inherit;color:var(--ink);font-weight:400}
   .logo-zeile{display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+  .header-rechts{display:flex;align-items:baseline;gap:18px;white-space:nowrap}
+  .kopf-link{
+    background:none;border:0;padding:0;cursor:pointer;
+    font-family:inherit;font-size:inherit;color:var(--ink);
+  }
+  .kopf-link:hover{color:var(--accent);font-style:italic}
+  .kopf-link:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
   .claim .schraeg{color:var(--ink);padding-right:2px}
   .fwort{
     background:none;border:0;padding:0;cursor:pointer;
@@ -91,10 +98,10 @@
   }
   .lang-mini .akt{color:var(--accent)}
   .lang-mini:hover .inakt{color:var(--ink)}
+  .lang-mini:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 
   ul.index{list-style:none;position:relative;z-index:1;padding:12px 0 8px}
   header{position:relative;z-index:2}
-  footer.imprint{position:relative;z-index:2}
 
   /* Schwebende S/W-Vorschau: folgt der Maus, liegt hinter den Titeln */
   .vorschau{
@@ -109,10 +116,10 @@
   li.proj{border-bottom:0}
   li.proj:last-child{border-bottom:0}
   li.proj.hidden{display:none}
-  .row{width:100%;text-align:left;background:none;border:0;cursor:pointer;color:inherit;padding:2px 16px;display:flex;align-items:baseline;gap:12px}
+  .row{width:100%;text-align:left;background:none;border:0;cursor:pointer;color:inherit;padding:1px 16px;display:block}
   .row:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
-  .num{font-size:11px;font-weight:400;color:var(--accent);min-width:34px;font-variant-numeric:tabular-nums;align-self:flex-start;margin-top:.85em}
-  .title{flex:1;font-weight:400;font-size:clamp(30px,6vw,64px);line-height:1.14;letter-spacing:-.01em}
+  .num{font-size:15px;font-weight:400;color:var(--accent);vertical-align:super;margin-right:10px;font-variant-numeric:tabular-nums}
+  .title{font-weight:400;font-size:clamp(34px,6vw,64px);line-height:1.12;letter-spacing:-.01em}
   .year{font-size:12px;color:#999;font-variant-numeric:tabular-nums;white-space:nowrap}
   .chev{display:none}
   li.proj.open .title,.row:active .title{color:var(--accent);font-style:italic}
@@ -203,18 +210,13 @@
   .marquee-track i{color:var(--accent);font-style:normal;padding:0 10px}
   .marquee-track a{color:inherit;text-decoration:none;border-bottom:1.5px solid currentColor}
 
-  footer.imprint{padding:18px 16px 90px;font-size:12px;color:#999}
 
   /* ===== Desktop / größere Screens ===== */
   @media (min-width:760px){
     /* volle Breite — keine zentrierte Spalte mehr */
-    header{padding:28px 40px 8px}
-    .logo{font-size:32px}
-    .claim{font-size:17px}
+    header{padding:28px 40px 8px;font-size:17px}
 
-    .row{padding:2px 40px;gap:18px;align-items:baseline}
-    .num{font-size:12px;min-width:44px}
-    .title{font-size:clamp(34px,6vw,72px)}
+    .row{padding:1px 40px}
     .year{font-size:13px}
 
     .panel{padding:0 0 30px}
@@ -240,7 +242,6 @@
     .info-panel ul.cv .j{flex-basis:96px;font-size:13px}
     .info-panel .kontakt{margin:28px 40px 0;font-size:15px}
 
-    footer.imprint{padding:24px 40px 90px}
   }
 
   @media (min-width:1100px){
@@ -257,6 +258,10 @@
   <div class="logo-zeile">
     <a class="logo" href="index.html">Tizian Rein</a>
     <span class="claim"><span class="schraeg">/</span> <span id="claimText">Praxis für</span> <button class="fwort" data-f="umbau">Umbau</button>, <button class="fwort" data-f="neubau">Neubau</button>, <button class="fwort" data-f="forschung">Forschung</button></span>
+  </div>
+  <div class="header-rechts">
+    <button class="kopf-link" id="infoBtn">Info</button>
+    <button class="lang-mini" id="langBtn" aria-label="Sprache wechseln"><span class="akt" id="langAkt">DE</span> / <span class="inakt" id="langInakt">EN</span></button>
   </div>
 </header>
 
@@ -276,9 +281,8 @@
   </div>
 </div>
 
-<div class="marquee" aria-hidden="true"><div class="marquee-inner"><div class="marquee-track" id="mq"></div></div></div>
+<div class="marquee"><div class="marquee-inner"><div class="marquee-track" id="mq"></div></div></div>
 
-<footer class="imprint">© 2026 Tizian Rein · München / Bad Honnef · <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · <button class="lang-mini" id="langBtn" aria-label="Sprache wechseln"><span class="akt" id="langAkt">DE</span> / <span class="inakt" id="langInakt">EN</span></button></footer>
 
 <script src="projekte.js"></script>
 <script>
@@ -547,6 +551,10 @@ infoBtnRow.addEventListener("click",()=>{
   infoBtnRow.setAttribute("aria-expanded",wirdGeoeffnet);
 });
 ul.appendChild(infoLi);   /* Info steht als letzte Zeile im Index */
+document.getElementById("infoBtn").addEventListener("click",()=>{
+  if(!infoLi.classList.contains("open"))infoBtnRow.click();
+  infoLi.scrollIntoView({block:"start",behavior:"smooth"});
+});
 
 /* Filter über die roten Wörter in der Kopfzeile */
 let filterAktiv="alle";
@@ -571,6 +579,7 @@ function applyLang(){
   document.getElementById("claimText").textContent=u.claim;
   document.getElementById("langAkt").textContent=LANG.toUpperCase();
   document.getElementById("langInakt").textContent=(LANG==="de"?"EN":"DE");
+  document.getElementById("infoBtn").textContent=u.info;
   document.getElementById("infoTitel").textContent=u.info;
   /* Kategorienwörter in der Kopfzeile */
   document.querySelectorAll(".fwort").forEach(w=>{
@@ -581,7 +590,7 @@ function applyLang(){
   /* Info-Panel neu setzen */
   document.getElementById("infoPanel").innerHTML=INFO_HTML[LANG];
   /* Banner neu */
-  document.getElementById("mq").innerHTML=`${u.banner}<i>●</i> ${u.orte} <i>●</i> <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> <i>●</i> `.repeat(6);
+  document.getElementById("mq").innerHTML=`${u.banner}<i>●</i> ${u.orte} <i>●</i> <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> <i>●</i> © 2026 Tizian Rein <i>●</i> `.repeat(6);
 }
 
 document.getElementById("langBtn").addEventListener("click",()=>{
