@@ -307,6 +307,9 @@
 
   /* ===== Mobil: Kopf sauber zweizeilig, Titel bündig ===== */
   @media (max-width:759px){
+    /* Mobil immer farbig — hebt jede S/W-Regel sicher auf, egal ob die
+       sw-galerie-Klasse aus irgendeinem Grund gesetzt sein sollte. */
+    .slider .slide img,.slider .slide video{filter:none !important}
     header{
       display:grid;
       grid-template-columns:1fr auto;
@@ -418,8 +421,20 @@
 const AN = {
   vorschau:      true,    /* schwebendes S/W-Bild beim Ueberfahren der Titel */
   galerieSW:     true,    /* Bilder im Slider erst bei Beruehrung farbig     */
+  galerieSWnurDesktop: true  /* S/W nur am Desktop; mobil immer farbig       */
 };
-document.documentElement.classList.toggle("sw-galerie", AN.galerieSW);
+/* S/W-Galerie: mobil (Touch) unerwuenscht, da es dort kein Hover gibt und
+   die Bilder ohnehin gleich farbig sein sollen. Nur setzen, wenn aktiviert
+   UND (falls gewuenscht) ein Zeigergeraet mit Hover vorhanden ist. */
+const swErlaubt = AN.galerieSW &&
+  (!AN.galerieSWnurDesktop || matchMedia("(min-width:760px)").matches);
+document.documentElement.classList.toggle("sw-galerie", swErlaubt);
+/* Bei Groessenwechsel (Tablet drehen, Fenster skalieren) neu bewerten. */
+if(AN.galerieSW && AN.galerieSWnurDesktop){
+  matchMedia("(min-width:760px)").addEventListener("change",e=>{
+    document.documentElement.classList.toggle("sw-galerie", e.matches);
+  });
+}
 
 const ul=document.getElementById("index");
 
