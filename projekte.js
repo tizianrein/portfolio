@@ -174,6 +174,7 @@ de:`
 
     <h3>Publikationen / Vorträge</h3>
     <ul class="cv">
+      <li><span class="j">2026</span><span class="w"><i>Translating intention: AI-assisted model generation for collaborative human–robot construction</i> — mit Avishek Das, Begüm Saral, Lidia Atanasova und Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0">DOI 10.1007/s41693-026-00205-0</a></span></li>
       <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU München</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> — Masterthesis, TUM School of Engineering and Design, publiziert via mediaTUM</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Prototype to Product: Start-ups and Intellectual Property in Digital Fabrication</i> — mit Marcel Studer und Dominik Reisach, ITA (Prof. Silke Langenberg), Startup Architecture Symposium, ETH Zürich</span></li>
@@ -215,6 +216,7 @@ en:`
 
     <h3>Publications / Talks</h3>
     <ul class="cv">
+      <li><span class="j">2026</span><span class="w"><i>Translating intention: AI-assisted model generation for collaborative human–robot construction</i> — with Avishek Das, Begüm Saral, Lidia Atanasova and Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0">DOI 10.1007/s41693-026-00205-0</a></span></li>
       <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU Munich</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> — master's thesis, TUM School of Engineering and Design, published via mediaTUM</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Prototype to Product: Start-ups and Intellectual Property in Digital Fabrication</i> — with Marcel Studer and Dominik Reisach, ITA (Prof. Silke Langenberg), Startup Architecture Symposium, ETH Zurich</span></li>

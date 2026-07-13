@@ -177,15 +177,13 @@
   .slider.vsperre{overflow-x:hidden}
   .slider::-webkit-scrollbar{display:none}
   .slide{
-    flex:0 0 auto;                     /* Breite richtet sich nach der Bildhoehe */
-    height:52vh;max-height:460px;      /* alle Bilder gleich hoch (mobil) */
-    display:flex;align-items:center;
+    flex:0 0 86%;                      /* feste Breite, Hoehe folgt dem Bild */
     scroll-snap-align:center;
   }
-  .slide:only-child{flex:0 0 auto}   /* auch allein: Hoehe bestimmt Breite */
+  .slide:only-child{flex-basis:100%}
   .slide img,.slide video{
-    width:auto;height:100%;max-width:none;display:block;
-    /* Hoehe fuellt die Slide -> alle Bilder gleich hoch, Breite variabel */
+    width:100%;height:auto;max-width:none;display:block;
+    /* Breite fuellt die Slide -> feste Breite, Hoehe variabel */
     opacity:1;
     transition:opacity .5s ease;        /* weiches Einblenden nach dem Laden */
   }
@@ -294,6 +292,8 @@
   .info-panel ul.cv .w{flex:1}
   .info-panel ul.cv .w b{font-weight:400}   /* kein Fettdruck — Times traegt das nicht */
   .info-panel ul.cv .w i{font-style:italic}
+  .info-panel ul.cv .w a{border-bottom:1px solid var(--accent);white-space:nowrap}
+  .info-panel ul.cv .w a:hover{color:var(--accent)}
   .info-panel .kontakt{margin:24px 16px 0;padding-bottom:48px;font-size:var(--txt)}
   .info-panel .kontakt a{border-bottom:1px solid var(--accent);font-weight:400}
 
