@@ -502,6 +502,15 @@
     -webkit-overflow-scrolling:touch;scrollbar-width:none;
     padding:0 16px;
   }
+  .slider .slide img{
+    user-select:none;
+    -webkit-user-drag:none;
+  }
+  @media (hover:hover) and (pointer:fine){
+    .slider{cursor:grab}
+    .slider.zieht{cursor:grabbing;scroll-snap-type:none}
+    .slider .slide video{cursor:auto}
+  }
   .slider.vsperre{overflow-x:hidden}
   .slider::-webkit-scrollbar{display:none}
   .slide{
@@ -1309,22 +1318,33 @@ galerie.addEventListener("touchend",e=>{
   gtx=null;gty=null;
 },{passive:true});
 
+/* Eine Slide anhand ihrer tatsächlichen Bildschirmposition zentrieren.
+   Bounding-Rects bleiben auch bei unterschiedlichen Bildbreiten zuverlässig. */
+function slideZu(slider,index,bewegung="smooth"){
+  const slides=[...slider.querySelectorAll(".slide")];
+  if(!slides.length)return;
+  const zi=(index+slides.length)%slides.length;
+  const ziel=slides[zi];
+  const sr=slider.getBoundingClientRect();
+  const zr=ziel.getBoundingClientRect();
+  const links=slider.scrollLeft+(zr.left-sr.left)-(slider.clientWidth-zr.width)/2;
+  slider.scrollTo({left:links,behavior:bewegung});
+}
+
 /* Sanft zur nächsten/vorherigen Slide scrollen */
 function slideUm(slider,richtung){
   const slides=[...slider.querySelectorAll(".slide")];
   if(!slides.length)return;
-  const center=slider.scrollLeft+slider.clientWidth/2;
+  const sr=slider.getBoundingClientRect();
+  const center=sr.left+sr.width/2;
   let akt=0,bestDist=Infinity;
   slides.forEach((s,i)=>{
-    const mid=s.offsetLeft+s.offsetWidth/2;
+    const r=s.getBoundingClientRect();
+    const mid=r.left+r.width/2;
     const d=Math.abs(mid-center);
     if(d<bestDist){bestDist=d;akt=i;}
   });
-  let zi=akt+richtung;
-  if(zi>=slides.length)zi=0;          /* hinten raus → zurück an den Anfang */
-  else if(zi<0)zi=slides.length-1;    /* vorne raus → ans Ende */
-  const ziel=slides[zi];
-  if(ziel)slider.scrollTo({left:ziel.offsetLeft+ziel.offsetWidth/2-slider.clientWidth/2,behavior:"smooth"});
+  slideZu(slider,akt+richtung);
 }
 
 function makeSlider(p){
@@ -1351,7 +1371,7 @@ function makeSlider(p){
        unterschiedlichen Formate — nur der Platz steht vorher fest. */
     const wh=(typeof MASSE!=="undefined") ? MASSE[p.pre+name] : null;
     const masse=wh ? ` width="${wh[0]}" height="${wh[1]}"` : "";
-    s.innerHTML=`<img${masse} ${frueh?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" src="${B+p.pre+name}" alt="${TITEL(p)} — ${KAT[LANG][p.c]||p.c} von Tizian Rein, Bild ${j+1}">`;
+    s.innerHTML=`<img${masse} ${frueh?'loading="eager" fetchpriority="high"':'loading="lazy"'} decoding="async" draggable="false" src="${B+p.pre+name}" alt="${TITEL(p)} — ${KAT[LANG][p.c]||p.c} von Tizian Rein, Bild ${j+1}">`;
     const im=s.querySelector("img");
     im.classList.add("laedt");                      /* startet unsichtbar, blendet dann ein */
     const fertig=()=>{
@@ -1386,11 +1406,12 @@ function makeSlider(p){
     const bezug=getroffen||slider;
     const r=bezug.getBoundingClientRect();
     const x=(e.clientX-r.left)/r.width;
-    if(x<0.33)        slideUm(slider,-1);
-    else if(x>0.67)   slideUm(slider,1);
+    const slides=[...slider.querySelectorAll(".slide")];
+    const getroffenIndex=getroffen ? slides.indexOf(getroffen) : -1;
+    if(x<0.33)        getroffenIndex>=0 ? slideZu(slider,getroffenIndex-1) : slideUm(slider,-1);
+    else if(x>0.67)   getroffenIndex>=0 ? slideZu(slider,getroffenIndex+1) : slideUm(slider,1);
     else{
       /* Mitte eines BILDES -> Vollbild-Galerie (nur Bilder, Videos aus). */
-      const slides=[...slider.querySelectorAll(".slide")];
       const bildSlides=slides.filter(sl=>sl.querySelector("img"));
       if(!bildSlides.length)return;
       const start=getroffen ? Math.max(0,bildSlides.indexOf(getroffen)) : 0;
@@ -1410,12 +1431,43 @@ function makeSlider(p){
   }
   slider.addEventListener("scroll",()=>{faerben();entfaerben(900);},{passive:true});
 
-  /* Drag-Erkennung: unterscheidet Wischen von Klick */
-  let px=null;
-  slider.addEventListener("pointerdown",e=>{px=e.clientX;slider.dataset.gezogen="0";faerben();});
-  slider.addEventListener("pointermove",e=>{if(px!==null&&Math.abs(e.clientX-px)>8)slider.dataset.gezogen="1";});
-  slider.addEventListener("pointerup",()=>{px=null;setTimeout(()=>{slider.dataset.gezogen="0";},0);entfaerben(900);});
-  slider.addEventListener("pointercancel",()=>{px=null;slider.dataset.gezogen="0";entfaerben(0);});
+  /* Echte Maus-/Stiftbewegung: greifen und horizontal ziehen.
+     Touch bleibt beim nativen, trägen Wischen des Browsers. */
+  let drag=null;
+  slider.addEventListener("dragstart",e=>e.preventDefault());
+  slider.addEventListener("pointerdown",e=>{
+    if(e.pointerType==="touch"||e.button!==0||e.target.closest("video"))return;
+    drag={id:e.pointerId,x:e.clientX,links:slider.scrollLeft,gezogen:false};
+    slider.dataset.gezogen="0";
+    slider.classList.add("zieht");
+    if(slider.setPointerCapture)slider.setPointerCapture(e.pointerId);
+    faerben();
+  });
+  slider.addEventListener("pointermove",e=>{
+    if(!drag||e.pointerId!==drag.id)return;
+    const dx=e.clientX-drag.x;
+    if(Math.abs(dx)>5){
+      drag.gezogen=true;
+      slider.dataset.gezogen="1";
+    }
+    if(drag.gezogen){
+      e.preventDefault();
+      slider.scrollLeft=drag.links-dx;
+    }
+  });
+  function dragEnde(e){
+    if(!drag||e.pointerId!==drag.id)return;
+    const gezogen=drag.gezogen;
+    if(slider.hasPointerCapture&&slider.hasPointerCapture(e.pointerId))
+      slider.releasePointerCapture(e.pointerId);
+    drag=null;
+    slider.classList.remove("zieht");
+    if(gezogen)setTimeout(()=>{slider.dataset.gezogen="0";},0);
+    else slider.dataset.gezogen="0";
+    entfaerben(900);
+  }
+  slider.addEventListener("pointerup",dragEnde);
+  slider.addEventListener("pointercancel",dragEnde);
   /* Touch-Richtung: bei klar vertikaler Geste horizontales Scrollen sperren,
      damit die Seite scrollt statt seitlich zu verrutschen */
   let tsx=0,tsy=0,richtungEntschieden=false;
@@ -1491,21 +1543,34 @@ function makeSlider(p){
 const DAUER=420;   /* muss zur CSS-Transition passen */
 
 /* Beim Öffnen wächst die Seite während der Akkordeon-Animation weiter.
-   Ein einzelner Scrollaufruf kann deshalb am vorläufigen Seitenende stoppen.
-   Zweimaliges Ausrichten hält die Bewegung weich und erreicht anschließend
-   zuverlässig die endgültige Position der Projektüberschrift. */
+   Diese eigene Animation berechnet deshalb in jedem Frame den aktuell
+   verfügbaren Scrollbereich. So folgt die Seite dem wachsenden Panel in
+   einer einzigen, durchgehenden Bewegung. */
 let scrollVorgang=0;
 function projektInsBild(li){
   const vorgang=++scrollVorgang;
   const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
-  const ausrichten=()=>{
+  const startY=window.scrollY;
+  const zielY=Math.max(0,startY+li.getBoundingClientRect().top-8);
+  if(reduziert){
+    window.scrollTo({top:zielY,behavior:"instant"});
+    return;
+  }
+  const startZeit=performance.now();
+  const distanz=Math.abs(zielY-startY);
+  const laufzeit=Math.min(850,Math.max(600,DAUER+120+distanz*.08));
+  const easing=t=>t<.5 ? 4*t*t*t : 1-Math.pow(-2*t+2,3)/2;
+  function frame(zeit){
     if(vorgang!==scrollVorgang)return;
-    li.scrollIntoView({behavior:reduziert?"auto":"smooth",block:"start"});
-  };
-  requestAnimationFrame(ausrichten);
-  if(!reduziert)setTimeout(ausrichten,DAUER+60);
+    const t=Math.min(1,(zeit-startZeit)/laufzeit);
+    const geplant=startY+(zielY-startY)*easing(t);
+    const maxY=Math.max(0,document.documentElement.scrollHeight-innerHeight);
+    window.scrollTo({top:Math.min(geplant,maxY),behavior:"instant"});
+    if(t<1)requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
 }
-/* Eigenes Scrollen des Besuchers beendet die ausstehende Nachkorrektur. */
+/* Eigenes Scrollen des Besuchers beendet die laufende Animation. */
 window.addEventListener("wheel",()=>{scrollVorgang++;},{passive:true});
 window.addEventListener("touchstart",()=>{scrollVorgang++;},{passive:true});
 
