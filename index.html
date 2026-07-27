@@ -443,7 +443,7 @@
     opacity:0;transition:opacity .3s ease;
   }
   .vorschau.an{opacity:1}
-  li.proj{border-bottom:0}
+  li.proj{border-bottom:0;scroll-margin-top:8px}
   li.proj:last-child{border-bottom:0}
   li.proj.hidden{display:none}
   .row{width:100%;text-align:left;background:none;border:0;cursor:pointer;color:inherit;padding:1px 16px;display:flex;align-items:baseline;gap:10px}
@@ -1490,6 +1490,25 @@ function makeSlider(p){
    Zeile direkt an ihre Endposition bringt — ohne harten Zwischensprung. */
 const DAUER=420;   /* muss zur CSS-Transition passen */
 
+/* Beim Öffnen wächst die Seite während der Akkordeon-Animation weiter.
+   Ein einzelner Scrollaufruf kann deshalb am vorläufigen Seitenende stoppen.
+   Zweimaliges Ausrichten hält die Bewegung weich und erreicht anschließend
+   zuverlässig die endgültige Position der Projektüberschrift. */
+let scrollVorgang=0;
+function projektInsBild(li){
+  const vorgang=++scrollVorgang;
+  const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const ausrichten=()=>{
+    if(vorgang!==scrollVorgang)return;
+    li.scrollIntoView({behavior:reduziert?"auto":"smooth",block:"start"});
+  };
+  requestAnimationFrame(ausrichten);
+  if(!reduziert)setTimeout(ausrichten,DAUER+60);
+}
+/* Eigenes Scrollen des Besuchers beendet die ausstehende Nachkorrektur. */
+window.addEventListener("wheel",()=>{scrollVorgang++;},{passive:true});
+window.addEventListener("touchstart",()=>{scrollVorgang++;},{passive:true});
+
 /* Haelt die angeklickte Zeile waehrend des Auf-/Zuklappens optisch
    an derselben Stelle im Fenster. Noetig, weil die Hoehe ueber eine
    Transition animiert wird: der Inhalt darueber schrumpft ueber
@@ -1610,10 +1629,7 @@ P.forEach(p=>{
     umschalten(li,btn,aufbauen);
     if(wirdGeoeffnet){
       history.replaceState(null,"",`#${slug}`);
-      const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
-      requestAnimationFrame(()=>{
-        li.scrollIntoView({behavior:reduziert?"auto":"smooth",block:"start"});
-      });
+      projektInsBild(li);
     }
     else if(location.hash===`#${slug}`)history.replaceState(null,"",location.pathname+location.search);
   });
