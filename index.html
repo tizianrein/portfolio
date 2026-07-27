@@ -1411,11 +1411,17 @@ function makeSlider(p){
     if(x<0.33)        getroffenIndex>=0 ? slideZu(slider,getroffenIndex-1) : slideUm(slider,-1);
     else if(x>0.67)   getroffenIndex>=0 ? slideZu(slider,getroffenIndex+1) : slideUm(slider,1);
     else{
-      /* Mitte eines BILDES -> Vollbild-Galerie (nur Bilder, Videos aus). */
+      /* Mitte eines BILDES -> genau dieses Bild in der Vollbild-Galerie.
+         Die Quelle wird direkt abgeglichen, damit Videos, entfernte Bilder
+         oder unterschiedliche Slide-Breiten den Startindex nicht verschieben. */
+      const angeklickt=getroffen&&getroffen.querySelector("img");
+      if(!angeklickt)return;
       const bildSlides=slides.filter(sl=>sl.querySelector("img"));
       if(!bildSlides.length)return;
-      const start=getroffen ? Math.max(0,bildSlides.indexOf(getroffen)) : 0;
       const vorhanden=bildSlides.map(sl=>{const im=sl.querySelector("img");return im.currentSrc||im.src;});
+      const quelle=angeklickt.currentSrc||angeklickt.src;
+      let start=vorhanden.indexOf(quelle);
+      if(start<0)start=Math.max(0,bildSlides.indexOf(getroffen));
       gOeffne(vorhanden,start,TITEL(p));
     }
   });
@@ -1733,7 +1739,10 @@ infoBtnRow.addEventListener("click",e=>{
   e.preventDefault();
   const wirdGeoeffnet=!infoLi.classList.contains("open");
   umschalten(infoLi,infoBtnRow);
-  if(wirdGeoeffnet)history.replaceState(null,"","#info");
+  if(wirdGeoeffnet){
+    history.replaceState(null,"","#info");
+    projektInsBild(infoLi);
+  }
   else if(location.hash==="#info")history.replaceState(null,"",location.pathname+location.search);
 });
 ul.appendChild(infoLi);   /* Info steht als letzte Zeile im Index */
