@@ -1,0 +1,17 @@
+# Lokale Archive und Sicherungen
+/*.zip
+/.zip
+/*.bak
+
+# Lokale Portfolio-Pflege
+/BILDLISTE.txt
+/PORTFOLIO-AKTUALISIEREN.bat
+/portfolio-aktualisieren.js
+/PROJEKT-HINZUFUEGEN.txt
+/README-START.txt
+/bilder-optimieren.sh
+/bildmasse-eintragen.py
+
+# Betriebssystem-Dateien
+**/desktop.ini
+Thumbs.db

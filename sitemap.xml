@@ -3,327 +3,252 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.tizianrein.de/</loc>
-    <changefreq>monthly</changefreq>
-    <priority>1.0</priority>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.2.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.23.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.26.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.22.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.27.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.29.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.20.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.21.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.14.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.4.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.3.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.8.jpg</image:loc>
-      <image:title>from structure to action – Forschung, Tizian Rein</image:title>
-    </image:image>
+    <lastmod>2026-07-27</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.3.jpg</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.1.jpg</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.9.jpg</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.10.jpg</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.1.jpg</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.6.gif</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.11.jpg</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.8.jpg</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.5.jpg</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.4.jpg</image:loc>
-      <image:title>separate wohneinheit – Umbau, Tizian Rein</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.2.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.23.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.26.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.22.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.27.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.29.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.20.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.21.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.14.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.4.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.3.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.8.jpg</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.1.jpg</image:loc>
-      <image:title>waldfriedhofskapelle rhöndorf – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.2.jpg</image:loc>
-      <image:title>waldfriedhofskapelle rhöndorf – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.3.jpg</image:loc>
-      <image:title>waldfriedhofskapelle rhöndorf – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.4.jpg</image:loc>
-      <image:title>waldfriedhofskapelle rhöndorf – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.5.jpg</image:loc>
-      <image:title>waldfriedhofskapelle rhöndorf – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.6.jpg</image:loc>
-      <image:title>waldfriedhofskapelle rhöndorf – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnung-eines-Beamten-020.1.jpg</image:loc>
-      <image:title>beamtenwohnung bonn – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnung-eines-Beamten-020.2.jpg</image:loc>
-      <image:title>beamtenwohnung bonn – Umbau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnung-eines-Beamten-020.3.jpg</image:loc>
-      <image:title>beamtenwohnung bonn – Umbau, Tizian Rein</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnung-eines-Beamten-020.4.jpg</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnung-eines-Beamten-020.5.jpg</image:loc>
-      <image:title>beamtenwohnung bonn – Umbau, Tizian Rein</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnung-eines-Beamten-020.6.jpg</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Fahrrad-Unterstand-019.1.jpg</image:loc>
-      <image:title>unterstand – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Fahrrad-Unterstand-019.2.jpg</image:loc>
-      <image:title>unterstand – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Fahrrad-Unterstand-019.3.jpg</image:loc>
-      <image:title>unterstand – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Fahrrad-Unterstand-019.4.jpg</image:loc>
-      <image:title>unterstand – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Fahrrad-Unterstand-019.5.jpg</image:loc>
-      <image:title>unterstand – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Zakk-Gartenstuhl-1.jpg</image:loc>
-      <image:title>zakk gartenstuhl – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Zakk-Gartenstuhl-2.gif</image:loc>
-      <image:title>zakk gartenstuhl – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Zakk-Gartenstuhl-3.jpg</image:loc>
-      <image:title>zakk gartenstuhl – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Zakk-Gartenstuhl-4.jpg</image:loc>
-      <image:title>zakk gartenstuhl – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.1.jpg</image:loc>
-      <image:title>free/bird – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.2.jpg</image:loc>
-      <image:title>free/bird – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.3.jpg</image:loc>
-      <image:title>free/bird – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.1.jpg</image:loc>
-      <image:title>harboring histories – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.2.jpg</image:loc>
-      <image:title>harboring histories – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.3.jpg</image:loc>
-      <image:title>harboring histories – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.4.jpg</image:loc>
-      <image:title>harboring histories – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.5.jpg</image:loc>
-      <image:title>harboring histories – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.7.jpg</image:loc>
-      <image:title>harboring histories – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.6.jpg</image:loc>
-      <image:title>harboring histories – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-RoboSgraffito-013.1.jpg</image:loc>
-      <image:title>robosgraffito – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-RoboSgraffito-013.3.jpg</image:loc>
-      <image:title>robosgraffito – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-RoboSgraffito-013.2.jpg</image:loc>
-      <image:title>robosgraffito – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-RoboSgraffito-013.5.jpg</image:loc>
-      <image:title>robosgraffito – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-RoboSgraffito-013.6.jpg</image:loc>
-      <image:title>robosgraffito – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-RoboSgraffito-013.7.jpg</image:loc>
-      <image:title>robosgraffito – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Structural-Patterns-012.3.jpg</image:loc>
-      <image:title>structural patterns – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Structural-Patterns-012.4.jpg</image:loc>
-      <image:title>structural patterns – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Structural-Patterns-012.1.jpg</image:loc>
-      <image:title>structural patterns – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Structural-Patterns-012.2.jpg</image:loc>
-      <image:title>structural patterns – Forschung, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.1.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.2.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.3.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.4.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.5.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.6.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.7.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.8.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.9.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.10.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.11.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.12.jpg</image:loc>
-      <image:title>rheinschwimmbad – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.3.jpg</image:loc>
-      <image:title>wohnen in nippes – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.4.jpg</image:loc>
-      <image:title>wohnen in nippes – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.1.jpg</image:loc>
-      <image:title>wohnen in nippes – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.2.jpg</image:loc>
-      <image:title>wohnen in nippes – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.5.jpg</image:loc>
-      <image:title>wohnen in nippes – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.6.jpg</image:loc>
-      <image:title>wohnen in nippes – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.7.jpg</image:loc>
-      <image:title>wohnen in nippes – Neubau, Tizian Rein</image:title>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.9.jpg</image:loc>
-      <image:title>wohnen in nippes – Neubau, Tizian Rein</image:title>
     </image:image>
   </url>
 </urlset>
