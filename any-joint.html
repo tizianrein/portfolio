@@ -6,19 +6,19 @@
 <title>Any-Joint — one continuous splice grammar</title>
 <style>
   :root{
-    --paper:#E9E9E4;
+    --paper:#FFFFFF;
     --plate:#FFFFFF;
-    --ink:#12110E;
-    --graphite:#6D6B64;
-    --hair:#C9C8C1;
-    --mark:#DD6206;
-    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
-    --mono:ui-monospace,"SF Mono","IBM Plex Mono",Menlo,Consolas,"Liberation Mono",monospace;
+    --ink:#000000;
+    --graphite:#767676;
+    --hair:#CCCCCC;
+    --mark:#CC0000;
+    --serif:"Times New Roman",Times,serif;
+    --mono:"Times New Roman",Times,serif;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
   body{background:var(--paper);color:var(--ink);
-    font-family:var(--mono);font-size:12px;line-height:1.5;-webkit-font-smoothing:antialiased}
+    font-family:var(--mono);font-size:13.5px;line-height:1.5;-webkit-font-smoothing:antialiased}
   .sheet{max-width:1180px;margin:0 auto;padding:26px 22px 56px}
 
   .masthead{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
@@ -26,7 +26,7 @@
   .wordmark{font-family:var(--serif);font-size:38px;line-height:1;font-weight:400}
   .wordmark em{font-style:italic}
   .thesis{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--graphite);flex:1;min-width:250px}
-  .stamp{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite);white-space:nowrap}
+  .stamp{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite);white-space:nowrap}
 
   .work{display:grid;grid-template-columns:1fr 304px;border-bottom:1px solid var(--ink)}
   .plate{background:var(--plate);border-right:1px solid var(--hair);position:relative;height:520px}
@@ -35,42 +35,42 @@
   .plate-caption{position:absolute;left:16px;bottom:12px;right:16px;pointer-events:none}
   .plate-key{font-family:var(--serif);font-size:26px;line-height:1.1}
   .plate-key .between{font-size:15px;font-style:italic;color:var(--graphite)}
-  .plate-sub{font-size:10.5px;color:var(--graphite);margin-top:3px;letter-spacing:.02em}
-  .plate-id{position:absolute;right:16px;top:14px;font-size:10px;letter-spacing:.1em;color:var(--graphite)}
-  .legend{position:absolute;left:16px;top:14px;font-size:10px;color:var(--graphite);letter-spacing:.04em}
+  .plate-sub{font-size:11.5px;color:var(--graphite);margin-top:3px;letter-spacing:.02em}
+  .plate-id{position:absolute;right:16px;top:14px;font-size:11px;letter-spacing:.1em;color:var(--graphite)}
+  .legend{position:absolute;left:16px;top:14px;font-size:11px;color:var(--graphite);letter-spacing:.04em}
   .legend i{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px;border:1px solid var(--ink)}
   .legend i.dark{background:var(--ink)}
   .legend i.mark{background:var(--mark);border-color:var(--mark);height:2px;vertical-align:3px;width:14px}
   .legend div{margin-bottom:3px}
 
-  .readout{padding:16px;display:flex;flex-direction:column;gap:15px;background:#F4F3EF}
-  .block h3{margin:0 0 7px;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+  .readout{padding:16px;display:flex;flex-direction:column;gap:15px;background:#FFFFFF}
+  .block h3{margin:0 0 7px;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--graphite);font-weight:400}
-  .rule{font-size:12.5px;line-height:1.75;word-break:break-word}
-  table.planes{width:100%;border-collapse:collapse;font-size:10.5px;font-variant-numeric:tabular-nums}
+  .rule{font-size:13.5px;line-height:1.75;word-break:break-word}
+  table.planes{width:100%;border-collapse:collapse;font-size:11.5px;font-variant-numeric:tabular-nums}
   table.planes td{padding:1.5px 0;white-space:nowrap}
   table.planes td.slot{color:var(--graphite);width:28px}
   table.planes td.num{text-align:right;padding-left:7px}
-  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;font-size:10.5px}
-  .metrics b{font-weight:400;color:var(--graphite);display:block;font-size:9.5px;
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;font-size:11.5px}
+  .metrics b{font-weight:400;color:var(--graphite);display:block;font-size:10.5px;
     letter-spacing:.08em;text-transform:uppercase}
   .metrics span{font-variant-numeric:tabular-nums;font-size:14px}
 
   .ruler-wrap{padding:24px 0 4px}
   .ruler{position:relative;height:76px;user-select:none;touch-action:none;cursor:ew-resize}
   .ruler svg{display:block;width:100%;height:76px;overflow:visible}
-  .ruler-note{display:flex;justify-content:space-between;gap:16px;font-size:10px;color:var(--graphite);
+  .ruler-note{display:flex;justify-content:space-between;gap:16px;font-size:11px;color:var(--graphite);
     letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
 
   .controls{display:flex;flex-wrap:wrap;gap:9px 22px;align-items:center;
     border-top:1px solid var(--ink);border-bottom:1px solid var(--hair);padding:11px 0;margin-top:14px}
-  button{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  button{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;
     background:transparent;border:1px solid var(--ink);color:var(--ink);padding:6px 13px;cursor:pointer}
   button:hover{background:var(--ink);color:var(--plate)}
   button[aria-pressed="true"]{background:var(--ink);color:var(--plate)}
   button:focus-visible,.ruler:focus-visible,select:focus-visible,input:focus-visible{
     outline:2px solid var(--mark);outline-offset:2px}
-  label.ctl{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.08em;
+  label.ctl{display:flex;align-items:center;gap:8px;font-size:11px;letter-spacing:.08em;
     text-transform:uppercase;color:var(--graphite)}
   input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;width:104px;height:16px}
   input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--ink)}
@@ -78,7 +78,7 @@
   input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:9px;
     background:var(--mark);border-radius:50%;margin-top:-4px}
   input[type=range]::-moz-range-thumb{width:9px;height:9px;background:var(--mark);border:0;border-radius:50%}
-  select{font-family:var(--mono);font-size:10.5px;border:1px solid var(--ink);background:transparent;
+  select{font-family:var(--mono);font-size:11.5px;border:1px solid var(--ink);background:transparent;
     padding:5px 7px;color:var(--ink)}
   .val{font-variant-numeric:tabular-nums;color:var(--ink);min-width:38px}
 
@@ -86,19 +86,19 @@
   .grammar.on{display:block;padding-bottom:12px;border-bottom:1px solid var(--hair)}
   .knobs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px 28px;padding-top:12px}
   .knob{display:flex;align-items:center;gap:10px}
-  .knob span.name{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--graphite);
+  .knob span.name{font-size:11px;letter-spacing:.07em;text-transform:uppercase;color:var(--graphite);
     width:104px;flex:none}
   .knob input[type=range]{flex:1;width:auto}
 
   .essay{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:0 34px;margin-top:34px}
   .essay section{border-top:1px solid var(--ink);padding-top:10px}
   .essay h4{font-family:var(--serif);font-size:16px;font-weight:400;margin:0 0 6px}
-  .essay p{font-family:var(--serif);font-size:13.5px;line-height:1.62;margin:0 0 10px;color:#2A2823}
-  .essay code{font-family:var(--mono);font-size:11.5px;background:#DEDDD7;padding:0 3px}
+  .essay p{font-family:var(--serif);font-size:14.5px;line-height:1.62;margin:0 0 10px;color:#000000}
+  .essay code{font-family:var(--mono);font-size:12.5px;background:#EFEFEF;padding:0 3px}
   .count{font-family:var(--serif);font-size:15px}
   .count b{font-weight:400;font-size:25px;font-variant-numeric:tabular-nums}
   .colophon{margin-top:28px;border-top:1px solid var(--hair);padding-top:10px;
-    font-size:10px;color:var(--graphite);letter-spacing:.05em}
+    font-size:11px;color:var(--graphite);letter-spacing:.05em}
 
   @media (max-width:820px){
     .work{grid-template-columns:1fr}
@@ -181,7 +181,7 @@
           <option value="bowtie">Blatt + Schwalbenschwanz · lapped dovetail</option>
         </select>
       </label>
-      <span style="font-size:10.5px;color:var(--graphite);text-transform:none;letter-spacing:0">
+      <span style="font-size:11.5px;color:var(--graphite);text-transform:none;letter-spacing:0">
         parameters compile straight to the cutting planes</span>
     </div>
     <div class="knobs" id="knobs"></div>
@@ -201,7 +201,7 @@
     <section>
       <h4>How large the field is</h4>
       <p class="count">The lap family alone, at the resolution of the sliders on this page:<br><b id="bigCount">—</b></p>
-      <p id="countFactors" style="font-family:var(--mono);font-size:11px;color:var(--graphite)"></p>
+      <p id="countFactors" style="font-family:var(--mono);font-size:12px;color:var(--graphite)"></p>
       <p>Those are grid points on continuous axes, counted before position along the beam, rotation about it, and choice of replaced end enter the picture. The number itself is beside the point. What matters is that joint selection stops being a lookup and becomes navigation: find the joint that suits this damage, this grain, this access, this tool.</p>
     </section>
   </div>
@@ -744,9 +744,9 @@ const B = { sp:gl.createBuffer(), sn:gl.createBuffer(), st:gl.createBuffer(), si
             lc:gl.createBuffer(), li:gl.createBuffer() };
 let solidCount = 0, lineCount = 0;
 
-const MARK_RGB = [0.867, 0.384, 0.024];
-const INK_RGB  = [0.071, 0.067, 0.055];
-const PALE_RGB = [0.60, 0.59, 0.57];
+const MARK_RGB = [0.800, 0.000, 0.000];
+const INK_RGB  = [0.000, 0.000, 0.000];
+const PALE_RGB = [0.620, 0.620, 0.620];
 const MAX_SEGS = 15000;
 
 function uploadSolids(batches){
@@ -863,7 +863,7 @@ function rebuild(){
 function pushBuffers(){
   const e = state.explode*2.4;
   uploadSolids([
-    { pieces: cache.kept,    tone:[1.0, 0.0],     offset:[0,0,0] },
+    { pieces: cache.kept,    tone:[0.96, 0.03],   offset:[0,0,0] },
     { pieces: cache.removed, tone:[0.115, 0.20],  offset:[0,e,0] }
   ]);
   const segs = [];
@@ -997,18 +997,18 @@ const RW = 1000, RL = 28, RR = 28;
 const xOfU = u => RL + (u/7)*(RW-RL-RR);
 const uOfX = x => Math.max(0, Math.min(6.9999, ((x-RL)/(RW-RL-RR))*7));
 (function buildRuler(){
-  let s = `<line x1="${RL}" y1="30" x2="${RW-RR}" y2="30" stroke="#12110E" stroke-width="1"/>`;
+  let s = `<line x1="${RL}" y1="30" x2="${RW-RR}" y2="30" stroke="#000000" stroke-width="1"/>`;
   for (let i = 0; i <= 140; i++){
     const u = i/20, x = xOfU(u);
     const major = i % 20 === 0;
     const h = major ? 13 : (i % 5 === 0 ? 6 : 3);
-    s += `<line x1="${x.toFixed(2)}" y1="30" x2="${x.toFixed(2)}" y2="${30+h}" stroke="${major?'#12110E':'#C9C8C1'}" stroke-width="1"/>`;
+    s += `<line x1="${x.toFixed(2)}" y1="30" x2="${x.toFixed(2)}" y2="${30+h}" stroke="${major?'#000000':'#CCCCCC'}" stroke-width="1"/>`;
   }
   for (let i = 0; i <= 7; i++)
-    s += `<text x="${xOfU(i).toFixed(2)}" y="61" text-anchor="middle" fill="#12110E"
-           font-family="Iowan Old Style, Palatino, Georgia, serif" font-size="15">${ANCHORS[i%7].key}</text>`;
-  s += `<g id="cursor"><polygon points="0,26 -6,9 6,9" fill="#DD6206"/>
-        <line x1="0" y1="26" x2="0" y2="47" stroke="#DD6206" stroke-width="1.6"/></g>`;
+    s += `<text x="${xOfU(i).toFixed(2)}" y="61" text-anchor="middle" fill="#000000"
+           font-family="Times New Roman, Times, serif" font-size="16">${ANCHORS[i%7].key}</text>`;
+  s += `<g id="cursor"><polygon points="0,26 -6,9 6,9" fill="#CC0000"/>
+        <line x1="0" y1="26" x2="0" y2="47" stroke="#CC0000" stroke-width="1.6"/></g>`;
   rulerSvg.innerHTML = s;
 })();
 function paintRuler(){
