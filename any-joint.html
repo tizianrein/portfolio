@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Any-Joint — one continuous splice grammar</title>
+<style>
+  :root{
+    --paper:#E9E9E4;
+    --plate:#FFFFFF;
+    --ink:#12110E;
+    --graphite:#6D6B64;
+    --hair:#C9C8C1;
+    --mark:#DD6206;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --mono:ui-monospace,"SF Mono","IBM Plex Mono",Menlo,Consolas,"Liberation Mono",monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{background:var(--paper);color:var(--ink);
+    font-family:var(--mono);font-size:12px;line-height:1.5;-webkit-font-smoothing:antialiased}
+  .sheet{max-width:1180px;margin:0 auto;padding:26px 22px 56px}
+
+  .masthead{display:flex;align-items:baseline;gap:18px;flex-wrap:wrap;
+    border-bottom:1px solid var(--ink);padding-bottom:10px}
+  .wordmark{font-family:var(--serif);font-size:38px;line-height:1;font-weight:400}
+  .wordmark em{font-style:italic}
+  .thesis{font-family:var(--serif);font-size:15px;font-style:italic;color:var(--graphite);flex:1;min-width:250px}
+  .stamp{font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--graphite);white-space:nowrap}
+
+  .work{display:grid;grid-template-columns:1fr 304px;border-bottom:1px solid var(--ink)}
+  .plate{background:var(--plate);border-right:1px solid var(--hair);position:relative;height:520px}
+  canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none;cursor:grab;display:block}
+  canvas.dragging{cursor:grabbing}
+  .plate-caption{position:absolute;left:16px;bottom:12px;right:16px;pointer-events:none}
+  .plate-key{font-family:var(--serif);font-size:26px;line-height:1.1}
+  .plate-key .between{font-size:15px;font-style:italic;color:var(--graphite)}
+  .plate-sub{font-size:10.5px;color:var(--graphite);margin-top:3px;letter-spacing:.02em}
+  .plate-id{position:absolute;right:16px;top:14px;font-size:10px;letter-spacing:.1em;color:var(--graphite)}
+  .legend{position:absolute;left:16px;top:14px;font-size:10px;color:var(--graphite);letter-spacing:.04em}
+  .legend i{display:inline-block;width:9px;height:9px;margin-right:6px;vertical-align:-1px;border:1px solid var(--ink)}
+  .legend i.dark{background:var(--ink)}
+  .legend i.mark{background:var(--mark);border-color:var(--mark);height:2px;vertical-align:3px;width:14px}
+  .legend div{margin-bottom:3px}
+
+  .readout{padding:16px;display:flex;flex-direction:column;gap:15px;background:#F4F3EF}
+  .block h3{margin:0 0 7px;font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;
+    color:var(--graphite);font-weight:400}
+  .rule{font-size:12.5px;line-height:1.75;word-break:break-word}
+  table.planes{width:100%;border-collapse:collapse;font-size:10.5px;font-variant-numeric:tabular-nums}
+  table.planes td{padding:1.5px 0;white-space:nowrap}
+  table.planes td.slot{color:var(--graphite);width:28px}
+  table.planes td.num{text-align:right;padding-left:7px}
+  .metrics{display:grid;grid-template-columns:1fr 1fr;gap:8px 10px;font-size:10.5px}
+  .metrics b{font-weight:400;color:var(--graphite);display:block;font-size:9.5px;
+    letter-spacing:.08em;text-transform:uppercase}
+  .metrics span{font-variant-numeric:tabular-nums;font-size:14px}
+
+  .ruler-wrap{padding:24px 0 4px}
+  .ruler{position:relative;height:76px;user-select:none;touch-action:none;cursor:ew-resize}
+  .ruler svg{display:block;width:100%;height:76px;overflow:visible}
+  .ruler-note{display:flex;justify-content:space-between;gap:16px;font-size:10px;color:var(--graphite);
+    letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+
+  .controls{display:flex;flex-wrap:wrap;gap:9px 22px;align-items:center;
+    border-top:1px solid var(--ink);border-bottom:1px solid var(--hair);padding:11px 0;margin-top:14px}
+  button{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+    background:transparent;border:1px solid var(--ink);color:var(--ink);padding:6px 13px;cursor:pointer}
+  button:hover{background:var(--ink);color:var(--plate)}
+  button[aria-pressed="true"]{background:var(--ink);color:var(--plate)}
+  button:focus-visible,.ruler:focus-visible,select:focus-visible,input:focus-visible{
+    outline:2px solid var(--mark);outline-offset:2px}
+  label.ctl{display:flex;align-items:center;gap:8px;font-size:10px;letter-spacing:.08em;
+    text-transform:uppercase;color:var(--graphite)}
+  input[type=range]{-webkit-appearance:none;appearance:none;background:transparent;width:104px;height:16px}
+  input[type=range]::-webkit-slider-runnable-track{height:1px;background:var(--ink)}
+  input[type=range]::-moz-range-track{height:1px;background:var(--ink)}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:9px;height:9px;
+    background:var(--mark);border-radius:50%;margin-top:-4px}
+  input[type=range]::-moz-range-thumb{width:9px;height:9px;background:var(--mark);border:0;border-radius:50%}
+  select{font-family:var(--mono);font-size:10.5px;border:1px solid var(--ink);background:transparent;
+    padding:5px 7px;color:var(--ink)}
+  .val{font-variant-numeric:tabular-nums;color:var(--ink);min-width:38px}
+
+  .grammar{display:none}
+  .grammar.on{display:block;padding-bottom:12px;border-bottom:1px solid var(--hair)}
+  .knobs{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px 28px;padding-top:12px}
+  .knob{display:flex;align-items:center;gap:10px}
+  .knob span.name{font-size:10px;letter-spacing:.07em;text-transform:uppercase;color:var(--graphite);
+    width:104px;flex:none}
+  .knob input[type=range]{flex:1;width:auto}
+
+  .essay{display:grid;grid-template-columns:repeat(auto-fit,minmax(258px,1fr));gap:0 34px;margin-top:34px}
+  .essay section{border-top:1px solid var(--ink);padding-top:10px}
+  .essay h4{font-family:var(--serif);font-size:16px;font-weight:400;margin:0 0 6px}
+  .essay p{font-family:var(--serif);font-size:13.5px;line-height:1.62;margin:0 0 10px;color:#2A2823}
+  .essay code{font-family:var(--mono);font-size:11.5px;background:#DEDDD7;padding:0 3px}
+  .count{font-family:var(--serif);font-size:15px}
+  .count b{font-weight:400;font-size:25px;font-variant-numeric:tabular-nums}
+  .colophon{margin-top:28px;border-top:1px solid var(--hair);padding-top:10px;
+    font-size:10px;color:var(--graphite);letter-spacing:.05em}
+
+  @media (max-width:820px){
+    .work{grid-template-columns:1fr}
+    .plate{height:400px;border-right:0;border-bottom:1px solid var(--hair)}
+    .wordmark{font-size:30px}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <header class="masthead">
+    <div class="wordmark">Any<em>-</em>Joint</div>
+    <div class="thesis">Seven splices in a catalogue are seven readings taken from one continuous field. A small set of oriented cutting planes and one removal rule describe all of them, and everything in between.</div>
+    <div class="stamp">planes · rule · field</div>
+  </header>
+
+  <div class="work">
+    <div class="plate">
+      <canvas id="gl"></canvas>
+      <div class="legend">
+        <div><i></i>retained beam</div>
+        <div><i class="dark"></i>replacement piece</div>
+        <div><i class="mark"></i>marking line on the skin</div>
+      </div>
+      <div class="plate-id" id="jointId">AJ-0000-0000</div>
+      <div class="plate-caption">
+        <div class="plate-key" id="keyLine">SJ1 <span class="between">Half Lap Joint</span></div>
+        <div class="plate-sub" id="subLine">Gerades Blatt · koshi-kake-tsugi</div>
+      </div>
+    </div>
+
+    <aside class="readout">
+      <div class="block">
+        <h3>Removal rule</h3>
+        <div class="rule" id="ruleLine"></div>
+      </div>
+      <div class="block">
+        <h3>Half-spaces &nbsp;n · p ≥ d</h3>
+        <table class="planes"><tbody id="planeTable"></tbody></table>
+      </div>
+      <div class="block">
+        <h3>Measured on the solid</h3>
+        <div class="metrics">
+          <div><b>retained</b><span id="mKept">—</span></div>
+          <div><b>replaced</b><span id="mRem">—</span></div>
+          <div><b>half-spaces</b><span id="mCuts">—</span></div>
+          <div><b>marking lines</b><span id="mMark">—</span></div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <div class="ruler-wrap">
+    <div class="ruler" id="ruler" tabindex="0" role="slider" aria-label="Traverse through the joint field"
+         aria-valuemin="0" aria-valuemax="7" aria-valuenow="0">
+      <svg id="rulerSvg" viewBox="0 0 1000 76" preserveAspectRatio="none" aria-hidden="true"></svg>
+    </div>
+    <div class="ruler-note">
+      <span>the catalogue as seven marks on a continuous scale</span>
+      <span id="posNote">at SJ1</span>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="play" aria-pressed="false">Play traverse</button>
+    <label class="ctl">Speed <input type="range" id="speed" min="0.02" max="0.5" step="0.01" value="0.13"></label>
+    <label class="ctl">Separate <input type="range" id="explode" min="0" max="1" step="0.005" value="0"></label>
+    <button id="grainBtn" aria-pressed="true">Grain</button>
+    <button id="modeBtn" aria-pressed="false">Grammar mode</button>
+    <button id="resetView">Reset view</button>
+  </div>
+
+  <div class="grammar" id="grammar">
+    <div class="controls" style="border-top:0;border-bottom:0;margin-top:0;padding-bottom:0">
+      <label class="ctl">Family
+        <select id="family">
+          <option value="lap">Blatt · lap</option>
+          <option value="scarf">Schäftung · scarf</option>
+          <option value="bowtie">Blatt + Schwalbenschwanz · lapped dovetail</option>
+        </select>
+      </label>
+      <span style="font-size:10.5px;color:var(--graphite);text-transform:none;letter-spacing:0">
+        parameters compile straight to the cutting planes</span>
+    </div>
+    <div class="knobs" id="knobs"></div>
+  </div>
+
+  <div class="essay">
+    <section>
+      <h4>What the seven have in common</h4>
+      <p>Every joint lives in one canonical block: the section runs <code>x, z ∈ [−0.5, 0.5]</code> and the beam runs <code>y ∈ [0, 3]</code>. Six oriented half-spaces are declared over that block, each one a predicate <code>n · p ≥ d</code>. Predicates are intersected inside a group, groups are unioned. Material satisfying the rule is removed and replaced. Its complement is the beam that stays.</p>
+      <p>Slots may collapse onto the same support plane, which is how the rule degenerates cleanly. SJ5 is the case where all six half-spaces coincide and the whole program reduces to a single saw cut.</p>
+    </section>
+    <section>
+      <h4>Why a catalogue is a sampling artefact</h4>
+      <p>A catalogue entry is a fixed tuple of plane coefficients. Nothing in the representation privileges those particular tuples. Move the coefficients continuously and the joint moves with them, passing through geometries that are perfectly buildable and carry no name.</p>
+      <p>The traverse walks the closed loop SJ1 → SJ2 → SJ3 → SJ4 → SJ5 → SJ6 → SJ7 → SJ1. Watch the rule while it runs. When a half-space slides off the block its predicate becomes trivially true and drops out of the expression, and when two slots meet on one support plane the expression collapses further. That is how one topology becomes another with no discontinuity anywhere.</p>
+    </section>
+    <section>
+      <h4>How large the field is</h4>
+      <p class="count">The lap family alone, at the resolution of the sliders on this page:<br><b id="bigCount">—</b></p>
+      <p id="countFactors" style="font-family:var(--mono);font-size:11px;color:var(--graphite)"></p>
+      <p>Those are grid points on continuous axes, counted before position along the beam, rotation about it, and choice of replaced end enter the picture. The number itself is beside the point. What matters is that joint selection stops being a lookup and becomes navigation: find the joint that suits this damage, this grain, this access, this tool.</p>
+    </section>
+  </div>
+
+  <div class="colophon">
+    Geometry compiled live from the six-plane grammar of workshop_robarch_2026.
+    Drag the drawing to orbit. Drag the ruler, or use ← →, to traverse. Space plays and pauses.
+  </div>
+</div>
+
+<script>
+"use strict";
+/* ============================================================
+   ANY-JOINT
+   A joint program is 3 groups x 4 oriented half-spaces over a
+   canonical block.  R = G0 OR G1 OR G2, each group an intersection.
+   Unused slots carry a trivially-true plane, which is what allows
+   two different removal rules to morph into one another.
+   ============================================================ */
+const A = 3.0;
+const TRUE_PLANE = [0, 1, 0, -2.0];
+
+const S4 = [0.4795101517671503, 0.7189057747633437, -0.5032340423343405];
+const D4a = 0.3120051062472912, D4b = 1.8447122180427398;
+const S5 = [0, 0.31622776601683794, 0.9486832980505138, 0.4743416490252569];
+const S7 = [0.9879195263882261, -0.15496776884521196, 0, -0.39658385306333016];
+
+const COMMON   = [[0,1,2,'T'], [3,4,'T','T'], [3,5,'T','T']];
+const DOVETAIL = [[0,'T','T','T'], [1,2,'T','T'], [1,3,4,5]];
+
+const ANCHORS = [
+  { key:'SJ1', en:'Half Lap Joint', de:'Gerades Blatt', jp:'koshi-kake-tsugi 腰掛継ぎ', map:COMMON,
+    P:[[0,0,1,0],[0,1,0,1],[0,1,0,1],[0,0,-1,0],[0,1,0,2],[0,1,0,2]] },
+  { key:'SJ2', en:'Undersquinted Half Lap Joint', de:'Gerades Blatt mit hinterschnittener Brüstung',
+    jp:'naga-koshi-kake-tsugi (sogi-tsuki) 長腰掛継ぎ', map:COMMON,
+    P:[[0,0,1,0],[0,1,-0.5,0.64],[0,1,-0.5,0.64],[0,0,-1,0],[0,1,-0.5,2.36],[0,1,-0.5,2.36]] },
+  { key:'SJ3', en:'Spear Point Half Lap Joint', de:'Gerades Blatt mit Gratschnitt',
+    jp:'naga-koshi-kake-yahazu-tsugi 長腰掛矢筈継ぎ', map:COMMON,
+    P:[[0,0,1,0],[-0.685,1,0,0.415],[0.685,1,0,0.415],[0,0,-1,0],[0.685,1,0,2.585],[-0.685,1,0,2.585]] },
+  { key:'SJ4', en:'Undersquinted Spear Point Half Lap', de:'Gerades Blatt mit schrägem Gratschnitt',
+    jp:'naga-koshi-kake-yahazu-tsugi (sogi-tsuki) 長腰掛矢筈継ぎ', map:COMMON,
+    P:[[0,0,1,0],[-S4[0],S4[1],S4[2],D4a],[S4[0],S4[1],S4[2],D4a],
+       [0,0,-1,0],[S4[0],S4[1],S4[2],D4b],[-S4[0],S4[1],S4[2],D4b]] },
+  { key:'SJ5', en:'Splayed Scarf Joint', de:'Schäftung', jp:'sogi-tsugi 殺継ぎ', map:COMMON,
+    P:[S5.slice(),S5.slice(),S5.slice(),S5.slice(),S5.slice(),S5.slice()] },
+  { key:'SJ6', en:'Half Lap Joint with Mitered Ends',
+    de:'Stehendes gerades Blatt mit beidseitig schrägem Stoß', jp:'ai-sogi-tsugi 相殺継ぎ', map:COMMON,
+    P:[[1,0,0,0],[0,1,1,0.5],[0,1,1,0.5],[-1,0,0,0],[0,1,-1,2.5],[0,1,-1,2.5]] },
+  { key:'SJ7', en:'Lapped Dovetail Joint', de:'Schwalbenschwanzzapfen mit geradem Blatt',
+    jp:'koshi-kake-ari-tsugi 腰掛蟻継ぎ', map:DOVETAIL,
+    P:[[0,1,0,1.8037974683544304],[0,0,1,0],[0,1,0,1.5],[0,1,0,1.0158227848101267],
+       [-S7[0],S7[1],S7[2],S7[3]],[S7[0],S7[1],S7[2],S7[3]]] }
+];
+
+function mkPlane(t){
+  const L = Math.hypot(t[0],t[1],t[2]) || 1;
+  return { n:[t[0]/L, t[1]/L, t[2]/L], d:t[3]/L };
+}
+function fromPlanes(list, map){
+  const P = list.map(mkPlane), T = mkPlane(TRUE_PLANE);
+  return map.map(g => g.map(s => (s === 'T' ? T : P[s])));
+}
+const ANCHOR_PROGRAMS = ANCHORS.map(a => fromPlanes(a.P, a.map));
+
+function slerpN(a, b, t){
+  let dot = a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
+  dot = Math.max(-1, Math.min(1, dot));
+  if (dot > 0.9995){
+    const v = [a[0]+(b[0]-a[0])*t, a[1]+(b[1]-a[1])*t, a[2]+(b[2]-a[2])*t];
+    const L = Math.hypot(v[0],v[1],v[2]) || 1;
+    return [v[0]/L, v[1]/L, v[2]/L];
+  }
+  if (dot < -0.9995){
+    let u = Math.abs(a[0]) < 0.9 ? [1,0,0] : [0,1,0];
+    const k = u[0]*a[0]+u[1]*a[1]+u[2]*a[2];
+    u = [u[0]-a[0]*k, u[1]-a[1]*k, u[2]-a[2]*k];
+    const L = Math.hypot(u[0],u[1],u[2]);
+    u = [u[0]/L, u[1]/L, u[2]/L];
+    const th = Math.PI*t, c = Math.cos(th), s = Math.sin(th);
+    return [a[0]*c+u[0]*s, a[1]*c+u[1]*s, a[2]*c+u[2]*s];
+  }
+  const th = Math.acos(dot), s = Math.sin(th);
+  const w0 = Math.sin((1-t)*th)/s, w1 = Math.sin(t*th)/s;
+  return [a[0]*w0+b[0]*w1, a[1]*w0+b[1]*w1, a[2]*w0+b[2]*w1];
+}
+function lerpProgram(PA, PB, t){
+  return PA.map((g, gi) => g.map((pa, si) => {
+    const pb = PB[gi][si];
+    return { n: slerpN(pa.n, pb.n, t), d: pa.d*(1-t) + pb.d*t };
+  }));
+}
+function traverse(u){
+  const n = ANCHORS.length;
+  u = ((u % n) + n) % n;
+  const i = Math.floor(u), t = u - i;
+  if (t < 1e-9) return { prog: ANCHOR_PROGRAMS[i].map(g => g.map(p => ({ n:p.n.slice(), d:p.d }))), i, t };
+  return { prog: lerpProgram(ANCHOR_PROGRAMS[i], ANCHOR_PROGRAMS[(i+1)%n], t), i, t };
+}
+
+/* ---- parametric families, ported from anyjoint.py ---- */
+function lapProgram(c, rl, rr, lf){
+  const z0 = lf - 0.5, left = A/3, right = 2*A/3;
+  return fromPlanes([[0,0,1,z0],[-c,1,-rl,left],[c,1,-rl,left],
+                     [0,0,-1,-z0],[c,1,-rr,right],[-c,1,-rr,right]], COMMON);
+}
+function scarfProgram(slope){
+  const p = [0,1,slope,0.5*A];
+  return fromPlanes([p,p,p,p,p,p], COMMON);
+}
+function bowtieProgram(lf, root, shoulder, seat, tip, width){
+  const rootY = root*A, shY = shoulder*A, seatY = seat*A, tipY = tip*A;
+  const k = (tipY - rootY)/width, z0 = lf - 0.5;
+  return fromPlanes([[0,1,0,seatY],[0,0,1,z0],[0,1,0,shY],[0,1,0,rootY],
+                     [-k,-1,0,-tipY],[k,-1,0,-tipY]], DOVETAIL);
+}
+
+/* ============================================================
+   Convex CSG.  face = { v:[[x,y,z],...], tag }, tag < 0 is stock
+   ============================================================ */
+const EPS = 1e-9;
+function boxFaces(){
+  const V = [[-.5,0,-.5],[.5,0,-.5],[.5,A,-.5],[-.5,A,-.5],
+             [-.5,0,.5],[.5,0,.5],[.5,A,.5],[-.5,A,.5]];
+  const idx = [[0,3,2,1],[4,5,6,7],[0,1,5,4],[2,3,7,6],[1,2,6,5],[0,4,7,3]];
+  return idx.map((f,i) => ({ v: f.map(j => V[j].slice()), tag: -1-i }));
+}
+function sub(a,b){ return [a[0]-b[0], a[1]-b[1], a[2]-b[2]]; }
+function cross(a,b){ return [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]]; }
+function faceNormal(f){
+  const v = f.v;
+  for (let i = 2; i < v.length; i++){
+    const c = cross(sub(v[1],v[0]), sub(v[i],v[0]));
+    const L = Math.hypot(c[0],c[1],c[2]);
+    if (L > 1e-11) return [c[0]/L, c[1]/L, c[2]/L];
+  }
+  return null;
+}
+function clipConvex(faces, n, d, tag){
+  const out = [], cut = [];
+  for (const f of faces){
+    const v = f.v, m = v.length, s = new Array(m);
+    let maxAbs = 0;
+    for (let i = 0; i < m; i++){
+      s[i] = v[i][0]*n[0] + v[i][1]*n[1] + v[i][2]*n[2] - d;
+      if (Math.abs(s[i]) > maxAbs) maxAbs = Math.abs(s[i]);
+    }
+    const flat = maxAbs <= EPS;              // the whole face lies on the plane
+    const keep = [];
+    for (let i = 0; i < m; i++){
+      const j = (i+1) % m;
+      if (s[i] >= -EPS) keep.push(v[i]);
+      // a vertex sitting exactly on the plane still belongs to the cap ring
+      if (!flat && Math.abs(s[i]) <= EPS) cut.push(v[i]);
+      if ((s[i] > EPS && s[j] < -EPS) || (s[i] < -EPS && s[j] > EPS)){
+        const u = s[i]/(s[i]-s[j]);
+        const p = [v[i][0]+u*(v[j][0]-v[i][0]), v[i][1]+u*(v[j][1]-v[i][1]), v[i][2]+u*(v[j][2]-v[i][2])];
+        keep.push(p); cut.push(p);
+      }
+    }
+    if (keep.length >= 3) out.push({ v:keep, tag:f.tag });
+  }
+  let flush = false;
+  for (const f of out){
+    const fn = faceNormal(f);
+    if (!fn) continue;
+    if (fn[0]*n[0] + fn[1]*n[1] + fn[2]*n[2] < -0.9999 &&
+        Math.abs(f.v[0][0]*n[0] + f.v[0][1]*n[1] + f.v[0][2]*n[2] - d) < 1e-7){ flush = true; break; }
+  }
+  if (cut.length >= 3 && !flush){
+    const seen = new Map();
+    for (const p of cut){
+      // integer keys, so +0 and -0 land in the same bucket
+      const k = Math.round(p[0]*1e6)+','+Math.round(p[1]*1e6)+','+Math.round(p[2]*1e6);
+      if (!seen.has(k)) seen.set(k, p);
+    }
+    const pts = [...seen.values()];
+    if (pts.length >= 3){
+      const c = [0,0,0];
+      for (const p of pts){ c[0]+=p[0]; c[1]+=p[1]; c[2]+=p[2]; }
+      c[0]/=pts.length; c[1]/=pts.length; c[2]/=pts.length;
+      let u = Math.abs(n[0]) < 0.9 ? [1,0,0] : [0,1,0];
+      const k = u[0]*n[0]+u[1]*n[1]+u[2]*n[2];
+      u = [u[0]-n[0]*k, u[1]-n[1]*k, u[2]-n[2]*k];
+      const L = Math.hypot(u[0],u[1],u[2]); u = [u[0]/L,u[1]/L,u[2]/L];
+      const w = cross(n, u);
+      const ang = p => Math.atan2((p[0]-c[0])*w[0]+(p[1]-c[1])*w[1]+(p[2]-c[2])*w[2],
+                                  (p[0]-c[0])*u[0]+(p[1]-c[1])*u[1]+(p[2]-c[2])*u[2]);
+      pts.sort((p,q) => ang(p) - ang(q));
+      const cn = faceNormal({ v:pts });
+      if (cn && cn[0]*n[0] + cn[1]*n[1] + cn[2]*n[2] > 0) pts.reverse();
+      out.push({ v:pts, tag });
+    }
+  }
+  return out;
+}
+function pieceArea(faces){
+  let s = 0;
+  for (const f of faces){
+    const v = f.v;
+    for (let i = 1; i < v.length-1; i++){
+      const c = cross(sub(v[i],v[0]), sub(v[i+1],v[0]));
+      s += Math.hypot(c[0],c[1],c[2]);
+    }
+  }
+  return s;
+}
+function alive(faces){
+  // a bounded convex solid needs at least four faces and a real volume;
+  // clipping against a coincident plane otherwise leaves flat slivers behind
+  if (faces.length < 4 || pieceArea(faces) < 1e-7) return false;
+  return volumeOf([faces]) > 1e-9;
+}
+
+function buildSolids(prog){
+  const removed = [];
+  prog.forEach((g, gi) => {
+    let s = boxFaces();
+    for (let si = 0; si < g.length; si++){
+      s = clipConvex(s, g[si].n, g[si].d, gi*4 + si);
+      if (!alive(s)) return;
+    }
+    if (alive(s)) removed.push(s);
+  });
+  let kept = [boxFaces()];
+  for (const g of prog){
+    const next = [];
+    for (const piece of kept){
+      let cur = piece;
+      for (let si = 0; si < g.length; si++){
+        const pl = g[si];
+        const part = clipConvex(cur, [-pl.n[0],-pl.n[1],-pl.n[2]], -pl.d, 900+si);
+        if (alive(part)) next.push(part);
+        cur = clipConvex(cur, pl.n, pl.d, 900+si);
+        if (!alive(cur)) break;
+      }
+    }
+    kept = next;
+    if (!kept.length) break;
+  }
+  return { kept, removed };
+}
+function volumeOf(pieces){
+  let vol = 0;
+  for (const piece of pieces) for (const f of piece){
+    const n = faceNormal(f); if (!n) continue;
+    const v = f.v; let area = 0;
+    for (let i = 1; i < v.length-1; i++){
+      const c = cross(sub(v[i],v[0]), sub(v[i+1],v[0]));
+      area += 0.5*(c[0]*n[0] + c[1]*n[1] + c[2]*n[2]);
+    }
+    vol += (v[0][0]*n[0] + v[0][1]*n[1] + v[0][2]*n[2]) * area / 3;
+  }
+  return vol;
+}
+
+/* ---- point classification and rule simplification ---- */
+function makeInside(prog){
+  const groups = prog.map(g => g.map(p => [p.n[0], p.n[1], p.n[2], p.d]));
+  function removal(x,y,z){
+    for (const g of groups){
+      let ins = true;
+      for (const q of g){ if (x*q[0] + y*q[1] + z*q[2] < q[3] - 1e-9){ ins = false; break; } }
+      if (ins) return true;
+    }
+    return false;
+  }
+  const inBox = (x,y,z) => x >= -0.5 && x <= 0.5 && y >= 0 && y <= A && z >= -0.5 && z <= 0.5;
+  return { kept:(x,y,z) => inBox(x,y,z) && !removal(x,y,z),
+           removed:(x,y,z) => inBox(x,y,z) && removal(x,y,z) };
+}
+const CORNERS = [];
+for (const x of [-0.5,0.5]) for (const y of [0,A]) for (const z of [-0.5,0.5]) CORNERS.push([x,y,z]);
+function triviality(p){
+  let lo = Infinity, hi = -Infinity;
+  for (const c of CORNERS){
+    const s = c[0]*p.n[0] + c[1]*p.n[1] + c[2]*p.n[2];
+    if (s < lo) lo = s;
+    if (s > hi) hi = s;
+  }
+  if (lo >= p.d - 1e-7) return 1;      // always satisfied
+  if (hi <  p.d + 1e-7) return -1;     // never satisfied
+  return 0;
+}
+function simplifyProgram(prog){
+  const preds = [], byKey = new Map(), groups = [], seenG = new Set();
+  for (const g of prog){
+    const idxs = []; let dead = false;
+    for (const p of g){
+      const t = triviality(p);
+      if (t === 1) continue;
+      if (t === -1){ dead = true; break; }
+      const key = p.n[0].toFixed(4)+','+p.n[1].toFixed(4)+','+p.n[2].toFixed(4)+','+p.d.toFixed(4);
+      let id = byKey.get(key);
+      if (id === undefined){ id = preds.length; byKey.set(key, id); preds.push(p); }
+      if (!idxs.includes(id)) idxs.push(id);
+    }
+    if (dead || !idxs.length) continue;
+    const gk = idxs.slice().sort((a,b) => a-b).join(',');
+    if (seenG.has(gk)) continue;
+    seenG.add(gk); groups.push(idxs);
+  }
+  return { preds, groups };
+}
+
+/* ============================================================
+   Edges: keep only genuine creases of the solid boundary
+   ============================================================ */
+const K_ANG = 16, ANG = [];
+for (let i = 0; i < K_ANG; i++) ANG.push(2*Math.PI*i/K_ANG);
+
+function creaseSegments(a, b, inside, r){
+  const ex = b[0]-a[0], ey = b[1]-a[1], ez = b[2]-a[2];
+  const L = Math.hypot(ex,ey,ez);
+  if (L < 1e-6) return [];
+  const e = [ex/L, ey/L, ez/L];
+  let u = Math.abs(e[0]) < 0.9 ? [1,0,0] : [0,1,0];
+  const k = u[0]*e[0]+u[1]*e[1]+u[2]*e[2];
+  u = [u[0]-e[0]*k, u[1]-e[1]*k, u[2]-e[2]*k];
+  const lu = Math.hypot(u[0],u[1],u[2]); u = [u[0]/lu, u[1]/lu, u[2]/lu];
+  const v = cross(e, u);
+  const m = new Array(K_ANG);
+  const sample = (t, th) => {
+    const c = Math.cos(th)*r, s = Math.sin(th)*r;
+    return inside(a[0]+e[0]*t*L + u[0]*c + v[0]*s,
+                  a[1]+e[1]*t*L + u[1]*c + v[1]*s,
+                  a[2]+e[2]*t*L + u[2]*c + v[2]*s);
+  };
+  function isCrease(t){
+    let cnt = 0;
+    for (let i = 0; i < K_ANG; i++){ m[i] = sample(t, ANG[i]); if (m[i]) cnt++; }
+    if (cnt === 0 || cnt === K_ANG) return false;
+    const tr = [];
+    for (let i = 0; i < K_ANG; i++) if (m[i] !== m[(i+1)%K_ANG]) tr.push(i);
+    if (tr.length !== 2) return true;
+    const first = m[(tr[0]+1)%K_ANG];
+    const bs = [];
+    for (const i of tr){
+      let lo = ANG[i], hi = ANG[i] + 2*Math.PI/K_ANG;
+      const slo = m[i];
+      for (let it = 0; it < 6; it++){
+        const md = (lo+hi)/2;
+        if (sample(t, md) === slo) lo = md; else hi = md;
+      }
+      bs.push((lo+hi)/2);
+    }
+    let w = Math.abs(bs[1]-bs[0]);
+    if (!first) w = 2*Math.PI - w;
+    return Math.abs(w - Math.PI) > 0.0524;
+  }
+  const n = Math.max(1, Math.min(18, Math.round(L/0.22)));
+  const flags = [];
+  for (let i = 0; i < n; i++) flags.push(isCrease((i+0.5)/n));
+  const out = [];
+  let i = 0;
+  while (i < n){
+    if (!flags[i]){ i++; continue; }
+    let j = i;
+    while (j+1 < n && flags[j+1]) j++;
+    let t0 = i/n, t1 = (j+1)/n;
+    if (i > 0){
+      let lo = (i-0.5)/n, hi = (i+0.5)/n;
+      for (let it = 0; it < 5; it++){ const md = (lo+hi)/2; if (isCrease(md)) hi = md; else lo = md; }
+      t0 = (lo+hi)/2;
+    }
+    if (j+1 < n){
+      let lo = (j+0.5)/n, hi = (j+1.5)/n;
+      for (let it = 0; it < 5; it++){ const md = (lo+hi)/2; if (isCrease(md)) lo = md; else hi = md; }
+      t1 = (lo+hi)/2;
+    }
+    out.push([[a[0]+e[0]*t0*L, a[1]+e[1]*t0*L, a[2]+e[2]*t0*L],
+              [a[0]+e[0]*t1*L, a[1]+e[1]*t1*L, a[2]+e[2]*t1*L]]);
+    i = j+1;
+  }
+  return out;
+}
+function onSkin(p){
+  const t = 1e-4;
+  return Math.abs(Math.abs(p[0])-0.5) < t || Math.abs(p[1]) < t ||
+         Math.abs(p[1]-A) < t || Math.abs(Math.abs(p[2])-0.5) < t;
+}
+function isBoxArris(a,b){
+  const t = 1e-4; let c = 0;
+  if (Math.abs(Math.abs(a[0])-0.5) < t && Math.abs(Math.abs(b[0])-0.5) < t && a[0]*b[0] > 0) c++;
+  if (Math.abs(Math.abs(a[2])-0.5) < t && Math.abs(Math.abs(b[2])-0.5) < t && a[2]*b[2] > 0) c++;
+  if (Math.abs(a[1]) < t && Math.abs(b[1]) < t) c++;
+  if (Math.abs(a[1]-A) < t && Math.abs(b[1]-A) < t) c++;
+  return c >= 2;
+}
+function solidEdges(pieces, inside){
+  const seen = new Set(), raw = [];
+  for (const piece of pieces) for (const f of piece){
+    const v = f.v, m = v.length;
+    for (let i = 0; i < m; i++){
+      const a = v[i], b = v[(i+1)%m];
+      const ka = Math.round(a[0]*1e6)+','+Math.round(a[1]*1e6)+','+Math.round(a[2]*1e6);
+      const kb = Math.round(b[0]*1e6)+','+Math.round(b[1]*1e6)+','+Math.round(b[2]*1e6);
+      const key = ka < kb ? ka+'|'+kb : kb+'|'+ka;
+      if (seen.has(key)) continue;
+      seen.add(key); raw.push([a,b]);
+    }
+  }
+  const out = [];
+  for (const [a,b] of raw){
+    for (const seg of creaseSegments(a, b, inside, 1.2e-3)){
+      const mid = [(seg[0][0]+seg[1][0])/2, (seg[0][1]+seg[1][1])/2, (seg[0][2]+seg[1][2])/2];
+      out.push({ a:seg[0], b:seg[1], mark: onSkin(mid) && !isBoxArris(seg[0], seg[1]) });
+    }
+  }
+  return out;
+}
+
+/* ============================================================
+   Grain: fibres along the beam, rings on the end faces
+   ============================================================ */
+function clipSegToPoly(p0, p1, poly){
+  let t0 = 0, t1 = 1;
+  const m = poly.length;
+  let cx = 0, cy = 0;
+  for (const p of poly){ cx += p[0]; cy += p[1]; }
+  cx /= m; cy /= m;
+  for (let i = 0; i < m; i++){
+    const a = poly[i], b = poly[(i+1)%m];
+    let nx = -(b[1]-a[1]), ny = (b[0]-a[0]);
+    if (nx*(cx-a[0]) + ny*(cy-a[1]) < 0){ nx = -nx; ny = -ny; }
+    const d0 = nx*(p0[0]-a[0]) + ny*(p0[1]-a[1]);
+    const d1 = nx*(p1[0]-a[0]) + ny*(p1[1]-a[1]);
+    if (d0 < 0 && d1 < 0) return null;
+    if (d0 !== d1){
+      const t = d0/(d0-d1);
+      if (d0 < 0) t0 = Math.max(t0, t); else t1 = Math.min(t1, t);
+    }
+    if (t0 > t1) return null;
+  }
+  return [t0, t1];
+}
+function grainFor(pieces){
+  const segs = [];
+  for (const piece of pieces) for (const f of piece){
+    if (f.tag >= 0) continue;
+    const n = faceNormal(f); if (!n) continue;
+    const ax = Math.abs(n[1]) > 0.9 ? 1 : (Math.abs(n[0]) > 0.9 ? 0 : 2);
+    const off = 0.0022;
+    const lift = p => [p[0]+n[0]*off, p[1]+n[1]*off, p[2]+n[2]*off];
+    if (ax === 1){
+      const poly = f.v.map(p => [p[0], p[2]]);
+      const px = 0.64, pz = 0.31, y = f.v[0][1], N = 28;
+      for (let ri = 0; ri < 9; ri++){
+        const R = 0.11 + ri*0.112 + (ri % 3)*0.016;
+        for (let i = 0; i < N; i++){
+          const a0 = 2*Math.PI*i/N, a1 = 2*Math.PI*(i+1)/N;
+          const q0 = [px + R*Math.cos(a0), pz + R*Math.sin(a0)];
+          const q1 = [px + R*Math.cos(a1), pz + R*Math.sin(a1)];
+          const cl = clipSegToPoly(q0, q1, poly);
+          if (!cl) continue;
+          const l0 = [q0[0]+(q1[0]-q0[0])*cl[0], q0[1]+(q1[1]-q0[1])*cl[0]];
+          const l1 = [q0[0]+(q1[0]-q0[0])*cl[1], q0[1]+(q1[1]-q0[1])*cl[1]];
+          segs.push([lift([l0[0], y, l0[1]]), lift([l1[0], y, l1[1]])]);
+        }
+      }
+    } else {
+      const other = ax === 0 ? 2 : 0;
+      const poly = f.v.map(p => [p[other], p[1]]);
+      const fixed = f.v[0][ax];
+      for (let i = 0; i < 14; i++){
+        const s = -0.5 + (i+0.5)/14 + 0.020*Math.sin(i*2.7);
+        const cl = clipSegToPoly([s, -0.4], [s, A+0.4], poly);
+        if (!cl) continue;
+        const y0 = -0.4 + (A+0.8)*cl[0], y1 = -0.4 + (A+0.8)*cl[1];
+        if (y1 - y0 < 0.012) continue;
+        const p0 = [0,0,0], p1 = [0,0,0];
+        p0[ax] = fixed;   p1[ax] = fixed;
+        p0[other] = s;    p1[other] = s;
+        p0[1] = y0;       p1[1] = y1;
+        segs.push([lift(p0), lift(p1)]);
+      }
+    }
+  }
+  return segs;
+}
+
+/* ============================================================
+   WebGL
+   ============================================================ */
+const canvas = document.getElementById('gl');
+const gl = canvas.getContext('webgl', { antialias:true, alpha:false });
+if (!gl) document.querySelector('.plate').innerHTML =
+  '<div style="padding:24px;font-family:var(--mono)">This drawing needs WebGL.</div>';
+
+function sh(type, src){
+  const s = gl.createShader(type);
+  gl.shaderSource(s, src); gl.compileShader(s);
+  if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s));
+  return s;
+}
+function makeProg(vs, fs){
+  const p = gl.createProgram();
+  gl.attachShader(p, sh(gl.VERTEX_SHADER, vs));
+  gl.attachShader(p, sh(gl.FRAGMENT_SHADER, fs));
+  gl.linkProgram(p);
+  if (!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+  return p;
+}
+const solidProg = makeProg(
+` attribute vec3 aPos; attribute vec3 aNrm; attribute vec2 aTone;
+  uniform mat4 uMVP; uniform mat3 uRot;
+  varying vec3 vN; varying vec2 vTone;
+  void main(){ vN = uRot*aNrm; vTone = aTone; gl_Position = uMVP*vec4(aPos,1.0); }`,
+` precision mediump float;
+  varying vec3 vN; varying vec2 vTone;
+  void main(){
+    vec3 L = normalize(vec3(-0.40, 0.52, 0.76));
+    float l = max(dot(normalize(vN), L), 0.0);
+    float s = 0.58 + 0.42*l;
+    vec3 c = vec3(vTone.x)*s + vec3(vTone.y*l);
+    gl_FragColor = vec4(clamp(c, 0.0, 1.0), 1.0);
+  }`);
+const lineProg = makeProg(
+` attribute vec3 aPos; attribute vec3 aOther; attribute vec2 aSideW; attribute vec3 aCol;
+  uniform mat4 uMVP; uniform vec2 uRes; uniform float uBias; uniform float uScale;
+  varying vec3 vCol;
+  void main(){
+    vec4 p = uMVP*vec4(aPos,1.0);
+    vec4 q = uMVP*vec4(aOther,1.0);
+    vec2 sp = p.xy/p.w*uRes*0.5;
+    vec2 sq = q.xy/q.w*uRes*0.5;
+    vec2 dir = sq - sp;
+    float L = length(dir);
+    dir = L > 0.0001 ? dir/L : vec2(1.0, 0.0);
+    vec2 nr = vec2(-dir.y, dir.x)*aSideW.x*aSideW.y*uScale;
+    p.xy += nr/(uRes*0.5)*p.w;
+    p.z -= uBias*p.w;
+    vCol = aCol;
+    gl_Position = p;
+  }`,
+` precision mediump float; varying vec3 vCol;
+  void main(){ gl_FragColor = vec4(vCol, 1.0); }`);
+
+const B = { sp:gl.createBuffer(), sn:gl.createBuffer(), st:gl.createBuffer(), si:gl.createBuffer(),
+            lp:gl.createBuffer(), lo:gl.createBuffer(), lsw:gl.createBuffer(),
+            lc:gl.createBuffer(), li:gl.createBuffer() };
+let solidCount = 0, lineCount = 0;
+
+const MARK_RGB = [0.867, 0.384, 0.024];
+const INK_RGB  = [0.071, 0.067, 0.055];
+const PALE_RGB = [0.60, 0.59, 0.57];
+const MAX_SEGS = 15000;
+
+function uploadSolids(batches){
+  const pos = [], nrm = [], tone = [], idx = [];
+  let base = 0;
+  for (const bt of batches){
+    for (const piece of bt.pieces) for (const f of piece){
+      const n = faceNormal(f); if (!n) continue;
+      const v = f.v;
+      for (const p of v){
+        pos.push(p[0]+bt.offset[0], A - (p[1]+bt.offset[1]), p[2]+bt.offset[2]);
+        nrm.push(n[0], -n[1], n[2]);
+        tone.push(bt.tone[0], bt.tone[1]);
+      }
+      for (let i = 1; i < v.length-1; i++) idx.push(base, base+i, base+i+1);
+      base += v.length;
+    }
+  }
+  gl.bindBuffer(gl.ARRAY_BUFFER, B.sp); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pos), gl.DYNAMIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, B.sn); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(nrm), gl.DYNAMIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, B.st); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(tone), gl.DYNAMIC_DRAW);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, B.si);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.DYNAMIC_DRAW);
+  solidCount = idx.length;
+}
+function uploadLines(segs){
+  if (segs.length > MAX_SEGS) segs = segs.slice(0, MAX_SEGS);
+  const pos = [], oth = [], sw = [], col = [], idx = [];
+  let base = 0;
+  for (const s of segs){
+    const a = [s.a[0], A - s.a[1], s.a[2]], b = [s.b[0], A - s.b[1], s.b[2]];
+    const c = s.col, w = s.w;
+    const V = [[a,b,1],[a,b,-1],[b,a,-1],[b,a,1]];
+    for (const t of V){
+      pos.push(t[0][0], t[0][1], t[0][2]);
+      oth.push(t[1][0], t[1][1], t[1][2]);
+      sw.push(t[2], w); col.push(c[0], c[1], c[2]);
+    }
+    idx.push(base, base+1, base+2, base, base+2, base+3);
+    base += 4;
+  }
+  gl.bindBuffer(gl.ARRAY_BUFFER, B.lp); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(pos), gl.DYNAMIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, B.lo); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(oth), gl.DYNAMIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, B.lsw); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(sw), gl.DYNAMIC_DRAW);
+  gl.bindBuffer(gl.ARRAY_BUFFER, B.lc); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(col), gl.DYNAMIC_DRAW);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, B.li);
+  gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(idx), gl.DYNAMIC_DRAW);
+  lineCount = idx.length;
+}
+
+function mul4(a,b){
+  const o = new Float32Array(16);
+  for (let c = 0; c < 4; c++) for (let r = 0; r < 4; r++){
+    let s = 0;
+    for (let k = 0; k < 4; k++) s += a[k*4+r]*b[c*4+k];
+    o[c*4+r] = s;
+  }
+  return o;
+}
+function rotMat(az, el){
+  const ca = Math.cos(az), sa = Math.sin(az), ce = Math.cos(el), se = Math.sin(el);
+  return [ ca, se*sa, -ce*sa,
+           0,  ce,     se,
+           sa, -se*ca, ce*ca ];
+}
+function view(az, el, halfW, halfH, cy){
+  const R = rotMat(az, el);
+  const M = new Float32Array([R[0],R[1],R[2],0, R[3],R[4],R[5],0, R[6],R[7],R[8],0, 0,0,0,1]);
+  const T = new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,-cy,0,1]);
+  const P = new Float32Array([1/halfW,0,0,0, 0,1/halfH,0,0, 0,0,-1/14,0, 0,0,0,1]);
+  return { mvp: mul4(P, mul4(M, T)), rot: R };
+}
+
+/* ============================================================
+   State
+   ============================================================ */
+const state = {
+  u: 0, mode:'traverse', family:'lap',
+  lap:{ depth:0.5, chevron:0.0, rakeL:0.0, rakeR:0.0 },
+  scarf:{ slope:3.0 },
+  bow:{ depth:0.5, root:0.34, width:0.24 },
+  playing:false, speed:0.13, explode:0, grain:true,
+  az:0.60, el:0.34, dirty:true
+};
+function currentProgram(){
+  if (state.mode === 'traverse') return traverse(state.u).prog;
+  if (state.family === 'lap'){
+    const L = state.lap;
+    return lapProgram(L.chevron, L.rakeL, L.rakeR, L.depth);
+  }
+  if (state.family === 'scarf') return scarfProgram(state.scarf.slope);
+  const b = state.bow;
+  return bowtieProgram(b.depth, b.root, 0.50, 0.64, 0.84, b.width);
+}
+
+let cache = null;
+function rebuild(){
+  const prog = currentProgram();
+  const { kept, removed } = buildSolids(prog);
+  const inside = makeInside(prog);
+  const eK = solidEdges(kept, inside.kept);
+  const eR = solidEdges(removed, inside.removed);
+  cache = {
+    prog, kept, removed, eK, eR,
+    gK: state.grain ? grainFor(kept) : [],
+    gR: state.grain ? grainFor(removed) : [],
+    keptFrac: volumeOf(kept)/A,
+    simple: simplifyProgram(prog),
+    markCount: eK.filter(e => e.mark).length
+  };
+  pushBuffers();
+  paintReadout();
+}
+function pushBuffers(){
+  const e = state.explode*2.4;
+  uploadSolids([
+    { pieces: cache.kept,    tone:[1.0, 0.0],     offset:[0,0,0] },
+    { pieces: cache.removed, tone:[0.115, 0.20],  offset:[0,e,0] }
+  ]);
+  const segs = [];
+  for (const s of cache.gK)
+    segs.push({ a:s[0], b:s[1], col:[0.78,0.77,0.74], w:0.55 });
+  for (const s of cache.gR)
+    segs.push({ a:[s[0][0], s[0][1]+e, s[0][2]], b:[s[1][0], s[1][1]+e, s[1][2]],
+                col:[0.44,0.43,0.41], w:0.55 });
+  for (const ed of cache.eK)
+    segs.push({ a:ed.a, b:ed.b, col: ed.mark ? MARK_RGB : INK_RGB, w: ed.mark ? 1.05 : 0.85 });
+  for (const ed of cache.eR)
+    segs.push({ a:[ed.a[0], ed.a[1]+e, ed.a[2]], b:[ed.b[0], ed.b[1]+e, ed.b[2]],
+                col: ed.mark ? MARK_RGB : PALE_RGB, w: ed.mark ? 1.05 : 0.7 });
+  uploadLines(segs);
+}
+
+function resize(){
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const r = canvas.getBoundingClientRect();
+  const w = Math.max(1, Math.round(r.width*dpr)), h = Math.max(1, Math.round(r.height*dpr));
+  if (canvas.width !== w || canvas.height !== h){ canvas.width = w; canvas.height = h; }
+  return dpr;
+}
+function bind(p, name, b, size){
+  const loc = gl.getAttribLocation(p, name);
+  if (loc < 0) return;
+  gl.bindBuffer(gl.ARRAY_BUFFER, b);
+  gl.enableVertexAttribArray(loc);
+  gl.vertexAttribPointer(loc, size, gl.FLOAT, false, 0, 0);
+}
+function draw(){
+  if (!gl || !cache) return;
+  const dpr = resize();
+  const w = canvas.width, h = canvas.height;
+  gl.viewport(0,0,w,h);
+  gl.clearColor(1,1,1,1);
+  gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL);
+  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+  const span = 2.45 + state.explode*1.45;
+  const aspect = w/h;
+  let hh = span, hw = span*aspect;
+  if (hw < 0.95){ hw = 0.95; hh = hw/aspect; }
+  const { mvp, rot } = view(state.az, state.el, hw, hh, A/2 - state.explode*1.2);
+
+  gl.useProgram(solidProg);
+  gl.uniformMatrix4fv(gl.getUniformLocation(solidProg,'uMVP'), false, mvp);
+  gl.uniformMatrix3fv(gl.getUniformLocation(solidProg,'uRot'), false, new Float32Array(rot));
+  bind(solidProg,'aPos', B.sp, 3); bind(solidProg,'aNrm', B.sn, 3); bind(solidProg,'aTone', B.st, 2);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, B.si);
+  gl.drawElements(gl.TRIANGLES, solidCount, gl.UNSIGNED_SHORT, 0);
+
+  gl.useProgram(lineProg);
+  gl.uniformMatrix4fv(gl.getUniformLocation(lineProg,'uMVP'), false, mvp);
+  gl.uniform2f(gl.getUniformLocation(lineProg,'uRes'), w, h);
+  gl.uniform1f(gl.getUniformLocation(lineProg,'uBias'), 0.0024);
+  gl.uniform1f(gl.getUniformLocation(lineProg,'uScale'), dpr);
+  bind(lineProg,'aPos', B.lp, 3); bind(lineProg,'aOther', B.lo, 3);
+  bind(lineProg,'aSideW', B.lsw, 2); bind(lineProg,'aCol', B.lc, 3);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, B.li);
+  gl.drawElements(gl.TRIANGLES, lineCount, gl.UNSIGNED_SHORT, 0);
+}
+
+/* ============================================================
+   Readout
+   ============================================================ */
+const $ = id => document.getElementById(id);
+function fmt(x){
+  const y = Math.abs(x) < 5e-4 ? 0 : x;
+  return (y >= 0 ? '\u2007' : '') + y.toFixed(3);
+}
+function paintReadout(){
+  const { preds, groups } = cache.simple;
+  $('ruleLine').textContent = 'R = ' + (groups.length
+    ? groups.map(g => g.length > 1 ? '(' + g.map(i => 'P'+i).join(' ∧ ') + ')' : 'P'+g[0]).join('  ∨  ')
+    : '∅');
+
+  $('planeTable').innerHTML = preds.map((p, i) =>
+    `<tr><td class="slot">P${i}</td>` +
+    `<td class="num">${fmt(p.n[0])}</td><td class="num">${fmt(p.n[1])}</td>` +
+    `<td class="num">${fmt(p.n[2])}</td><td class="num">≥${fmt(p.d)}</td></tr>`).join('');
+
+  $('mKept').textContent = cache.keptFrac.toFixed(3);
+  $('mRem').textContent  = (1 - cache.keptFrac).toFixed(3);
+  $('mCuts').textContent = preds.length;
+  $('mMark').textContent = cache.markCount;
+
+  let hsh = 2166136261 >>> 0;
+  for (const g of cache.prog) for (const p of g)
+    for (const x of [p.n[0], p.n[1], p.n[2], p.d]){
+      hsh ^= Math.round(x*4096) & 0xffff;
+      hsh = Math.imul(hsh, 16777619) >>> 0;
+    }
+  const hex = hsh.toString(16).padStart(8,'0').toUpperCase();
+  $('jointId').textContent = 'AJ-' + hex.slice(0,4) + '-' + hex.slice(4);
+
+  paintCaption();
+}
+const FAMILY_CAPTION = {
+  lap:    ['Blatt family', 'six half-spaces, one common rule'],
+  scarf:  ['Schäftung family', 'all six half-spaces coincide'],
+  bowtie: ['Blatt + Schwalbenschwanz', 'a lap unioned with an intersected lock']
+};
+function paintCaption(){
+  if (state.mode !== 'traverse'){
+    const n = FAMILY_CAPTION[state.family];
+    $('keyLine').innerHTML = `<span class="between">${n[0]}</span>`;
+    $('subLine').textContent = n[1];
+    return;
+  }
+  const { i, t } = traverse(state.u);
+  const a = ANCHORS[i], b = ANCHORS[(i+1) % ANCHORS.length];
+  if (t < 0.012){
+    $('keyLine').innerHTML = `${a.key} <span class="between">${a.en}</span>`;
+    $('subLine').textContent = `${a.de} · ${a.jp}`;
+    $('posNote').textContent = 'at ' + a.key;
+  } else if (t > 0.988){
+    $('keyLine').innerHTML = `${b.key} <span class="between">${b.en}</span>`;
+    $('subLine').textContent = `${b.de} · ${b.jp}`;
+    $('posNote').textContent = 'at ' + b.key;
+  } else {
+    $('keyLine').innerHTML = `<span class="between">unnamed</span>`;
+    $('subLine').textContent = `${Math.round(100*(1-t))}% ${a.key} · ${Math.round(100*t)}% ${b.key}`;
+    $('posNote').textContent = `between ${a.key} and ${b.key}`;
+  }
+}
+
+/* ---- ruler ---- */
+const rulerSvg = $('rulerSvg'), rulerEl = $('ruler');
+const RW = 1000, RL = 28, RR = 28;
+const xOfU = u => RL + (u/7)*(RW-RL-RR);
+const uOfX = x => Math.max(0, Math.min(6.9999, ((x-RL)/(RW-RL-RR))*7));
+(function buildRuler(){
+  let s = `<line x1="${RL}" y1="30" x2="${RW-RR}" y2="30" stroke="#12110E" stroke-width="1"/>`;
+  for (let i = 0; i <= 140; i++){
+    const u = i/20, x = xOfU(u);
+    const major = i % 20 === 0;
+    const h = major ? 13 : (i % 5 === 0 ? 6 : 3);
+    s += `<line x1="${x.toFixed(2)}" y1="30" x2="${x.toFixed(2)}" y2="${30+h}" stroke="${major?'#12110E':'#C9C8C1'}" stroke-width="1"/>`;
+  }
+  for (let i = 0; i <= 7; i++)
+    s += `<text x="${xOfU(i).toFixed(2)}" y="61" text-anchor="middle" fill="#12110E"
+           font-family="Iowan Old Style, Palatino, Georgia, serif" font-size="15">${ANCHORS[i%7].key}</text>`;
+  s += `<g id="cursor"><polygon points="0,26 -6,9 6,9" fill="#DD6206"/>
+        <line x1="0" y1="26" x2="0" y2="47" stroke="#DD6206" stroke-width="1.6"/></g>`;
+  rulerSvg.innerHTML = s;
+})();
+function paintRuler(){
+  const c = rulerSvg.querySelector('#cursor');
+  if (c) c.setAttribute('transform', `translate(${xOfU(state.u).toFixed(2)},0)`);
+  rulerEl.setAttribute('aria-valuenow', state.u.toFixed(2));
+}
+function rulerPick(ev){
+  const r = rulerEl.getBoundingClientRect();
+  state.u = uOfX((ev.clientX - r.left)/r.width*RW);
+  if (state.mode !== 'traverse'){ state.mode = 'traverse'; setModeUI(); }
+  state.dirty = true; paintRuler();
+}
+let rulerDown = false;
+rulerEl.addEventListener('pointerdown', e => {
+  rulerDown = true; rulerEl.setPointerCapture(e.pointerId); rulerPick(e);
+});
+rulerEl.addEventListener('pointermove', e => { if (rulerDown) rulerPick(e); });
+rulerEl.addEventListener('pointerup', () => { rulerDown = false; });
+rulerEl.addEventListener('pointercancel', () => { rulerDown = false; });
+rulerEl.addEventListener('keydown', e => {
+  const step = e.shiftKey ? 1 : 0.04;
+  if (e.key === 'ArrowLeft'){ state.u = (state.u - step + 7) % 7; state.dirty = true; paintRuler(); e.preventDefault(); }
+  if (e.key === 'ArrowRight'){ state.u = (state.u + step) % 7; state.dirty = true; paintRuler(); e.preventDefault(); }
+});
+
+/* ---- orbit ---- */
+let orbit = null;
+canvas.addEventListener('pointerdown', e => {
+  orbit = { x:e.clientX, y:e.clientY, az:state.az, el:state.el };
+  canvas.setPointerCapture(e.pointerId); canvas.classList.add('dragging');
+});
+canvas.addEventListener('pointermove', e => {
+  if (!orbit) return;
+  state.az = orbit.az + (e.clientX - orbit.x)*0.008;
+  state.el = Math.max(-0.95, Math.min(1.15, orbit.el + (e.clientY - orbit.y)*0.006));
+});
+const endOrbit = () => { orbit = null; canvas.classList.remove('dragging'); };
+canvas.addEventListener('pointerup', endOrbit);
+canvas.addEventListener('pointercancel', endOrbit);
+
+/* ---- controls ---- */
+const playBtn = $('play');
+function setPlay(on){
+  state.playing = on;
+  playBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+  playBtn.textContent = on ? 'Pause traverse' : 'Play traverse';
+}
+playBtn.addEventListener('click', () => {
+  if (!state.playing && state.mode !== 'traverse'){ state.mode = 'traverse'; setModeUI(); state.dirty = true; }
+  setPlay(!state.playing);
+});
+$('speed').addEventListener('input', e => { state.speed = +e.target.value; });
+$('explode').addEventListener('input', e => { state.explode = +e.target.value; pushBuffers(); });
+$('grainBtn').addEventListener('click', e => {
+  state.grain = !state.grain;
+  e.currentTarget.setAttribute('aria-pressed', state.grain ? 'true' : 'false');
+  state.dirty = true;
+});
+$('resetView').addEventListener('click', () => { state.az = 0.60; state.el = 0.34; });
+
+const modeBtn = $('modeBtn');
+function setModeUI(){
+  const gm = state.mode === 'grammar';
+  modeBtn.setAttribute('aria-pressed', gm ? 'true' : 'false');
+  modeBtn.textContent = gm ? 'Traverse mode' : 'Grammar mode';
+  $('grammar').classList.toggle('on', gm);
+  rulerEl.style.opacity = gm ? '0.32' : '1';
+  rulerEl.style.pointerEvents = gm ? 'none' : 'auto';
+  if (gm) $('posNote').textContent = 'traverse paused';
+}
+modeBtn.addEventListener('click', () => {
+  state.mode = state.mode === 'grammar' ? 'traverse' : 'grammar';
+  if (state.mode === 'grammar') setPlay(false);
+  setModeUI(); state.dirty = true;
+});
+$('family').addEventListener('change', e => { state.family = e.target.value; buildKnobs(); state.dirty = true; });
+
+const KNOBS = {
+  lap: [
+    ['depth',   'lap depth',    0.20, 0.80, 0.005],
+    ['chevron', 'plan chevron', 0.00, 0.70, 0.005],
+    ['rakeL',   'rake left',   -1.00, 1.00, 0.01 ],
+    ['rakeR',   'rake right',  -1.00, 1.00, 0.01 ]
+  ],
+  scarf:  [['slope', 'scarf slope', 0.6, 6.0, 0.02]],
+  bowtie: [
+    ['depth', 'lap depth',       0.20, 0.80, 0.005],
+    ['root',  'lock root',       0.10, 0.45, 0.005],
+    ['width', 'lock half-width', 0.08, 0.45, 0.005]
+  ]
+};
+const knobStore = () => state.family === 'lap' ? state.lap : state.family === 'scarf' ? state.scarf : state.bow;
+function buildKnobs(){
+  const store = knobStore();
+  $('knobs').innerHTML = KNOBS[state.family].map(k =>
+    `<label class="knob"><span class="name">${k[1]}</span>
+      <input type="range" data-k="${k[0]}" min="${k[2]}" max="${k[3]}" step="${k[4]}" value="${store[k[0]]}">
+      <span class="val" id="v_${k[0]}">${(+store[k[0]]).toFixed(3)}</span></label>`).join('');
+  $('knobs').querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('input', ev => {
+      const k = ev.target.dataset.k;
+      knobStore()[k] = +ev.target.value;
+      $('v_'+k).textContent = (+ev.target.value).toFixed(3);
+      state.dirty = true;
+    });
+  });
+}
+buildKnobs();
+
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space' && !/INPUT|SELECT|BUTTON|TEXTAREA/.test(document.activeElement.tagName)){
+    e.preventDefault(); playBtn.click();
+  }
+});
+
+(function countField(){
+  const factors = KNOBS.lap.map(k => ({ label:k[1], n: Math.round((k[3]-k[2])/k[4]) + 1 }));
+  const total = factors.reduce((a,f) => a*f.n, 1);
+  $('bigCount').textContent = total.toLocaleString('en-US') + ' joints';
+  $('countFactors').textContent = factors.map(f => `${f.label} ${f.n}`).join('  ×  ');
+})();
+
+/* ============================================================
+   Loop
+   ============================================================ */
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+let last = performance.now(), acc = 0;
+function frame(now){
+  const dt = Math.min(0.06, (now - last)/1000);
+  last = now;
+  if (state.playing && state.mode === 'traverse'){
+    state.u = (state.u + state.speed*dt) % 7;
+    paintRuler();
+    state.dirty = true;
+  }
+  acc += dt;
+  if (state.dirty && acc > 0.035){ acc = 0; state.dirty = false; rebuild(); }
+  draw();
+  requestAnimationFrame(frame);
+}
+if (gl){
+  rebuild(); paintRuler(); setModeUI();
+  if (!reduced) setPlay(true);
+  requestAnimationFrame(frame);
+  window.addEventListener('resize', draw);
+}
+</script>
+</body>
+</html>
