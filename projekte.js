@@ -97,14 +97,6 @@ const P=[
   pre:"Tizian-Rein-Harboring-Histories-016.",
   imgs:["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","7.jpg","6.jpg"]},
 
- {n:"015",y:"",c:"neubau",
-  t:{de:"Arbor Forum",en:"Arbor Forum"},
-  d:{de:"Ein Architekturentwurf, entstanden im Studienkontext an der TU München. Das Projekt untersucht den Übergang zwischen Innen und Außen, Tragwerk und Atmosphäre. Eine ausführliche Dokumentation folgt.",
-     en:"An architectural design project developed within the study context at TU Munich. The project explores the threshold between inside and outside, structure and atmosphere. Full documentation to follow."},
-  meta:{de:{Kontext:"TU München",Typ:"Architekturentwurf",Status:"Dokumentation folgt"},
-        en:{Context:"TU Munich",Type:"Architectural design",Status:"Documentation to follow"}},
-  pre:"",imgs:[]},
-
  {n:"013",y:"2023",c:"forschung",
   t:{de:"RoboSgraffito",en:"RoboSgraffito"},
   d:{de:"Traditionelle Putztechniken — Kratzen, Schleifen, Hobeln, Ziehen, Stempeln — werden in robotische Bewegungsabläufe übersetzt, um mehrschichtige, mehrfarbige Fassaden herzustellen. Das Projekt verbindet ein altes handwerkliches Wissen mit der Präzision und Wiederholbarkeit roboterbasierter Fertigung und fragt, wie sich überlieferte Oberflächentechniken in einen zeitgenössischen, digital gesteuerten Prozess überführen lassen, ohne ihren materiellen Reichtum zu verlieren.",
@@ -158,6 +150,9 @@ de:`
     <ul class="cv">
       <li><span class="j">seit 2026</span><span class="w"><b>Deutscher Werkbund</b> München</span></li>
       <li><span class="j">seit 2026</span><span class="w"><b>initiative.umbau</b> Köln</span></li>
+      <li><span class="j">seit 2025</span><span class="w"><b>Rheinischer Verein für Denkmalpflege und Landschaftsschutz</b> Köln</span></li>
+      <li><span class="j">seit 2022</span><span class="w"><b>Verein Gutenberghaus Bad Honnef e.V.</b></span></li>
+      <li><span class="j">seit 2022</span><span class="w"><b>Rhöndorfer Bürger- und Ortsverein</b></span></li>
     </ul>
 
     <h3>Erfahrung</h3>
@@ -170,6 +165,13 @@ de:`
       <li><span class="j">2020–2021</span><span class="w"><b>Studentischer Prodekan Architektur</b> — gewählter Vertreter an der TH Köln</span></li>
       <li><span class="j">2019–2021</span><span class="w"><b>Tutor für Entwurf und Konstruktion</b> — Prof. Carola Wiese</span></li>
       <li><span class="j">seit 2016</span><span class="w"><b>Selbstständige Tätigkeit</b> — 3D-Druck und Design</span></li>
+    </ul>
+
+    <h3>Lehre</h3>
+    <ul class="cv">
+      <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> — Masterstudio, Professur für Digitale Fabrikation, TU München, in Zusammenarbeit mit der Professur für Architektur und Human Augmentation, ETH Zürich, mit Prof. Kathrin Dörfler, Dr. Lidia Atanasova und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/">arc.ed.tum.de</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — Workshop, Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html">futureofconstruction.ethz.ch</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — Workshop, ROB|ARCH 2026, Aarhus, mit Begüm Saral, Dr. Lidia Atanasova und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/">robarch2026.org</a></span></li>
     </ul>
 
     <h3>Publikationen / Vorträge</h3>
@@ -200,6 +202,9 @@ en:`
     <ul class="cv">
       <li><span class="j">since 2026</span><span class="w"><b>Deutscher Werkbund</b> München</span></li>
       <li><span class="j">since 2026</span><span class="w"><b>initiative.umbau</b> Köln</span></li>
+      <li><span class="j">since 2025</span><span class="w"><b>Rheinischer Verein für Denkmalpflege und Landschaftsschutz</b> Cologne</span></li>
+      <li><span class="j">since 2022</span><span class="w"><b>Verein Gutenberghaus Bad Honnef e.V.</b></span></li>
+      <li><span class="j">since 2022</span><span class="w"><b>Rhöndorfer Bürger- und Ortsverein</b></span></li>
     </ul>
 
     <h3>Experience</h3>
@@ -212,6 +217,13 @@ en:`
       <li><span class="j">2020–2021</span><span class="w"><b>Student vice-dean of architecture</b> — elected representative, TH Cologne</span></li>
       <li><span class="j">2019–2021</span><span class="w"><b>Tutor for design and construction</b> — Prof. Carola Wiese</span></li>
       <li><span class="j">since 2016</span><span class="w"><b>Self-employed</b> — 3D printing and design</span></li>
+    </ul>
+
+    <h3>Teaching</h3>
+    <ul class="cv">
+      <li><span class="j">2026</span><span class="w"><i>Fritz-Pflaum-Hütte Renovation</i> — master studio, Professorship of Digital Fabrication, TU Munich, in collaboration with the Chair for Architecture and Human Augmentation, ETH Zurich, with Prof. Kathrin Dörfler, Dr. Lidia Atanasova and Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/">arc.ed.tum.de</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — workshop, Future of Construction Symposium, ETH Zurich, with Laurence Crouzet, Adrian Pöllinger, Begüm Saral and Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html">futureofconstruction.ethz.ch</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — workshop, ROB|ARCH 2026, Aarhus, with Begüm Saral, Dr. Lidia Atanasova and Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/">robarch2026.org</a></span></li>
     </ul>
 
     <h3>Publications / Talks</h3>
