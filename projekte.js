@@ -17,9 +17,9 @@ const UI={
 /* Meta-Schlüssel werden je Sprache beschriftet */
 const METAKEYS={
   de:{ort:"Ort",jahr:"Jahr",nutzung:"Nutzung",rolle:"Rolle",typ:"Typ",
-      betreuung:"Betreuung",zusammen:"Zusammenarbeit",kontext:"Kontext",status:"Status",material:"Material"},
+      betreuung:"Betreuung",zusammen:"Zusammenarbeit",kontext:"Kontext",status:"Status",material:"Material",software:"Software"},
   en:{ort:"Place",jahr:"Year",nutzung:"Use",rolle:"Role",typ:"Type",
-      betreuung:"Supervision",zusammen:"Collaboration",kontext:"Context",status:"Status",material:"Material"}
+      betreuung:"Supervision",zusammen:"Collaboration",kontext:"Context",status:"Status",material:"Material",software:"Software"}
 };
 
 const P=[
@@ -82,8 +82,8 @@ const P=[
   t:{de:"Free/Bird",en:"Free/Bird"},
   d:{de:"Eine parametrisch gesteuerte Holzkonstruktion für ein Bauteillager auf einem SBB-Areal in Zürich, entworfen vollständig in der virtuellen Realität im Maßstab 1:1. Statt am Bildschirm wird der Entwurf begehbar entwickelt: Bauteile werden in der VR-Umgebung direkt gesetzt, geprüft und angepasst. Die Arbeit entstand im Immersive Studio von Gramazio Kohler Research an der ETH Zürich und lotet aus, wie sich räumliches Entwerfen verändert, wenn Maßstab und Körper unmittelbar Teil des Werkzeugs werden.",
      en:"A parametrically controlled timber structure for a component store on an SBB site in Zurich, designed entirely in virtual reality at 1:1 scale. Rather than on screen, the design is developed as something you can walk through: parts are placed, tested and adjusted directly in the VR environment. The project was made in the Immersive Studio of Gramazio Kohler Research at ETH Zurich and explores how spatial design changes when scale and body become an immediate part of the tool."},
-  meta:{de:{Ort:"Zürich",Jahr:"2024",Kontext:"Immersive Studio, Gramazio Kohler Research, ETH Zürich",Kollaboration:"mit Lancelot Burwell"},
-        en:{Place:"Zurich",Year:"2024",Context:"Immersive Studio, Gramazio Kohler Research, ETH Zurich",Collaboration:"with Lancelot Burwell"}},
+  meta:{de:{Ort:"Zürich",Jahr:"2024",Kontext:"Immersive Studio, Gramazio Kohler Research, ETH Zürich",Software:'VR-Entwurf in <a href="https://radii.info/" target="_blank" rel="noopener">RADii</a>',Kollaboration:'mit <a href="https://lancelotburwell.ch/" target="_blank" rel="noopener">Lancelot Burwell</a>'},
+        en:{Place:"Zurich",Year:"2024",Context:"Immersive Studio, Gramazio Kohler Research, ETH Zurich",Software:'VR design in <a href="https://radii.info/" target="_blank" rel="noopener">RADii</a>',Collaboration:'with <a href="https://lancelotburwell.ch/" target="_blank" rel="noopener">Lancelot Burwell</a>'}},
   video:"Tizian-Rein-Free-Bird-017.video.mp4",
   pre:"Tizian-Rein-Free-Bird-017.",
   imgs:["1.jpg","2.jpg","3.jpg"]},
