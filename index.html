@@ -1756,6 +1756,10 @@ document.querySelectorAll(".fwort").forEach(w=>{
   });
 });
 
+/* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
+   Lauf neu — nicht von Hand aendern. */
+const STAND={de:"31.08.2026 um 17:18:49 Uhr",en:"31 August 2026 at 17:18:49"};
+
 /* ===== Sprache anwenden ===== */
 function applyLang(){
   const u=UI[LANG];
@@ -1776,8 +1780,8 @@ function applyLang(){
   /* Banner neu */
   const mq=document.getElementById("mq");
   const aktualisiert=LANG==="de"
-    ? "Zuletzt aktualisiert am 06.08.2026 um 20:47:11 Uhr"
-    : "Last updated on 6 August 2026 at 20:47:11";
+    ? `Zuletzt aktualisiert am ${STAND.de}`
+    : `Last updated on ${STAND.en}`;
   const sozial=`<a href="https://www.instagram.com/tizianrein/" target="_blank" rel="noopener">Instagram</a> <i>●</i> <a href="https://www.linkedin.com/in/tizian-rein-a40b133a0/" target="_blank" rel="noopener">LinkedIn</a> <i>●</i> <a href="https://www.researchgate.net/profile/Tizian-Rein" target="_blank" rel="noopener">ResearchGate</a> <i>●</i> <a href="https://orcid.org/0009-0007-0554-5906" target="_blank" rel="noopener">ORCID 0009-0007-0554-5906</a>`;
   mq.innerHTML=`${u.banner}<i>●</i> ${u.orte} <i>●</i> <a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> <i>●</i> ${sozial} <i>●</i> © 2026 Tizian Rein <i>●</i> ${aktualisiert} <i>●</i> `.repeat(6);
   /* Mobile Safari kann die Animation auf dem anfangs leeren Laufband starten.
