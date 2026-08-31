@@ -157,7 +157,7 @@ de:`
 
     <h3>Erfahrung</h3>
     <ul class="cv">
-      <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter — Doktorand</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digital Fabrication</a>, TU München, im <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> und am <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digital Fabrication</a>, TU München, im <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> und am <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
       <li><span class="j">seit 2026</span><span class="w"><b>Junior-Architekt AKNW</b> / freischaffende planerische Tätigkeit in Bad Honnef und München</span></li>
       <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München</span></li>
       <li><span class="j">2023–2024</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zürich</span></li>
@@ -209,7 +209,7 @@ en:`
 
     <h3>Experience</h3>
     <ul class="cv">
-      <li><span class="j">since 2026</span><span class="w"><b>Research associate — doctoral researcher</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, within the <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> and at <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
+      <li><span class="j">since 2026</span><span class="w"><b>Research associate</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, within the <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> and at <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
       <li><span class="j">since 2026</span><span class="w"><b>Junior architect AKNW</b> / independent planning practice in Bad Honnef and Munich</span></li>
       <li><span class="j">2023–2026</span><span class="w"><b>Research assistant</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich</span></li>
       <li><span class="j">2023–2024</span><span class="w"><b>Research assistant</b> / <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zurich</span></li>
