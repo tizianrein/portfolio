@@ -148,9 +148,9 @@ de:`
 
     <h3>Mitgliedschaften</h3>
     <ul class="cv">
-      <li><span class="j">seit 2026</span><span class="w"><b><a href="https://www.deutscher-werkbund.de/homepage/bayern/" target="_blank" rel="noopener">Deutscher Werkbund</a></b> München</span></li>
-      <li><span class="j">seit 2026</span><span class="w"><b><a href="https://www.initiative-umbau.org/" target="_blank" rel="noopener">initiative.umbau</a></b> Köln</span></li>
-      <li><span class="j">seit 2025</span><span class="w"><b><a href="https://www.rheinischer-verein.de/" target="_blank" rel="noopener">Rheinischer Verein für Denkmalpflege und Landschaftsschutz</a></b> Köln</span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b><a href="https://www.deutscher-werkbund.de/homepage/bayern/" target="_blank" rel="noopener">Deutscher Werkbund München</a></b></span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b><a href="https://www.initiative-umbau.org/" target="_blank" rel="noopener">initiative.umbau Köln</a></b></span></li>
+      <li><span class="j">seit 2025</span><span class="w"><b><a href="https://www.rheinischer-verein.de/" target="_blank" rel="noopener">Rheinischer Verein für Denkmalpflege und Landschaftsschutz</a></b></span></li>
       <li><span class="j">seit 2022</span><span class="w"><b><a href="https://www.gutenberghaus.org/" target="_blank" rel="noopener">Verein Gutenberghaus Bad Honnef e.V.</a></b></span></li>
       <li><span class="j">seit 2022</span><span class="w"><b><a href="https://www.rhoendorf.de/" target="_blank" rel="noopener">Rhöndorfer Bürger- und Ortsverein</a></b></span></li>
     </ul>
@@ -200,9 +200,9 @@ en:`
 
     <h3>Memberships</h3>
     <ul class="cv">
-      <li><span class="j">since 2026</span><span class="w"><b><a href="https://www.deutscher-werkbund.de/homepage/bayern/" target="_blank" rel="noopener">Deutscher Werkbund</a></b> München</span></li>
-      <li><span class="j">since 2026</span><span class="w"><b><a href="https://www.initiative-umbau.org/" target="_blank" rel="noopener">initiative.umbau</a></b> Köln</span></li>
-      <li><span class="j">since 2025</span><span class="w"><b><a href="https://www.rheinischer-verein.de/" target="_blank" rel="noopener">Rheinischer Verein für Denkmalpflege und Landschaftsschutz</a></b> Cologne</span></li>
+      <li><span class="j">since 2026</span><span class="w"><b><a href="https://www.deutscher-werkbund.de/homepage/bayern/" target="_blank" rel="noopener">Deutscher Werkbund München</a></b></span></li>
+      <li><span class="j">since 2026</span><span class="w"><b><a href="https://www.initiative-umbau.org/" target="_blank" rel="noopener">initiative.umbau Köln</a></b></span></li>
+      <li><span class="j">since 2025</span><span class="w"><b><a href="https://www.rheinischer-verein.de/" target="_blank" rel="noopener">Rheinischer Verein für Denkmalpflege und Landschaftsschutz</a></b></span></li>
       <li><span class="j">since 2022</span><span class="w"><b><a href="https://www.gutenberghaus.org/" target="_blank" rel="noopener">Verein Gutenberghaus Bad Honnef e.V.</a></b></span></li>
       <li><span class="j">since 2022</span><span class="w"><b><a href="https://www.rhoendorf.de/" target="_blank" rel="noopener">Rhöndorfer Bürger- und Ortsverein</a></b></span></li>
     </ul>
