@@ -228,7 +228,7 @@
         "@id": "https://www.tizianrein.de/#free-bird",
         "name": "Free/Bird",
         "alternateName": "Free/Bird",
-        "description": "Eine parametrisch gesteuerte Holzkonstruktion für ein Bauteillager auf einem SBB-Areal in Zürich, entworfen vollständig in der virtuellen Realität im Maßstab 1:1. Statt am Bildschirm wird der Entwurf begehbar entwickelt: Bauteile werden in der VR-Umgebung direkt gesetzt, geprüft und angepasst. Die Arbeit entstand im Immersive Studio von Gramazio Kohler Research an der ETH Zürich und lotet aus, wie sich räumliches Entwerfen verändert, wenn Maßstab und Körper unmittelbar Teil des Werkzeugs werden.",
+        "description": "Eine parametrisch gesteuerte Holzkonstruktion für ein Bauteillager auf einem SBB-Areal in Zürich, entworfen vollständig in der virtuellen Realität im Maßstab 1:1. Statt mit physischen Modellen wird der Entwurf vollständig als begehbarer Raum entwickelt und präsentiert: Bauteile werden in der VR-Umgebung direkt gesetzt, geprüft und angepasst. Die Arbeit entstand im Immersive Studio von Gramazio Kohler Research an der ETH Zürich und lotet aus, wie sich räumliches Entwerfen verändert, wenn Maßstab und Körper unmittelbar Teil des Werkzeugs werden.",
         "creator": {
           "@id": "https://www.tizianrein.de/#person"
         },
@@ -373,7 +373,7 @@
 <!-- SEO-PROJEKTDATEN:END -->
 
 <style>
-  :root{--ink:#101010;--paper:#fff;--accent:#d40000;--txt:15px}
+  :root{--ink:#101010;--paper:#fff;--accent:#d40000;--txt:15px;--bar:40px}
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;background:var(--paper)}
   html{scrollbar-width:none;-ms-overflow-style:none}
@@ -615,12 +615,17 @@
   .info-panel ul.cv .w{flex:1}
   .info-panel ul.cv .w b{font-weight:400}   /* kein Fettdruck — Times traegt das nicht */
   .info-panel ul.cv .w i{font-style:italic}
-  .info-panel ul.cv .w a{border-bottom:1px solid var(--accent);white-space:nowrap}
+  .info-panel ul.cv .w a{border-bottom:1px solid var(--accent)}
+  .info-panel ul.cv .w a.nb{white-space:nowrap}   /* DOI und Domainnamen nicht umbrechen */
   .info-panel ul.cv .w a:hover{color:var(--accent)}
   .info-panel .kontakt{margin:24px 16px 0;padding-bottom:48px;font-size:var(--txt)}
   .info-panel .kontakt a{border-bottom:1px solid var(--accent);font-weight:400}
 
-  .marquee{overflow:hidden;border-top:1px solid var(--ink);padding:10px 0;background:var(--paper);position:sticky;bottom:0;z-index:3}
+  /* Feste Hoehe: das Band bleibt immer genau eine Zeile hoch, unabhaengig
+     davon, wie lang der Inhalt ist. */
+  .marquee{height:var(--bar);flex:0 0 auto;display:flex;align-items:center;overflow:hidden;
+           border-top:1px solid var(--ink);background:var(--paper);position:sticky;bottom:0;z-index:3}
+  .marquee-inner{flex:1 1 auto;min-width:0;overflow:hidden}
   .marquee-track{display:block;width:max-content;white-space:nowrap;font-weight:400;animation:roll 95s linear infinite;will-change:transform}
   @media (hover:hover){.marquee:hover .marquee-track{animation-play-state:paused}}
   @keyframes roll{from{transform:translate3d(0,0,0)}to{transform:translate3d(-50%,0,0)}}
@@ -652,7 +657,7 @@
   /* ===== Desktop / größere Screens ===== */
   @media (min-width:760px){
     /* volle Breite — keine zentrierte Spalte mehr */
-    :root{--txt:17px}   /* eine Stelle: alle Texte außer den Projekttiteln */
+    :root{--txt:17px;--bar:44px}   /* eine Stelle: alle Texte außer den Projekttiteln */
     header{padding:28px 40px 8px}
 
     .row{padding:1px 40px}
@@ -736,20 +741,20 @@
 
     <h3>Mitgliedschaften</h3>
     <ul class="cv">
-      <li><span class="j">seit 2026</span><span class="w"><b>Deutscher Werkbund</b> München</span></li>
-      <li><span class="j">seit 2026</span><span class="w"><b>initiative.umbau</b> Köln</span></li>
-      <li><span class="j">seit 2025</span><span class="w"><b>Rheinischer Verein für Denkmalpflege und Landschaftsschutz</b> Köln</span></li>
-      <li><span class="j">seit 2022</span><span class="w"><b>Verein Gutenberghaus Bad Honnef e.V.</b></span></li>
-      <li><span class="j">seit 2022</span><span class="w"><b>Rhöndorfer Bürger- und Ortsverein</b></span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b><a href="https://www.deutscher-werkbund.de/homepage/bayern/" target="_blank" rel="noopener">Deutscher Werkbund</a></b> München</span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b><a href="https://www.initiative-umbau.org/" target="_blank" rel="noopener">initiative.umbau</a></b> Köln</span></li>
+      <li><span class="j">seit 2025</span><span class="w"><b><a href="https://www.rheinischer-verein.de/" target="_blank" rel="noopener">Rheinischer Verein für Denkmalpflege und Landschaftsschutz</a></b> Köln</span></li>
+      <li><span class="j">seit 2022</span><span class="w"><b><a href="https://www.gutenberghaus.org/" target="_blank" rel="noopener">Verein Gutenberghaus Bad Honnef e.V.</a></b></span></li>
+      <li><span class="j">seit 2022</span><span class="w"><b><a href="https://www.rhoendorf.de/" target="_blank" rel="noopener">Rhöndorfer Bürger- und Ortsverein</a></b></span></li>
     </ul>
 
     <h3>Erfahrung</h3>
     <ul class="cv">
-      <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter / Doktorand</b> — Professur für Digital Fabrication, TU München, im Munich Institute for Robotics and Machine Intelligence (MIRMI) und am MIT, USA</span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter / Doktorand</b> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digital Fabrication</a>, TU München, im <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> und am <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
       <li><span class="j">seit 2026</span><span class="w"><b>Junior-Architekt AKNW</b> — freischaffende planerische Tätigkeit in Bad Honnef und München</span></li>
-      <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> — Professur für Digitale Fabrikation, TU München</span></li>
-      <li><span class="j">2023–2024</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> — Gramazio Kohler Research, ITA, ETH Zürich</span></li>
-      <li><span class="j">2021–2022</span><span class="w"><b>Projektassistenz</b> — Atelier Max &amp; Jakob Giese, Gehlert</span></li>
+      <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München</span></li>
+      <li><span class="j">2023–2024</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> — <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zürich</span></li>
+      <li><span class="j">2021–2022</span><span class="w"><b>Projektassistenz</b> — <a href="https://www.maxundjakob.de/" target="_blank" rel="noopener">Atelier Max &amp; Jakob Giese</a>, Gehlert</span></li>
       <li><span class="j">2020–2021</span><span class="w"><b>Studentischer Prodekan Architektur</b> — gewählter Vertreter an der TH Köln</span></li>
       <li><span class="j">2019–2021</span><span class="w"><b>Tutor für Entwurf und Konstruktion</b> — Prof. Carola Wiese</span></li>
       <li><span class="j">seit 2016</span><span class="w"><b>Selbstständige Tätigkeit</b> — 3D-Druck und Design</span></li>
@@ -757,20 +762,20 @@
 
     <h3>Lehre</h3>
     <ul class="cv">
-      <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> — Masterstudio, Professur für Digitale Fabrikation, TU München, in Zusammenarbeit mit der Professur für Architektur und Human Augmentation, ETH Zürich, mit Prof. Kathrin Dörfler, Dr. Lidia Atanasova und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/">arc.ed.tum.de</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — Workshop, Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html">futureofconstruction.ethz.ch</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — Workshop, ROB|ARCH 2026, Aarhus, mit Begüm Saral, Dr. Lidia Atanasova und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/">robarch2026.org</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — ROB|ARCH 2026, Aarhus, mit Begüm Saral und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
     </ul>
 
     <h3>Publikationen / Vorträge</h3>
     <ul class="cv">
-      <li><span class="j">2026</span><span class="w"><i>Translating intention: AI-assisted model generation for collaborative human–robot construction</i> — mit Avishek Das, Begüm Saral, Lidia Atanasova und Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0">DOI 10.1007/s41693-026-00205-0</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Translating intention: AI-assisted model generation for collaborative human–robot construction</i> — mit Avishek Das, Begüm Saral, Lidia Atanasova und Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0" class="nb" target="_blank" rel="noopener">DOI 10.1007/s41693-026-00205-0</a></span></li>
       <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU München</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> — Masterthesis, TUM School of Engineering and Design, publiziert via mediaTUM</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Prototype to Product: Start-ups and Intellectual Property in Digital Fabrication</i> — mit Marcel Studer und Dominik Reisach, ITA (Prof. Silke Langenberg), Startup Architecture Symposium, ETH Zürich</span></li>
       <li><span class="j">2025</span><span class="w"><i>From Material to Market: How Materiality Drives Innovation in Architectural Technologies</i> — mit Marcel Studer und Dominik Reisach, ITA (Prof. Silke Langenberg), Architecture &amp; Patents Conference, ETH Zürich</span></li>
       <li><span class="j">2024</span><span class="w"><i>Die Neue Kapelle auf dem Waldfriedhof</i> — eingeladener Vortrag, Bürgerhaus Rhöndorf</span></li>
-      <li><span class="j">2024</span><span class="w"><i>Den Erhalt der Kapelle unterstützen</i> — Gastbeitrag, Honnef Heute</span></li>
+      <li><span class="j">2024</span><span class="w"><i>Den Erhalt der Kapelle unterstützen</i> — Gastbeitrag, <a href="https://honnef-heute.de/friedhofskapelle-stadt-in-der-verantwortung/" target="_blank" rel="noopener">Honnef Heute</a></span></li>
       <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> — ISBN 978-3-00-071896-0</span></li>
     </ul>
 
@@ -820,10 +825,10 @@
           <div class="proj-kopf">
             <p class="text">Diese Masterarbeit fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt [Fotos, Skizzen, Notizen, Messungen] in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.</p>
             <dl class="datenblatt">
-              <div class="meta-zeile"><dt>Kontext</dt><dd>Masterthesis, Professur für Digitale Fabrikation, TU München</dd></div>
+              <div class="meta-zeile"><dt>Kontext</dt><dd>Masterthesis, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München</dd></div>
               <div class="meta-zeile"><dt>Jahr</dt><dd>2025</dd></div>
               <div class="meta-zeile"><dt>Typ</dt><dd>Forschung</dd></div>
-              <div class="meta-zeile"><dt>Betreuung</dt><dd>Prof. Kathrin Dörfler</dd></div>
+              <div class="meta-zeile"><dt>Betreuung</dt><dd><a href="https://www.arc.ed.tum.de/en/df/team/kathrin-doerfler/" target="_blank" rel="noopener">Prof. Kathrin Dörfler</a></dd></div>
             </dl>
           </div>
           <div class="slider-wrap"><div class="slider">
@@ -962,11 +967,11 @@
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
-            <p class="text">Eine parametrisch gesteuerte Holzkonstruktion für ein Bauteillager auf einem SBB-Areal in Zürich, entworfen vollständig in der virtuellen Realität im Maßstab 1:1. Statt am Bildschirm wird der Entwurf begehbar entwickelt: Bauteile werden in der VR-Umgebung direkt gesetzt, geprüft und angepasst. Die Arbeit entstand im Immersive Studio von Gramazio Kohler Research an der ETH Zürich und lotet aus, wie sich räumliches Entwerfen verändert, wenn Maßstab und Körper unmittelbar Teil des Werkzeugs werden.</p>
+            <p class="text">Eine parametrisch gesteuerte Holzkonstruktion für ein Bauteillager auf einem SBB-Areal in Zürich, entworfen vollständig in der virtuellen Realität im Maßstab 1:1. Statt mit physischen Modellen wird der Entwurf vollständig als begehbarer Raum entwickelt und präsentiert: Bauteile werden in der VR-Umgebung direkt gesetzt, geprüft und angepasst. Die Arbeit entstand im Immersive Studio von Gramazio Kohler Research an der ETH Zürich und lotet aus, wie sich räumliches Entwerfen verändert, wenn Maßstab und Körper unmittelbar Teil des Werkzeugs werden.</p>
             <dl class="datenblatt">
               <div class="meta-zeile"><dt>Ort</dt><dd>Zürich</dd></div>
               <div class="meta-zeile"><dt>Jahr</dt><dd>2024</dd></div>
-              <div class="meta-zeile"><dt>Kontext</dt><dd>Immersive Studio, Gramazio Kohler Research, ETH Zürich</dd></div>
+              <div class="meta-zeile"><dt>Kontext</dt><dd>Immersive Studio, <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ETH Zürich</dd></div>
               <div class="meta-zeile"><dt>Software</dt><dd>VR-Entwurf in <a href="https://radii.info/" target="_blank" rel="noopener">RADii</a></dd></div>
               <div class="meta-zeile"><dt>Kollaboration</dt><dd>mit <a href="https://lancelotburwell.ch/" target="_blank" rel="noopener">Lancelot Burwell</a></dd></div>
             </dl>
@@ -992,7 +997,7 @@
             <dl class="datenblatt">
               <div class="meta-zeile"><dt>Ort</dt><dd>Palermo</dd></div>
               <div class="meta-zeile"><dt>Jahr</dt><dd>2023</dd></div>
-              <div class="meta-zeile"><dt>Kontext</dt><dd>Studio Meteora, ETH Zürich</dd></div>
+              <div class="meta-zeile"><dt>Kontext</dt><dd><a href="https://meteora.ch/" target="_blank" rel="noopener">Studio Meteora</a>, ETH Zürich</dd></div>
               <div class="meta-zeile"><dt>Kollaboration</dt><dd>mit Virginia Zaretskie</dd></div>
             </dl>
           </div>
@@ -1022,7 +1027,7 @@
               <div class="meta-zeile"><dt>Kontext</dt><dd>TU München</dd></div>
               <div class="meta-zeile"><dt>Jahr</dt><dd>2023</dd></div>
               <div class="meta-zeile"><dt>Typ</dt><dd>Robotische Fertigung</dd></div>
-              <div class="meta-zeile"><dt>Betreuung</dt><dd>Prof. Andreas Hild &amp; Prof. Kathrin Dörfler</dd></div>
+              <div class="meta-zeile"><dt>Betreuung</dt><dd><a href="https://www.arc.ed.tum.de/en/eud/" target="_blank" rel="noopener">Prof. Andreas Hild</a> &amp; <a href="https://www.arc.ed.tum.de/en/df/team/kathrin-doerfler/" target="_blank" rel="noopener">Prof. Kathrin Dörfler</a></dd></div>
             </dl>
           </div>
           <div class="slider-wrap"><div class="slider">
@@ -1047,7 +1052,7 @@
           <div class="proj-kopf">
             <p class="text">Eine Untersuchung von Gleichgewicht in architektonischen Strukturen durch stereotomische Prinzipien, gezielt gesetzte Hohlräume und ineinandergreifende Geometrien. Über digitale Simulation und physische 3D-Drucktests wird ausgelotet, wie Lastabtrag, Materialeinsatz und Form zusammenhängen und wie sich aus dem Prinzip des Steinschnitts neue, materialsparende Tragmuster ableiten lassen.</p>
             <dl class="datenblatt">
-              <div class="meta-zeile"><dt>Kontext</dt><dd>Professur für Structural Design, TU München</dd></div>
+              <div class="meta-zeile"><dt>Kontext</dt><dd><a href="https://www.arc.ed.tum.de/sd/" target="_blank" rel="noopener">Professur für Structural Design</a>, TU München</dd></div>
               <div class="meta-zeile"><dt>Jahr</dt><dd>2023</dd></div>
               <div class="meta-zeile"><dt>Typ</dt><dd>Tragwerk, 3D-Druck</dd></div>
               <div class="meta-zeile"><dt>Rolle</dt><dd>Forschung und Prototyping</dd></div>
