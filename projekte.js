@@ -141,8 +141,8 @@ de:`
 
     <h3>Ausbildung</h3>
     <ul class="cv">
-      <li><span class="j">2022–2025</span><span class="w"><b>TU München, Architektur M.A.</b> — Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
-      <li><span class="j">2023–2024</span><span class="w"><b>ETH Zürich, Architektur Masterstudiengang</b> — Stipendiat</span></li>
+      <li><span class="j">2022–2025</span><span class="w"><b>TU München, Architektur M.A.</b> / Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
+      <li><span class="j">2023–2024</span><span class="w"><b>ETH Zürich, Architektur Masterstudiengang</b> / Stipendiat</span></li>
       <li><span class="j">2018–2021</span><span class="w"><b>TH Köln, Architektur B.A.</b></span></li>
     </ul>
 
@@ -158,32 +158,32 @@ de:`
     <h3>Erfahrung</h3>
     <ul class="cv">
       <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter / Doktorand</b> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digital Fabrication</a>, TU München, im <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> und am <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
-      <li><span class="j">seit 2026</span><span class="w"><b>Junior-Architekt AKNW</b> — freischaffende planerische Tätigkeit in Bad Honnef und München</span></li>
-      <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München</span></li>
-      <li><span class="j">2023–2024</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> — <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zürich</span></li>
-      <li><span class="j">2021–2022</span><span class="w"><b>Projektassistenz</b> — <a href="https://www.maxundjakob.de/" target="_blank" rel="noopener">Atelier Max &amp; Jakob Giese</a>, Gehlert</span></li>
-      <li><span class="j">2020–2021</span><span class="w"><b>Studentischer Prodekan Architektur</b> — gewählter Vertreter an der TH Köln</span></li>
-      <li><span class="j">2019–2021</span><span class="w"><b>Tutor für Entwurf und Konstruktion</b> — Prof. Carola Wiese</span></li>
-      <li><span class="j">seit 2016</span><span class="w"><b>Selbstständige Tätigkeit</b> — 3D-Druck und Design</span></li>
+      <li><span class="j">seit 2026</span><span class="w"><b>Junior-Architekt AKNW</b> / freischaffende planerische Tätigkeit in Bad Honnef und München</span></li>
+      <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München</span></li>
+      <li><span class="j">2023–2024</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zürich</span></li>
+      <li><span class="j">2021–2022</span><span class="w"><b>Projektassistenz</b> / <a href="https://www.maxundjakob.de/" target="_blank" rel="noopener">Atelier Max &amp; Jakob Giese</a>, Gehlert</span></li>
+      <li><span class="j">2020–2021</span><span class="w"><b>Studentischer Prodekan Architektur</b> / gewählter Vertreter an der TH Köln</span></li>
+      <li><span class="j">2019–2021</span><span class="w"><b>Tutor für Entwurf und Konstruktion</b> / Prof. Carola Wiese</span></li>
+      <li><span class="j">seit 2016</span><span class="w"><b>Selbstständige Tätigkeit</b> / 3D-Druck und Design</span></li>
     </ul>
 
     <h3>Lehre</h3>
     <ul class="cv">
-      <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> — Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — Workshop, ROB|ARCH 2026, Aarhus, mit Begüm Saral und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — Workshop, Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> / Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> / Workshop, ROB|ARCH 2026, Aarhus, mit Begüm Saral und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> / Workshop, Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
     </ul>
 
     <h3>Publikationen / Vorträge</h3>
     <ul class="cv">
-      <li><span class="j">2026</span><span class="w"><i>Translating intention: AI-assisted model generation for collaborative human–robot construction</i> — mit Avishek Das, Begüm Saral, Lidia Atanasova und Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0" class="nb" target="_blank" rel="noopener">DOI 10.1007/s41693-026-00205-0</a></span></li>
-      <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU München</span></li>
-      <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> — Masterthesis, TUM School of Engineering and Design, publiziert via mediaTUM</span></li>
-      <li><span class="j">2025</span><span class="w"><i>From Prototype to Product: Start-ups and Intellectual Property in Digital Fabrication</i> — mit Marcel Studer und Dominik Reisach, ITA (Prof. Silke Langenberg), Startup Architecture Symposium, ETH Zürich</span></li>
-      <li><span class="j">2025</span><span class="w"><i>From Material to Market: How Materiality Drives Innovation in Architectural Technologies</i> — mit Marcel Studer und Dominik Reisach, ITA (Prof. Silke Langenberg), Architecture &amp; Patents Conference, ETH Zürich</span></li>
-      <li><span class="j">2024</span><span class="w"><i>Die Neue Kapelle auf dem Waldfriedhof</i> — eingeladener Vortrag, Bürgerhaus Rhöndorf</span></li>
-      <li><span class="j">2024</span><span class="w"><i>Den Erhalt der Kapelle unterstützen</i> — Gastbeitrag, <a href="https://honnef-heute.de/friedhofskapelle-stadt-in-der-verantwortung/" target="_blank" rel="noopener">Honnef Heute</a></span></li>
-      <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> — ISBN 978-3-00-071896-0</span></li>
+      <li><span class="j">2026</span><span class="w"><i>Translating intention: AI-assisted model generation for collaborative human–robot construction</i> / mit Avishek Das, Begüm Saral, Lidia Atanasova und Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0" class="nb" target="_blank" rel="noopener">DOI 10.1007/s41693-026-00205-0</a></span></li>
+      <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> / Future(s) of Educational Design Symposia, Center of Educational Technologies, TU München</span></li>
+      <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> / Masterthesis, TUM School of Engineering and Design, publiziert via mediaTUM</span></li>
+      <li><span class="j">2025</span><span class="w"><i>From Prototype to Product: Start-ups and Intellectual Property in Digital Fabrication</i> / mit Marcel Studer und Dominik Reisach, ITA (Prof. Silke Langenberg), Startup Architecture Symposium, ETH Zürich</span></li>
+      <li><span class="j">2025</span><span class="w"><i>From Material to Market: How Materiality Drives Innovation in Architectural Technologies</i> / mit Marcel Studer und Dominik Reisach, ITA (Prof. Silke Langenberg), Architecture &amp; Patents Conference, ETH Zürich</span></li>
+      <li><span class="j">2024</span><span class="w"><i>Die Neue Kapelle auf dem Waldfriedhof</i> / eingeladener Vortrag, Bürgerhaus Rhöndorf</span></li>
+      <li><span class="j">2024</span><span class="w"><i>Den Erhalt der Kapelle unterstützen</i> / Gastbeitrag, <a href="https://honnef-heute.de/friedhofskapelle-stadt-in-der-verantwortung/" target="_blank" rel="noopener">Honnef Heute</a></span></li>
+      <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> / ISBN 978-3-00-071896-0</span></li>
     </ul>
 
     <p class="kontakt"><a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · München / Bad Honnef</p>`,
@@ -193,8 +193,8 @@ en:`
 
     <h3>Education</h3>
     <ul class="cv">
-      <li><span class="j">2022–2025</span><span class="w"><b>TU Munich, Architecture M.A.</b> — Mentorship Programme Computational Methods, graduated with high distinction</span></li>
-      <li><span class="j">2023–2024</span><span class="w"><b>ETH Zurich, Architecture Master´s Program</b> — scholarship holder</span></li>
+      <li><span class="j">2022–2025</span><span class="w"><b>TU Munich, Architecture M.A.</b> / Mentorship Programme Computational Methods, graduated with high distinction</span></li>
+      <li><span class="j">2023–2024</span><span class="w"><b>ETH Zurich, Architecture Master´s Program</b> / scholarship holder</span></li>
       <li><span class="j">2018–2021</span><span class="w"><b>TH Cologne, Architecture B.A.</b></span></li>
     </ul>
 
@@ -210,32 +210,32 @@ en:`
     <h3>Experience</h3>
     <ul class="cv">
       <li><span class="j">since 2026</span><span class="w"><b>Research associate / doctoral researcher</b> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, within the <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> and at <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
-      <li><span class="j">since 2026</span><span class="w"><b>Junior architect AKNW</b> — independent planning practice in Bad Honnef and Munich</span></li>
-      <li><span class="j">2023–2026</span><span class="w"><b>Research assistant</b> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich</span></li>
-      <li><span class="j">2023–2024</span><span class="w"><b>Research assistant</b> — <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zurich</span></li>
-      <li><span class="j">2021–2022</span><span class="w"><b>Project assistant</b> — <a href="https://www.maxundjakob.de/" target="_blank" rel="noopener">Atelier Max &amp; Jakob Giese</a>, Gehlert</span></li>
-      <li><span class="j">2020–2021</span><span class="w"><b>Student vice-dean of architecture</b> — elected representative, TH Cologne</span></li>
-      <li><span class="j">2019–2021</span><span class="w"><b>Tutor for design and construction</b> — Prof. Carola Wiese</span></li>
-      <li><span class="j">since 2016</span><span class="w"><b>Self-employed</b> — 3D printing and design</span></li>
+      <li><span class="j">since 2026</span><span class="w"><b>Junior architect AKNW</b> / independent planning practice in Bad Honnef and Munich</span></li>
+      <li><span class="j">2023–2026</span><span class="w"><b>Research assistant</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich</span></li>
+      <li><span class="j">2023–2024</span><span class="w"><b>Research assistant</b> / <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zurich</span></li>
+      <li><span class="j">2021–2022</span><span class="w"><b>Project assistant</b> / <a href="https://www.maxundjakob.de/" target="_blank" rel="noopener">Atelier Max &amp; Jakob Giese</a>, Gehlert</span></li>
+      <li><span class="j">2020–2021</span><span class="w"><b>Student vice-dean of architecture</b> / elected representative, TH Cologne</span></li>
+      <li><span class="j">2019–2021</span><span class="w"><b>Tutor for design and construction</b> / Prof. Carola Wiese</span></li>
+      <li><span class="j">since 2016</span><span class="w"><b>Self-employed</b> / 3D printing and design</span></li>
     </ul>
 
     <h3>Teaching</h3>
     <ul class="cv">
-      <li><span class="j">2026</span><span class="w"><i>Fritz-Pflaum-Hütte Renovation</i> — master studio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, in collaboration with the <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Chair for Architecture and Human Augmentation</a>, ETH Zurich, with Prof. Kathrin Dörfler and Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — workshop, ROB|ARCH 2026, Aarhus, with Begüm Saral and Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — workshop, Future of Construction Symposium, ETH Zurich, with Laurence Crouzet, Adrian Pöllinger, Begüm Saral and Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Fritz-Pflaum-Hütte Renovation</i> / master studio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, in collaboration with the <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Chair for Architecture and Human Augmentation</a>, ETH Zurich, with Prof. Kathrin Dörfler and Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> / workshop, ROB|ARCH 2026, Aarhus, with Begüm Saral and Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> / workshop, Future of Construction Symposium, ETH Zurich, with Laurence Crouzet, Adrian Pöllinger, Begüm Saral and Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
     </ul>
 
     <h3>Publications / Talks</h3>
     <ul class="cv">
-      <li><span class="j">2026</span><span class="w"><i>Translating intention: AI-assisted model generation for collaborative human–robot construction</i> — with Avishek Das, Begüm Saral, Lidia Atanasova and Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0" class="nb" target="_blank" rel="noopener">DOI 10.1007/s41693-026-00205-0</a></span></li>
-      <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> — Future(s) of Educational Design Symposia, Center of Educational Technologies, TU Munich</span></li>
-      <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> — master's thesis, TUM School of Engineering and Design, published via mediaTUM</span></li>
-      <li><span class="j">2025</span><span class="w"><i>From Prototype to Product: Start-ups and Intellectual Property in Digital Fabrication</i> — with Marcel Studer and Dominik Reisach, ITA (Prof. Silke Langenberg), Startup Architecture Symposium, ETH Zurich</span></li>
-      <li><span class="j">2025</span><span class="w"><i>From Material to Market: How Materiality Drives Innovation in Architectural Technologies</i> — with Marcel Studer and Dominik Reisach, ITA (Prof. Silke Langenberg), Architecture &amp; Patents Conference, ETH Zurich</span></li>
-      <li><span class="j">2024</span><span class="w"><i>The New Chapel at the Woodland Cemetery</i> — invited lecture, Bürgerhaus Rhöndorf</span></li>
-      <li><span class="j">2024</span><span class="w"><i>Supporting the Preservation of the Chapel</i> — guest contribution, <a href="https://honnef-heute.de/friedhofskapelle-stadt-in-der-verantwortung/" target="_blank" rel="noopener">Honnef Heute</a></span></li>
-      <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> — ISBN 978-3-00-071896-0</span></li>
+      <li><span class="j">2026</span><span class="w"><i>Translating intention: AI-assisted model generation for collaborative human–robot construction</i> / with Avishek Das, Begüm Saral, Lidia Atanasova and Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0" class="nb" target="_blank" rel="noopener">DOI 10.1007/s41693-026-00205-0</a></span></li>
+      <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i> / Future(s) of Educational Design Symposia, Center of Educational Technologies, TU Munich</span></li>
+      <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i> / master's thesis, TUM School of Engineering and Design, published via mediaTUM</span></li>
+      <li><span class="j">2025</span><span class="w"><i>From Prototype to Product: Start-ups and Intellectual Property in Digital Fabrication</i> / with Marcel Studer and Dominik Reisach, ITA (Prof. Silke Langenberg), Startup Architecture Symposium, ETH Zurich</span></li>
+      <li><span class="j">2025</span><span class="w"><i>From Material to Market: How Materiality Drives Innovation in Architectural Technologies</i> / with Marcel Studer and Dominik Reisach, ITA (Prof. Silke Langenberg), Architecture &amp; Patents Conference, ETH Zurich</span></li>
+      <li><span class="j">2024</span><span class="w"><i>The New Chapel at the Woodland Cemetery</i> / invited lecture, Bürgerhaus Rhöndorf</span></li>
+      <li><span class="j">2024</span><span class="w"><i>Supporting the Preservation of the Chapel</i> / guest contribution, <a href="https://honnef-heute.de/friedhofskapelle-stadt-in-der-verantwortung/" target="_blank" rel="noopener">Honnef Heute</a></span></li>
+      <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> / ISBN 978-3-00-071896-0</span></li>
     </ul>
 
     <p class="kontakt"><a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a> · Munich / Bad Honnef</p>`
