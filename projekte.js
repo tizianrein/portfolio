@@ -169,9 +169,9 @@ de:`
 
     <h3>Lehre</h3>
     <ul class="cv">
-      <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — ROB|ARCH 2026, Aarhus, mit Begüm Saral und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> — Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — Workshop, ROB|ARCH 2026, Aarhus, mit Begüm Saral und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — Workshop, Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
     </ul>
 
     <h3>Publikationen / Vorträge</h3>
@@ -202,7 +202,7 @@ en:`
     <ul class="cv">
       <li><span class="j">since 2026</span><span class="w"><b><a href="https://www.deutscher-werkbund.de/homepage/bayern/" target="_blank" rel="noopener">Deutscher Werkbund</a></b> München</span></li>
       <li><span class="j">since 2026</span><span class="w"><b><a href="https://www.initiative-umbau.org/" target="_blank" rel="noopener">initiative.umbau</a></b> Köln</span></li>
-      <li><span class="j">since 2025</span><span class="w"><b><a href="https://www.rheinischer-verein.de/" target="_blank" rel="noopener">Rheinischer Verein für Denkmalpflege und Landschaftsschutz</a></b></span></li>
+      <li><span class="j">since 2025</span><span class="w"><b><a href="https://www.rheinischer-verein.de/" target="_blank" rel="noopener">Rheinischer Verein für Denkmalpflege und Landschaftsschutz</a></b> Cologne</span></li>
       <li><span class="j">since 2022</span><span class="w"><b><a href="https://www.gutenberghaus.org/" target="_blank" rel="noopener">Verein Gutenberghaus Bad Honnef e.V.</a></b></span></li>
       <li><span class="j">since 2022</span><span class="w"><b><a href="https://www.rhoendorf.de/" target="_blank" rel="noopener">Rhöndorfer Bürger- und Ortsverein</a></b></span></li>
     </ul>
@@ -221,9 +221,9 @@ en:`
 
     <h3>Teaching</h3>
     <ul class="cv">
-      <li><span class="j">2026</span><span class="w"><i>Fritz-Pflaum-Hütte Renovation</i> — <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, in collaboration with the <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Chair for Architecture and Human Augmentation</a>, ETH Zurich, with Prof. Kathrin Dörfler and Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — ROB|ARCH 2026, Aarhus, with Begüm Saral and Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
-      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — Future of Construction Symposium, ETH Zurich, with Laurence Crouzet, Adrian Pöllinger, Begüm Saral and Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Fritz-Pflaum-Hütte Renovation</i> — master studio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, in collaboration with the <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Chair for Architecture and Human Augmentation</a>, ETH Zurich, with Prof. Kathrin Dörfler and Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> — workshop, ROB|ARCH 2026, Aarhus, with Begüm Saral and Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
+      <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> — workshop, Future of Construction Symposium, ETH Zurich, with Laurence Crouzet, Adrian Pöllinger, Begüm Saral and Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
     </ul>
 
     <h3>Publications / Talks</h3>
