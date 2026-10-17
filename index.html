@@ -644,10 +644,12 @@
      dann der Lebenslauf in Spalten. */
   /* Biografie und Lebenslauf teilen sich eine Spaltenbreite: 40 Geviert
      der Biografie-Schrift. So enden beide rechts an derselben Kante. */
-  .info-seite{padding:44px 16px 56px;--bio:clamp(20px,1.9vw,27px)}
-  .info-seite .bio,.cv-raster{max-width:calc(var(--bio) * 40)}
+  /* Spaltenbreite fuer Biografie und Lebenslauf: beide enden rechts an
+     derselben Kante. Die Biografie ist ein kurzes Statement in grosser Schrift. */
+  .info-seite{padding:44px 16px 56px;--spalte:calc(clamp(20px,1.9vw,27px) * 40)}
+  .info-seite .bio,.cv-raster{max-width:var(--spalte)}
   .info-seite .bio{
-    font-size:var(--bio);line-height:1.3;letter-spacing:-.003em;
+    font-size:clamp(30px,2.6vw,44px);line-height:1.14;letter-spacing:-.008em;
     margin:0 0 72px;
   }
   .info-seite .bio .mini{margin:0 .04em 0 .2em;cursor:default}
@@ -962,7 +964,7 @@
 
 <section class="info-seite" id="info" aria-label="Info">
 <!-- SEO-INFO:START -->
-<p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) studierte Architektur an der Technischen Universität München, der ETH Zürich und der Technischen Hochschule Köln. Nach seinem Bachelorabschluss und seiner Tätigkeit im Atelier Max &amp; Jakob Giese wandte er sich im Master-Studium technisch-forschenden Feldern zu, die computergestützte Prozesse mit Denkmalpflege verbinden. Diese Interessen verfolgte er zudem als wissenschaftliche Hilfskraft an der Professorship of Digital Fabrication in München und bei Gramazio Kohler Research an der ETH Zürich. Derzeit ist er Doktorand an der Professorship of Digital Fabrication innerhalb des Munich Institute for Robotics and Machine Intelligence (MIRMI) sowie am MIT (USA). In seiner Arbeit erforscht er, wie computergestützte Methoden und KI tief in das Handwerk und die Erhaltung von Gebäuden eingebettet werden können. Parallel zu seiner Forschung arbeitet er in selbstständiger Praxis an der Weiterentwicklung und Reprogrammierung im Bestand.</p>
+<p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> glaubt, dass es viele Dinge, die wir brauchen, eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht besonders gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften aufbauen und sie mit wirkungsvollen Instrumenten ausstatten können. Das tut er als Junior-Architekt in eigener Praxis in Bad Honnef und München und als Doktorand an der Professorship of Digital Fabrication der TU München und am MIT.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -1108,11 +1110,18 @@ function vBreite(){
   const b=vorschau.offsetWidth;
   return b>0 ? b : Math.min(innerWidth*0.46,860);
 }
-/* Waagerecht: Mitte bei 62 % der Fensterbreite, also naeher zur
-   Seitenmitte; rechts nie naeher als 40px am Rand. */
+/* Waagerecht: rechts an der Randlinie der Seite */
 function vX(){
   const b=vBreite();
-  return Math.min(innerWidth*0.62, innerWidth-b/2-40);
+  /* rechtsbuendig am Seitenrand (40px), wie die Kopfzeile */
+  return innerWidth-b/2-40;
+}
+/* In der Info-Ansicht nur so breit wie der freie Platz rechts vom Text */
+function vPlatz(){
+  const bio=document.body.classList.contains("info-offen")&&document.querySelector(".info-seite .bio");
+  if(!bio){vorschau.style.maxWidth="";return;}
+  const frei=innerWidth-bio.getBoundingClientRect().right-40-48;
+  vorschau.style.maxWidth=frei>=220?frei+"px":"";
 }
 /* Senkrecht: mittig zwischen Kopfzeile und Laufband */
 function vY(){
@@ -1132,6 +1141,7 @@ function vStart(quelle,src,y){
   /* Quelle nur wechseln, wenn sie sich wirklich aendert: ein erneutes
      Setzen von .src verwirft den Dekodier-Zustand und flackert. */
   if(!vorschau.src.endsWith(src))vorschau.src=src;
+  vPlatz();
   vPositionieren();
   requestAnimationFrame(vPositionieren);
   vorschau.style.setProperty("--deg",(Math.random()*5-2.5).toFixed(1)+"deg");
@@ -1852,7 +1862,7 @@ function infoVerdrahten(){
 
 /* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
    Lauf neu — nicht von Hand aendern. */
-const STAND={de:"17.10.2026 um 06:24:48 Uhr",en:"17 October 2026 at 06:24:48"};
+const STAND={de:"17.10.2026 um 07:09:22 Uhr",en:"17 October 2026 at 07:09:22"};
 
 /* ===== Sprache anwenden ===== */
 function applyLang(){
@@ -1891,6 +1901,8 @@ applyLang();
 /* Ein geteilter Projektlink öffnet direkt das passende Projekt. */
 if(location.hash==="#info"){
   infoZeigen(true,false);
+  /* Der Browser springt beim Laden sonst zum Anker und verdeckt die Kopfzeile */
+  addEventListener("load",()=>requestAnimationFrame(()=>window.scrollTo({top:0,behavior:"instant"})));
 }else if(location.hash){
   const ziel=document.getElementById(decodeURIComponent(location.hash.slice(1)));
   if(ziel&&ziel.classList.contains("proj")){
