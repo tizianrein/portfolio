@@ -112,7 +112,7 @@ const P=[
 
 const INFO_HTML={
 de:`
-    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) glaubt, dass es viele Dinge die wir brauchen eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht besonders gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften bilden und sie mit wirkungsvollen Instrumenten ausstatten können. Das tut er als Junior-Architekt in eigener Praxis für Bauen im Bestand und als Forscher an der Technischen Universität München.</p>
+    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) glaubt, dass es viele Dinge die wir brauchen eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht immer gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften bilden und sie mit wirkungsvollen Instrumenten ausstatten können. Er arbeitet als Junior-Architekt in eigener Praxis im Baubestand und als Forscher an der Technischen Universität München.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -139,7 +139,7 @@ de:`
       <section class="cv-block">
         <h3>Lehre</h3>
         <ul class="cv">
-          <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> / Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+          <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> / Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/projects/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
           <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> / Workshop, ROB|ARCH 2026, Aarhus, mit Begüm Saral und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
           <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> / Workshop, Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
         </ul>
@@ -169,7 +169,7 @@ de:`
       </section>
     </div>`,
 en:`
-    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Portrait of Tizian Rein"></span> (*1997 in Rhöndorf) believes plenty of the things we need actually already exist. They’re all worth maintaining. But it seems we are bad at it. That’s why he wants to know how we can build societies of repair, and equip them with powerful instruments. He does this as a junior-architect in his own practice for adaptive reuse, and as a researcher at the Technical University of Munich.</p>
+    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Portrait of Tizian Rein"></span> (*1997 in Rhöndorf) believes plenty of the things we need actually already exist. They’re all worth maintaining. But it seems we are bad at it. That’s why he wants to know how we can build societies of repair, and equip them with powerful instruments. He works as a junior-architect in his own practice for adaptive reuse, and as a researcher at the Technical University of Munich.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -196,7 +196,7 @@ en:`
       <section class="cv-block">
         <h3>Teaching</h3>
         <ul class="cv">
-          <li><span class="j">2026</span><span class="w"><i>Fritz-Pflaum-Hütte Renovation</i> / Master Studio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, in collaboration with the <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Chair for Architecture and Human Augmentation</a>, ETH Zurich, with Prof. Kathrin Dörfler and Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+          <li><span class="j">2026</span><span class="w"><i>Fritz-Pflaum-Hütte Renovation</i> / Master Studio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU Munich, in collaboration with the <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Chair for Architecture and Human Augmentation</a>, ETH Zurich, with Prof. Kathrin Dörfler and Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/projects/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
           <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> / Workshop, ROB|ARCH 2026, Aarhus, with Begüm Saral and Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
           <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> / Workshop, Future of Construction Symposium, ETH Zurich, with Laurence Crouzet, Adrian Pöllinger, Begüm Saral and Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
         </ul>
