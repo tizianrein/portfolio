@@ -1160,8 +1160,9 @@ const TEXT=p=>p.d[LANG]||p.d.de;
    je dichter die Ereignisse kommen, desto weiter traegt jede Bewegung.
    Touch bleibt beim nativen Scrollen des Geraets. */
 const WEICH=!matchMedia("(prefers-reduced-motion: reduce)").matches;
-const NACHLAUF=190;        /* ms Zeitkonstante: groesser = laengeres Ausgleiten */
-const SCHUB_MAX=2.6;       /* bis zu 3,6-fache Weite bei sehr schnellem Scrollen */
+const NACHLAUF=105;        /* ms Zeitkonstante: groesser = laengeres Ausgleiten */
+const SCHUB_MAX=3.6;       /* bis zu 4,6-fache Weite bei sehr schnellem Scrollen */
+const SCHUB_AB=480;        /* kleiner = Beschleunigung setzt frueher ein */
 function gleiter(o){
   let ziel=0,ist=0,laeuft=false,gesetzt=null,t0=0,energie=0,tRad=0;
   function frame(t){
@@ -1188,13 +1189,13 @@ function gleiter(o){
     rad(d){
       const t=performance.now(),dt=t-tRad;tRad=t;
       energie=energie*Math.exp(-dt/220)+Math.abs(d);
-      const schub=1+Math.min(SCHUB_MAX,energie/1100);
+      const schub=1+Math.min(SCHUB_MAX,energie/SCHUB_AB);
       if(!laeuft)ziel=o.lesen();
       ziel+=d*schub;start();
     },
     wurf(v){                       /* v in px/ms, z. B. nach dem Ziehen */
       if(!laeuft)ziel=o.lesen();
-      ziel+=v*NACHLAUF*2.4;start();
+      ziel+=v*NACHLAUF*3.2;start();
     },
     verschiebe(d){ist+=d;ziel+=d;if(gesetzt!==null)gesetzt+=d;},
     stop(){ziel=ist=o.lesen();energie=0;}
