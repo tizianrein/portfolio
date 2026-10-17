@@ -1161,7 +1161,7 @@ const TEXT=p=>p.d[LANG]||p.d.de;
    Touch bleibt beim nativen Scrollen des Geraets. */
 const WEICH=!matchMedia("(prefers-reduced-motion: reduce)").matches;
 const NACHLAUF=105;        /* ms Zeitkonstante: groesser = laengeres Ausgleiten */
-const SCHUB_MAX=7.0;       /* bis zu 4,6-fache Weite bei sehr schnellem Scrollen */
+const SCHUB_MAX=7.0;       /* bis zu 8-fache Weite bei sehr schnellem Scrollen */
 const SCHUB_AB=480;        /* kleiner = Beschleunigung setzt frueher ein */
 function gleiter(o){
   let ziel=0,ist=0,laeuft=false,gesetzt=null,t0=0,energie=0,tRad=0;
@@ -1587,6 +1587,45 @@ window.addEventListener("wheel",e=>{
   e.preventDefault();
   seite.rad(e.deltaY*radPixel(e));
 },{passive:false});
+/* Touch: die Seite folgt dem Finger 1:1, beim Loslassen gleitet sie mit
+   demselben Motor aus wie beim Mausrad. Mehrere schnelle Wischer
+   hintereinander bauen Schwung auf. Seitliche Gesten bleiben den
+   Galerien ueberlassen, ein Tippen bleibt ein Klick. */
+if(WEICH){
+  let tz=null,wurfEnergie=0,tWurf=0;
+  document.addEventListener("touchstart",e=>{
+    if(e.touches.length!==1||galerie.classList.contains("open")){tz=null;return;}
+    const t=e.touches[0];
+    seite.stop();
+    tz={x:t.clientX,y:t.clientY,s:window.scrollY,modus:null,spur:[[performance.now(),t.clientY]]};
+  },{passive:true});
+  document.addEventListener("touchmove",e=>{
+    if(!tz)return;
+    if(e.touches.length!==1){tz=null;return;}          /* zwei Finger: Zoom */
+    const t=e.touches[0],dx=t.clientX-tz.x,dy=t.clientY-tz.y;
+    if(!tz.modus){
+      if(Math.abs(dx)<6&&Math.abs(dy)<6)return;
+      tz.modus=Math.abs(dy)>=Math.abs(dx)?"y":"x";
+    }
+    if(tz.modus!=="y")return;
+    e.preventDefault();
+    window.scrollTo({top:tz.s-dy,behavior:"instant"});
+    const n=performance.now();
+    tz.spur.push([n,t.clientY]);
+    while(tz.spur.length>2&&n-tz.spur[0][0]>100)tz.spur.shift();
+  },{passive:false});
+  const touchEnde=()=>{
+    if(!tz||tz.modus!=="y"){tz=null;return;}
+    const a=tz.spur[0],b=tz.spur[tz.spur.length-1];tz=null;
+    if(performance.now()-b[0]>80||b[0]<=a[0])return;   /* Finger stand still: kein Wurf */
+    const v=-(b[1]-a[1])/(b[0]-a[0]);                    /* px/ms */
+    const n=performance.now();
+    wurfEnergie=wurfEnergie*Math.exp(-(n-tWurf)/800)+Math.abs(v)*250;tWurf=n;
+    seite.wurf(v*(1+Math.min(SCHUB_MAX,wurfEnergie/SCHUB_AB)));
+  };
+  document.addEventListener("touchend",touchEnde,{passive:true});
+  document.addEventListener("touchcancel",()=>{tz=null;},{passive:true});
+}
 /* Eigenes Scrollen des Besuchers beendet die laufende Animation. */
 window.addEventListener("wheel",()=>{scrollVorgang++;},{passive:true});
 window.addEventListener("touchstart",()=>{scrollVorgang++;},{passive:true});
