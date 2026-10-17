@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tizian Rein</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<!--
+  Alternative Fassung der Portfolio-Seite, angelehnt an den Aufbau von soup.work:
+  Startseite als grosse Bildfolge, Index als Liste nach Jahren, Projektseite
+  mit Text links und Bildern rechts. Nutzt dieselben Daten wie index.html
+  (projekte.js, bildmasse.js, images/). Die eigentliche Seite bleibt unberuehrt.
+-->
+<style>
+  :root{
+    --ink:#101010;--paper:#fff;--accent:#d40000;
+    --gross:clamp(30px,3.3vw,48px);   /* Kopfzeile, Index-Titel */
+    --rand:12px;
+    --kopfhoehe:calc(var(--gross) * 1.15 + 10px);
+    --cap:.662;--ziffer:.676;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{background:var(--paper);scrollbar-width:none}
+  html::-webkit-scrollbar{display:none}
+  body{font-family:"Times New Roman",Times,serif;color:var(--ink);background:transparent;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;padding:0;cursor:pointer}
+  :focus{outline:none}
+  img{-webkit-user-drag:none;user-select:none}
+
+  /* Kleine Versalien in einer Grotesk: der Gegenpol zur grossen Times */
+  .klein{
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:10px;line-height:1.25;letter-spacing:.04em;text-transform:uppercase;font-style:normal;
+  }
+
+  .ansicht{display:none}
+  body[data-ansicht="home"] #home,
+  body[data-ansicht="index"] #index,
+  body[data-ansicht="info"] #info,
+  body[data-ansicht="projekt"] #projekt{display:block}
+
+  /* Kopfzeile: gross, schwarz, an den Raendern */
+  .kopf{
+    position:fixed;top:0;left:0;right:0;z-index:20;
+    display:flex;justify-content:space-between;align-items:baseline;gap:.6em;
+    padding:6px var(--rand) 0;font-size:var(--gross);line-height:1.15;
+    pointer-events:none;
+  }
+  .kopf > *{pointer-events:auto}
+  .kopf .gruppe{display:flex;gap:.55em;align-items:baseline}
+  .kopf a:hover,.kopf button:hover,.kopf .an{color:var(--accent);font-style:italic}
+  .zaehler{font-variant-numeric:tabular-nums}
+  .sprache .aus{color:#b5b5b5}
+
+  /* ===== Home: grosse Bildfolge ===== */
+  #home{position:fixed;inset:0;overflow:hidden;touch-action:pan-y}
+  .spur{
+    position:absolute;left:0;bottom:0;height:100%;
+    display:flex;align-items:flex-end;
+    transition:transform .75s cubic-bezier(.22,.61,.36,1);will-change:transform;
+  }
+  .dia{flex:0 0 auto;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer;
+       transition:width .75s cubic-bezier(.22,.61,.36,1)}
+  .dia .cap{display:flex;justify-content:space-between;gap:16px;padding:0 0 5px;white-space:nowrap;overflow:hidden}
+  .dia .cap .r{flex:0 0 auto}
+  .dia .cap .l{overflow:hidden;text-overflow:ellipsis}
+  .dia .bild{position:relative;background:#f2f2f2;
+             transition:height .75s cubic-bezier(.22,.61,.36,1),width .75s cubic-bezier(.22,.61,.36,1)}
+  .dia img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity .5s}
+  .dia img.da{opacity:1}
+  .dia:not(.akt) .cap .r{visibility:hidden}
+  .dia.akt:hover .cap,.dia.akt:hover .cap .r{color:var(--accent)}
+  .post{
+    position:fixed;right:var(--rand);bottom:10px;z-index:20;
+    background:var(--paper);padding:3px 0 0 6px;
+  }
+  .post:hover{color:var(--accent)}
+  @media (prefers-reduced-motion: reduce){.spur,.dia,.dia .bild{transition:none}}
+
+  /* ===== Index: Liste nach Jahren ===== */
+  #index{padding:calc(var(--kopfhoehe) + 18px) var(--rand) 80px}
+  .block{margin:0 0 calc(var(--gross) * .9)}
+  .block h2{font-weight:400;font-size:var(--gross);line-height:1.1}
+  .block ul{list-style:none;padding-left:.55em;font-size:var(--gross)}
+  .block li{line-height:1.12}
+  .block li a{display:inline}
+  .block li a:hover .t{color:var(--accent);font-style:italic}
+  .mini{display:inline-block;vertical-align:baseline;margin-left:.14em}
+  .mini img{display:block;height:calc(var(--cap) * 1em);width:auto}
+  .marke{
+    vertical-align:calc(var(--cap) * var(--gross) - .9em);
+    margin-left:.5em;white-space:nowrap;
+  }
+  .block li a:hover .marke{color:var(--accent)}
+  /* Desktop: keine kleinen Bilder, dafuer die grosse Vorschau rechts */
+  @media (min-width:760px) and (hover:hover){ .block .mini{display:none} }
+  .vorschau{
+    position:fixed;z-index:-1;right:var(--rand);top:50%;
+    width:clamp(260px,30vw,460px);height:auto;transform:translateY(-50%);
+    opacity:0;transition:opacity .25s;pointer-events:none;
+  }
+  .vorschau.an{opacity:1}
+  body:not([data-ansicht="index"]) .vorschau{display:none}
+
+  /* ===== Projekt: Text links, Bilder rechts ===== */
+  .p-raster{display:grid;grid-template-columns:1fr;gap:28px;padding:calc(var(--kopfhoehe) + 10px) var(--rand) var(--rand)}
+  .p-links{display:flex;flex-direction:column;gap:22px}
+  .p-titel{font-size:clamp(26px,2.4vw,36px);font-weight:400;line-height:1.1}
+  .p-text{font-size:17px;line-height:1.45;max-width:36em}
+  .p-text a{border-bottom:1px solid var(--accent)}
+  .p-text a:hover{color:var(--accent)}
+  .p-daten{display:grid;grid-template-columns:auto 1fr;gap:2px 24px}
+  .p-bilder{display:flex;flex-direction:column;gap:12px}
+  .p-bilder img,.p-bilder video{display:block;width:100%;height:auto;background:#f2f2f2}
+  .p-weiter{display:block;padding:40px 0 30px;font-size:var(--gross);line-height:1.1}
+  .p-weiter:hover{color:var(--accent);font-style:italic}
+  @media (min-width:900px){
+    .p-raster{grid-template-columns:minmax(0,1fr) minmax(0,1.75fr);gap:40px}
+    .p-links{
+      position:sticky;top:calc(var(--kopfhoehe) + 10px);align-self:start;
+      height:calc(100vh - var(--kopfhoehe) - 22px);justify-content:space-between;
+    }
+  }
+
+  /* ===== Info ===== */
+  #info{padding:calc(var(--kopfhoehe) + 24px) var(--rand) 80px;--bio:clamp(20px,1.9vw,27px)}
+  #info .bio,#info .cv-raster{max-width:calc(var(--bio) * 40)}
+  #info .bio{font-size:var(--bio);line-height:1.3;margin:0 0 64px}
+  #info .bio .mini{margin:0 .04em 0 .2em}
+  #info .cv-block{margin:0 0 34px}
+  #info h3{font-weight:400}
+  #info h3{font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;font-size:10px;letter-spacing:.04em;text-transform:uppercase;margin:0 0 8px}
+  #info ul.cv{list-style:none}
+  #info ul.cv li{display:flex;gap:16px;font-size:16px;line-height:1.45;padding:2px 0}
+  #info ul.cv .j{flex:0 0 84px;color:#999;font-variant-numeric:tabular-nums}
+  #info ul.cv .w{flex:1;min-width:0}
+  #info ul.cv b{font-weight:400}
+  #info ul.cv a{border-bottom:1px solid var(--accent)}
+  #info ul.cv a:hover{color:var(--accent)}
+  #info ul.cv a.nb{white-space:nowrap}
+  .info-kontakt{margin-top:48px;display:flex;flex-wrap:wrap;gap:6px 18px}
+  .info-kontakt a:hover{color:var(--accent)}
+
+  @media (max-width:759px){
+    :root{--gross:28px;--rand:10px}
+    .kopf{font-size:22px}
+    .spur{align-items:center;top:var(--kopfhoehe);height:calc(100% - var(--kopfhoehe) - 30px)}
+    .p-text{font-size:16px}
+  }
+</style>
+</head>
+<body data-ansicht="home">
+
+<!-- Home -->
+<section class="ansicht" id="home" aria-label="Projekte">
+  <header class="kopf">
+    <a href="#index" id="hIndex">Index</a>
+    <span class="zaehler" id="hZaehler">01/12</span>
+  </header>
+  <div class="spur" id="spur"></div>
+  <a class="post klein" href="mailto:mail@tizianrein.de">mail@tizianrein.de</a>
+</section>
+
+<!-- Index -->
+<section class="ansicht" id="index" aria-label="Index">
+  <header class="kopf">
+    <a href="#" id="iHome">Home</a>
+    <span class="gruppe">
+      <button id="sortJahr" class="an">Jahr</button>
+      <button id="sortKat">Kategorie</button>
+      <a href="#info" id="iInfo">Info</a>
+      <button class="sprache" id="iSprache"><span class="ein">DE</span><span class="aus">/EN</span></button>
+    </span>
+  </header>
+  <div id="liste"></div>
+</section>
+<img class="vorschau" id="vorschau" alt="" aria-hidden="true">
+
+<!-- Projekt -->
+<section class="ansicht" id="projekt" aria-label="Projekt">
+  <header class="kopf">
+    <a href="#" id="pZurueck">Zurück</a>
+    <span class="zaehler" id="pZaehler">01/01</span>
+  </header>
+  <div class="p-raster">
+    <div class="p-links">
+      <div>
+        <h1 class="p-titel" id="pTitel"></h1>
+        <p class="p-text" id="pText" style="margin-top:20px"></p>
+      </div>
+      <dl class="p-daten klein" id="pDaten"></dl>
+    </div>
+    <div>
+      <div class="p-bilder" id="pBilder"></div>
+      <a class="p-weiter" id="pWeiter" href="#"></a>
+    </div>
+  </div>
+</section>
+
+<!-- Info -->
+<section class="ansicht" id="info" aria-label="Info">
+  <header class="kopf">
+    <a href="#" id="fHome">Home</a>
+    <span class="gruppe">
+      <a href="#index" id="fIndex">Index</a>
+      <button class="sprache" id="fSprache"><span class="ein">DE</span><span class="aus">/EN</span></button>
+    </span>
+  </header>
+  <div id="infoInhalt"></div>
+</section>
+
+<script src="bildmasse.js"></script>
+<script src="projekte.js"></script>
+<script>
+"use strict";
+/* ---------- Grundlagen ---------- */
+let LANG="de";
+try{const g=localStorage.getItem("tr_lang");if(g==="de"||g==="en")LANG=g;}catch(e){}
+const TXT={
+  de:{ansehen:"Projekt ansehen →",zurueck:"Zurück",jahr:"Jahr",kat:"Kategorie",weiter:"Nächstes Projekt",bilder:"Bilder"},
+  en:{ansehen:"View project →",zurueck:"Back",jahr:"Year",kat:"Category",weiter:"Next project",bilder:"Images"}
+};
+const esc=t=>String(t??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+const TITEL=p=>p.t[LANG]||p.t.de;
+const TEXT=p=>p.d[LANG]||p.d.de;
+const KATN=p=>(KAT[LANG]&&KAT[LANG][p.c])||p.c;
+const JAHR=p=>{
+  const y=String(p.y||"");const m=y.match(/(\d{4})(?:\s*[–-]\s*(\d{2,4}))?/);
+  if(!m)return y; if(!m[2])return m[1];
+  return m[2].length===4?m[2]:m[1].slice(0,4-m[2].length)+m[2];
+};
+function slugFuer(p){
+  return (p.slug||p.t.de||p.n).normalize("NFD").replace(/[̀-ͯ]/g,"")
+    .replace(/ß/g,"ss").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
+}
+function masse(name){
+  if(typeof MASSE==="undefined")return null;
+  return MASSE[name]||MASSE[decodeURIComponent(name)]||null;
+}
+/* erstes Bild ohne GIF */
+const titelbild=p=>p.imgs.find(n=>!/\.gif$/i.test(n))||p.imgs[0];
+const zwei=n=>String(n).padStart(2,"0");
+const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+/* Versalhoehe der echten Schrift messen (wie in index.html) */
+(function(){
+  try{
+    const c=document.createElement("canvas").getContext("2d");
+    c.font=`100px ${getComputedStyle(document.body).fontFamily}`;
+    const cap=c.measureText("H").actualBoundingBoxAscent/100;
+    if(cap>.5&&cap<.85)document.documentElement.style.setProperty("--cap",cap.toFixed(4));
+  }catch(e){}
+})();
+
+/* ---------- Home: Bildfolge ---------- */
+const spur=document.getElementById("spur");
+const hZaehler=document.getElementById("hZaehler");
+let akt=0;
+const dias=P.map((p,i)=>{
+  const name=p.pre+titelbild(p);
+  const wh=masse(name)||[4,3];
+  const d=document.createElement("div");
+  d.className="dia";
+  d.innerHTML=`<div class="cap klein"><span class="l"></span><span class="r"></span></div><div class="bild"><img alt="" decoding="async"></div>`;
+  d.dataset.src=B+name;
+  d.ar=wh[0]/wh[1];
+  d.addEventListener("click",()=>{ if(i===akt)gehe("#p/"+slugFuer(p)); else zeige(i); });
+  spur.appendChild(d);
+  return d;
+});
+function dimensionen(){
+  const W=innerWidth,H=innerHeight;
+  const oben=parseFloat(getComputedStyle(document.querySelector("#home .kopf")).height)+18;
+  const hMax=H-oben-15;                 /* 15px fuer die Bildzeile */
+  const breitMax=W*(W<760?.84:.62);
+  return {W,hMax,breitMax,luecke:W<760?10:22};
+}
+function setzeSpur(){
+  const {W,hMax,breitMax,luecke}=dimensionen();
+  let x=0,mitte=0;
+  dias.forEach((d,i)=>{
+    const gross=Math.min(hMax,breitMax/d.ar);
+    const h=i===akt?gross:gross*.62;
+    const w=h*d.ar;
+    const b=d.querySelector(".bild");
+    b.style.height=h+"px";b.style.width=w+"px";
+    d.style.width=w+"px";
+    d.style.marginRight=luecke+"px";
+    if(i===akt)mitte=x+w/2;
+    x+=w+luecke;
+    d.classList.toggle("akt",i===akt);
+    /* Bilder nur in der Naehe laden */
+    if(Math.abs(i-akt)<=2){
+      const im=d.querySelector("img");
+      if(!im.src){im.onload=()=>im.classList.add("da");im.src=d.dataset.src;}
+    }
+  });
+  spur.style.transform=`translateX(${W/2-mitte}px)`;
+  hZaehler.textContent=`${zwei(akt+1)}/${zwei(P.length)}`;
+}
+function beschrifteSpur(){
+  dias.forEach((d,i)=>{
+    const p=P[i];
+    d.querySelector(".l").textContent=`${TITEL(p)}, ${JAHR(p)}`;
+    d.querySelector(".r").textContent=TXT[LANG].ansehen;
+  });
+}
+function zeige(i){
+  akt=Math.max(0,Math.min(P.length-1,i));
+  setzeSpur();
+}
+/* Mausrad, Trackpad, Tasten, Wischen */
+let radSumme=0,radSperre=0;
+document.getElementById("home").addEventListener("wheel",e=>{
+  e.preventDefault();
+  const d=Math.abs(e.deltaX)>Math.abs(e.deltaY)?e.deltaX:e.deltaY;
+  radSumme+=d;
+  const jetzt=performance.now();
+  if(jetzt<radSperre){return;}
+  if(Math.abs(radSumme)>40){
+    zeige(akt+(radSumme>0?1:-1));
+    radSumme=0;radSperre=jetzt+(reduziert?150:550);
+  }
+},{passive:false});
+let tx=null,ty=null;
+document.getElementById("home").addEventListener("touchstart",e=>{tx=e.touches[0].clientX;ty=e.touches[0].clientY;},{passive:true});
+document.getElementById("home").addEventListener("touchend",e=>{
+  if(tx===null)return;
+  const dx=e.changedTouches[0].clientX-tx,dy=e.changedTouches[0].clientY-ty;
+  const d=Math.abs(dx)>Math.abs(dy)?-dx:dy;
+  if(Math.abs(d)>40)zeige(akt+(d>0?1:-1));
+  tx=null;
+},{passive:true});
+document.addEventListener("keydown",e=>{
+  if(document.body.dataset.ansicht!=="home")return;
+  if(e.key==="ArrowRight"||e.key==="ArrowDown")zeige(akt+1);
+  if(e.key==="ArrowLeft"||e.key==="ArrowUp")zeige(akt-1);
+  if(e.key==="Enter")gehe("#p/"+slugFuer(P[akt]));
+});
+addEventListener("resize",()=>{if(document.body.dataset.ansicht==="home")setzeSpur();});
+
+/* ---------- Index: Liste ---------- */
+let sortierung="jahr";
+const liste=document.getElementById("liste");
+const vorschau=document.getElementById("vorschau");
+const mitMaus=matchMedia("(hover:hover) and (pointer:fine)").matches;
+function zeileHTML(p){
+  const worte=TITEL(p).split(" "),letztes=worte.pop();
+  const vorn=worte.length?esc(worte.join(" "))+" ":"";
+  const s=slugFuer(p);
+  const wh=(typeof MINI!=="undefined")&&MINI[s];
+  const mini=wh?`<span class="mini"><img src="images/mini/${s}.jpg" width="${wh[0]}" height="${wh[1]}" alt=""></span>`:"";
+  const marke=sortierung==="jahr"?`${KATN(p)}`:`${JAHR(p)}`;
+  return `<li><a href="#p/${s}" data-i="${P.indexOf(p)}"><span class="t">${vorn}<span style="white-space:nowrap">${esc(letztes)}${mini}<span class="marke klein">${esc(marke)} →</span></span></span></a></li>`;
+}
+function baueListe(){
+  const gruppen=new Map();
+  const schluessel=p=>sortierung==="jahr"?JAHR(p):KATN(p);
+  const reihe=[...P];
+  if(sortierung==="jahr")reihe.sort((a,b)=>JAHR(b).localeCompare(JAHR(a)));
+  reihe.forEach(p=>{const k=schluessel(p);if(!gruppen.has(k))gruppen.set(k,[]);gruppen.get(k).push(p);});
+  liste.innerHTML=[...gruppen].map(([k,ps])=>
+    `<div class="block"><h2>${esc(k)}</h2><ul>${ps.map(zeileHTML).join("")}</ul></div>`).join("");
+  liste.querySelectorAll("a[data-i]").forEach(a=>{
+    const p=P[+a.dataset.i];
+    a.addEventListener("mouseenter",()=>{
+      if(!mitMaus)return;
+      const sl=slugFuer(p);
+      vorschau.src=(typeof VORSCHAU!=="undefined"&&VORSCHAU[sl])?`images/vorschau/${sl}.jpg`:B+p.pre+titelbild(p);
+      vorschau.classList.add("an");
+    });
+    a.addEventListener("mouseleave",()=>vorschau.classList.remove("an"));
+  });
+  document.getElementById("sortJahr").classList.toggle("an",sortierung==="jahr");
+  document.getElementById("sortKat").classList.toggle("an",sortierung==="kat");
+}
+document.getElementById("sortJahr").addEventListener("click",()=>{sortierung="jahr";baueListe();});
+document.getElementById("sortKat").addEventListener("click",()=>{sortierung="kat";baueListe();});
+
+/* ---------- Projekt ---------- */
+const pZaehler=document.getElementById("pZaehler");
+let beobachter=null;
+function zeigeProjekt(p){
+  const i=P.indexOf(p);
+  document.getElementById("pTitel").textContent=TITEL(p);
+  document.getElementById("pText").innerHTML=TEXT(p);
+  document.getElementById("pDaten").innerHTML=
+    `<dt>${TXT[LANG].jahr}</dt><dd>${esc(JAHR(p))}</dd><dt>${TXT[LANG].kat}</dt><dd>${esc(KATN(p))}</dd>`;
+  const bilder=document.getElementById("pBilder");
+  const teile=[];
+  if(p.video)teile.push(`<video src="${B+p.video}#t=0.1" controls muted loop playsinline preload="metadata"></video>`);
+  p.imgs.forEach((n,j)=>{
+    const wh=masse(p.pre+n);
+    const m=wh?` width="${wh[0]}" height="${wh[1]}"`:"";
+    teile.push(`<img${m} src="${B+p.pre+n}" alt="${esc(TITEL(p))}, ${j+1}" loading="${j<2?"eager":"lazy"}" decoding="async">`);
+  });
+  bilder.innerHTML=teile.join("");
+  const alle=[...bilder.children];
+  pZaehler.textContent=`01/${zwei(alle.length)}`;
+  if(beobachter)beobachter.disconnect();
+  beobachter=new IntersectionObserver(eintraege=>{
+    eintraege.forEach(en=>{
+      if(en.isIntersecting)pZaehler.textContent=`${zwei(alle.indexOf(en.target)+1)}/${zwei(alle.length)}`;
+    });
+  },{rootMargin:"-45% 0px -45% 0px"});
+  alle.forEach(el=>beobachter.observe(el));
+  const n=P[(i+1)%P.length];
+  const w=document.getElementById("pWeiter");
+  w.href="#p/"+slugFuer(n);
+  w.textContent=`${TXT[LANG].weiter}: ${TITEL(n)} →`;
+  document.getElementById("pZurueck").textContent=TXT[LANG].zurueck;
+  akt=i;   /* Home steht danach auf diesem Projekt */
+}
+
+/* ---------- Info ---------- */
+function baueInfo(){
+  document.getElementById("infoInhalt").innerHTML=INFO_HTML[LANG]+
+    `<p class="info-kontakt klein"><a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a>
+     <a href="https://www.instagram.com/tizianrein/" target="_blank" rel="noopener">Instagram</a>
+     <a href="https://www.linkedin.com/in/tizian-rein-a40b133a0/" target="_blank" rel="noopener">LinkedIn</a>
+     <a href="https://www.researchgate.net/profile/Tizian-Rein" target="_blank" rel="noopener">ResearchGate</a>
+     <a href="https://orcid.org/0009-0007-0554-5906" target="_blank" rel="noopener">ORCID</a></p>`;
+}
+
+/* ---------- Sprache ---------- */
+function sprache(){
+  document.documentElement.lang=LANG;
+  document.querySelectorAll(".sprache").forEach(b=>{
+    b.querySelector(".ein").textContent=LANG.toUpperCase();
+    b.querySelector(".aus").textContent="/"+(LANG==="de"?"EN":"DE");
+  });
+  document.getElementById("sortJahr").textContent=TXT[LANG].jahr;
+  document.getElementById("sortKat").textContent=TXT[LANG].kat;
+  beschrifteSpur();baueListe();baueInfo();
+  if(document.body.dataset.ansicht==="projekt")route();
+}
+document.querySelectorAll(".sprache").forEach(b=>b.addEventListener("click",()=>{
+  LANG=LANG==="de"?"en":"de";
+  try{localStorage.setItem("tr_lang",LANG);}catch(e){}
+  sprache();
+}));
+
+/* ---------- Ansichten ueber den Hash ---------- */
+let vorher="#";
+function gehe(h){location.hash=h;}
+document.getElementById("pZurueck").addEventListener("click",e=>{
+  e.preventDefault();gehe(vorher.startsWith("#p/")?"#":vorher);
+});
+function route(){
+  const h=location.hash||"#";
+  vorschau.classList.remove("an");
+  if(h.startsWith("#p/")){
+    const p=P.find(x=>slugFuer(x)===decodeURIComponent(h.slice(3)));
+    if(p){document.body.dataset.ansicht="projekt";zeigeProjekt(p);scrollTo(0,0);return;}
+  }
+  if(h==="#index"){document.body.dataset.ansicht="index";scrollTo(0,0);vorher=h;return;}
+  if(h==="#info"){document.body.dataset.ansicht="info";scrollTo(0,0);vorher=h;return;}
+  document.body.dataset.ansicht="home";vorher="#";
+  requestAnimationFrame(setzeSpur);
+}
+addEventListener("hashchange",route);
+
+sprache();
+route();
+</script>
+</body>
+</html>

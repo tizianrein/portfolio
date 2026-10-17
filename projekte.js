@@ -33,7 +33,7 @@ const P=[
 
       {n:"022",y:"2024–25",c:"forschung",
   t:{de:"From Structure to Action",en:"From Structure to Action"},
-  d:{de:"Diese Masterarbeit an der <a href=\"https://www.arc.ed.tum.de/en/df/\" target=\"_blank\" rel=\"noopener\">Professur für Digitale Fabrikation</a> der TU München, betreut von <a href=\"https://www.arc.ed.tum.de/en/df/team/kathrin-doerfler/\" target=\"_blank\" rel=\"noopener\">Prof. Kathrin Dörfler</a>, fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt [Fotos, Skizzen, Notizen, Messungen] in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.",
+  d:{de:"Diese Masterarbeit an der <a href=\"https://www.arc.ed.tum.de/en/df/\" target=\"_blank\" rel=\"noopener\">Professorship of Digital Fabrication</a> der TU München, betreut von <a href=\"https://www.arc.ed.tum.de/en/df/team/kathrin-doerfler/\" target=\"_blank\" rel=\"noopener\">Prof. Kathrin Dörfler</a>, fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt [Fotos, Skizzen, Notizen, Messungen] in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.",
      en:"This master's thesis at the <a href=\"https://www.arc.ed.tum.de/en/df/\" target=\"_blank\" rel=\"noopener\">Professorship of Digital Fabrication</a>, TU Munich, supervised by <a href=\"https://www.arc.ed.tum.de/en/df/team/kathrin-doerfler/\" target=\"_blank\" rel=\"noopener\">Prof. Kathrin Dörfler</a>, asks how artificial intelligence can contribute to architectural repair as a practice that is both systematic and creative. It develops a multimodal framework that turns unstructured information about a damaged object [photographs, sketches, notes, measurements] into structured, fabricable design decisions. Working with ten salvaged stacking chairs, it shows how human expertise and machine reasoning can act together to derive a situated, buildable repair response from a single instance of damage."},
   pre:"Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.",
   imgs:["2.jpg","23.jpg","26.jpg","22.jpg","27.jpg","29.jpg","20.jpg","21.jpg","14.jpg","4.jpg","3.jpg","8.jpg"]},
@@ -112,15 +112,23 @@ const P=[
 
 const INFO_HTML={
 de:`
-    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="114" height="160" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) studierte Architektur an der Technischen Universität München, der ETH Zürich und der Technischen Hochschule Köln. Nach seinem Bachelorabschluss und seiner Tätigkeit im Atelier Max &amp; Jakob Giese wandte er sich im Master-Studium technisch-forschenden Feldern zu, die computergestützte Prozesse mit Denkmalpflege verbinden. Diese Interessen verfolgte er zudem als wissenschaftliche Hilfskraft an der Professur für Digitale Fabrikation in München und bei Gramazio Kohler Research an der ETH Zürich. Seine Masterarbeit <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> (2025) untersucht, wie digitale Entwurfsprozesse Konzepte der Reparatur und Kontinuität aufgreifen können. Derzeit ist er Doktorand an der Professur für Digital Fabrication innerhalb des Munich Institute for Robotics and Machine Intelligence (MIRMI) sowie am MIT (USA). In seiner Arbeit erforscht er, wie computergestützte Methoden und KI tief in das Handwerk und die Erhaltung von Gebäuden eingebettet werden können. Parallel zu seiner Forschung arbeitet er in selbstständiger Praxis an der Weiterentwicklung und Reprogrammierung im Bestand.</p>
+    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) studierte Architektur an der Technischen Universität München, der ETH Zürich und der Technischen Hochschule Köln. Nach seinem Bachelorabschluss und seiner Tätigkeit im Atelier Max &amp; Jakob Giese wandte er sich im Master-Studium technisch-forschenden Feldern zu, die computergestützte Prozesse mit Denkmalpflege verbinden. Diese Interessen verfolgte er zudem als wissenschaftliche Hilfskraft an der Professorship of Digital Fabrication in München und bei Gramazio Kohler Research an der ETH Zürich. Seine Masterarbeit <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> (2025) untersucht, wie digitale Entwurfsprozesse Konzepte der Reparatur und Kontinuität aufgreifen können. Derzeit ist er Doktorand an der Professorship of Digital Fabrication innerhalb des Munich Institute for Robotics and Machine Intelligence (MIRMI) sowie am MIT (USA). In seiner Arbeit erforscht er, wie computergestützte Methoden und KI tief in das Handwerk und die Erhaltung von Gebäuden eingebettet werden können. Parallel zu seiner Forschung arbeitet er in selbstständiger Praxis an der Weiterentwicklung und Reprogrammierung im Bestand.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
+        <h3>Ausbildung</h3>
+        <ul class="cv">
+          <li><span class="j">2022–2025</span><span class="w"><b>TU München, Architektur M.A.</b> / Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
+          <li><span class="j">2023–2024</span><span class="w"><b>ETH Zürich, Architektur Masterstudiengang</b> / Stipendiat</span></li>
+          <li><span class="j">2018–2021</span><span class="w"><b>TH Köln, Architektur B.A.</b></span></li>
+        </ul>
+      </section>
+      <section class="cv-block">
         <h3>Erfahrung</h3>
         <ul class="cv">
-          <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digital Fabrication</a>, TU München, im <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> und am <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
+          <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU München, im <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> und am <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
           <li><span class="j">seit 2026</span><span class="w"><b>Junior-Architekt AKNW</b> / freischaffende planerische Tätigkeit in Bad Honnef und München</span></li>
-          <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München</span></li>
+          <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU München</span></li>
           <li><span class="j">2023–2024</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zürich</span></li>
           <li><span class="j">2021–2022</span><span class="w"><b>Projektassistenz</b> / <a href="https://www.maxundjakob.de/" target="_blank" rel="noopener">Atelier Max &amp; Jakob Giese</a>, Gehlert</span></li>
           <li><span class="j">2020–2021</span><span class="w"><b>Studentischer Prodekan Architektur</b> / gewählter Vertreter an der TH Köln</span></li>
@@ -131,7 +139,7 @@ de:`
       <section class="cv-block">
         <h3>Lehre</h3>
         <ul class="cv">
-          <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> / Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+          <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> / Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
           <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> / Workshop, ROB|ARCH 2026, Aarhus, mit Begüm Saral und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
           <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> / Workshop, Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
         </ul>
@@ -150,14 +158,6 @@ de:`
         </ul>
       </section>
       <section class="cv-block">
-        <h3>Ausbildung</h3>
-        <ul class="cv">
-          <li><span class="j">2022–2025</span><span class="w"><b>TU München, Architektur M.A.</b> / Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
-          <li><span class="j">2023–2024</span><span class="w"><b>ETH Zürich, Architektur Masterstudiengang</b> / Stipendiat</span></li>
-          <li><span class="j">2018–2021</span><span class="w"><b>TH Köln, Architektur B.A.</b></span></li>
-        </ul>
-      </section>
-      <section class="cv-block">
         <h3>Mitgliedschaften</h3>
         <ul class="cv">
           <li><span class="j">seit 2026</span><span class="w"><b><a href="https://www.deutscher-werkbund.de/homepage/bayern/" target="_blank" rel="noopener">Deutscher Werkbund München</a></b></span></li>
@@ -169,9 +169,17 @@ de:`
       </section>
     </div>`,
 en:`
-    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="114" height="160" alt="Portrait of Tizian Rein"></span> (*1997 in Rhöndorf) studied architecture at the Technical University of Munich, ETH Zurich, and the University of Applied Sciences Cologne. After completing his bachelor's degree and working as a project assistant at Atelier Max &amp; Jakob Giese, he turned toward more technical and research-oriented fields that connect computational design with building heritage and preservation. He pursued these interests as a research assistant at the Professorship of Digital Fabrication in Munich and at Gramazio Kohler Research at ETH Zurich. His 2025 master's thesis <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> explores how digital design processes can engage with notions of repair and continuity. He is currently a doctoral researcher at the Professorship of Digital Fabrication within the Munich Institute for Robotics and Machine Intelligence (MIRMI) and MIT, USA. Through his work, he investigates how computational methods and artificial intelligence can be deeply embedded in the craft and preservation of buildings. Parallel to his research, he works independently on the transformation and reprogramming of the built environment.</p>
+    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Portrait of Tizian Rein"></span> (*1997 in Rhöndorf) studied architecture at the Technical University of Munich, ETH Zurich, and the University of Applied Sciences Cologne. After completing his bachelor's degree and working as a project assistant at Atelier Max &amp; Jakob Giese, he turned toward more technical and research-oriented fields that connect computational design with building heritage and preservation. He pursued these interests as a research assistant at the Professorship of Digital Fabrication in Munich and at Gramazio Kohler Research at ETH Zurich. His 2025 master's thesis <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> explores how digital design processes can engage with notions of repair and continuity. He is currently a doctoral researcher at the Professorship of Digital Fabrication within the Munich Institute for Robotics and Machine Intelligence (MIRMI) and MIT, USA. Through his work, he investigates how computational methods and artificial intelligence can be deeply embedded in the craft and preservation of buildings. Parallel to his research, he works independently on the transformation and reprogramming of the built environment.</p>
 
     <div class="cv-raster">
+      <section class="cv-block">
+        <h3>Education</h3>
+        <ul class="cv">
+          <li><span class="j">2022–2025</span><span class="w"><b>TU Munich, Architecture M.A.</b> / Mentorship Programme Computational Methods, graduated with high distinction</span></li>
+          <li><span class="j">2023–2024</span><span class="w"><b>ETH Zurich, Architecture Master´s Program</b> / scholarship holder</span></li>
+          <li><span class="j">2018–2021</span><span class="w"><b>TH Cologne, Architecture B.A.</b></span></li>
+        </ul>
+      </section>
       <section class="cv-block">
         <h3>Experience</h3>
         <ul class="cv">
@@ -204,14 +212,6 @@ en:`
           <li><span class="j">2024</span><span class="w"><i>The New Chapel at the Woodland Cemetery</i> / invited lecture, Bürgerhaus Rhöndorf</span></li>
           <li><span class="j">2024</span><span class="w"><i>Supporting the Preservation of the Chapel</i> / guest contribution, <a href="https://honnef-heute.de/friedhofskapelle-stadt-in-der-verantwortung/" target="_blank" rel="noopener">Honnef Heute</a></span></li>
           <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> / ISBN 978-3-00-071896-0</span></li>
-        </ul>
-      </section>
-      <section class="cv-block">
-        <h3>Education</h3>
-        <ul class="cv">
-          <li><span class="j">2022–2025</span><span class="w"><b>TU Munich, Architecture M.A.</b> / Mentorship Programme Computational Methods, graduated with high distinction</span></li>
-          <li><span class="j">2023–2024</span><span class="w"><b>ETH Zurich, Architecture Master´s Program</b> / scholarship holder</span></li>
-          <li><span class="j">2018–2021</span><span class="w"><b>TH Cologne, Architecture B.A.</b></span></li>
         </ul>
       </section>
       <section class="cv-block">

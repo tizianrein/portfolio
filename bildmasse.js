@@ -331,51 +331,52 @@ const MASSE={
 };
 const MINI={
   "separate-wohneinheit": [
-    163,
-    160
+    122,
+    120
   ],
   "from-structure-to-action": [
-    107,
-    160
+    80,
+    120
   ],
   "waldfriedhofskapelle-rhondorf": [
-    120,
-    160
+    90,
+    120
   ],
   "beamtenwohnung-bonn": [
-    166,
-    160
+    125,
+    120
   ],
   "unterstand": [
-    113,
-    160
+    85,
+    120
   ],
   "zakk-gartenstuhl": [
-    120,
-    160
+    90,
+    120
   ],
   "free-bird": [
-    113,
-    160
+    85,
+    120
   ],
   "harboring-histories": [
-    284,
-    160
+    213,
+    120
   ],
   "robosgraffito": [
-    216,
-    160
+    162,
+    120
   ],
   "structural-patterns": [
-    112,
-    160
+    84,
+    120
   ],
   "rheinschwimmbad": [
-    361,
-    160
+    271,
+    120
   ],
   "wohnen-in-nippes": [
-    78,
-    160
+    59,
+    120
   ]
 };
+const VORSCHAU={"separate-wohneinheit":true,"from-structure-to-action":true,"waldfriedhofskapelle-rhondorf":true,"beamtenwohnung-bonn":true,"unterstand":true,"zakk-gartenstuhl":true,"free-bird":true,"harboring-histories":true,"robosgraffito":true,"rheinschwimmbad":true,"tizian-rein":true};

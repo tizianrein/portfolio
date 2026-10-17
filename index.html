@@ -46,7 +46,7 @@
   "email": "mailto:mail@tizianrein.de",
   "worksFor": {
     "@type": "Organization",
-    "name": "Technische Universität München, Professur für Digitale Fabrikation"
+    "name": "Technische Universität München, Professorship of Digital Fabrication"
   },
   "alumniOf": [
     {"@type":"CollegeOrUniversity","name":"Technische Universität München"},
@@ -105,7 +105,7 @@
         "@id": "https://www.tizianrein.de/#from-structure-to-action",
         "name": "From Structure to Action",
         "alternateName": "From Structure to Action",
-        "description": "Diese Masterarbeit an der Professur für Digitale Fabrikation der TU München, betreut von Prof. Kathrin Dörfler, fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt [Fotos, Skizzen, Notizen, Messungen] in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.",
+        "description": "Diese Masterarbeit an der Professorship of Digital Fabrication der TU München, betreut von Prof. Kathrin Dörfler, fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt [Fotos, Skizzen, Notizen, Messungen] in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.",
         "creator": {
           "@id": "https://www.tizianrein.de/#person"
         },
@@ -518,6 +518,7 @@
     overscroll-behavior-x:contain;
     -webkit-overflow-scrolling:touch;scrollbar-width:none;
     padding:0 16px;
+    gap:16px;scroll-padding-inline:16px;   /* Abstand zwischen Bildern = Seitenrand */
   }
   .slider .slide img{
     user-select:none;
@@ -532,7 +533,7 @@
   .slider::-webkit-scrollbar{display:none}
   .slide{
     flex:0 0 82%;                      /* etwas schmaler auf Mobilgeraeten */
-    scroll-snap-align:center;
+    scroll-snap-align:start;           /* Bild rastet an der Randlinie ein */
   }
   .slide:only-child{flex-basis:100%}
   .slide img,.slide video{
@@ -691,7 +692,7 @@
 
     .panel{padding:0 0 34px}
     /* Galerie zeigt mehrere Bilder nebeneinander, kein Vollbreiten-Snap */
-    .slider{padding:0 40px;gap:12px;height:auto;max-height:none;scroll-snap-type:x proximity}
+    .slider{padding:0 40px;gap:40px;scroll-padding-inline:40px;height:auto;max-height:none;scroll-snap-type:x proximity}
     .slide{flex:0 0 auto;height:62vh;max-height:560px;display:flex;align-items:center}
     .slide:only-child{flex-basis:auto}
     .slide img,.slide video{width:auto;height:100%;max-width:none;aspect-ratio:auto !important;min-height:0 !important}
@@ -726,7 +727,7 @@
 <ul class="index" id="index">
 <!-- SEO-PROJEKTE:START -->
 <li class="proj" data-c="umbau" id="separate-wohneinheit">
-      <a class="row" href="#separate-wohneinheit" role="button" aria-expanded="false"><span class="title">Separate <span class="nw">Wohneinheit<span class="mini"><img src="images/mini/separate-wohneinheit.jpg" width="163" height="160" alt="" decoding="async"></span><sup class="year">2026</sup></span></span></a>
+      <a class="row" href="#separate-wohneinheit" role="button" aria-expanded="false"><span class="title">Separate <span class="nw">Wohneinheit<span class="mini"><img src="images/mini/separate-wohneinheit.jpg" width="122" height="120" alt=""></span><sup class="year">2026</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -747,11 +748,11 @@
       </div>
     </li>
     <li class="proj" data-c="forschung" id="from-structure-to-action">
-      <a class="row" href="#from-structure-to-action" role="button" aria-expanded="false"><span class="title">From Structure to <span class="nw">Action<span class="mini"><img src="images/mini/from-structure-to-action.jpg" width="107" height="160" alt="" decoding="async"></span><sup class="year">2025</sup></span></span></a>
+      <a class="row" href="#from-structure-to-action" role="button" aria-expanded="false"><span class="title">From Structure to <span class="nw">Action<span class="mini"><img src="images/mini/from-structure-to-action.jpg" width="80" height="120" alt=""></span><sup class="year">2025</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
-            <p class="text">Diese Masterarbeit an der <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a> der TU München, betreut von <a href="https://www.arc.ed.tum.de/en/df/team/kathrin-doerfler/" target="_blank" rel="noopener">Prof. Kathrin Dörfler</a>, fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt [Fotos, Skizzen, Notizen, Messungen] in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.</p>
+            <p class="text">Diese Masterarbeit an der <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a> der TU München, betreut von <a href="https://www.arc.ed.tum.de/en/df/team/kathrin-doerfler/" target="_blank" rel="noopener">Prof. Kathrin Dörfler</a>, fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt [Fotos, Skizzen, Notizen, Messungen] in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.</p>
           </div>
           <div class="slider-wrap"><div class="slider">
               <div class="slide"><img width="2008" height="3008" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.2.jpg" alt="From Structure to Action — Forschung von Tizian Rein, Bild 1"></div>
@@ -771,7 +772,7 @@
       </div>
     </li>
     <li class="proj" data-c="umbau" id="waldfriedhofskapelle-rhondorf">
-      <a class="row" href="#waldfriedhofskapelle-rhondorf" role="button" aria-expanded="false"><span class="title">Waldfriedhofskapelle <span class="nw">Rhöndorf<span class="mini"><img src="images/mini/waldfriedhofskapelle-rhondorf.jpg" width="120" height="160" alt="" decoding="async"></span><sup class="year">2022</sup></span></span></a>
+      <a class="row" href="#waldfriedhofskapelle-rhondorf" role="button" aria-expanded="false"><span class="title">Waldfriedhofskapelle <span class="nw">Rhöndorf<span class="mini"><img src="images/mini/waldfriedhofskapelle-rhondorf.jpg" width="90" height="120" alt=""></span><sup class="year">2022</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -789,7 +790,7 @@
       </div>
     </li>
     <li class="proj" data-c="umbau" id="beamtenwohnung-bonn">
-      <a class="row" href="#beamtenwohnung-bonn" role="button" aria-expanded="false"><span class="title">Beamtenwohnung <span class="nw">Bonn<span class="mini"><img src="images/mini/beamtenwohnung-bonn.jpg" width="166" height="160" alt="" decoding="async"></span><sup class="year">2023</sup></span></span></a>
+      <a class="row" href="#beamtenwohnung-bonn" role="button" aria-expanded="false"><span class="title">Beamtenwohnung <span class="nw">Bonn<span class="mini"><img src="images/mini/beamtenwohnung-bonn.jpg" width="125" height="120" alt=""></span><sup class="year">2023</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -807,7 +808,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="unterstand">
-      <a class="row" href="#unterstand" role="button" aria-expanded="false"><span class="title"><span class="nw">Unterstand<span class="mini"><img src="images/mini/unterstand.jpg" width="113" height="160" alt="" decoding="async"></span><sup class="year">2024</sup></span></span></a>
+      <a class="row" href="#unterstand" role="button" aria-expanded="false"><span class="title"><span class="nw">Unterstand<span class="mini"><img src="images/mini/unterstand.jpg" width="85" height="120" alt=""></span><sup class="year">2024</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -824,7 +825,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="zakk-gartenstuhl">
-      <a class="row" href="#zakk-gartenstuhl" role="button" aria-expanded="false"><span class="title">ZAKK <span class="nw">Gartenstuhl<span class="mini"><img src="images/mini/zakk-gartenstuhl.jpg" width="120" height="160" alt="" decoding="async"></span><sup class="year">2024</sup></span></span></a>
+      <a class="row" href="#zakk-gartenstuhl" role="button" aria-expanded="false"><span class="title">ZAKK <span class="nw">Gartenstuhl<span class="mini"><img src="images/mini/zakk-gartenstuhl.jpg" width="90" height="120" alt=""></span><sup class="year">2024</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -840,7 +841,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="free-bird">
-      <a class="row" href="#free-bird" role="button" aria-expanded="false"><span class="title"><span class="nw">Free/Bird<span class="mini"><img src="images/mini/free-bird.jpg" width="113" height="160" alt="" decoding="async"></span><sup class="year">2024</sup></span></span></a>
+      <a class="row" href="#free-bird" role="button" aria-expanded="false"><span class="title"><span class="nw">Free/Bird<span class="mini"><img src="images/mini/free-bird.jpg" width="85" height="120" alt=""></span><sup class="year">2024</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -855,7 +856,7 @@
       </div>
     </li>
     <li class="proj" data-c="forschung" id="harboring-histories">
-      <a class="row" href="#harboring-histories" role="button" aria-expanded="false"><span class="title">Harboring <span class="nw">Histories<span class="mini"><img src="images/mini/harboring-histories.jpg" width="284" height="160" alt="" decoding="async"></span><sup class="year">2023</sup></span></span></a>
+      <a class="row" href="#harboring-histories" role="button" aria-expanded="false"><span class="title">Harboring <span class="nw">Histories<span class="mini"><img src="images/mini/harboring-histories.jpg" width="213" height="120" alt=""></span><sup class="year">2023</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -874,7 +875,7 @@
       </div>
     </li>
     <li class="proj" data-c="forschung" id="robosgraffito">
-      <a class="row" href="#robosgraffito" role="button" aria-expanded="false"><span class="title"><span class="nw">RoboSgraffito<span class="mini"><img src="images/mini/robosgraffito.jpg" width="216" height="160" alt="" decoding="async"></span><sup class="year">2023</sup></span></span></a>
+      <a class="row" href="#robosgraffito" role="button" aria-expanded="false"><span class="title"><span class="nw">RoboSgraffito<span class="mini"><img src="images/mini/robosgraffito.jpg" width="162" height="120" alt=""></span><sup class="year">2023</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -892,7 +893,7 @@
       </div>
     </li>
     <li class="proj" data-c="forschung" id="structural-patterns">
-      <a class="row" href="#structural-patterns" role="button" aria-expanded="false"><span class="title">Structural <span class="nw">Patterns<span class="mini"><img src="images/mini/structural-patterns.jpg" width="112" height="160" alt="" decoding="async"></span><sup class="year">2023</sup></span></span></a>
+      <a class="row" href="#structural-patterns" role="button" aria-expanded="false"><span class="title">Structural <span class="nw">Patterns<span class="mini"><img src="images/mini/structural-patterns.jpg" width="84" height="120" alt=""></span><sup class="year">2023</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -908,7 +909,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="rheinschwimmbad">
-      <a class="row" href="#rheinschwimmbad" role="button" aria-expanded="false"><span class="title"><span class="nw">Rheinschwimmbad<span class="mini"><img src="images/mini/rheinschwimmbad.jpg" width="361" height="160" alt="" decoding="async"></span><sup class="year">2022</sup></span></span></a>
+      <a class="row" href="#rheinschwimmbad" role="button" aria-expanded="false"><span class="title"><span class="nw">Rheinschwimmbad<span class="mini"><img src="images/mini/rheinschwimmbad.jpg" width="271" height="120" alt=""></span><sup class="year">2022</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -932,7 +933,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="wohnen-in-nippes">
-      <a class="row" href="#wohnen-in-nippes" role="button" aria-expanded="false"><span class="title">Wohnen in <span class="nw">Nippes<span class="mini"><img src="images/mini/wohnen-in-nippes.jpg" width="78" height="160" alt="" decoding="async"></span><sup class="year">2019</sup></span></span></a>
+      <a class="row" href="#wohnen-in-nippes" role="button" aria-expanded="false"><span class="title">Wohnen in <span class="nw">Nippes<span class="mini"><img src="images/mini/wohnen-in-nippes.jpg" width="59" height="120" alt=""></span><sup class="year">2019</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -956,15 +957,23 @@
 
 <section class="info-seite" id="info" aria-label="Info">
 <!-- SEO-INFO:START -->
-<p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="114" height="160" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) studierte Architektur an der Technischen Universität München, der ETH Zürich und der Technischen Hochschule Köln. Nach seinem Bachelorabschluss und seiner Tätigkeit im Atelier Max &amp; Jakob Giese wandte er sich im Master-Studium technisch-forschenden Feldern zu, die computergestützte Prozesse mit Denkmalpflege verbinden. Diese Interessen verfolgte er zudem als wissenschaftliche Hilfskraft an der Professur für Digitale Fabrikation in München und bei Gramazio Kohler Research an der ETH Zürich. Seine Masterarbeit <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> (2025) untersucht, wie digitale Entwurfsprozesse Konzepte der Reparatur und Kontinuität aufgreifen können. Derzeit ist er Doktorand an der Professur für Digital Fabrication innerhalb des Munich Institute for Robotics and Machine Intelligence (MIRMI) sowie am MIT (USA). In seiner Arbeit erforscht er, wie computergestützte Methoden und KI tief in das Handwerk und die Erhaltung von Gebäuden eingebettet werden können. Parallel zu seiner Forschung arbeitet er in selbstständiger Praxis an der Weiterentwicklung und Reprogrammierung im Bestand.</p>
+<p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) studierte Architektur an der Technischen Universität München, der ETH Zürich und der Technischen Hochschule Köln. Nach seinem Bachelorabschluss und seiner Tätigkeit im Atelier Max &amp; Jakob Giese wandte er sich im Master-Studium technisch-forschenden Feldern zu, die computergestützte Prozesse mit Denkmalpflege verbinden. Diese Interessen verfolgte er zudem als wissenschaftliche Hilfskraft an der Professorship of Digital Fabrication in München und bei Gramazio Kohler Research an der ETH Zürich. Seine Masterarbeit <em>From Structure to Action: Machine Reasoning and the Logics of Repair</em> (2025) untersucht, wie digitale Entwurfsprozesse Konzepte der Reparatur und Kontinuität aufgreifen können. Derzeit ist er Doktorand an der Professorship of Digital Fabrication innerhalb des Munich Institute for Robotics and Machine Intelligence (MIRMI) sowie am MIT (USA). In seiner Arbeit erforscht er, wie computergestützte Methoden und KI tief in das Handwerk und die Erhaltung von Gebäuden eingebettet werden können. Parallel zu seiner Forschung arbeitet er in selbstständiger Praxis an der Weiterentwicklung und Reprogrammierung im Bestand.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
+        <h3>Ausbildung</h3>
+        <ul class="cv">
+          <li><span class="j">2022–2025</span><span class="w"><b>TU München, Architektur M.A.</b> / Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
+          <li><span class="j">2023–2024</span><span class="w"><b>ETH Zürich, Architektur Masterstudiengang</b> / Stipendiat</span></li>
+          <li><span class="j">2018–2021</span><span class="w"><b>TH Köln, Architektur B.A.</b></span></li>
+        </ul>
+      </section>
+      <section class="cv-block">
         <h3>Erfahrung</h3>
         <ul class="cv">
-          <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digital Fabrication</a>, TU München, im <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> und am <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
+          <li><span class="j">seit 2026</span><span class="w"><b>Wissenschaftlicher Mitarbeiter</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU München, im <a href="https://www.mirmi.tum.de/en/mirmi/home/" target="_blank" rel="noopener">Munich Institute for Robotics and Machine Intelligence (MIRMI)</a> und am <a href="https://www.csail.mit.edu/" target="_blank" rel="noopener">MIT CSAIL</a>, USA</span></li>
           <li><span class="j">seit 2026</span><span class="w"><b>Junior-Architekt AKNW</b> / freischaffende planerische Tätigkeit in Bad Honnef und München</span></li>
-          <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München</span></li>
+          <li><span class="j">2023–2026</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU München</span></li>
           <li><span class="j">2023–2024</span><span class="w"><b>Wissenschaftliche Hilfskraft</b> / <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a>, ITA, ETH Zürich</span></li>
           <li><span class="j">2021–2022</span><span class="w"><b>Projektassistenz</b> / <a href="https://www.maxundjakob.de/" target="_blank" rel="noopener">Atelier Max &amp; Jakob Giese</a>, Gehlert</span></li>
           <li><span class="j">2020–2021</span><span class="w"><b>Studentischer Prodekan Architektur</b> / gewählter Vertreter an der TH Köln</span></li>
@@ -975,7 +984,7 @@
       <section class="cv-block">
         <h3>Lehre</h3>
         <ul class="cv">
-          <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> / Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professur für Digitale Fabrikation</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
+          <li><span class="j">2026</span><span class="w"><i>Renovierung Fritz-Pflaum-Hütte</i> / Masterstudio, <a href="https://www.arc.ed.tum.de/en/df/" target="_blank" rel="noopener">Professorship of Digital Fabrication</a>, TU München, in Zusammenarbeit mit der <a href="https://aha.ethz.ch/" target="_blank" rel="noopener">Professur für Architektur und Human Augmentation</a>, ETH Zürich, mit Prof. Kathrin Dörfler und Prof. Daniela Mitterberger, <a href="https://www.arc.ed.tum.de/en/df/teaching/current-courses-1-1/project-ma-ss-2026/" class="nb" target="_blank" rel="noopener">arc.ed.tum.de</a></span></li>
           <li><span class="j">2026</span><span class="w"><i>Actionable Repair</i> / Workshop, ROB|ARCH 2026, Aarhus, mit Begüm Saral und Dr. Avishek Das, <a href="https://robarch2026.org/workshop-04/" class="nb" target="_blank" rel="noopener">robarch2026.org</a></span></li>
           <li><span class="j">2026</span><span class="w"><i>Actionable Repair via Multimodal AI</i> / Workshop, Future of Construction Symposium, ETH Zürich, mit Laurence Crouzet, Adrian Pöllinger, Begüm Saral und Wen-Shan Cui, <a href="https://futureofconstruction.ethz.ch/programme/Workshops/workshop-2.html" class="nb" target="_blank" rel="noopener">futureofconstruction.ethz.ch</a></span></li>
         </ul>
@@ -991,14 +1000,6 @@
           <li><span class="j">2024</span><span class="w"><i>Die Neue Kapelle auf dem Waldfriedhof</i> / eingeladener Vortrag, Bürgerhaus Rhöndorf</span></li>
           <li><span class="j">2024</span><span class="w"><i>Den Erhalt der Kapelle unterstützen</i> / Gastbeitrag, <a href="https://honnef-heute.de/friedhofskapelle-stadt-in-der-verantwortung/" target="_blank" rel="noopener">Honnef Heute</a></span></li>
           <li><span class="j">2022</span><span class="w"><i>Die Waldfriedhofskapelle in Rhöndorf</i> / ISBN 978-3-00-071896-0</span></li>
-        </ul>
-      </section>
-      <section class="cv-block">
-        <h3>Ausbildung</h3>
-        <ul class="cv">
-          <li><span class="j">2022–2025</span><span class="w"><b>TU München, Architektur M.A.</b> / Mentorenprogramm Computational Methods, Abschluss mit Auszeichnung</span></li>
-          <li><span class="j">2023–2024</span><span class="w"><b>ETH Zürich, Architektur Masterstudiengang</b> / Stipendiat</span></li>
-          <li><span class="j">2018–2021</span><span class="w"><b>TH Köln, Architektur B.A.</b></span></li>
         </ul>
       </section>
       <section class="cv-block">
@@ -1200,31 +1201,34 @@ galerie.addEventListener("touchend",e=>{
 
 /* Eine Slide anhand ihrer tatsächlichen Bildschirmposition zentrieren.
    Bounding-Rects bleiben auch bei unterschiedlichen Bildbreiten zuverlässig. */
+function randAbstand(slider){return parseFloat(getComputedStyle(slider).paddingLeft)||0;}
 function slideZu(slider,index,bewegung="smooth"){
+  /* Endlosschleife vorher still zuruecksetzen, damit die weiche Bewegung
+     nicht unterwegs von einem Sprung unterbrochen wird */
+  if(slider._schleife)slider._schleife();
   const slides=[...slider.querySelectorAll(".slide")];
   if(!slides.length)return;
   const zi=(index+slides.length)%slides.length;
   const ziel=slides[zi];
   const sr=slider.getBoundingClientRect();
   const zr=ziel.getBoundingClientRect();
-  const links=slider.scrollLeft+(zr.left-sr.left)-(slider.clientWidth-zr.width)/2;
+  const links=slider.scrollLeft+(zr.left-sr.left)-randAbstand(slider);
   slider.scrollTo({left:links,behavior:bewegung});
+}
+/* Index der Slide, deren linke Kante der Randlinie am naechsten ist */
+function aktuelleSlide(slider){
+  const slides=[...slider.querySelectorAll(".slide")];
+  const linie=slider.scrollLeft+randAbstand(slider);
+  let best=0,bestDist=Infinity;
+  slides.forEach((s,i)=>{const d=Math.abs(s.offsetLeft-linie);if(d<bestDist){bestDist=d;best=i;}});
+  return best;
 }
 
 /* Sanft zur nächsten/vorherigen Slide scrollen */
 function slideUm(slider,richtung){
-  const slides=[...slider.querySelectorAll(".slide")];
-  if(!slides.length)return;
-  const sr=slider.getBoundingClientRect();
-  const center=sr.left+sr.width/2;
-  let akt=0,bestDist=Infinity;
-  slides.forEach((s,i)=>{
-    const r=s.getBoundingClientRect();
-    const mid=r.left+r.width/2;
-    const d=Math.abs(mid-center);
-    if(d<bestDist){bestDist=d;akt=i;}
-  });
-  slideZu(slider,akt+richtung);
+  if(slider._schleife)slider._schleife();
+  if(!slider.querySelector(".slide"))return;
+  slideZu(slider,aktuelleSlide(slider)+richtung);
 }
 
 function makeSlider(p){
@@ -1232,15 +1236,22 @@ function makeSlider(p){
   wrap.className="slider-wrap";
   const slider=document.createElement("div");
   slider.className="slider";
-  if(p.video){
+  /* Endlosschleife: der ganze Satz (Video und Bilder) steht mehrfach
+     hintereinander. Man beginnt im mittleren Satz; kommt man einem Ende
+     nahe, springt die Ansicht unsichtbar um genau einen Satz zurueck.
+     Da alle Saetze gleich aussehen, merkt man davon nichts. */
+  const anzahl=(p.video?1:0)+p.imgs.length;
+  const KOPIEN=anzahl<2?1:(anzahl>=4?7:11);
+  const MITTE=(KOPIEN-1)/2;
+  function videoSlide(){
     const s=document.createElement("div");
-    s.className="slide";
+    s.className="slide";s.dataset.j=0;
     s.innerHTML=`<video src="${B+p.video}#t=0.1" controls muted loop playsinline preload="metadata"></video>`;
-    slider.appendChild(s);
+    return s;
   }
-  p.imgs.forEach((name,j)=>{
+  function bildSlide(name,j){
     const s=document.createElement("div");
-    s.className="slide";
+    s.className="slide";s.dataset.j=j+(p.video?1:0);
     /* Die ersten Bilder sofort laden (sie sind beim Aufklappen sichtbar
        bzw. gleich rechts daneben), den Rest lazy. Sonst entstehen beim
        Wischen weisse Luecken, weil "lazy" erst am Viewport-Rand greift. */
@@ -1267,8 +1278,12 @@ function makeSlider(p){
       im.addEventListener("load",fertig,{once:true});
       im.addEventListener("error",()=>{const sl=im.closest(".slide"); if(sl)sl.remove();},{once:true});
     }
-    slider.appendChild(s);
-  });
+    return s;
+  }
+  for(let k=0;k<KOPIEN;k++){
+    if(p.video)slider.appendChild(videoSlide());
+    p.imgs.forEach((name,j)=>slider.appendChild(bildSlide(name,j)));
+  }
   /* Klickzonen über das GESAMTE Sliderfeld (nicht pro Bild) */
   slider.addEventListener("click",e=>{
     if(slider.dataset.gezogen==="1")return;          /* echtes Wischen ist kein Klick */
@@ -1296,12 +1311,12 @@ function makeSlider(p){
          oder unterschiedliche Slide-Breiten den Startindex nicht verschieben. */
       const angeklickt=getroffen&&getroffen.querySelector("img");
       if(!angeklickt)return;
-      const bildSlides=slides.filter(sl=>sl.querySelector("img"));
+      const n=satzGroesse();
+      const bildSlides=slides.slice(MITTE*n,(MITTE+1)*n).filter(sl=>sl.querySelector("img"));
       if(!bildSlides.length)return;
       const vorhanden=bildSlides.map(sl=>{const im=sl.querySelector("img");return im.currentSrc||im.src;});
-      const quelle=angeklickt.currentSrc||angeklickt.src;
-      let start=vorhanden.indexOf(quelle);
-      if(start<0)start=Math.max(0,bildSlides.indexOf(getroffen));
+      let start=bildSlides.findIndex(sl=>sl.dataset.j===getroffen.dataset.j);
+      if(start<0)start=0;
       gOeffne(vorhanden,start,TITEL(p));
     }
   });
@@ -1320,6 +1335,28 @@ function makeSlider(p){
   /* Echte Maus-/Stiftbewegung: greifen und horizontal ziehen.
      Touch bleibt beim nativen, trägen Wischen des Browsers. */
   let drag=null;
+  /* Satzgroesse dynamisch: faellt ein Bild aus, fehlt es in jedem Satz */
+  function satzGroesse(){return Math.max(1,Math.round(slider.children.length/KOPIEN));}
+  function satzBreite(){
+    const n=satzGroesse(),c=slider.children;
+    return c[n]?c[n].offsetLeft-c[0].offsetLeft:0;
+  }
+  function basis(){
+    const c=slider.children[MITTE*satzGroesse()];
+    return c?c.offsetLeft-randAbstand(slider):0;
+  }
+  /* grenze in Saetzen: .5 vor Klick-Bewegungen, 1 waehrend des Scrollens */
+  function schleife(grenze){
+    if(KOPIEN<2)return;
+    const W=satzBreite();if(!W)return;
+    const b=basis();let d=0;
+    if(slider.scrollLeft<b-W*grenze)d=W;
+    else if(slider.scrollLeft>b+W*grenze)d=-W;
+    if(d){slider.scrollLeft+=d;if(drag)drag.links+=d;}
+  }
+  slider._schleife=()=>schleife(.5);
+  /* Startposition: erstes Bild des mittleren Satzes an der Randlinie */
+  wrap._start=()=>{if(KOPIEN>1)slider.scrollLeft=basis();};
   slider.addEventListener("dragstart",e=>e.preventDefault());
   slider.addEventListener("pointerdown",e=>{
     if(e.pointerType==="touch"||e.button!==0||e.target.closest("video"))return;
@@ -1376,7 +1413,7 @@ function makeSlider(p){
   slider.addEventListener("touchend",()=>{slider.classList.remove("vsperre");},{passive:true});
   slider.addEventListener("touchcancel",()=>{slider.classList.remove("vsperre");},{passive:true});
   wrap.appendChild(slider);
-  const total=slider.children.length;
+  const total=satzGroesse();
   if(total>1){
     const counter=document.createElement("span");
     counter.className="counter";
@@ -1392,16 +1429,12 @@ function makeSlider(p){
       angefordert=true;
       requestAnimationFrame(()=>{
         angefordert=false;
+        schleife(1);
         const slides=[...slider.querySelectorAll(".slide")];
         if(!slides.length)return;
-        const center=slider.scrollLeft+slider.clientWidth/2;
-        let best=0,bestDist=Infinity;
-        slides.forEach((s,i)=>{
-          const mid=s.offsetLeft+s.offsetWidth/2;
-          const d=Math.abs(mid-center);
-          if(d<bestDist){bestDist=d;best=i;}
-        });
-        counter.textContent=`${String(best+1).padStart(2,"0")} / ${String(slides.length).padStart(2,"0")}`;
+        const best=aktuelleSlide(slider);
+        const n=satzGroesse();
+        counter.textContent=`${String(best%n+1).padStart(2,"0")} / ${String(n).padStart(2,"0")}`;
         /* Nachbarn vorab anfordern, damit beim Weiterwischen nichts fehlt.
            loading="eager" startet den Ladevorgang laut Spec sofort; das
            Image()-Objekt waermt zusaetzlich den Cache. */
@@ -1459,6 +1492,13 @@ function projektInsBild(li){
   }
   requestAnimationFrame(frame);
 }
+/* Groessenwechsel: Bildbreiten aendern sich mit der Fensterhoehe,
+   also jede Galerie wieder auf ihr erstes Bild setzen. */
+let groesseTimer=null;
+window.addEventListener("resize",()=>{
+  clearTimeout(groesseTimer);
+  groesseTimer=setTimeout(()=>document.querySelectorAll(".slider-wrap").forEach(w=>w._start&&w._start()),150);
+});
 /* Eigenes Scrollen des Besuchers beendet die laufende Animation. */
 window.addEventListener("wheel",()=>{scrollVorgang++;},{passive:true});
 window.addEventListener("touchstart",()=>{scrollVorgang++;},{passive:true});
@@ -1490,6 +1530,8 @@ function umschalten(li,btn,aufbauen){
      Projekte bleiben offen. Kein Scrollen, keine Nachkorrektur. */
   if(oeffnen){
     if(aufbauen)aufbauen();
+    const sw=li.querySelector(".slider-wrap");
+    if(sw&&sw._start)sw._start();
     /* Erst beim Öffnen die ersten Bilder priorisieren. So bleiben sämtliche
        Bilder im HTML auffindbar, ohne beim Seitenaufruf viele große Dateien
        gleichzeitig herunterzuladen. */
@@ -1546,9 +1588,25 @@ function zeilenHTML(titel,mini,jahr){
   const letztes=worte.pop();
   const vorn=worte.length?esc(worte.join(" "))+" ":"";
   const masse=mini&&mini.wh?` width="${mini.wh[0]}" height="${mini.wh[1]}"`:"";
-  const bild=mini?`<span class="mini"><img src="${esc(mini.src)}"${masse} alt="" decoding="async"></span>`:"";
+  const bild=mini?`<span class="mini"><img src="${esc(mini.src)}"${masse} alt=""></span>`:"";
   const j=jahr?`<sup class="year">${esc(jahr)}</sup>`:"";
   return `<span class="title">${vorn}<span class="nw">${esc(letztes)}${bild}${j}</span></span>`;
+}
+
+/* Grosse Vorschau: mittelgrosse Fassung aus images/vorschau/ (vom
+   Generator erzeugt, 840px breit), sonst das erste Projektbild. */
+function vorschauQuelle(p){
+  const s=slugFuer(p);
+  if(typeof VORSCHAU!=="undefined"&&VORSCHAU[s])return `images/vorschau/${s}.jpg`;
+  const erstes=p.imgs.find(n=>!/\.gif$/i.test(n));   /* GIFs auslassen */
+  return erstes?B+p.pre+erstes:null;
+}
+const PORTRAIT_GROSS=(typeof VORSCHAU!=="undefined"&&VORSCHAU["tizian-rein"])
+  ? "images/vorschau/tizian-rein.jpg" : "images/about/tizian-rein-portrait.jpg";
+/* Vorschaubilder im Leerlauf vorladen, damit sie beim Ueberfahren sofort da sind */
+if(mitMaus){
+  const vorladen=()=>P.forEach(p=>{const q=p.imgs&&p.imgs.length&&vorschauQuelle(p);if(q){const i=new Image();i.src=q;}});
+  addEventListener("load",()=>("requestIdleCallback" in window)?requestIdleCallback(vorladen):setTimeout(vorladen,800));
 }
 
 const zeilen=[];
@@ -1562,16 +1620,21 @@ P.forEach(p=>{
     <div class="huelle"><div class="panel"></div></div>`;
   const btn=li.querySelector(".row");
   const panel=li.querySelector(".panel");
-  /* Grosse Vorschau beim Ueberfahren der Zeile */
+  /* Grosse Vorschau nur, solange die Maus auf dem kleinen Bild steht.
+     Ueber die Zeile delegiert, weil deren Inhalt beim Sprachwechsel neu
+     geschrieben wird. */
   if(p.imgs&&p.imgs.length){
-    /* erstes Bild, GIFs ausgelassen (gross und als S/W-Vorschau ohne Wert) */
-    const erstes=p.imgs.find(n=>!/\.gif$/i.test(n));
-    const quelle=erstes?B+p.pre+erstes:null;
-    btn.addEventListener("mouseenter",e=>{
-      if(li.classList.contains("open"))return;
-      vStart(btn,quelle,e.clientY);
+    const quelle=vorschauQuelle(p);
+    btn.addEventListener("mouseover",e=>{
+      if(li.classList.contains("open")||!e.target.closest(".mini"))return;
+      if(!btn.classList.contains("zeigt"))vStart(btn,quelle,e.clientY);
     });
-    btn.addEventListener("mouseleave",vWeg);
+    btn.addEventListener("mouseout",e=>{
+      if(!e.target.closest(".mini"))return;
+      const nach=e.relatedTarget;
+      if(nach&&nach.closest&&nach.closest(".mini")===e.target.closest(".mini"))return;
+      vWeg();
+    });
   }
   let txtEl=null;
   let built=false;
@@ -1587,7 +1650,11 @@ P.forEach(p=>{
     txtEl.className="text";txtEl.innerHTML=TEXT(p);
     kopf.appendChild(txtEl);
     panel.appendChild(kopf);
-    if(p.imgs.length||p.video)panel.appendChild(makeSlider(p));
+    if(p.imgs.length||p.video){
+      const w=makeSlider(p);
+      panel.appendChild(w);
+      requestAnimationFrame(()=>w._start&&w._start());
+    }
   }
   /* Alle Beschreibungen und Bilder sofort in den DOM setzen. Die Panels
      bleiben visuell eingeklappt; Suchmaschinen müssen dafür nichts anklicken. */
@@ -1652,13 +1719,13 @@ window.addEventListener("hashchange",()=>{
 function infoVerdrahten(){
   const m=infoSeite.querySelector(".bio .mini");
   if(!m)return;
-  m.addEventListener("mouseenter",e=>vStart(m,"images/about/tizian-rein-portrait.jpg",e.clientY));
+  m.addEventListener("mouseenter",e=>vStart(m,PORTRAIT_GROSS,e.clientY));
   m.addEventListener("mouseleave",vWeg);
 }
 
 /* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
    Lauf neu — nicht von Hand aendern. */
-const STAND={de:"17.10.2026 um 05:50:28 Uhr",en:"17 October 2026 at 05:50:28"};
+const STAND={de:"17.10.2026 um 06:16:48 Uhr",en:"17 October 2026 at 06:16:48"};
 
 /* ===== Sprache anwenden ===== */
 function applyLang(){
