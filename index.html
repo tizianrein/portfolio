@@ -527,6 +527,8 @@
   @media (hover:hover) and (pointer:fine){
     .slider{cursor:grab}
     .slider.zieht{cursor:grabbing;scroll-snap-type:none}
+    /* Mit Maus gleitet die Galerie frei aus; Einrasten nur auf Touch */
+    .slider{scroll-snap-type:none !important}
     .slider .slide video{cursor:auto}
   }
   .slider.vsperre{overflow-x:hidden}
@@ -1153,6 +1155,55 @@ const TITEL=p=>p.t[LANG]||p.t.de;
 const TEXT=p=>p.d[LANG]||p.d.de;
 
 /* ===== Vollbild-Galerie ===== */
+/* ===== Weiches Scrollen mit Nachlauf =====
+   Mausrad und Trackpad setzen nur ein Ziel; die Ansicht folgt ihm in
+   jedem Frame ein Stueck (exponentiell, bildratenunabhaengig) und laeuft
+   so sanft aus. Schnelle Radbewegungen werden zusaetzlich verstaerkt:
+   je dichter die Ereignisse kommen, desto weiter traegt jede Bewegung.
+   Touch bleibt beim nativen Scrollen des Geraets. */
+const WEICH=!matchMedia("(prefers-reduced-motion: reduce)").matches;
+const NACHLAUF=190;        /* ms Zeitkonstante: groesser = laengeres Ausgleiten */
+const SCHUB_MAX=2.6;       /* bis zu 3,6-fache Weite bei sehr schnellem Scrollen */
+function gleiter(o){
+  let ziel=0,ist=0,laeuft=false,gesetzt=null,t0=0,energie=0,tRad=0;
+  function frame(t){
+    if(!laeuft)return;
+    const jetzt=o.lesen();
+    /* jemand anderes hat gescrollt (Tastatur, Scrollbalken, Skript): uebernehmen */
+    if(gesetzt!==null&&Math.abs(jetzt-gesetzt)>2){ist=ziel=jetzt;}
+    const dt=Math.min(64,t-t0);t0=t;
+    const max=o.max();
+    ziel=Math.max(0,Math.min(max,ziel));
+    ist+=(ziel-ist)*(1-Math.exp(-dt/NACHLAUF));
+    if(Math.abs(ziel-ist)<.35)ist=ziel;
+    o.setzen(ist);gesetzt=o.lesen();
+    if(ist!==ziel)requestAnimationFrame(frame);
+    else{laeuft=false;gesetzt=null;if(o.ende)o.ende();}
+  }
+  function start(){
+    if(laeuft)return;
+    laeuft=true;ist=o.lesen();gesetzt=null;t0=performance.now();
+    if(o.anfang)o.anfang();
+    requestAnimationFrame(frame);
+  }
+  return {
+    rad(d){
+      const t=performance.now(),dt=t-tRad;tRad=t;
+      energie=energie*Math.exp(-dt/220)+Math.abs(d);
+      const schub=1+Math.min(SCHUB_MAX,energie/1100);
+      if(!laeuft)ziel=o.lesen();
+      ziel+=d*schub;start();
+    },
+    wurf(v){                       /* v in px/ms, z. B. nach dem Ziehen */
+      if(!laeuft)ziel=o.lesen();
+      ziel+=v*NACHLAUF*2.4;start();
+    },
+    verschiebe(d){ist+=d;ziel+=d;if(gesetzt!==null)gesetzt+=d;},
+    stop(){ziel=ist=o.lesen();energie=0;}
+  };
+}
+const radPixel=e=>e.deltaMode===1?40:e.deltaMode===2?innerHeight:1;
+
 const galerie=document.getElementById("galerie"),
       gImg=document.getElementById("gImg"),
       gTitel=document.getElementById("gTitel");
@@ -1335,6 +1386,17 @@ function makeSlider(p){
   /* Echte Maus-/Stiftbewegung: greifen und horizontal ziehen.
      Touch bleibt beim nativen, trägen Wischen des Browsers. */
   let drag=null;
+  const gl=gleiter({
+    lesen:()=>slider.scrollLeft,
+    setzen:v=>{slider.scrollLeft=v;},
+    max:()=>slider.scrollWidth-slider.clientWidth
+  });
+  slider.addEventListener("wheel",e=>{
+    if(!WEICH||e.ctrlKey)return;
+    if(Math.abs(e.deltaX)<=Math.abs(e.deltaY))return;  /* senkrecht: Seite */
+    e.preventDefault();
+    gl.rad(e.deltaX*radPixel(e));
+  },{passive:false});
   /* Satzgroesse dynamisch: faellt ein Bild aus, fehlt es in jedem Satz */
   function satzGroesse(){return Math.max(1,Math.round(slider.children.length/KOPIEN));}
   function satzBreite(){
@@ -1352,7 +1414,7 @@ function makeSlider(p){
     const b=basis();let d=0;
     if(slider.scrollLeft<b-W*grenze)d=W;
     else if(slider.scrollLeft>b+W*grenze)d=-W;
-    if(d){slider.scrollLeft+=d;if(drag)drag.links+=d;}
+    if(d){slider.scrollLeft+=d;gl.verschiebe(d);if(drag)drag.links+=d;}
   }
   slider._schleife=()=>schleife(.5);
   /* Startposition: erstes Bild des mittleren Satzes an der Randlinie */
@@ -1360,7 +1422,8 @@ function makeSlider(p){
   slider.addEventListener("dragstart",e=>e.preventDefault());
   slider.addEventListener("pointerdown",e=>{
     if(e.pointerType==="touch"||e.button!==0||e.target.closest("video"))return;
-    drag={id:e.pointerId,x:e.clientX,links:slider.scrollLeft,gezogen:false};
+    gl.stop();
+    drag={id:e.pointerId,x:e.clientX,links:slider.scrollLeft,gezogen:false,spur:[]};
     slider.dataset.gezogen="0";
     faerben();
   });
@@ -1379,11 +1442,23 @@ function makeSlider(p){
     if(drag.gezogen){
       e.preventDefault();
       slider.scrollLeft=drag.links-dx;
+      /* letzte ~100 ms merken, um beim Loslassen die Wurfgeschwindigkeit zu kennen */
+      const t=performance.now();
+      drag.spur.push([t,e.clientX]);
+      while(drag.spur.length>2&&t-drag.spur[0][0]>100)drag.spur.shift();
     }
   });
   function dragEnde(e){
     if(!drag||e.pointerId!==drag.id)return;
     const gezogen=drag.gezogen;
+    if(gezogen&&WEICH&&drag.spur.length>1){
+      const a=drag.spur[0],b=drag.spur[drag.spur.length-1];
+      const alt=performance.now()-b[0];
+      if(b[0]>a[0]&&alt<60){
+        const v=-(b[1]-a[1])/(b[0]-a[0]);   /* px/ms, Ziehen nach links = vorwaerts */
+        if(Math.abs(v)>.15)gl.wurf(v);
+      }
+    }
     if(slider.hasPointerCapture&&slider.hasPointerCapture(e.pointerId))
       slider.releasePointerCapture(e.pointerId);
     drag=null;
@@ -1470,6 +1545,7 @@ const DAUER=420;   /* muss zur CSS-Transition passen */
    einer einzigen, durchgehenden Bewegung. */
 let scrollVorgang=0;
 function projektInsBild(li){
+  if(typeof seite!=="undefined")seite.stop();
   const vorgang=++scrollVorgang;
   const reduziert=matchMedia("(prefers-reduced-motion: reduce)").matches;
   const startY=window.scrollY;
@@ -1499,6 +1575,19 @@ window.addEventListener("resize",()=>{
   clearTimeout(groesseTimer);
   groesseTimer=setTimeout(()=>document.querySelectorAll(".slider-wrap").forEach(w=>w._start&&w._start()),150);
 });
+/* Seite gleitet beim Mausrad */
+const seite=gleiter({
+  lesen:()=>window.scrollY,
+  setzen:v=>window.scrollTo({top:v,behavior:"instant"}),
+  max:()=>document.documentElement.scrollHeight-innerHeight
+});
+window.addEventListener("wheel",e=>{
+  if(!WEICH||e.ctrlKey||e.defaultPrevented)return;
+  if(galerie.classList.contains("open"))return;
+  if(Math.abs(e.deltaX)>Math.abs(e.deltaY))return;   /* seitlich: Galerie */
+  e.preventDefault();
+  seite.rad(e.deltaY*radPixel(e));
+},{passive:false});
 /* Eigenes Scrollen des Besuchers beendet die laufende Animation. */
 window.addEventListener("wheel",()=>{scrollVorgang++;},{passive:true});
 window.addEventListener("touchstart",()=>{scrollVorgang++;},{passive:true});
@@ -1725,7 +1814,7 @@ function infoVerdrahten(){
 
 /* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
    Lauf neu — nicht von Hand aendern. */
-const STAND={de:"17.10.2026 um 06:18:47 Uhr",en:"17 October 2026 at 06:18:47"};
+const STAND={de:"17.10.2026 um 06:24:48 Uhr",en:"17 October 2026 at 06:24:48"};
 
 /* ===== Sprache anwenden ===== */
 function applyLang(){
