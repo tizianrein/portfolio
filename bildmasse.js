@@ -329,3 +329,53 @@ const MASSE={
     683
   ]
 };
+const MINI={
+  "separate-wohneinheit": [
+    163,
+    160
+  ],
+  "from-structure-to-action": [
+    107,
+    160
+  ],
+  "waldfriedhofskapelle-rhondorf": [
+    120,
+    160
+  ],
+  "beamtenwohnung-bonn": [
+    166,
+    160
+  ],
+  "unterstand": [
+    113,
+    160
+  ],
+  "zakk-gartenstuhl": [
+    120,
+    160
+  ],
+  "free-bird": [
+    113,
+    160
+  ],
+  "harboring-histories": [
+    284,
+    160
+  ],
+  "robosgraffito": [
+    216,
+    160
+  ],
+  "structural-patterns": [
+    112,
+    160
+  ],
+  "rheinschwimmbad": [
+    361,
+    160
+  ],
+  "wohnen-in-nippes": [
+    78,
+    160
+  ]
+};
