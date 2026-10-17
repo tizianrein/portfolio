@@ -1161,7 +1161,7 @@ const TEXT=p=>p.d[LANG]||p.d.de;
    Touch bleibt beim nativen Scrollen des Geraets. */
 const WEICH=!matchMedia("(prefers-reduced-motion: reduce)").matches;
 const NACHLAUF=105;        /* ms Zeitkonstante: groesser = laengeres Ausgleiten */
-const SCHUB_MAX=3.6;       /* bis zu 4,6-fache Weite bei sehr schnellem Scrollen */
+const SCHUB_MAX=7.0;       /* bis zu 4,6-fache Weite bei sehr schnellem Scrollen */
 const SCHUB_AB=480;        /* kleiner = Beschleunigung setzt frueher ein */
 function gleiter(o){
   let ziel=0,ist=0,laeuft=false,gesetzt=null,t0=0,energie=0,tRad=0;
