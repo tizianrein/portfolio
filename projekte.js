@@ -112,7 +112,7 @@ const P=[
 
 const INFO_HTML={
 de:`
-    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) glaubt, dass es viele Dinge, die wir brauchen, eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht besonders gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften aufbauen und sie mit wirkungsvollen Instrumenten ausstatten können. Das tut er als Junior-Architekt in eigener Praxis in Bad Honnef und München und als Doktorand an der Professorship of Digital Fabrication der TU München und am MIT.</p>
+    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) glaubt, dass es viele Dinge die wir brauchen eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht besonders gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften bilden und sie mit wirkungsvollen Instrumenten ausstatten können. Das tut er als Junior-Architekt in eigener Praxis für Bauen im Bestand und als Forscher an der Technischen Universität München.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -169,7 +169,7 @@ de:`
       </section>
     </div>`,
 en:`
-    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Portrait of Tizian Rein"></span> (*1997 in Rhöndorf) believes plenty of the things we need actually already exist. They’re all worth maintaining. But it seems we are bad at it. That’s why he wants to know how we can build societies of repair, and equip them with powerful instruments. He does this as a junior-architect in his own practice in Germany, and as a doctoral researcher at the Professorship of Digital Fabrication at TU Munich and at MIT.</p>
+    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Portrait of Tizian Rein"></span> (*1997 in Rhöndorf) believes plenty of the things we need actually already exist. They’re all worth maintaining. But it seems we are bad at it. That’s why he wants to know how we can build societies of repair, and equip them with powerful instruments. He does this as a junior-architect in his own practice for adaptive reuse, and as a researcher at the Technical University of Munich.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
