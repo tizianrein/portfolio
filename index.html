@@ -424,7 +424,10 @@
      Laufband, ohne dass diese einen eigenen Hintergrund brauchen. */
   .vorschau{
     position:fixed;left:0;top:0;z-index:-1;
-    width:clamp(240px,28vw,420px);height:auto;
+    /* gross: bis knapp die Haelfte der Breite, nie hoeher als das Fenster
+       zwischen Kopfzeile und Laufband */
+    width:auto;height:auto;
+    max-width:min(46vw,860px);max-height:calc(100vh - 170px);max-height:calc(100dvh - 170px);
     transform:translate(-50%,-50%) rotate(var(--deg,-1.5deg));
     filter:grayscale(1);
     pointer-events:none;
@@ -1102,23 +1105,18 @@ let vQuelle=null,vYwunsch=0;
 
 /* Breite der Vorschau aus dem CSS lesen (clamp), statt sie hier zu doppeln. */
 function vBreite(){
-  const b=parseFloat(getComputedStyle(vorschau).width);
-  return isFinite(b)&&b>0 ? b : Math.min(Math.max(240,innerWidth*0.28),420);
+  const b=vorschau.offsetWidth;
+  return b>0 ? b : Math.min(innerWidth*0.46,860);
 }
-/* Feste Spalte rechts: Mitte bei 72 % der Fensterbreite, rechts nie
-   naeher als 40px am Rand. */
+/* Waagerecht: Mitte bei 62 % der Fensterbreite, also naeher zur
+   Seitenmitte; rechts nie naeher als 40px am Rand. */
 function vX(){
   const b=vBreite();
-  return Math.min(innerWidth*0.72, innerWidth-b/2-40);
+  return Math.min(innerWidth*0.62, innerWidth-b/2-40);
 }
-/* Senkrecht auf Hoehe der Zeile, aber nie angeschnitten
-   (oben Kopfzeile, unten Laufband). */
-function vY(y){
-  const h=vorschau.offsetHeight||0;
-  if(!h)return y;
-  const oben=h/2+16, unten=innerHeight-h/2-60;
-  if(unten<oben)return innerHeight/2;
-  return Math.min(Math.max(y,oben),unten);
+/* Senkrecht: mittig zwischen Kopfzeile und Laufband */
+function vY(){
+  return (70+innerHeight-50)/2;
 }
 function vPositionieren(){
   vorschau.style.left=vX()+"px";
