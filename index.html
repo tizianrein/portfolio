@@ -373,7 +373,7 @@
 <!-- SEO-PROJEKTDATEN:END -->
 
 <style>
-  :root{--ink:#101010;--paper:#fff;--accent:#d40000;--txt:15px;--bar:40px;--titel:clamp(34px,6vw,64px);
+  :root{--ink:#101010;--paper:#fff;--accent:#d40000;--txt:16px;--bar:40px;--titel:clamp(34px,6vw,64px);
          --cap:.662;--ziffer:.676}   /* Versal- und Ziffernhoehe der Schrift, per Skript nachgemessen */
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth;background:var(--paper)}
@@ -403,10 +403,10 @@
   .kopf-link:focus-visible{color:var(--accent);font-style:italic}
   .lang-mini{
     background:none;border:0;padding:0;cursor:pointer;
-    font-family:inherit;font-size:inherit;color:#999;
+    font-family:inherit;font-size:inherit;color:var(--ink);
   }
   .lang-mini .akt{color:var(--accent)}
-  .lang-mini:hover .inakt{color:var(--ink)}
+  .lang-mini:hover .inakt{color:var(--accent);font-style:italic}
 
   ul.index{list-style:none;position:relative;padding:44px 0 40px}
 
@@ -658,7 +658,7 @@
   .info-seite h3{font-size:var(--txt);font-weight:400;font-style:italic;color:var(--accent);margin:0 0 8px}
   .info-seite ul.cv{list-style:none;margin:0}
   .info-seite ul.cv li{font-size:var(--txt);line-height:1.5;padding:2px 0;display:flex;gap:16px;break-inside:avoid}
-  .info-seite ul.cv .j{flex:0 0 76px;color:#999;font-variant-numeric:tabular-nums}
+  .info-seite ul.cv .j{flex:0 0 82px;color:#999;font-variant-numeric:tabular-nums}
   .info-seite ul.cv .w{flex:1;min-width:0}
   .info-seite ul.cv .w b{font-weight:400}   /* kein Fettdruck — Times traegt das nicht */
   .info-seite ul.cv .w i{font-style:italic}
@@ -692,7 +692,7 @@
   /* ===== Desktop / größere Screens ===== */
   @media (min-width:760px){
     /* volle Breite — keine zentrierte Spalte mehr */
-    :root{--txt:17px;--bar:44px}   /* eine Stelle: alle Texte außer den Projekttiteln */
+    :root{--txt:19px;--bar:46px}   /* eine Stelle: alle Texte außer den Projekttiteln */
     header{padding:28px 40px 8px}
 
     .row{padding:1px 40px}
@@ -709,7 +709,7 @@
     .panel .text{padding:0;max-width:72ch;flex:1 1 auto}
 
     .info-seite{padding:52px 40px 72px}
-    .info-seite ul.cv .j{flex-basis:92px}
+    .info-seite ul.cv .j{flex-basis:106px}
   }
 
   @media (min-width:1100px){
@@ -964,7 +964,7 @@
 
 <section class="info-seite" id="info" aria-label="Info">
 <!-- SEO-INFO:START -->
-<p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> glaubt, dass es viele Dinge, die wir brauchen, eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht besonders gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften aufbauen und sie mit wirkungsvollen Instrumenten ausstatten können. Das tut er als Junior-Architekt in eigener Praxis in Bad Honnef und München und als Doktorand an der Professorship of Digital Fabrication der TU München und am MIT.</p>
+<p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) glaubt, dass es viele Dinge, die wir brauchen, eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht besonders gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften aufbauen und sie mit wirkungsvollen Instrumenten ausstatten können. Das tut er als Junior-Architekt in eigener Praxis in Bad Honnef und München und als Doktorand an der Professorship of Digital Fabrication der TU München und am MIT.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -1862,7 +1862,7 @@ function infoVerdrahten(){
 
 /* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
    Lauf neu — nicht von Hand aendern. */
-const STAND={de:"17.10.2026 um 07:09:22 Uhr",en:"17 October 2026 at 07:09:22"};
+const STAND={de:"17.10.2026 um 07:16:04 Uhr",en:"17 October 2026 at 07:16:04"};
 
 /* ===== Sprache anwenden ===== */
 function applyLang(){
