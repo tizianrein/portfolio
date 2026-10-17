@@ -1600,8 +1600,11 @@ window.addEventListener("wheel",e=>{
 /* Touch: die Seite folgt dem Finger 1:1, beim Loslassen gleitet sie mit
    demselben Motor aus wie beim Mausrad. Mehrere schnelle Wischer
    hintereinander bauen Schwung auf. Seitliche Gesten bleiben den
-   Galerien ueberlassen, ein Tippen bleibt ein Klick. */
-if(WEICH){
+   Galerien ueberlassen, ein Tippen bleibt ein Klick.
+   AUS: auf echten Telefonen ist das per Skript gefuehrte Scrollen deutlich
+   traeger als das native Scrollen des Geraets. Zum Wiedereinschalten true. */
+const TOUCH_GLEITEN=false;
+if(WEICH&&TOUCH_GLEITEN){
   let tz=null,wurfEnergie=0,tWurf=0;
   document.addEventListener("touchstart",e=>{
     if(e.touches.length!==1||galerie.classList.contains("open")){tz=null;return;}
@@ -1862,7 +1865,7 @@ function infoVerdrahten(){
 
 /* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
    Lauf neu — nicht von Hand aendern. */
-const STAND={de:"17.10.2026 um 07:59:34 Uhr",en:"17 October 2026 at 07:59:34"};
+const STAND={de:"17.10.2026 um 08:07:34 Uhr",en:"17 October 2026 at 08:07:34"};
 
 /* ===== Sprache anwenden ===== */
 function applyLang(){
