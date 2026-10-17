@@ -1433,6 +1433,16 @@ function makeSlider(p){
   slider._schleife=()=>schleife(.5);
   /* Startposition: erstes Bild des mittleren Satzes an der Randlinie */
   wrap._start=()=>{if(KOPIEN>1)slider.scrollLeft=basis();};
+  /* Nach einer Groessenaenderung: dasselbe Bild wieder an die Randlinie
+     setzen, im mittleren Satz. Kein Ruecksprung auf das erste Bild. */
+  wrap._halten=()=>{
+    if(KOPIEN<2)return;
+    const n=satzGroesse(),j=(wrap._j||0)%n;   /* zuletzt gezeigtes Bild */
+    const c=slider.children[MITTE*n+j];
+    if(c)slider.scrollLeft=c.offsetLeft-randAbstand(slider);
+    wrap._breite=innerWidth;
+  };
+  wrap._breite=innerWidth;
   slider.addEventListener("dragstart",e=>e.preventDefault());
   slider.addEventListener("pointerdown",e=>{
     if(e.pointerType==="touch"||e.button!==0||e.target.closest("video"))return;
@@ -1532,6 +1542,9 @@ function makeSlider(p){
         if(!slides.length)return;
         const best=aktuelleSlide(slider);
         const n=satzGroesse();
+        /* nur merken, solange die Fensterbreite stabil ist: beim Drehen
+           verschiebt das neue Layout die Ansicht, bevor _halten greift */
+        if(innerWidth===wrap._breite)wrap._j=best%n;
         counter.textContent=`${String(best%n+1).padStart(2,"0")} / ${String(n).padStart(2,"0")}`;
         /* Nachbarn vorab anfordern, damit beim Weiterwischen nichts fehlt.
            loading="eager" startet den Ladevorgang laut Spec sofort; das
@@ -1591,12 +1604,19 @@ function projektInsBild(li){
   }
   requestAnimationFrame(frame);
 }
-/* Groessenwechsel: Bildbreiten aendern sich mit der Fensterhoehe,
-   also jede Galerie wieder auf ihr erstes Bild setzen. */
-let groesseTimer=null;
+/* Groessenwechsel: Auf dem Telefon meldet das Ein- und Ausblenden der
+   Adressleiste beim Scrollen eine reine Hoehenaenderung; die wird
+   ignoriert. Aendert sich die Breite (Drehen, Fenster ziehen), bleibt
+   jede Galerie auf ihrem aktuellen Bild. */
+let groesseTimer=null,letzteBreite=innerWidth,letzteHoehe=innerHeight;
 window.addEventListener("resize",()=>{
+  const nurHoehe=innerWidth===letzteBreite;
+  const touch=matchMedia("(hover:none)").matches;
+  if(nurHoehe&&(touch||Math.abs(innerHeight-letzteHoehe)<2))return;
+  const wraps=[...document.querySelectorAll(".slider-wrap")];
+  letzteBreite=innerWidth;letzteHoehe=innerHeight;
   clearTimeout(groesseTimer);
-  groesseTimer=setTimeout(()=>document.querySelectorAll(".slider-wrap").forEach(w=>w._start&&w._start()),150);
+  groesseTimer=setTimeout(()=>wraps.forEach(w=>w._halten&&w._halten()),150);
 });
 /* Seite gleitet beim Mausrad */
 const seite=gleiter({
@@ -1879,7 +1899,7 @@ function infoVerdrahten(){
 
 /* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
    Lauf neu — nicht von Hand aendern. */
-const STAND={de:"17.10.2026 um 08:09:43 Uhr",en:"17 October 2026 at 08:09:43"};
+const STAND={de:"17.10.2026 um 08:14:44 Uhr",en:"17 October 2026 at 08:14:44"};
 
 /* ===== Sprache anwenden ===== */
 function applyLang(){
