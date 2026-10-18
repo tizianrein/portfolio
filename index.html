@@ -504,7 +504,7 @@
   /* Aktuelle Seite im Menü unterstrichen */
   .kopf .gruppe a.aktiv{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:.12em}
   .dia.still{cursor:inherit}
-  .dia.still .bild{height:calc(100% - 22px)}
+  .dia.still .bild{height:calc(100% - 26px)}  /* gleich hoch wie das große Bild der Startseite */
   .dia .bild video{display:block;height:100%;width:100%;object-fit:cover}
 
 
@@ -549,7 +549,9 @@
        Fenster auf den umgekehrten Hintergrund. Die echten Links bleiben
        darunter unsichtbar und klickbar. */
     .kopf #kName,.kopf .menu-knopf{color:transparent !important;font-style:normal !important}
-    .kopf-invers{display:block;position:fixed;inset:0;z-index:21;pointer-events:none;
+    /* Nur so hoch wie die Kopfzeile: der Filter rechnet dann nur diesen
+       schmalen Streifen neu, nicht den ganzen Bildschirm */
+    .kopf-invers{display:block;position:fixed;top:0;left:0;right:0;height:48px;z-index:21;pointer-events:none;
       -webkit-backdrop-filter:blur(1.5px) grayscale(1) invert(1) contrast(7);
       backdrop-filter:blur(1.5px) grayscale(1) invert(1) contrast(7);
       -webkit-clip-path:url(#kopfForm);clip-path:url(#kopfForm)}
@@ -564,7 +566,7 @@
                   display:flex;overflow:hidden;max-height:0;opacity:0;padding:0;
                   transition:max-height .45s cubic-bezier(.2,.7,.2,1),opacity .3s ease,padding .45s cubic-bezier(.2,.7,.2,1)}
     body.menu-offen .kopf .gruppe{max-height:14em;opacity:1;padding:.7em 0 .5em}
-    #home .streifen,#projekt .streifen{transform:translate3d(0,var(--zusatz,0px),0);
+    #home .streifen,#projekt .streifen{transform:translate3d(0,var(--zusatz,0px),0);will-change:transform;
                   transition:transform .45s cubic-bezier(.2,.7,.2,1)}
     #info{transition:padding-top .45s cubic-bezier(.2,.7,.2,1);padding-top:var(--zusatz,0px)}
     /* Startseite und Projekt: Bilder untereinander, endlos nach unten */
