@@ -426,10 +426,8 @@
   .kopf-invers{display:none}
   @media (hover:hover){.menu-knopf:hover{color:var(--accent);font-style:italic}}
   /* Sprache: die gerade nicht gewählte grau */
-  .kopf .sprache{color:#aaa}
-  .kopf .sprache button{color:#aaa}
-  .kopf .sprache button.akt{color:var(--ink);cursor:default;font-style:normal}
-  .kopf .sprache button:not(.akt):hover{color:var(--accent);font-style:italic}
+  /* Sprache: ein einziger Schalter, beim Hover ganz rot und kursiv */
+  .kopf .sprache{color:inherit}
   /* Zähler: Die Ziffern sind ein Fenster in der Form des Textes. Durch das
      Fenster sieht man den Hintergrund in Graustufen, umgekehrt und stark
      kontrastiert. Jeder Punkt der Ziffern ist also hell, wo das Bild dahinter
@@ -601,7 +599,7 @@
     <a href="#" id="kIndex">Index</a>
     <a href="#info" id="kAbout">About</a>
     <a href="mailto:mail@tizianrein.de" id="kKontakt">Contact</a>
-    <span class="sprache"></span>
+    <button class="sprache">DE / EN</button>
   </nav>
   <button class="menu-knopf" id="menuKnopf" aria-expanded="false">Menü</button>
 </header>
@@ -1394,8 +1392,8 @@ HOCH.addEventListener("change",()=>menu(false));
 function sprache(){
   document.documentElement.lang=LANG;
   document.querySelectorAll(".sprache").forEach(b=>{
-    b.innerHTML=`<button data-l="de" lang="de"${LANG==="de"?' class="akt" aria-current="true"':""}>DE</button> / `+
-      `<button data-l="en" lang="en"${LANG==="en"?' class="akt" aria-current="true"':""}>EN</button>`;
+    b.textContent="DE / EN";
+    b.setAttribute("aria-label",LANG==="de"?"Switch to English":"Auf Deutsch umschalten");
   });
   document.getElementById("kIndex").textContent=TXT[LANG].index;
   document.getElementById("kAbout").textContent=TXT[LANG].about;
@@ -1407,11 +1405,9 @@ function sprache(){
   requestAnimationFrame(()=>{hVermessen();home.start();hSkalieren();hZaehlen();});
   if(document.body.dataset.ansicht==="projekt")route();
 }
-/* Nur die angeklickte Sprache schaltet um */
-document.querySelectorAll(".sprache").forEach(b=>b.addEventListener("click",e=>{
-  const k=e.target.closest("button[data-l]");
-  if(!k||k.dataset.l===LANG)return;
-  LANG=k.dataset.l;
+/* Ein Klick wechselt die Sprache */
+document.querySelectorAll(".sprache").forEach(b=>b.addEventListener("click",()=>{
+  LANG=LANG==="de"?"en":"de";
   try{localStorage.setItem("tr_lang",LANG);}catch(e){}
   sprache();
 }));
