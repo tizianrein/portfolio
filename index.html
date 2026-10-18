@@ -382,7 +382,11 @@
 <style>
   :root{
     --ink:#101010;--paper:#fff;--accent:#d40000;
-    --gross:clamp(30px,3.3vw,48px);   /* Kopfzeile, Index-Titel */
+    /* Nur drei Schriftgrößen auf der ganzen Seite */
+    --gross:clamp(30px,3.3vw,48px);   /* Kopfzeile, Projekttitel */
+    --text:clamp(19px,1.45vw,23px);   /* Fließtext, Links, Lebenslauf, Zähler */
+    --klein:15px;                     /* Bildunterschriften, Stand */
+    --zeile:1.27;
     --rand:12px;
     --luecke:72px;                    /* Abstand zwischen Bildern */
     --kopfhoehe:calc(var(--gross) * 1.15 + 10px);
@@ -400,7 +404,7 @@
   img{-webkit-user-drag:none;user-select:none}
 
   /* Kleine Versalien, ebenfalls Times */
-  .klein{font-size:15px;line-height:1.25;font-style:normal}
+  .klein{font-size:var(--klein);line-height:1.25;font-style:normal}
 
   .ansicht{display:none}
   body[data-ansicht="home"] #home,
@@ -433,10 +437,10 @@
   .unsichtbar{position:absolute;width:0;height:0;overflow:hidden}
   .seo-inhalt{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
   .seo-inhalt img{display:none}
-  .stand{margin:40px 0 0;font-size:15px;color:#999}
+  .stand{margin:40px 0 0;font-size:var(--klein);color:#999}
   .zaehler{
     position:fixed;z-index:21;left:50%;bottom:8px;transform:translateX(-50%);
-    width:6em;height:1.2em;font-size:clamp(18px,1.5vw,24px);pointer-events:none;
+    width:6em;height:1.2em;font-size:var(--text);pointer-events:none;
     -webkit-backdrop-filter:blur(1.5px) grayscale(1) invert(1) contrast(7);
     backdrop-filter:blur(1.5px) grayscale(1) invert(1) contrast(7);
     -webkit-clip-path:url(#zaehlerForm);clip-path:url(#zaehlerForm);
@@ -469,7 +473,7 @@
   }
   .ueber{
     flex:0 0 var(--spalte);align-self:flex-end;padding-bottom:var(--rand);
-    font-size:clamp(19px,1.45vw,23px);line-height:1.27;
+    font-size:var(--text);line-height:var(--zeile);
     text-align:justify;hyphens:auto;-webkit-hyphens:auto;
   }
   .ueber p{margin:0 0 1.2em}
@@ -480,7 +484,7 @@
   .ueber.p-block::-webkit-scrollbar{display:none}
   /* Projekttitel in der Größe des Menüs */
   .ueber .p-titel{text-align:left;font-size:var(--gross);line-height:1.1;margin:0 0 .45em}
-  .ueber .p-text{font-size:inherit;margin:0 0 1.2em}
+  .ueber .p-text{font-size:inherit;line-height:inherit;margin:0 0 1.2em}
   .ueber .p-daten{margin:0 0 .9em}
   .ueber .links a:hover{color:var(--accent);font-style:italic}
   .dia{flex:0 0 auto;height:100%;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
@@ -513,33 +517,33 @@
     overflow-y:auto;scrollbar-width:none;
   }
   .seite-links::-webkit-scrollbar{display:none}
-  .p-titel{font-size:clamp(26px,2.4vw,36px);font-weight:400;line-height:1.1;margin:0 0 18px}
-  .p-text{font-size:clamp(17px,1.25vw,20px);line-height:1.4;text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+  .p-titel{font-size:var(--gross);font-weight:400;line-height:1.1;margin:0 0 18px}
+  .p-text{font-size:var(--text);line-height:var(--zeile);text-align:justify;hyphens:auto;-webkit-hyphens:auto}
   /* Links sehen aus wie Text, erst beim Hover rot und kursiv */
   a:hover{color:var(--accent);font-style:italic}
   .p-fuss{display:flex;flex-direction:column;gap:14px}
   .p-daten{display:grid;grid-template-columns:auto 1fr;gap:2px 24px}
-  .p-weiter{font-size:clamp(17px,1.25vw,20px)}
+  .p-weiter{font-size:var(--text)}
   .p-weiter:hover{color:var(--accent);font-style:italic}
 
   /* Info: rechts Porträt und Lebenslauf, normal nach unten scrollend */
   .info-rechts{margin-left:calc(var(--rand) + var(--spalte) + var(--luecke));padding:calc(var(--kopfhoehe) + 14px) var(--rand) 80px 0;max-width:1100px}
   .info-portrait{display:block;width:min(100%,380px);height:auto;margin:0 0 48px}
-  .info-links{font-size:clamp(17px,1.25vw,20px);line-height:1.35}
+  .info-links{font-size:var(--text);line-height:var(--zeile)}
   .info-links a{display:block}
   .info-links a:hover{color:var(--accent);font-style:italic}
   .cv-block{margin:0 0 34px}
-  .cv-block h3{font-weight:400;margin:0 0 8px}
+  .cv-block h3{font-weight:400;font-size:var(--text);margin:0 0 8px}
   .cv ul{list-style:none}
-  .cv li{display:flex;gap:16px;font-size:17px;line-height:1.45;padding:2px 0}
-  .cv .j{flex:0 0 96px;color:#999;font-variant-numeric:tabular-nums}
+  .cv li{display:flex;gap:16px;font-size:var(--text);line-height:var(--zeile);padding:2px 0}
+  .cv .j{flex:0 0 5.2em;color:#999;font-variant-numeric:tabular-nums}
   .cv .w{flex:1;min-width:0}
   .cv b{font-weight:400}
   .cv a.nb{white-space:nowrap}
 
   @media (max-width:759px){
-    :root{--gross:28px;--rand:10px;--luecke:28px;--spalte:78vw}
-    .kopf{font-size:18px;padding-bottom:6px;flex-wrap:wrap}
+    :root{--gross:18px;--text:18px;--rand:10px;--luecke:28px;--spalte:78vw}
+    .kopf{padding-bottom:6px;flex-wrap:wrap}
     /* Menü: oben rechts, klappt rechtsbündig untereinander auf und schiebt
        die Seite um genau diese Höhe nach unten */
     .menu-knopf{display:block;pointer-events:auto}
@@ -556,14 +560,15 @@
     }
     /* Info: hier läuft Text unter der Kopfzeile, also scrollt sie mit weg */
     body[data-ansicht="info"] .kopf{position:absolute}
+    /* Menü klappt weich auf: Höhe und Deckkraft gleiten, die Seite rutscht
+       im selben Takt per transform nach unten (flüssiger als top) */
     .kopf .gruppe{order:3;flex-basis:100%;flex-direction:column;align-items:flex-end;gap:.35em;
-                  display:none;padding:.7em 0 .5em}
-    body.menu-offen .kopf .gruppe{display:flex}
-    body.menu-offen .kopf{background:var(--paper)}
-    .streifen{transition:top .3s ease}
-    #home .streifen,#projekt .streifen{top:var(--zusatz,0px)}
-    #info{transition:padding-top .3s ease;padding-top:var(--zusatz,0px)}
-    .zaehler{font-size:18px}
+                  display:flex;overflow:hidden;max-height:0;opacity:0;padding:0;
+                  transition:max-height .45s cubic-bezier(.2,.7,.2,1),opacity .3s ease,padding .45s cubic-bezier(.2,.7,.2,1)}
+    body.menu-offen .kopf .gruppe{max-height:14em;opacity:1;padding:.7em 0 .5em}
+    #home .streifen,#projekt .streifen{transform:translate3d(0,var(--zusatz,0px),0);
+                  transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+    #info{transition:padding-top .45s cubic-bezier(.2,.7,.2,1);padding-top:var(--zusatz,0px)}
     /* Startseite und Projekt: Bilder untereinander, endlos nach unten */
     .streifen{overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
     .spur{flex-direction:column;align-items:stretch;width:auto;height:auto;
@@ -580,16 +585,12 @@
     .dia .bild,#home .dia .bild,.dia.still .bild{height:auto;width:100%;transform:none !important}
     #home .dia{transform:none !important}
     #home .dia .cap{transform:none !important;width:auto !important}
-    .ueber{font-size:18px;text-align:left}
+    .ueber{text-align:left}
     /* Projekt und Info: untereinander, Seite scrollt nach unten */
     .seite-links{position:static;width:auto;padding:calc(var(--kopfhoehe) + 12px) var(--rand) 24px;overflow:visible}
     .p-text{text-align:left}
-    .ueber.p-block{font-size:16px}
-    .ueber .p-titel{font-size:18px}
     .info-rechts{margin:0;padding:0 var(--rand) 60px}
     .info-portrait{width:calc(100% + 2 * var(--rand));max-width:none;margin-left:calc(-1 * var(--rand))}
-    .cv .j{flex-basis:80px}
-    .cv li{font-size:16px}
   }
 </style>
 </head>
@@ -1076,7 +1077,7 @@ function endlos(streifen,spur,opt){
   /* Ziehen mit der Maus, beim Loslassen weitergleiten */
   streifen.addEventListener("dragstart",e=>e.preventDefault());
   streifen.addEventListener("pointerdown",e=>{
-    if(senkrecht()||e.pointerType==="touch"||e.button!==0||e.target.closest("video,.ueber a"))return;
+    if(senkrecht()||e.pointerType==="touch"||e.button!==0||e.target.closest("video[controls],.ueber a"))return;
     gl.stop();
     drag={id:e.pointerId,x:e.clientX,links:streifen.scrollLeft,gezogen:false,spur:[[performance.now(),e.clientX]]};
   });
@@ -1271,13 +1272,23 @@ const proj=endlos(pStreifen,pSpur,{
   beimScrollen:x=>{pBand.setze(x);pZaehlen();},
   beimSprung:d=>{pBand.korr-=d;}
 });
+/* Bewegte Bilder spielen nur, solange sie sichtbar sind */
+const animBeobachter=new IntersectionObserver(es=>es.forEach(e=>{
+  const v=e.target;if(e.isIntersecting){const pr=v.play();if(pr&&pr.catch)pr.catch(()=>{});}else v.pause();
+}),{rootMargin:"200px"});
 /* Projektseite: derselbe Streifen wie die Startseite. Vorne der Text,
    dann die Bilder in gleicher Höhe, endlos. */
 function zeigeProjekt(p){
   const i=P.indexOf(p),n=P[(i+1)%P.length];
   const bilder=[];
-  if(p.video)bilder.push({video:B+p.video,wh:[9,16]});
-  p.imgs.forEach(name=>bilder.push({src:B+p.pre+name,wh:masse(p.pre+name)||[4,3]}));
+  /* Video: Seitenverhältnis aus dem Standbild (…frame.jpg), sonst 16:9.
+     Sobald das Video selbst seine Maße kennt, werden diese übernommen. */
+  if(p.video)bilder.push({video:B+p.video,poster:B+p.pre+"frame.jpg",wh:masse(p.pre+"frame.jpg")||[16,9]});
+  /* GIFs laufen als kleines MP4 (gleicher Name, .mp4). Fehlt das MP4,
+     wird automatisch das GIF gezeigt. */
+  p.imgs.forEach(name=>bilder.push(/\.gif$/i.test(name)
+    ?{anim:B+p.pre+name.replace(/\.gif$/i,".mp4"),src:B+p.pre+name,wh:masse(p.pre+name)||[4,3]}
+    :{src:B+p.pre+name,wh:masse(p.pre+name)||[4,3]}));
   pAnzahl=bilder.length;
   const teile=[()=>{
     const d=document.createElement("div");d.className="ueber p-block";
@@ -1288,10 +1299,24 @@ function zeigeProjekt(p){
   bilder.forEach((b,j)=>teile.push(k=>{
     const d=document.createElement("div");d.className="dia still";d.dataset.b=j;
     const medium=b.video
-      ?`<video src="${esc(b.video)}#t=0.1" controls muted loop playsinline preload="metadata"></video>`
+      ?`<video src="${esc(b.video)}#t=0.1" poster="${esc(b.poster)}" controls muted loop playsinline preload="metadata"></video>`
+      :b.anim
+      ?`<video class="anim" src="${esc(b.anim)}" data-gif="${esc(b.src)}" muted loop playsinline autoplay disablepictureinpicture preload="${k===2?"auto":"metadata"}"></video>`
       :`<img src="${esc(b.src)}" width="${b.wh[0]}" height="${b.wh[1]}" alt="${esc(TITEL(p))}, ${j+1}" loading="${k===2&&j<2?"eager":"lazy"}" decoding="async" draggable="false">`;
     d.innerHTML=
       `<div class="bild" style="aspect-ratio:${b.wh[0]} / ${b.wh[1]}">${medium}</div>`;
+    const a=d.querySelector("video.anim");
+    if(a){
+      a.addEventListener("error",()=>{                 /* kein MP4: GIF zeigen */
+        const img=document.createElement("img");img.src=a.dataset.gif;img.alt=`${TITEL(p)}, ${j+1}`;img.draggable=false;
+        a.replaceWith(img);
+      },{once:true});
+      animBeobachter.observe(a);
+    }
+    const v=d.querySelector("video:not(.anim)");
+    if(v)v.addEventListener("loadedmetadata",()=>{
+      if(v.videoWidth&&v.videoHeight)d.firstElementChild.style.aspectRatio=`${v.videoWidth} / ${v.videoHeight}`;
+    },{once:true});
     return d;
   }));
   pBand.korr=0;
@@ -1349,14 +1374,18 @@ function baueInfo(){
 const menuKnopf=document.getElementById("menuKnopf");
 const kopf=document.querySelector(".kopf");
 const MENU={de:["Menü","Schließen"],en:["Menu","Close"]};
+const kopfNav=kopf.querySelector(".gruppe");
 function menu(offen){
-  const zu=kopf.offsetHeight;
+  /* Zielhöhe des Menüs: Inhalt plus Innenabstand oben und unten */
+  /* Seite rutscht so weit, dass nichts unter dem offenen Menü liegt:
+     Höhe der Kopfzeile plus Menü */
+  const fs=parseFloat(getComputedStyle(kopf).fontSize)||18;
+  const zeile=menuKnopf.getBoundingClientRect().bottom+6;
+  const hoehe=offen?Math.ceil(zeile+kopfNav.scrollHeight+fs*1.2):0;
+  document.documentElement.style.setProperty("--zusatz",hoehe+"px");
   document.body.classList.toggle("menu-offen",offen);
   menuKnopf.textContent=MENU[LANG][offen?1:0];
   menuKnopf.setAttribute("aria-expanded",offen?"true":"false");
-  const auf=kopf.offsetHeight;
-  if(offen)document.documentElement.style.setProperty("--zusatz",Math.max(0,auf-zu)+"px");
-  else document.documentElement.style.setProperty("--zusatz","0px");
   kopfInvers();
 }
 menuKnopf.addEventListener("click",()=>menu(!document.body.classList.contains("menu-offen")));
