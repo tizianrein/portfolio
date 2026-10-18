@@ -587,6 +587,7 @@
     .ueber.p-block{font-size:16px}
     .ueber .p-titel{font-size:18px}
     .info-rechts{margin:0;padding:0 var(--rand) 60px}
+    .info-portrait{width:calc(100% + 2 * var(--rand));max-width:none;margin-left:calc(-1 * var(--rand))}
     .cv .j{flex-basis:80px}
     .cv li{font-size:16px}
   }
@@ -1303,11 +1304,42 @@ function zeigeProjekt(p){
    Lauf neu, nicht von Hand ändern. */
 const STAND={de:"17.10.2026 um 08:14:44 Uhr",en:"17 October 2026 at 08:14:44"};
 
+/* Stand automatisch: der neueste Zeitpunkt aus der STAND-Zeile oben und
+   dem Änderungsdatum der Dateien, die der Server mitschickt (index.html,
+   projekte.js, bildmasse.js). Nach jedem Hochladen stimmt das Datum also
+   von selbst, auch ohne das Aktualisierungsskript. */
+let standDatum=(()=>{
+  const m=STAND.de.match(/(\d{1,2})\.(\d{1,2})\.(\d{4}) um (\d{1,2}):(\d{2}):(\d{2})/);
+  return m?new Date(+m[3],m[2]-1,+m[1],+m[4],+m[5],+m[6]):null;
+})();
+function neuer(d){
+  if(!d||isNaN(d))return;
+  if(Math.abs(Date.now()-d)<5000)return;          /* Server ohne Datum: liefert "jetzt" */
+  if(!standDatum||d>standDatum){standDatum=d;zeigeStand();}
+}
+neuer(new Date(document.lastModified));
+if(location.protocol.startsWith("http"))["projekte.js","bildmasse.js"].forEach(f=>{
+  fetch(f,{method:"HEAD",cache:"no-store"}).then(r=>{const l=r.headers.get("Last-Modified");if(l)neuer(new Date(l));}).catch(()=>{});
+});
+function standText(){
+  if(!standDatum)return LANG==="de"?"Zuletzt aktualisiert am "+STAND.de:"Last updated on "+STAND.en;
+  const d=standDatum,z=n=>String(n).padStart(2,"0"),zeit=`${z(d.getHours())}:${z(d.getMinutes())}:${z(d.getSeconds())}`;
+  const MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  return LANG==="de"
+    ?`Zuletzt aktualisiert am ${z(d.getDate())}.${z(d.getMonth()+1)}.${d.getFullYear()} um ${zeit} Uhr`
+    :`Last updated on ${d.getDate()} ${MON[d.getMonth()]} ${d.getFullYear()} at ${zeit}`;
+}
+function zeigeStand(){
+  const el=document.querySelector(".stand");
+  if(el)el.textContent=`${standText()} · © ${(standDatum||new Date()).getFullYear()} Tizian Rein`;
+}
+
 /* ---------- Info ---------- */
 function baueInfo(){
   const {bio,cv}=infoTeile();
   document.getElementById("fBio").innerHTML=bio;
-  document.getElementById("fCV").innerHTML=cv+`<p class="stand">${LANG==="de"?"Zuletzt aktualisiert am "+STAND.de:"Last updated on "+STAND.en} · © ${new Date().getFullYear()} Tizian Rein</p>`;
+  document.getElementById("fCV").innerHTML=cv+`<p class="stand"></p>`;
+  zeigeStand();
   document.getElementById("fLinks").innerHTML=
     `<a href="mailto:mail@tizianrein.de">mail@tizianrein.de</a>`+
     KONTAKT.map(([n,u])=>`<a href="${u}" target="_blank" rel="noopener">${n}</a>`).join("");
