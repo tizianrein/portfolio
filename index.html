@@ -394,7 +394,8 @@
     --cap:.662;
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{background:var(--paper);scrollbar-width:none}
+  /* iPhone vergrößert sonst Fließtext eigenmächtig, dann passen die Größen nicht mehr */
+  html{-webkit-text-size-adjust:100%;text-size-adjust:100%;background:var(--paper);scrollbar-width:none}
   html::-webkit-scrollbar{display:none}
   /* Nur Times New Roman */
   body{font-family:"Times New Roman",Times,serif;color:var(--ink);background:transparent;-webkit-font-smoothing:antialiased}
@@ -420,7 +421,7 @@
   .kopf > *{pointer-events:auto}
   .kopf .gruppe{display:flex;gap:.6em;align-items:baseline}
   .grund{display:inline-block;width:0;height:0;vertical-align:baseline}
-  .kopf a:hover,.kopf button:hover,.kopf .an{color:var(--accent);font-style:italic}
+  @media (hover:hover){.kopf a:hover,.kopf button:hover,.kopf .an{color:var(--accent);font-style:italic}}
   .kopf .pfeil{font-style:normal !important}
   .menu-knopf{display:none}
   .kopf-invers{display:none}
@@ -439,8 +440,8 @@
   .zaehler{
     position:fixed;z-index:21;left:50%;bottom:8px;transform:translateX(-50%);
     width:6em;height:1.2em;font-size:var(--text);pointer-events:none;
-    -webkit-backdrop-filter:blur(1.5px) grayscale(1) invert(1) contrast(7);
-    backdrop-filter:blur(1.5px) grayscale(1) invert(1) contrast(7);
+    -webkit-backdrop-filter:grayscale(1) invert(1) contrast(7);
+    backdrop-filter:grayscale(1) invert(1) contrast(7);
     -webkit-clip-path:url(#zaehlerForm);clip-path:url(#zaehlerForm);
   }
   #zaehlerText{font-family:"Times New Roman",Times,serif;font-variant-numeric:tabular-nums}
@@ -484,7 +485,7 @@
   .ueber .p-titel{text-align:left;font-size:var(--gross);line-height:1.1;margin:0 0 .45em}
   .ueber .p-text{font-size:inherit;line-height:inherit;margin:0 0 1.2em}
   .ueber .p-daten{margin:0 0 .9em}
-  .ueber .links a:hover{color:var(--accent);font-style:italic}
+  @media (hover:hover){.ueber .links a:hover{color:var(--accent);font-style:italic}}
   .dia{flex:0 0 auto;height:100%;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
   .dia .cap{display:flex;justify-content:space-between;gap:16px;padding:0 0 6px;white-space:nowrap;overflow:hidden;flex-shrink:0}
   .dia .cap .l{overflow:hidden;text-overflow:ellipsis}
@@ -496,7 +497,7 @@
   /* "Projekt ansehen" nur beim Bild in der Mitte */
   #home .dia:not(.mitte) .cap .r{display:none}
   .dia .bild img{display:block;height:100%;width:100%;object-fit:cover}
-  a.dia:hover .cap{color:var(--accent);font-style:italic}
+  @media (hover:hover){a.dia:hover .cap{color:var(--accent);font-style:italic}}
   /* Nur Bild und Bildunterschrift sind klickbar. Der Rest der Fläche gehört
      zum Nachbarn, wenn ein Bild außerhalb der Mitte verkleinert ist. */
   a.dia{pointer-events:none}
@@ -518,18 +519,18 @@
   .p-titel{font-size:var(--gross);font-weight:400;line-height:1.1;margin:0 0 18px}
   .p-text{font-size:var(--text);line-height:var(--zeile);text-align:justify;hyphens:auto;-webkit-hyphens:auto}
   /* Links sehen aus wie Text, erst beim Hover rot und kursiv */
-  a:hover{color:var(--accent);font-style:italic}
+  @media (hover:hover){a:hover{color:var(--accent);font-style:italic}}
   .p-fuss{display:flex;flex-direction:column;gap:14px}
   .p-daten{display:grid;grid-template-columns:auto 1fr;gap:2px 24px}
   .p-weiter{font-size:var(--text)}
-  .p-weiter:hover{color:var(--accent);font-style:italic}
+  @media (hover:hover){.p-weiter:hover{color:var(--accent);font-style:italic}}
 
   /* Info: rechts Porträt und Lebenslauf, normal nach unten scrollend */
   .info-rechts{margin-left:calc(var(--rand) + var(--spalte) + var(--luecke));padding:calc(var(--kopfhoehe) + 14px) var(--rand) 80px 0;max-width:1100px}
   .info-portrait{display:block;width:min(100%,380px);height:auto;margin:0 0 48px}
   .info-links{font-size:var(--text);line-height:var(--zeile)}
   .info-links a{display:block}
-  .info-links a:hover{color:var(--accent);font-style:italic}
+  @media (hover:hover){.info-links a:hover{color:var(--accent);font-style:italic}}
   .cv-block{margin:0 0 34px}
   .cv-block h3{font-weight:400;font-size:var(--klein);margin:0 0 6px}
   .cv ul{list-style:none}
@@ -552,8 +553,8 @@
     /* Nur so hoch wie die Kopfzeile: der Filter rechnet dann nur diesen
        schmalen Streifen neu, nicht den ganzen Bildschirm */
     .kopf-invers{display:block;position:fixed;top:0;left:0;right:0;height:48px;z-index:21;pointer-events:none;
-      -webkit-backdrop-filter:blur(1.5px) grayscale(1) invert(1) contrast(7);
-      backdrop-filter:blur(1.5px) grayscale(1) invert(1) contrast(7);
+      -webkit-backdrop-filter:grayscale(1) invert(1) contrast(7);
+      backdrop-filter:grayscale(1) invert(1) contrast(7);
       -webkit-clip-path:url(#kopfForm);clip-path:url(#kopfForm)}
     @supports not ((backdrop-filter:invert(1)) or (-webkit-backdrop-filter:invert(1))){
       .kopf-invers{background:#fff;mix-blend-mode:difference}
