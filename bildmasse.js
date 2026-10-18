@@ -296,13 +296,21 @@ const MASSE={
     640,
     480
   ],
-  "Tizian-Rein-Wohnungsbau-Nippes-009.3.jpg": [
-    758,
-    1553
+  "Tizian-Rein-Wohnungsbau-Nippes-009.9.jpg": [
+    1024,
+    683
   ],
-  "Tizian-Rein-Wohnungsbau-Nippes-009.4.jpg": [
-    758,
-    1553
+  "Tizian-Rein-Wohnungsbau-Nippes-009.5.jpg": [
+    486,
+    1024
+  ],
+  "Tizian-Rein-Wohnungsbau-Nippes-009.7.jpg": [
+    880,
+    880
+  ],
+  "Tizian-Rein-Wohnungsbau-Nippes-009.6.jpg": [
+    605,
+    907
   ],
   "Tizian-Rein-Wohnungsbau-Nippes-009.1.jpg": [
     1090,
@@ -312,21 +320,13 @@ const MASSE={
     1090,
     557
   ],
-  "Tizian-Rein-Wohnungsbau-Nippes-009.5.jpg": [
-    486,
-    1024
+  "Tizian-Rein-Wohnungsbau-Nippes-009.3.jpg": [
+    758,
+    1553
   ],
-  "Tizian-Rein-Wohnungsbau-Nippes-009.6.jpg": [
-    605,
-    907
-  ],
-  "Tizian-Rein-Wohnungsbau-Nippes-009.7.jpg": [
-    880,
-    880
-  ],
-  "Tizian-Rein-Wohnungsbau-Nippes-009.9.jpg": [
-    1024,
-    683
+  "Tizian-Rein-Wohnungsbau-Nippes-009.4.jpg": [
+    758,
+    1553
   ]
 };
 const MINI={
