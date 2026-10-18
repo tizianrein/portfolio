@@ -496,13 +496,6 @@
   #home .dia .bild{height:calc(100% - 26px);transform-origin:0 100%;will-change:transform}
   #home .dia{will-change:transform}
   #home .dia .cap{transform-origin:0 100%}
-  /* "Projekt ansehen" nur beim Bild in der Mitte */
-  /* "Projekt ansehen" blendet weich ein und aus. Es liegt rechts über der
-     Zeile, mit Papierweiß dahinter, damit der Titel darunter voll stehen bleibt */
-  #home .dia .cap{position:relative}
-  #home .dia .cap .r{position:absolute;top:0;right:0;padding-left:1em;background:var(--paper);
-    opacity:0;transition:opacity .45s ease;pointer-events:none}
-  #home .dia.mitte .cap .r{opacity:1;pointer-events:auto}
   .dia .bild img{display:block;height:100%;width:100%;object-fit:cover}
   @media (hover:hover){a.dia:hover .cap{color:var(--accent);font-style:italic}}
   /* Nur Bild und Bildunterschrift sind klickbar. Der Rest der Fläche gehört
@@ -593,7 +586,6 @@
     .dia .bild,#home .dia .bild,.dia.still .bild{height:auto;width:100%;transform:none !important}
     #home .dia{transform:none !important}
     #home .dia .cap{transform:none !important;width:auto !important}
-    #home .dia .cap .r{right:var(--rand)}
     /* Projekt und Info: untereinander, Seite scrollt nach unten */
     .seite-links{position:static;width:auto;padding:calc(var(--kopfhoehe) + 12px) var(--rand) 24px;overflow:visible}
     .info-rechts{margin:0;padding:0 var(--rand) 60px}
@@ -638,7 +630,7 @@
     <div class="info-links" id="fLinks"></div>
   </div>
   <div class="info-rechts">
-    <img class="info-portrait" src="images/about/tizian-rein-portrait.jpg" width="468" height="656" alt="Tizian Rein">
+    <img class="info-portrait" src="images/about/tizian-rein-portrait.jpg" width="468" height="656" alt="Tizian Rein" loading="lazy">
     <div class="cv" id="fCV"></div>
   </div>
 </section>
@@ -649,7 +641,7 @@
 <ul>
 <!-- SEO-PROJEKTE:START -->
 <li class="proj" data-c="umbau" id="separate-wohneinheit">
-      <a class="row" href="#separate-wohneinheit" role="button" aria-expanded="false"><span class="title">Separate <span class="nw">Wohneinheit<span class="mini"><img src="images/mini/separate-wohneinheit.jpg" width="122" height="120" alt=""></span><sup class="year">2026</sup></span></span></a>
+      <a class="row" href="#separate-wohneinheit" role="button" aria-expanded="false"><span class="title">Separate <span class="nw">Wohneinheit<span class="mini"><img src="images/mini/separate-wohneinheit.jpg" width="122" height="120" alt="" loading="lazy"></span><sup class="year">2026</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -670,7 +662,7 @@
       </div>
     </li>
     <li class="proj" data-c="forschung" id="from-structure-to-action">
-      <a class="row" href="#from-structure-to-action" role="button" aria-expanded="false"><span class="title">From Structure to <span class="nw">Action<span class="mini"><img src="images/mini/from-structure-to-action.jpg" width="80" height="120" alt=""></span><sup class="year">2025</sup></span></span></a>
+      <a class="row" href="#from-structure-to-action" role="button" aria-expanded="false"><span class="title">From Structure to <span class="nw">Action<span class="mini"><img src="images/mini/from-structure-to-action.jpg" width="80" height="120" alt="" loading="lazy"></span><sup class="year">2025</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -694,7 +686,7 @@
       </div>
     </li>
     <li class="proj" data-c="umbau" id="waldfriedhofskapelle-rhondorf">
-      <a class="row" href="#waldfriedhofskapelle-rhondorf" role="button" aria-expanded="false"><span class="title">Waldfriedhofskapelle <span class="nw">Rhöndorf<span class="mini"><img src="images/mini/waldfriedhofskapelle-rhondorf.jpg" width="90" height="120" alt=""></span><sup class="year">2022</sup></span></span></a>
+      <a class="row" href="#waldfriedhofskapelle-rhondorf" role="button" aria-expanded="false"><span class="title">Waldfriedhofskapelle <span class="nw">Rhöndorf<span class="mini"><img src="images/mini/waldfriedhofskapelle-rhondorf.jpg" width="90" height="120" alt="" loading="lazy"></span><sup class="year">2022</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -712,7 +704,7 @@
       </div>
     </li>
     <li class="proj" data-c="umbau" id="beamtenwohnung-bonn">
-      <a class="row" href="#beamtenwohnung-bonn" role="button" aria-expanded="false"><span class="title">Beamtenwohnung <span class="nw">Bonn<span class="mini"><img src="images/mini/beamtenwohnung-bonn.jpg" width="125" height="120" alt=""></span><sup class="year">2023</sup></span></span></a>
+      <a class="row" href="#beamtenwohnung-bonn" role="button" aria-expanded="false"><span class="title">Beamtenwohnung <span class="nw">Bonn<span class="mini"><img src="images/mini/beamtenwohnung-bonn.jpg" width="125" height="120" alt="" loading="lazy"></span><sup class="year">2023</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -730,7 +722,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="unterstand">
-      <a class="row" href="#unterstand" role="button" aria-expanded="false"><span class="title"><span class="nw">Unterstand<span class="mini"><img src="images/mini/unterstand.jpg" width="85" height="120" alt=""></span><sup class="year">2024</sup></span></span></a>
+      <a class="row" href="#unterstand" role="button" aria-expanded="false"><span class="title"><span class="nw">Unterstand<span class="mini"><img src="images/mini/unterstand.jpg" width="85" height="120" alt="" loading="lazy"></span><sup class="year">2024</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -747,7 +739,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="zakk-gartenstuhl">
-      <a class="row" href="#zakk-gartenstuhl" role="button" aria-expanded="false"><span class="title">ZAKK <span class="nw">Gartenstuhl<span class="mini"><img src="images/mini/zakk-gartenstuhl.jpg" width="90" height="120" alt=""></span><sup class="year">2024</sup></span></span></a>
+      <a class="row" href="#zakk-gartenstuhl" role="button" aria-expanded="false"><span class="title">ZAKK <span class="nw">Gartenstuhl<span class="mini"><img src="images/mini/zakk-gartenstuhl.jpg" width="90" height="120" alt="" loading="lazy"></span><sup class="year">2024</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -763,7 +755,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="free-bird">
-      <a class="row" href="#free-bird" role="button" aria-expanded="false"><span class="title"><span class="nw">Free/Bird<span class="mini"><img src="images/mini/free-bird.jpg" width="85" height="120" alt=""></span><sup class="year">2024</sup></span></span></a>
+      <a class="row" href="#free-bird" role="button" aria-expanded="false"><span class="title"><span class="nw">Free/Bird<span class="mini"><img src="images/mini/free-bird.jpg" width="85" height="120" alt="" loading="lazy"></span><sup class="year">2024</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -778,7 +770,7 @@
       </div>
     </li>
     <li class="proj" data-c="forschung" id="harboring-histories">
-      <a class="row" href="#harboring-histories" role="button" aria-expanded="false"><span class="title">Harboring <span class="nw">Histories<span class="mini"><img src="images/mini/harboring-histories.jpg" width="213" height="120" alt=""></span><sup class="year">2023</sup></span></span></a>
+      <a class="row" href="#harboring-histories" role="button" aria-expanded="false"><span class="title">Harboring <span class="nw">Histories<span class="mini"><img src="images/mini/harboring-histories.jpg" width="213" height="120" alt="" loading="lazy"></span><sup class="year">2023</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -797,7 +789,7 @@
       </div>
     </li>
     <li class="proj" data-c="forschung" id="robosgraffito">
-      <a class="row" href="#robosgraffito" role="button" aria-expanded="false"><span class="title"><span class="nw">RoboSgraffito<span class="mini"><img src="images/mini/robosgraffito.jpg" width="162" height="120" alt=""></span><sup class="year">2023</sup></span></span></a>
+      <a class="row" href="#robosgraffito" role="button" aria-expanded="false"><span class="title"><span class="nw">RoboSgraffito<span class="mini"><img src="images/mini/robosgraffito.jpg" width="162" height="120" alt="" loading="lazy"></span><sup class="year">2023</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -815,7 +807,7 @@
       </div>
     </li>
     <li class="proj" data-c="forschung" id="structural-patterns">
-      <a class="row" href="#structural-patterns" role="button" aria-expanded="false"><span class="title">Structural <span class="nw">Patterns<span class="mini"><img src="images/mini/structural-patterns.jpg" width="84" height="120" alt=""></span><sup class="year">2023</sup></span></span></a>
+      <a class="row" href="#structural-patterns" role="button" aria-expanded="false"><span class="title">Structural <span class="nw">Patterns<span class="mini"><img src="images/mini/structural-patterns.jpg" width="84" height="120" alt="" loading="lazy"></span><sup class="year">2023</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -831,7 +823,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="rheinschwimmbad">
-      <a class="row" href="#rheinschwimmbad" role="button" aria-expanded="false"><span class="title"><span class="nw">Rheinschwimmbad<span class="mini"><img src="images/mini/rheinschwimmbad.jpg" width="271" height="120" alt=""></span><sup class="year">2022</sup></span></span></a>
+      <a class="row" href="#rheinschwimmbad" role="button" aria-expanded="false"><span class="title"><span class="nw">Rheinschwimmbad<span class="mini"><img src="images/mini/rheinschwimmbad.jpg" width="271" height="120" alt="" loading="lazy"></span><sup class="year">2022</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -855,7 +847,7 @@
       </div>
     </li>
     <li class="proj" data-c="neubau" id="wohnen-in-nippes">
-      <a class="row" href="#wohnen-in-nippes" role="button" aria-expanded="false"><span class="title">Wohnen in <span class="nw">Nippes<span class="mini"><img src="images/mini/wohnen-in-nippes.jpg" width="59" height="120" alt=""></span><sup class="year">2019</sup></span></span></a>
+      <a class="row" href="#wohnen-in-nippes" role="button" aria-expanded="false"><span class="title">Wohnen in <span class="nw">Nippes<span class="mini"><img src="images/mini/wohnen-in-nippes.jpg" width="59" height="120" alt="" loading="lazy"></span><sup class="year">2019</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
@@ -880,7 +872,7 @@
 </ul>
 <section>
 <!-- SEO-INFO:START -->
-<p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein"></span> (*1997 in Rhöndorf) glaubt, dass es viele Dinge die wir brauchen eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht immer gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften bilden und sie mit wirkungsvollen Instrumenten ausstatten können. Er arbeitet als Junior-Architekt in eigener Praxis an bestehenden Gebäuden und als Forscher an der Technischen Universität München.</p>
+<p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein" loading="lazy"></span> (*1997 in Rhöndorf) glaubt, dass es viele Dinge die wir brauchen eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht immer gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften bilden und sie mit wirkungsvollen Instrumenten ausstatten können. Er arbeitet als Junior-Architekt in eigener Praxis an bestehenden Gebäuden und als Forscher an der Technischen Universität München.</p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -971,6 +963,19 @@ function slugFuer(p){
     .replace(/ß/g,"ss").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"");
 }
 const masse=name=>(typeof MASSE==="undefined")?null:(MASSE[name]||MASSE[decodeURIComponent(name)]||null);
+/* Weboptimierte Fassungen aus images/web/s (klein) und images/web/l (groß),
+   erzeugt von portfolio-aktualisieren.js. Der Browser wählt je nach
+   Bildschirm die passende Datei. Ohne Eintrag gilt das Original. */
+const WEBV=(typeof WEB!=="undefined")?WEB:{};
+function quellen(name,wh){
+  const orig=B+name,v=WEBV[name]||WEBV[decodeURIComponent(name)];
+  const groesse=`(max-width:759px) 100vw, calc((100vh - 100px) * ${(wh[0]/wh[1]).toFixed(3)})`;
+  if(!v)return `src="${esc(orig)}"`;
+  const set=[];
+  if(v.s)set.push(`images/web/s/${name} ${v.s[0]}w`);
+  set.push(v.l?`images/web/l/${name} ${v.l[0]}w`:`${orig} ${wh[0]}w`);
+  return `src="${esc(v.l?"images/web/l/"+name:orig)}" srcset="${esc(set.join(", "))}" sizes="${groesse}"`;
+}
 const titelbild=p=>p.imgs.find(n=>!/\.gif$/i.test(n))||p.imgs[0];
 const zwei=n=>String(n).padStart(2,"0");
 const WEICH=!matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -1252,11 +1257,13 @@ function baueHome(){
     d.querySelector(".kurz").addEventListener("click",()=>{if(!home.gezogen())location.hash="#info";});
     return d;
   });
-  P.forEach((p,i)=>teile.push(()=>{
+  P.forEach((p,i)=>teile.push(k=>{
     const name=p.pre+titelbild(p),wh=masse(name)||[4,3];
+    /* die ersten Bilder im mittleren Durchlauf sofort laden */
+    const sofort=k===2&&i<3;
     const d=document.createElement("a");d.className="dia";d.href="#p/"+slugFuer(p);d.dataset.p=i;
-    d.innerHTML=`<div class="cap klein"><span class="l">${esc(TITEL(p))}, ${JAHR(p)}</span><span class="r">${TXT[LANG].ansehen}</span></div>`+
-      `<div class="bild" style="aspect-ratio:${wh[0]} / ${wh[1]}"><img src="${esc(B+name)}" width="${wh[0]}" height="${wh[1]}" alt="${esc(TITEL(p))}" loading="lazy" decoding="async" draggable="false"></div>`;
+    d.innerHTML=`<div class="cap klein"><span class="l">${esc(TITEL(p))}, ${JAHR(p)}</span></div>`+
+      `<div class="bild" style="aspect-ratio:${wh[0]} / ${wh[1]}"><img ${quellen(name,wh)} width="${wh[0]}" height="${wh[1]}" alt="${esc(TITEL(p))}" loading="${sofort?"eager":"lazy"}"${sofort&&i===0?' fetchpriority="high"':""} decoding="async" draggable="false"></div>`;
     d.addEventListener("click",e=>{if(home.gezogen())e.preventDefault();});
     return d;
   }));
@@ -1297,7 +1304,7 @@ function zeigeProjekt(p){
      wird automatisch das GIF gezeigt. */
   p.imgs.forEach(name=>bilder.push(/\.gif$/i.test(name)
     ?{anim:B+p.pre+name.replace(/\.gif$/i,".mp4"),src:B+p.pre+name,wh:masse(p.pre+name)||[4,3]}
-    :{src:B+p.pre+name,wh:masse(p.pre+name)||[4,3]}));
+    :{src:B+p.pre+name,name:p.pre+name,wh:masse(p.pre+name)||[4,3]}));
   pAnzahl=bilder.length;
   const teile=[()=>{
     const d=document.createElement("div");d.className="ueber p-block";
@@ -1310,8 +1317,8 @@ function zeigeProjekt(p){
     const medium=b.video
       ?`<video src="${esc(b.video)}#t=0.1" poster="${esc(b.poster)}" controls muted loop playsinline preload="metadata"></video>`
       :b.anim
-      ?`<video class="anim" src="${esc(b.anim)}" data-gif="${esc(b.src)}" muted loop playsinline autoplay disablepictureinpicture preload="${k===2?"auto":"metadata"}"></video>`
-      :`<img src="${esc(b.src)}" width="${b.wh[0]}" height="${b.wh[1]}" alt="${esc(TITEL(p))}, ${j+1}" loading="${k===2&&j<2?"eager":"lazy"}" decoding="async" draggable="false">`;
+      ?`<video class="anim" src="${esc(b.anim)}" data-gif="${esc(b.src)}" muted loop playsinline disablepictureinpicture preload="${k===2?"metadata":"none"}"></video>`
+      :`<img ${quellen(b.name,b.wh)} width="${b.wh[0]}" height="${b.wh[1]}" alt="${esc(TITEL(p))}, ${j+1}" loading="${k===2&&j<2?"eager":"lazy"}" decoding="async" draggable="false">`;
     d.innerHTML=
       `<div class="bild" style="aspect-ratio:${b.wh[0]} / ${b.wh[1]}">${medium}</div>`;
     const a=d.querySelector("video.anim");
@@ -1336,7 +1343,7 @@ function zeigeProjekt(p){
 
 /* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
    Lauf neu, nicht von Hand ändern. */
-const STAND={de:"18.10.2026 um 01:06:42 Uhr",en:"18 October 2026 at 01:06:42"};
+const STAND={de:"18.10.2026 um 19:21:06 Uhr",en:"18 October 2026 at 19:21:06"};
 
 /* Stand automatisch: der neueste Zeitpunkt aus der STAND-Zeile oben und
    dem Änderungsdatum der Dateien, die der Server mitschickt (index.html,
