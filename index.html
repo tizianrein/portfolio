@@ -385,7 +385,7 @@
     /* Nur drei Schriftgrößen auf der ganzen Seite */
     --gross:clamp(30px,3.3vw,48px);   /* Kopfzeile, Projekttitel */
     --text:clamp(19px,1.45vw,23px);   /* Fließtext, Links, Lebenslauf, Zähler */
-    --klein:15px;                     /* Bildunterschriften, Stand */
+    --klein:15px;                     /* Bildunterschriften, Lebenslauf, Stand */
     --zeile:1.27;
     --rand:12px;
     --luecke:72px;                    /* Abstand zwischen Bildern */
@@ -533,9 +533,9 @@
   .info-links a{display:block}
   .info-links a:hover{color:var(--accent);font-style:italic}
   .cv-block{margin:0 0 34px}
-  .cv-block h3{font-weight:400;font-size:var(--text);margin:0 0 8px}
+  .cv-block h3{font-weight:400;font-size:var(--klein);margin:0 0 6px}
   .cv ul{list-style:none}
-  .cv li{display:flex;gap:16px;font-size:var(--text);line-height:var(--zeile);padding:2px 0}
+  .cv li{display:flex;gap:16px;font-size:var(--klein);line-height:1.4;padding:1px 0}
   .cv .j{flex:0 0 5.2em;color:#999;font-variant-numeric:tabular-nums}
   .cv .w{flex:1;min-width:0}
   .cv b{font-weight:400}
@@ -585,10 +585,8 @@
     .dia .bild,#home .dia .bild,.dia.still .bild{height:auto;width:100%;transform:none !important}
     #home .dia{transform:none !important}
     #home .dia .cap{transform:none !important;width:auto !important}
-    .ueber{text-align:left}
     /* Projekt und Info: untereinander, Seite scrollt nach unten */
     .seite-links{position:static;width:auto;padding:calc(var(--kopfhoehe) + 12px) var(--rand) 24px;overflow:visible}
-    .p-text{text-align:left}
     .info-rechts{margin:0;padding:0 var(--rand) 60px}
     .info-portrait{width:calc(100% + 2 * var(--rand));max-width:none;margin-left:calc(-1 * var(--rand))}
   }
