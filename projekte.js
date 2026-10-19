@@ -104,6 +104,7 @@ const P=[
 
  {n:"009",y:"2019",c:"neubau",
   t:{de:"Wohnen in Nippes",en:"Living in Nippes"},
+  pfad:"009-wohnen-in-nippes",
   d:{de:"Ein Wohnungsbauprojekt an der TH Köln für eine Baulücke in Köln-Nippes. Der Entwurf mischt unterschiedliche Wohnungstypologien, aktiviert die Erdgeschosszone für gemeinschaftliche und gewerbliche Nutzungen und entwickelt eine Fassade, die im Dialog mit dem historischen Straßenraum steht. Ziel ist ein dichter, lebendiger Baustein, der die Lücke schließt und zugleich das Quartier im Erdgeschoss belebt.",
      en:"A housing project at TH Cologne for an infill plot in Cologne-Nippes. The design mixes different apartment typologies, activates the ground floor for communal and commercial uses, and develops a façade in dialogue with the historic streetscape. The aim is a dense, lively building block that closes the gap while animating the neighborhood at street level."},
   pre:"Tizian-Rein-Wohnungsbau-Nippes-009.",
