@@ -79,7 +79,7 @@ const P=[
   d:{de:"Reluctant Relics — Memories of a Molecule ist ein spekulativer Katalog für ein Palermo der Zukunft, in dem Denkmäler, Erzählungen und Artefakte zu einem architektonischen Bühnenstück verschmelzen. Die Arbeit verhandelt, wie eine Stadt mit ihren widerständigen, unbequemen Überresten umgeht und welche Geschichten sie für künftige Generationen aufbewahrt. Entstanden gemeinsam mit Virginia Zaretskie im <a href=\"https://meteora.ch/\" target=\"_blank\" rel=\"noopener\">Studio Meteora</a> an der ETH Zürich, verbindet das Projekt Recherche, Erzählung und Entwurf zu einer offenen Auseinandersetzung mit Erinnerung und Erbe.",
      en:"Reluctant Relics — Memories of a Molecule is a speculative catalog for a future Palermo, in which monuments, narratives and artifacts merge into an architectural stage play. The work negotiates how a city deals with its resistant, uncomfortable remains and which stories it preserves for future generations. Made together with Virginia Zaretskie in <a href=\"https://meteora.ch/\" target=\"_blank\" rel=\"noopener\">Studio Meteora</a> at ETH Zurich, the project combines research, narrative and design into an open inquiry into memory and heritage."},
   pre:"Tizian-Rein-Harboring-Histories-016.",
-  imgs:["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","7.jpg","6.jpg"]},
+  imgs:["8.jpg","9.jpg","10.jpg","11.jpg","2.jpg","12.jpg","13.jpg","14.jpg","15.jpg","16.jpg","17.jpg","18.jpg","5.jpg","19.jpg","20.jpg","21.jpg","22.jpg","23.jpg","24.jpg","25.jpg"]},
 
  {n:"013",y:"2023",c:"forschung",
   t:{de:"RoboSgraffito",en:"RoboSgraffito"},
