@@ -518,6 +518,17 @@
   body[data-ansicht="home"] #home,
   body[data-ansicht="info"] #info,
   body[data-ansicht="projekt"] #projekt{display:block}
+  /* Wechsel der Ansicht: der Text links gleitet hinaus und der neue herein,
+     die Bilder rechts blenden getrennt und etwas später um */
+  #info{transition:opacity .45s ease,translate .55s cubic-bezier(.2,.7,.2,1)}
+  :is(#home,#projekt) .ueber{transition:opacity .5s ease,translate .6s cubic-bezier(.2,.7,.2,1)}
+  :is(#home,#projekt) .dia{transition:opacity .6s ease .12s,translate .7s cubic-bezier(.2,.7,.2,1) .12s}
+  body.geht :is(#home,#projekt) .ueber{opacity:0;translate:-24px 0;transition:opacity .2s ease,translate .22s ease-in}
+  body.geht :is(#home,#projekt) .dia{opacity:0;transition:opacity .2s ease}
+  body.geht #info{opacity:0;transition:opacity .2s ease}
+  body.kommt :is(#home,#projekt) .ueber{opacity:0;translate:24px 0;transition:none}
+  body.kommt :is(#home,#projekt) .dia{opacity:0;translate:40px 0;transition:none}
+  body.kommt #info{opacity:0;translate:24px 0;transition:none}
 
   .kopf{
     position:fixed;top:0;left:0;right:0;z-index:20;
@@ -683,6 +694,9 @@
                   transition:opacity .3s ease,transform .45s cubic-bezier(.2,.7,.2,1),visibility 0s}
     #home .streifen,#projekt .streifen,#info{transform:translateY(var(--zusatz,0px));
                   transition:transform .45s cubic-bezier(.2,.7,.2,1)}
+    #info{transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .45s ease,translate .55s cubic-bezier(.2,.7,.2,1)}
+    body.geht #info{transition:transform .45s cubic-bezier(.2,.7,.2,1),opacity .16s ease}
+    body.kommt :is(#home,#projekt) .dia{translate:0 20px}
     /* senkrecht wird nichts skaliert: keine eigene Grafikebene je Bild,
        das spart auf dem Telefon viel Speicher */
     #home .dia,#home .dia .bild{will-change:auto}
@@ -1635,7 +1649,7 @@ function sprache(){
   kopfInvers();
   baueHome();baueInfo();
   requestAnimationFrame(()=>{hVermessen();home.start();hSkalieren();hZaehlen();});
-  if(document.body.dataset.ansicht==="projekt")route();
+  if(document.body.dataset.ansicht==="projekt")route(true);
 }
 /* Ein Klick wechselt die Sprache */
 document.querySelectorAll(".sprache").forEach(b=>b.addEventListener("click",()=>{
@@ -1664,9 +1678,22 @@ function markiere(){
   document.getElementById("kIndex").classList.toggle("aktiv",a==="home"||a==="projekt");
   document.getElementById("kAbout").classList.toggle("aktiv",a==="info");
 }
-function route(){
-  routeInnen();
-  requestAnimationFrame(()=>{markiere();kopfInvers();});
+let wechselT=0;
+function route(sofort){
+  const b=document.body;
+  if(sofort||ersteRoute||!WEICH){
+    routeInnen();requestAnimationFrame(()=>{markiere();kopfInvers();});return;
+  }
+  /* sanfter Übergang: ausblenden, umschalten, neue Ansicht hereingleiten */
+  b.classList.add("geht");
+  clearTimeout(wechselT);
+  wechselT=setTimeout(()=>{
+    routeInnen();
+    b.classList.remove("geht");
+    b.classList.add("kommt");
+    void b.offsetWidth;
+    requestAnimationFrame(()=>{b.classList.remove("kommt");markiere();kopfInvers();});
+  },220);
 }
 function zeige(p){
   document.body.dataset.ansicht="projekt";zeigeProjekt(p);scrollTo(0,0);
