@@ -673,13 +673,20 @@
     body[data-ansicht="info"] .kopf{position:absolute}
     /* Menü klappt weich auf: Höhe und Deckkraft gleiten, die Seite rutscht
        im selben Takt per transform nach unten (flüssiger als top) */
-    .kopf .gruppe{order:3;flex-basis:100%;flex-direction:column;align-items:flex-end;gap:.35em;
-                  display:flex;overflow:hidden;max-height:0;opacity:0;padding:0;
-                  transition:max-height .45s cubic-bezier(.2,.7,.2,1),opacity .3s ease,padding .45s cubic-bezier(.2,.7,.2,1)}
-    body.menu-offen .kopf .gruppe{max-height:14em;opacity:1;padding:.7em 0 .5em}
-    #home .streifen,#projekt .streifen{transform:translate3d(0,var(--zusatz,0px),0);will-change:transform;
+    /* Das Menü liegt fertig gesetzt unter der Kopfzeile; beim Öffnen gleiten
+       nur Deckkraft und Lage (transform), das rechnet der Grafikchip ohne
+       neues Layout. Die Seite rutscht im selben Takt per transform. */
+    .kopf .gruppe{position:absolute;top:100%;left:var(--rand);right:var(--rand);
+                  flex-direction:column;align-items:flex-end;gap:.35em;display:flex;padding:.7em 0 .5em;
+                  opacity:0;visibility:hidden;pointer-events:none;transform:translateY(-12px);
+                  transition:opacity .3s ease,transform .45s cubic-bezier(.2,.7,.2,1),visibility 0s linear .45s}
+    body.menu-offen .kopf .gruppe{opacity:1;visibility:visible;pointer-events:auto;transform:none;
+                  transition:opacity .3s ease,transform .45s cubic-bezier(.2,.7,.2,1),visibility 0s}
+    #home .streifen,#projekt .streifen,#info{transform:translateY(var(--zusatz,0px));
                   transition:transform .45s cubic-bezier(.2,.7,.2,1)}
-    #info{transition:padding-top .45s cubic-bezier(.2,.7,.2,1);padding-top:var(--zusatz,0px)}
+    /* senkrecht wird nichts skaliert: keine eigene Grafikebene je Bild,
+       das spart auf dem Telefon viel Speicher */
+    #home .dia,#home .dia .bild{will-change:auto}
     /* Startseite und Projekt: Bilder untereinander, endlos nach unten */
     .streifen{overflow-x:hidden;overflow-y:auto;overscroll-behavior:contain}
     .spur{flex-direction:column;align-items:stretch;width:auto;height:auto;
@@ -1182,7 +1189,7 @@ const masse=name=>(typeof MASSE==="undefined")?null:(MASSE[name]||MASSE[decodeUR
 const WEBV=(typeof WEB!=="undefined")?WEB:{};
 function quellen(name,wh){
   const orig=B+name,v=WEBV[name]||WEBV[decodeURIComponent(name)];
-  const groesse=`(max-width:759px) 100vw, calc((100vh - 100px) * ${(wh[0]/wh[1]).toFixed(3)})`;
+  const groesse=`(max-width:759px) 75vw, calc((100vh - 100px) * ${(wh[0]/wh[1]).toFixed(3)})`;
   if(!v)return `src="${esc(orig)}"`;
   const set=[];
   if(v.s)set.push(`images/web/s/${name} ${v.s[0]}w`);
@@ -1406,14 +1413,17 @@ function hSkalieren(){
 }
 
 const zaehlerText=document.getElementById("zaehlerText");
-function setzeZaehler(t){
+let zaehlerAlt="";
+function setzeZaehler(t,neu){
+  if(!neu&&t===zaehlerAlt)return;   /* unverändert: nichts neu zeichnen */
+  zaehlerAlt=t;
   const fs=parseFloat(getComputedStyle(zaehler).fontSize)||20;
   zaehlerText.textContent=t;
   zaehlerText.setAttribute("font-size",fs);
   zaehlerText.setAttribute("x",zaehler.offsetWidth/2);
   zaehlerText.setAttribute("y",(fs*.93).toFixed(1));
 }
-addEventListener("resize",()=>{setzeZaehler(zaehlerText.textContent);kopfInvers();});
+addEventListener("resize",()=>{setzeZaehler(zaehlerText.textContent,true);kopfInvers();});
 
 /* Kopfzeile mobil: aus Name und Menü-Knopf werden Textformen für den
    Ausschnitt gebaut, an genau ihrer Stelle auf dem Bildschirm. */
@@ -1600,7 +1610,7 @@ function menu(offen){
      Höhe der Kopfzeile plus Menü */
   const fs=parseFloat(getComputedStyle(kopf).fontSize)||18;
   const zeile=menuKnopf.getBoundingClientRect().bottom+6;
-  const hoehe=offen?Math.ceil(zeile+kopfNav.scrollHeight+fs*1.2):0;
+  const hoehe=offen?Math.ceil(zeile+kopfNav.offsetHeight):0;
   document.documentElement.style.setProperty("--zusatz",hoehe+"px");
   document.body.classList.toggle("menu-offen",offen);
   menuKnopf.textContent=MENU[LANG][offen?1:0];
