@@ -113,7 +113,7 @@ const P=[
 
 const INFO_HTML={
 de:`
-    <p class="bio">Viele Dinge, die wir benötigen, sind schon da. Sie alle sind es wert, erhalten zu werden. Gebäude zu erhalten ist eine Entwurfsaufgabe, die sich immer wieder stellt. Sie zu erhalten verlangt Wissen, Werkzeuge und Menschen, die kollaborieren. Doch genau daran fehlt es offenbar oft. Wie könnte eine Reparaturgesellschaft aussehen? Und wie statten wir sie mit wirkungsvollen Instrumenten aus?</p>
+    <p class="bio">Viele Dinge, die wir benötigen, sind schon da. Sie alle sind es wert, erhalten zu werden. Bei Gebäuden ist das eine Entwurfsaufgabe, die sich immer wieder stellt. Dafür braucht es Wissen, Werkzeuge und Menschen, die kollaborieren. Doch genau daran mangelt es oft. Wie könnte eine Reparaturgesellschaft aussehen? Und wie statten wir sie mit wirkungsvollen Instrumenten aus?</p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -170,7 +170,7 @@ de:`
       </section>
     </div>`,
 en:`
-    <p class="bio">Many of the things we need are already there. They’re all worth maintaining. Preserving buildings is a design task that never ends. It takes knowledge, tools and people who collaborate. But it seems that is exactly what is often missing. What could a society of repair look like? And how do we equip it with powerful instruments?</p>
+    <p class="bio">Many of the things we need are already there. They are all worth maintaining. With buildings, this is a design task that arises again and again. It takes knowledge, tools and people who collaborate. Yet this is often exactly what is lacking. What could a society of repair look like? And how do we equip it with powerful instruments?</p>
 
     <div class="cv-raster">
       <section class="cv-block">
