@@ -523,6 +523,8 @@
   /* Wechsel der Ansicht: der Text links gleitet hinaus und der neue herein,
      die Bilder rechts blenden getrennt und etwas später um */
   #info{transition:opacity .45s ease,translate .55s cubic-bezier(.2,.7,.2,1)}
+  /* Beim Öffnen eines Projekts fliegt das angeklickte Bild an seinen Platz */
+  .flug{position:fixed;z-index:10;margin:0;object-fit:cover;pointer-events:none;transform-origin:0 0;background:#f3f3f3}
   :is(#home,#projekt) .ueber{transition:opacity .5s ease,translate .6s cubic-bezier(.2,.7,.2,1)}
   :is(#home,#projekt) .dia{transition:opacity .6s ease .12s,translate .7s cubic-bezier(.2,.7,.2,1) .12s}
   body.geht :is(#home,#projekt) .ueber{opacity:0;translate:-24px 0;transition:opacity .2s ease,translate .22s ease-in}
@@ -612,7 +614,7 @@
   .dia .cap .l{overflow:hidden;text-overflow:ellipsis}
   .dia .bild{height:calc(86% - 22px);position:relative;background:#f3f3f3}
   /* Startseite: volle Höhe, das Skript verkleinert alles außerhalb der Mitte */
-  #home .dia .bild{height:calc(100% - 26px);transform-origin:0 100%;will-change:transform}
+  #home .dia .bild{height:calc((86% - 22px) * .88);transform-origin:0 100%;will-change:transform}
   #home .dia{will-change:transform}
   #home .dia .cap{transform-origin:0 100%}
   .dia .bild img{display:block;height:100%;width:100%;object-fit:cover}
@@ -1088,7 +1090,7 @@
 </ul>
 <section>
 <!-- SEO-INFO:START -->
-<p class="bio">Viele Dinge, die wir benötigen, sind schon da. Sie alle sind es wert, erhalten zu werden. Bei Gebäuden ist das eine Entwurfsaufgabe, die sich immer wieder stellt. Dafür braucht es Wissen, Werkzeuge und Menschen, die kollaborieren. Doch genau daran mangelt es oft. Wie könnte eine Reparaturgesellschaft aussehen? Und wie statten wir sie mit wirkungsvollen Instrumenten aus?</p>
+<p class="bio">Viele Dinge, die wir benötigen, sind schon da. Sie alle sind es wert, erhalten zu werden. Bei Gebäuden ist das eine Entwurfsaufgabe, die sich immer wieder stellt.<span class="nur-info"> Dafür braucht es Wissen, Werkzeuge und Menschen, die kollaborieren. Doch genau daran mangelt es oft. Wie könnte eine Reparaturgesellschaft aussehen? Und wie statten wir sie mit wirkungsvollen Instrumenten aus?<br><br>Ich plane Umbauten und forsche an der TU München zu Reparatur und digitaler Fabrikation.</span></p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -1221,7 +1223,11 @@ function infoTeile(){
   const t=document.createElement("div");t.innerHTML=INFO_HTML[LANG];
   const bio=t.querySelector(".bio");if(bio)bio.querySelectorAll(".mini").forEach(m=>m.remove());
   const cv=t.querySelector(".cv-raster");
-  return {bio:bio?bio.innerHTML.replace(/\s+/g," ").trim():"",cv:cv?cv.innerHTML:""};
+  const voll=bio?bio.innerHTML.replace(/\s+/g," ").trim():"";
+  /* Die Startseite zeigt nur den Anfang; Teile in .nur-info stehen nur auf Info */
+  if(bio)bio.querySelectorAll(".nur-info").forEach(m=>m.remove());
+  const kurz=bio?bio.innerHTML.replace(/\s+/g," ").trim():"";
+  return {bio:voll,kurz,cv:cv?cv.innerHTML:""};
 }
 
 /* Versalhoehe der echten Schrift messen */
@@ -1486,7 +1492,7 @@ const home=endlos(hStreifen,hSpur,{
   beimSprung:d=>{hBand.korr-=d;}
 });
 function baueHome(){
-  const {bio}=infoTeile();
+  const {kurz:bio}=infoTeile();
   const teile=[];
   teile.push(()=>{
     const d=document.createElement("div");d.className="ueber";
@@ -1551,7 +1557,7 @@ function zeigeProjekt(p){
     return d;
   }];
   bilder.forEach((b,j)=>teile.push(k=>{
-    const d=document.createElement("div");d.className="dia still";d.dataset.b=j;
+    const d=document.createElement("div");d.className="dia still";d.dataset.b=j;d.dataset.n=b.name||b.src;
     const medium=b.video
       ?`<video src="${esc(b.video)}#t=0.1" poster="${esc(b.poster)}" controls muted loop playsinline preload="metadata"></video>`
       :b.anim
@@ -1667,6 +1673,8 @@ document.getElementById("kIndex").setAttribute("href",HOME_LINK);
 document.getElementById("kAbout").setAttribute("href",INFO_LINK);
 /* Links innerhalb der Seite ohne Neuladen öffnen */
 document.addEventListener("click",e=>{
+  const bildLink=e.target.closest&&e.target.closest("#home a.dia");
+  if(bildLink&&!e.defaultPrevented){flugQuelle=bildLink;letzterHomeDia=bildLink;}
   if(!PFADMODUS||e.defaultPrevented||e.button!==0||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey)return;
   const a=e.target.closest("a[href]");if(!a||a.target==="_blank")return;
   const u=new URL(a.href,location.href);
@@ -1680,13 +1688,62 @@ function markiere(){
   document.getElementById("kIndex").classList.toggle("aktiv",a==="home"||a==="projekt");
   document.getElementById("kAbout").classList.toggle("aktiv",a==="info");
 }
+/* ---------- Flug: Bild der Startseite <-> erstes Bild des Projekts ---------- */
+let flugQuelle=null,letzterHomeDia=null;
+const sichtbar=el=>{const r=el.getBoundingClientRect();return r.width>0&&r.right>0&&r.left<innerWidth&&r.bottom>0&&r.top<innerHeight;};
+function projektTitelBild(){
+  const p=aktuellesProjekt;if(!p)return null;
+  const n=p.pre+titelbild(p);
+  const kand=[...pSpur.querySelectorAll(".dia")].filter(d=>d.dataset.n===n&&sichtbar(d));
+  kand.sort((a,b)=>a.getBoundingClientRect().left-b.getBoundingClientRect().left);
+  return kand[0]?kand[0].querySelector(".bild"):null;
+}
+function homeZielBild(){
+  if(letzterHomeDia&&letzterHomeDia.isConnected&&sichtbar(letzterHomeDia))return letzterHomeDia.querySelector(".bild");
+  const i=P.indexOf(aktuellesProjekt),mitte=innerWidth/2;
+  let best=null,bd=Infinity;
+  for(const d of hSpur.querySelectorAll(`.dia[data-p="${i}"]`)){
+    const r=d.getBoundingClientRect(),x=Math.abs(r.left+r.width/2-mitte);if(x<bd){bd=x;best=d;}
+  }
+  return best&&sichtbar(best)?best.querySelector(".bild"):null;
+}
+function abheben(bild){
+  const m=bild&&bild.querySelector("img");if(!m)return null;
+  const r=bild.getBoundingClientRect();if(!r.width)return null;
+  const k=document.createElement("img");k.className="flug";k.alt="";
+  k.src=m.currentSrc||m.src;
+  Object.assign(k.style,{left:r.left+"px",top:r.top+"px",width:r.width+"px",height:r.height+"px"});
+  document.body.appendChild(k);
+  return k;
+}
+function landen(k,ziel){
+  if(!ziel){k.animate([{opacity:1},{opacity:0}],{duration:250,fill:"forwards"}).onfinish=()=>k.remove();return;}
+  /* das Ziel sofort an seinen endgültigen Platz, nur das Bild selbst versteckt */
+  const dia=ziel.closest(".dia");
+  if(dia)Object.assign(dia.style,{transition:"none",opacity:"1",translate:"0 0"});
+  ziel.style.opacity="0";
+  const a=k.getBoundingClientRect(),z=ziel.getBoundingClientRect();
+  const f=k.animate([{transform:"none"},
+    {transform:`translate(${z.left-a.left}px,${z.top-a.top}px) scale(${z.width/a.width},${z.height/a.height})`}],
+    {duration:650,easing:"cubic-bezier(.3,.7,.2,1)",fill:"forwards"});
+  f.onfinish=()=>{ziel.style.opacity="";if(dia)Object.assign(dia.style,{transition:"",opacity:"",translate:""});requestAnimationFrame(()=>k.remove());};
+}
 let wechselT=0;
 function route(sofort){
   const b=document.body;
   if(sofort||ersteRoute||!WEICH){
     routeInnen();requestAnimationFrame(()=>{markiere();kopfInvers();});return;
   }
-  /* sanfter Übergang: ausblenden, umschalten, neue Ansicht hereingleiten */
+  /* sanfter Übergang: ausblenden, umschalten, neue Ansicht hereingleiten.
+     Am Rechner fliegt dabei das Projektbild zwischen Startseite und Projekt. */
+  const vorher=b.dataset.ansicht;
+  let klon=null;
+  document.querySelectorAll(".flug").forEach(k=>k.remove());
+  if(!senkrecht()){
+    if(vorher==="home"&&flugQuelle&&flugQuelle.isConnected)klon=abheben(flugQuelle.querySelector(".bild"));
+    else if(vorher==="projekt")klon=abheben(projektTitelBild());
+  }
+  flugQuelle=null;
   b.classList.add("geht");
   clearTimeout(wechselT);
   wechselT=setTimeout(()=>{
@@ -1694,10 +1751,18 @@ function route(sofort){
     b.classList.remove("geht");
     b.classList.add("kommt");
     void b.offsetWidth;
-    requestAnimationFrame(()=>{b.classList.remove("kommt");markiere();kopfInvers();});
-  },220);
+    requestAnimationFrame(()=>{
+      b.classList.remove("kommt");markiere();kopfInvers();
+      if(klon)requestAnimationFrame(()=>{
+        const nach=b.dataset.ansicht;
+        landen(klon,nach==="projekt"?projektTitelBild():nach==="home"?homeZielBild():null);
+      });
+    });
+  },klon?160:220);
 }
+let aktuellesProjekt=null;
 function zeige(p){
+  aktuellesProjekt=p;
   document.body.dataset.ansicht="projekt";zeigeProjekt(p);scrollTo(0,0);
   document.title=`${TITEL(p)} — Tizian Rein`;
 }
