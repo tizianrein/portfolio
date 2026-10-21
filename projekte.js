@@ -31,6 +31,13 @@ const P=[
   pre:"Tizian-Rein-Separate-Wohneinheit-022.",
   imgs:["3.jpg","9.jpg","10.jpg","1.jpg","6.gif","11.jpg","8.jpg","5.jpg","4.jpg","12.jpg","13.jpg","14.jpg"]},
 
+ {n:"024",y:"2025",c:"umbau",
+  t:{de:"Haus mit Auge",en:"House with an Eye"},
+  d:{de:"Ein kleines Wohnhaus mit verzierter Putzfassade, über dessen Eingang ein ornamentales Auge sitzt. Nach längerem Leerstand wird das Haus umgebaut und in zwei Wohneinheiten geteilt. Das Budget ist gering, deshalb bleibt vom Bestand so viel wie möglich erhalten: Wände, Fachwerk und Öffnungen werden nur dort verändert, wo die neue Aufteilung es verlangt. Für das Erdgeschoss entstanden zahlreiche Grundrissvarianten. Eine zentrale Frage war dabei, wo die zweite Wohnung ihren eigenen Eingang bekommt. Braucht das Haus ein zweites Auge?",
+     en:"A small house with a decorated stucco facade and an ornamental eye above its entrance. After standing empty for a long time, the house is converted and divided into two apartments. The budget is small, so as much of the existing fabric as possible is kept: walls, timber framing and openings change only where the new layout requires it. Numerous floor plan variants were developed for the ground floor. A central question was where the second apartment would get its own entrance. Does the house need a second eye?"},
+  pre:"Tizian-Rein-Haus-mit-Auge-024.",
+  imgs:["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg"]},
+
       {n:"022",y:"2024–25",c:"forschung",
   t:{de:"From Structure to Action",en:"From Structure to Action"},
   d:{de:"Diese Masterarbeit an der <a href=\"https://www.arc.ed.tum.de/en/df/\" target=\"_blank\" rel=\"noopener\">Professorship of Digital Fabrication</a> der TU München, betreut von <a href=\"https://www.arc.ed.tum.de/en/df/team/kathrin-doerfler/\" target=\"_blank\" rel=\"noopener\">Prof. Kathrin Dörfler</a>, fragt, wie künstliche Intelligenz zur architektonischen Reparatur als systematischer und zugleich kreativer Entwurfspraxis beitragen kann. Sie entwickelt ein multimodales Framework, das unstrukturierte Informationen über ein beschädigtes Objekt [Fotos, Skizzen, Notizen, Messungen] in strukturierte, fabrizierbare Entwurfsentscheidungen überführt. Anhand zehn geretteter Stapelstühle wird gezeigt, wie menschliche Expertise und maschinelles Schließen zusammenwirken, um aus einem einzelnen Schadensfall eine situierte, herstellbare Reparaturantwort abzuleiten.",
