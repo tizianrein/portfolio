@@ -24,6 +24,13 @@ const METAKEYS={
 
 const P=[
 
+ {n:"025",y:"2026",c:"forschung",
+  t:{de:"Human-Robot Repair",en:"Human-Robot Repair"},
+  d:{de:"Können intelligente Maschinen helfen, Reparatur zu strukturieren und auszuführen? Im Workshop Actionable Repair auf der ROB|ARCH 2026 untersuchten neun Teilnehmende drei Tage lang eine Fachwerkecke im Maßstab 1:1 mit geschädigten Hölzern. Sie kartierten die Schäden in einer Web-Anwendung und entwickelten mit einem multimodalen KI-Assistenten Reparaturstrategien als nachvollziehbare Abfolgen von Arbeitsschritten. Ein mobiler UR20-Roboter riss die Schnittlinien an, scannte die von Hand freigelegten Flächen und fräste passende Einsatzstücke, die die Teilnehmenden einpassten. Die Entscheidungen blieben bei den Menschen. Gemeinsam mit Avishek Das, Begüm Saral und Kathrin Dörfler an der <a href=\"https://www.arc.ed.tum.de/en/df/\" target=\"_blank\" rel=\"noopener\">Professur für Digital Fabrication</a> der TU München.",
+     en:"Can intelligent machines help us structure and carry out repair? In the Actionable Repair workshop at ROB|ARCH 2026, nine participants spent three days on a full-scale half-timbered corner with damaged members. They mapped the damage in a web application and developed repair strategies with a multimodal AI assistant as inspectable sequences of steps. A mobile UR20 robot scribed the cutting lines, scanned the surfaces exposed by hand and milled matching insertion pieces, which the participants fitted. Decisions stayed with the people. Made together with Avishek Das, Begüm Saral and Kathrin Dörfler at the <a href=\"https://www.arc.ed.tum.de/en/df/\" target=\"_blank\" rel=\"noopener\">Professorship of Digital Fabrication</a> at TU Munich."},
+  pre:"Tizian-Rein-Human-Robot-Repair-025.",
+  imgs:["1.jpg","2.jpg","3.jpg","4.jpg","5.jpg","6.jpg","7.jpg","8.jpg","9.jpg","10.jpg","11.jpg","12.jpg","13.jpg","14.jpg","15.jpg","16.jpg","17.jpg","18.jpg","19.jpg"]},
+
  {n:"023",y:"2025–26",c:"umbau",
   t:{de:"Separate Wohneinheit",en:"Detached Apartment"},
   d:{de:"Umbau und Neuordnung eines freistehenden Wohnhauses in Bonn aus dem Jahr 1958. Der bestehende Grundriss wird überarbeitet, Bad und Küche werden neu angeordnet und an die heutige Nutzung angepasst. Durch das Abtrennen und den Ausbau der ehemaligen Waschküche und der Abstellräume entsteht im Untergeschoss eine eigenständige Wohneinheit mit separatem Eingang. Wenige, gezielte Eingriffe in den Bestand schaffen so eine zweite, vollwertige Wohnung, ohne den Charakter des Hauses zu überformen. Entwurf und Planung, derzeit in Ausführung.",
