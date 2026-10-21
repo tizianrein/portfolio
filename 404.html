@@ -479,7 +479,7 @@
   .ueber{
     flex:0 0 var(--spalte);align-self:flex-end;padding-bottom:var(--rand);
     font-size:var(--text);line-height:var(--zeile);
-    text-align:justify;hyphens:auto;-webkit-hyphens:auto;
+    text-align:left;hyphens:auto;-webkit-hyphens:auto;
   }
   .ueber p{margin:0 0 1.2em}
   .ueber .kurz{cursor:pointer}
@@ -521,7 +521,7 @@
   }
   .seite-links::-webkit-scrollbar{display:none}
   .p-titel{font-size:var(--gross);font-weight:400;line-height:1.1;margin:0 0 18px}
-  .p-text{font-size:var(--text);line-height:var(--zeile);text-align:justify;hyphens:auto;-webkit-hyphens:auto}
+  .p-text{font-size:var(--text);line-height:var(--zeile);text-align:left;hyphens:auto;-webkit-hyphens:auto}
   /* Links sehen aus wie Text, erst beim Hover rot und kursiv */
   @media (hover:hover){a:hover{color:var(--accent);font-style:italic}}
   .p-fuss{display:flex;flex-direction:column;gap:14px}
@@ -1365,7 +1365,7 @@ function zeigeProjekt(p){
 
 /* Stand der Seite. Diese Zeile setzt portfolio-aktualisieren.js bei jedem
    Lauf neu, nicht von Hand ändern. */
-const STAND={de:"21.10.2026 um 02:13:38 Uhr",en:"21 October 2026 at 02:13:38"};
+const STAND={de:"21.10.2026 um 02:22:04 Uhr",en:"21 October 2026 at 02:22:04"};
 
 /* Stand automatisch: der neueste Zeitpunkt aus der STAND-Zeile oben und
    dem Änderungsdatum der Dateien, die der Server mitschickt (index.html,
