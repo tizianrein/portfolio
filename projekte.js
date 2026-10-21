@@ -170,7 +170,7 @@ de:`
       </section>
     </div>`,
 en:`
-    <p class="bio">Many of the things we need are already there. They are all worth maintaining. With buildings, this is a design task that arises again and again. It takes knowledge, tools and people who collaborate. Yet this is often exactly what is lacking. What could a society of repair look like? And how do we equip it with powerful instruments?</p>
+    <p class="bio">Many of the things we need are already there. They are all worth maintaining. Preserving buildings is a design task that never ends. It takes knowledge, tools and people who collaborate. Yet this is often exactly what is lacking. What could a society of repair look like? And how do we equip it with powerful instruments?</p>
 
     <div class="cv-raster">
       <section class="cv-block">
