@@ -29,7 +29,7 @@ const P=[
   d:{de:"Umbau und Neuordnung eines freistehenden Wohnhauses in Bonn aus dem Jahr 1958. Der bestehende Grundriss wird überarbeitet, Bad und Küche werden neu angeordnet und an die heutige Nutzung angepasst. Durch das Abtrennen und den Ausbau der ehemaligen Waschküche und der Abstellräume entsteht im Untergeschoss eine eigenständige Wohneinheit mit separatem Eingang. Wenige, gezielte Eingriffe in den Bestand schaffen so eine zweite, vollwertige Wohnung, ohne den Charakter des Hauses zu überformen. Entwurf und Planung, derzeit in Ausführung.",
      en:"Conversion and reorganization of a detached house in Bonn dating from 1958. The existing floor plan is reworked, and the bathroom and kitchen are repositioned for contemporary use. By separating and fitting out the former laundry and storage rooms, a self-contained apartment with its own entrance is created on the lower floor. A few precise interventions in the existing fabric produce a second, fully functional dwelling without overwriting the character of the house. Design and planning, currently under construction."},
   pre:"Tizian-Rein-Separate-Wohneinheit-022.",
-  imgs:["3.jpg","9.jpg","10.jpg","1.jpg","6.gif","11.jpg","8.jpg","5.jpg","4.jpg","12.jpg","13.jpg","14.jpg"]},
+  imgs:["12.jpg","13.jpg","4.jpg","5.jpg","14.jpg","1.jpg","11.jpg","6.gif","8.jpg","3.jpg","9.jpg","10.jpg"]},
 
  {n:"024",y:"2025",c:"umbau",
   t:{de:"Haus mit Auge",en:"House with an Eye"},

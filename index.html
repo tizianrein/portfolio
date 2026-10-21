@@ -87,18 +87,18 @@
         },
         "genre": "Umbau",
         "image": [
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.3.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.9.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.10.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.1.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.6.gif",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.11.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.8.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.5.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.4.jpg",
           "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.12.jpg",
           "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.13.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.14.jpg"
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.4.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.5.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.14.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.1.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.11.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.6.gif",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.8.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.3.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.9.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.10.jpg"
         ]
       }
     },
@@ -584,7 +584,10 @@
   .cv a.nb{white-space:nowrap}
 
   @media (max-width:759px){
-    :root{--gross:18px;--text:18px;--rand:10px;--luecke:28px;--spalte:78vw}
+    /* Mobil: Kopfzeile groß, Projekttitel und Zähler mittel, Fließtext klein */
+    :root{--gross:26px;--text:15px;--titel:18px;--rand:10px;--luecke:28px;--spalte:78vw}
+    .p-titel,.ueber .p-titel,.dia .cap{font-size:var(--titel)}
+    .zaehler{font-size:var(--titel)}
     .kopf{padding-bottom:6px;flex-wrap:wrap}
     /* Menü: oben rechts, klappt rechtsbündig untereinander auf und schiebt
        die Seite um genau diese Höhe nach unten */
@@ -595,7 +598,7 @@
     .kopf #kName,.kopf .menu-knopf{color:transparent !important;font-style:normal !important}
     /* Nur so hoch wie die Kopfzeile: der Filter rechnet dann nur diesen
        schmalen Streifen neu, nicht den ganzen Bildschirm */
-    .kopf-invers{display:block;position:fixed;top:0;left:0;right:0;height:48px;z-index:21;pointer-events:none;
+    .kopf-invers{display:block;position:fixed;top:0;left:0;right:0;height:calc(var(--kopfhoehe) + 6px);z-index:21;pointer-events:none;
       -webkit-backdrop-filter:grayscale(1) invert(1) contrast(7);
       backdrop-filter:grayscale(1) invert(1) contrast(7);
       -webkit-clip-path:url(#kopfForm);clip-path:url(#kopfForm)}
@@ -684,25 +687,25 @@
 <ul>
 <!-- SEO-PROJEKTE:START -->
 <li class="proj" data-c="umbau" id="separate-wohneinheit">
-      <a class="row" href="projects/022-separate-wohneinheit-detached-apartment/"><span class="title">Separate <span class="nw">Wohneinheit<span class="mini"><img src="images/mini/separate-wohneinheit.jpg" width="122" height="120" alt="" loading="lazy"></span><sup class="year">2026</sup></span></span></a>
+      <a class="row" href="projects/022-separate-wohneinheit-detached-apartment/"><span class="title">Separate <span class="nw">Wohneinheit<span class="mini"><img src="images/mini/separate-wohneinheit.jpg" width="120" height="120" alt="" loading="lazy"></span><sup class="year">2026</sup></span></span></a>
       <div class="huelle">
         <div class="panel">
           <div class="proj-kopf">
             <p class="text">Umbau und Neuordnung eines freistehenden Wohnhauses in Bonn aus dem Jahr 1958. Der bestehende Grundriss wird überarbeitet, Bad und Küche werden neu angeordnet und an die heutige Nutzung angepasst. Durch das Abtrennen und den Ausbau der ehemaligen Waschküche und der Abstellräume entsteht im Untergeschoss eine eigenständige Wohneinheit mit separatem Eingang. Wenige, gezielte Eingriffe in den Bestand schaffen so eine zweite, vollwertige Wohnung, ohne den Charakter des Hauses zu überformen. Entwurf und Planung, derzeit in Ausführung.</p>
           </div>
           <div class="slider-wrap"><div class="slider">
-              <div class="slide"><img width="1848" height="1816" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.3.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 1"></div>
-              <div class="slide"><img width="3024" height="4032" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.9.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 2"></div>
-              <div class="slide"><img width="1512" height="2016" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.10.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 3"></div>
-              <div class="slide"><img width="1300" height="1181" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.1.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 4"></div>
-              <div class="slide"><img width="1065" height="1761" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.6.gif" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 5"></div>
-              <div class="slide"><img width="917" height="1540" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.11.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 6"></div>
-              <div class="slide"><img width="1851" height="1512" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.8.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 7"></div>
-              <div class="slide"><img width="2400" height="1350" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.5.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 8"></div>
-              <div class="slide"><img width="1525" height="858" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.4.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 9"></div>
-              <div class="slide"><img width="2230" height="1562" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.12.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 10"></div>
-              <div class="slide"><img width="1086" height="1448" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.13.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 11"></div>
-              <div class="slide"><img width="1086" height="1448" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.14.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 12"></div>
+              <div class="slide"><img width="2230" height="2230" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.12.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 1"></div>
+              <div class="slide"><img width="1086" height="1448" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.13.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 2"></div>
+              <div class="slide"><img width="1525" height="858" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.4.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 3"></div>
+              <div class="slide"><img width="2400" height="1350" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.5.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 4"></div>
+              <div class="slide"><img width="1086" height="1448" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.14.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 5"></div>
+              <div class="slide"><img width="1300" height="1181" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.1.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 6"></div>
+              <div class="slide"><img width="917" height="1540" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.11.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 7"></div>
+              <div class="slide"><img width="1065" height="1761" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.6.gif" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 8"></div>
+              <div class="slide"><img width="1851" height="1512" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.8.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 9"></div>
+              <div class="slide"><img width="1848" height="1816" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.3.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 10"></div>
+              <div class="slide"><img width="3024" height="4032" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.9.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 11"></div>
+              <div class="slide"><img width="1512" height="2016" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.10.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 12"></div>
           </div></div>
         </div>
       </div>
