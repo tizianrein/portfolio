@@ -113,7 +113,7 @@ const P=[
 
 const INFO_HTML={
 de:`
-    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Porträt von Tizian Rein" loading="lazy"></span> (*1997 in Rhöndorf) glaubt, dass es viele Dinge die wir brauchen eigentlich schon gibt. Sie alle sind es wert, erhalten zu werden. Offenbar sind wir nicht immer gut darin. Deshalb will er wissen, wie wir Reparaturgesellschaften bilden und sie mit wirkungsvollen Instrumenten ausstatten können. Er arbeitet als Junior-Architekt in eigener Praxis an bestehenden Gebäuden und als Forscher an der Technischen Universität München.</p>
+    <p class="bio">Viele Dinge, die wir benötigen, sind schon da. Sie alle sind es wert, erhalten zu werden. Gebäude zu erhalten ist eine Entwurfsaufgabe, die sich immer wieder stellt. Sie zu erhalten verlangt Wissen, Werkzeuge und Menschen, die kollaborieren. Doch genau daran fehlt es offenbar oft. Wie könnte eine Reparaturgesellschaft aussehen? Und wie statten wir sie mit wirkungsvollen Instrumenten aus?</p>
 
     <div class="cv-raster">
       <section class="cv-block">
@@ -170,7 +170,7 @@ de:`
       </section>
     </div>`,
 en:`
-    <p class="bio">Tizian Rein<span class="mini"><img src="images/mini/tizian-rein.jpg" width="86" height="120" alt="Portrait of Tizian Rein" loading="lazy"></span> (*1997 in Rhöndorf) believes plenty of the things we need actually already exist. They’re all worth maintaining. But it seems we are bad at it. That’s why he wants to know how we can build societies of repair, and equip them with powerful instruments. He works as a junior architect in his own practice working with existing buildings, and as a researcher at the Technical University of Munich.</p>
+    <p class="bio">Many of the things we need are already there. They’re all worth maintaining. Preserving buildings is a design task that never ends. It takes knowledge, tools and people who collaborate. But it seems that is exactly what is often missing. What could a society of repair look like? And how do we equip it with powerful instruments?</p>
 
     <div class="cv-raster">
       <section class="cv-block">
