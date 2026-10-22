@@ -1221,7 +1221,9 @@ const masse=name=>(typeof MASSE==="undefined")?null:(MASSE[name]||MASSE[decodeUR
 const WEBV=(typeof WEB!=="undefined")?WEB:{};
 function quellen(name,wh){
   const orig=B+name,v=WEBV[name]||WEBV[decodeURIComponent(name)];
-  const groesse=`(max-width:759px) 75vw, calc((100vh - 100px) * ${(wh[0]/wh[1]).toFixed(3)})`;
+  /* Handy: bewusst klein angesetzt, damit auch bei 3-fachem Display die
+     kleine Fassung genügt. Spart viel Speicher, iOS bricht sonst ab. */
+  const groesse=`(max-width:759px) 35vw, calc((100vh - 100px) * ${(wh[0]/wh[1]).toFixed(3)})`;
   if(!v)return `src="${esc(orig)}"`;
   const set=[];
   if(v.s)set.push(`images/web/s/${name} ${v.s[0]}w`);
@@ -1301,6 +1303,33 @@ const senkrecht=()=>HOCH.matches;
 const lage=el=>senkrecht()?el.offsetTop:el.offsetLeft;
 const groesse=el=>senkrecht()?el.offsetHeight:el.offsetWidth;
 const fenster=()=>senkrecht()?innerHeight:innerWidth;
+/* Bilder weit außerhalb des Sichtbereichs wieder entladen, damit der
+   Speicher begrenzt bleibt (der Streifen hat fünf Durchläufe). */
+const LEER="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==";
+const sparer=("IntersectionObserver" in window)?new IntersectionObserver(es=>{
+  for(const e of es){
+    const m=e.target;
+    if(e.isIntersecting){
+      zurueckholen(m);
+    }else if(m.dataset.aus===undefined&&m.complete&&m.naturalWidth>1){
+      m.dataset.aus=m.getAttribute("src")||"";m.dataset.ss=m.getAttribute("srcset")||"";
+      m.removeAttribute("srcset");m.src=LEER;
+    }
+  }
+},{rootMargin:"150% 150%"}):null;
+function zurueckholen(m){
+  if(m.dataset.aus===undefined)return;
+  if(m.dataset.ss)m.setAttribute("srcset",m.dataset.ss);
+  m.src=m.dataset.aus;delete m.dataset.aus;delete m.dataset.ss;
+}
+/* nach einem Sprung im Endlosstreifen die nun sichtbaren Bilder sofort zurückholen */
+function wecken(spur){
+  const H=innerHeight*1.5,W=innerWidth*1.5;
+  spur.querySelectorAll("img[data-aus]").forEach(m=>{
+    const r=m.getBoundingClientRect();
+    if(r.bottom>-H&&r.top<innerHeight+H&&r.right>-W&&r.left<innerWidth+W)zurueckholen(m);
+  });
+}
 function endlos(streifen,spur,opt){
   const KOPIEN=opt.kopien||5,MITTE=(KOPIEN-1)/2;
   let satz=0,drag=null,ruhe=null;
@@ -1310,9 +1339,11 @@ function endlos(streifen,spur,opt){
   const rand=()=>parseFloat(getComputedStyle(spur)[senkrecht()?"paddingTop":"paddingLeft"])||0;
   const gl=gleiter({lesen:pos,setzen:setzePos,max:maxPos});
   function aufbauen(elemente){
+    if(sparer)spur.querySelectorAll("img").forEach(m=>sparer.unobserve(m));
     spur.replaceChildren();
     satz=elemente.length;
     for(let k=0;k<KOPIEN;k++)elemente.forEach((mach,i)=>{const el=mach(k);el.dataset.i=i;spur.appendChild(el);});
+    if(sparer)spur.querySelectorAll("img").forEach(m=>sparer.observe(m));
   }
   const kinder=()=>spur.children;
   function satzBreite(){const c=kinder();return c[satz]?lage(c[satz])-lage(c[0]):0;}
@@ -1323,7 +1354,7 @@ function endlos(streifen,spur,opt){
     const b=basis();let d=0;
     const x=pos();
     if(x<b-W*grenze)d=W;else if(x>b+W*grenze)d=-W;
-    if(d){setzePos(x+d);gl.verschiebe(d);if(drag)drag.links+=d;if(opt.beimSprung)opt.beimSprung(d);}
+    if(d){setzePos(x+d);if(sparer)wecken(spur);gl.verschiebe(d);if(drag)drag.links+=d;if(opt.beimSprung)opt.beimSprung(d);}
   }
   function start(){setzePos(basis());}
   let angefordert=false;
