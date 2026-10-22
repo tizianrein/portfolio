@@ -1751,8 +1751,9 @@ function landen(k,ziel){
   if(dia)Object.assign(dia.style,{transition:"none",opacity:"1",translate:"0 0"});
   ziel.style.opacity="0";
   const a=k.getBoundingClientRect(),z=ziel.getBoundingClientRect();
-  const f=k.animate([{transform:"none"},
-    {transform:`translate(${z.left-a.left}px,${z.top-a.top}px) scale(${z.width/a.width},${z.height/a.height})`}],
+  /* Rahmen statt Skalierung animieren, damit object-fit:cover das Bild nie verzerrt */
+  const f=k.animate([{left:a.left+"px",top:a.top+"px",width:a.width+"px",height:a.height+"px"},
+    {left:z.left+"px",top:z.top+"px",width:z.width+"px",height:z.height+"px"}],
     {duration:650,easing:"cubic-bezier(.3,.7,.2,1)",fill:"forwards"});
   f.onfinish=()=>{ziel.style.opacity="";if(dia)Object.assign(dia.style,{transition:"",opacity:"",translate:""});requestAnimationFrame(()=>k.remove());};
 }
@@ -1767,9 +1768,12 @@ function route(sofort){
   const vorher=b.dataset.ansicht;
   let klon=null;
   document.querySelectorAll(".flug").forEach(k=>k.remove());
+  /* nur zwischen Startseite und Projekt, nie von Projekt zu Projekt */
+  const zuProjekt=/\/projects\//.test(location.pathname)||/^#p\//.test(location.hash);
+  const zuHome=!zuProjekt&&location.hash!=="#info";
   if(!senkrecht()){
-    if(vorher==="home"&&flugQuelle&&flugQuelle.isConnected)klon=abheben(flugQuelle.querySelector(".bild"));
-    else if(vorher==="projekt")klon=abheben(projektTitelBild());
+    if(vorher==="home"&&zuProjekt&&flugQuelle&&flugQuelle.isConnected)klon=abheben(flugQuelle.querySelector(".bild"));
+    else if(vorher==="projekt"&&zuHome)klon=abheben(projektTitelBild());
   }
   flugQuelle=null;
   b.classList.add("geht");
@@ -1783,7 +1787,7 @@ function route(sofort){
       b.classList.remove("kommt");markiere();kopfInvers();
       if(klon)requestAnimationFrame(()=>{
         const nach=b.dataset.ansicht;
-        landen(klon,nach==="projekt"?projektTitelBild():nach==="home"?homeZielBild():null);
+        landen(klon,nach==="projekt"&&vorher==="home"?projektTitelBild():nach==="home"&&vorher==="projekt"?homeZielBild():null);
       });
     });
   },klon?160:220);
