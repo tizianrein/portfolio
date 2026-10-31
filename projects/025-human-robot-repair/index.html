@@ -671,7 +671,7 @@
 
   @media (max-width:759px){
     /* Mobil: Kopfzeile groß, Projekttitel und Zähler mittel, Fließtext klein */
-    :root{--gross:26px;--text:13px;--klein:13px;--titel:18px;--rand:10px;--luecke:28px;--spalte:78vw}
+    :root{--gross:26px;--text:13px;--klein:13px;--titel:18px;--rand:10px;--luecke:28px;--spalte:78vw;--bildbreite:72vw}
     .p-titel,.ueber .p-titel,.dia .cap{font-size:var(--titel)}
     .zaehler{font-size:var(--titel)}
     .kopf{padding-bottom:6px;flex-wrap:wrap}
@@ -725,9 +725,14 @@
        Kopfzeile verschwindet, wenn der Text oben steht */
     .ueber{margin-top:calc(var(--kopfhoehe) + 10px - var(--luecke))}
     .dia .cap{padding:0 var(--rand) 6px}
-    .dia .bild,#home .dia .bild,.dia.still .bild{height:auto;width:100%;transform:none !important}
+    #projekt .dia .bild,.dia.still .bild{height:auto;width:100%;transform:none !important}
+    #home .dia .bild{height:auto}
     #home .dia{transform:none !important}
-    #home .dia .cap{transform:none !important;width:auto !important}
+    /* Startseite: Bilder kleiner und zentriert, das Skript vergrößert das
+       Bild in der Bildschirmmitte auf fast volle Breite (wie am Rechner) */
+    #home .dia .bild{width:var(--bildbreite);margin:0 auto;transform-origin:50% 50%;transform:none}
+    #home .dia .cap{padding:0 var(--rand) 6px calc((100vw - var(--bildbreite)) / 2);will-change:transform}
+    #home .dia{padding-bottom:calc(var(--bildbreite) * .12)}
     /* Projekt und Info: untereinander, Seite scrollt nach unten */
     .seite-links{position:static;width:auto;padding:calc(var(--kopfhoehe) + 12px) var(--rand) 24px;overflow:visible}
     .info-rechts{margin:0;padding:0 var(--rand) 60px}
@@ -1141,10 +1146,10 @@
       <section class="cv-block">
         <h3>Publikationen / Vorträge</h3>
         <ul class="cv">
-          <li><span class="j">2027</span><span class="w">Beitrag in: Sarah M. Schlachetzki u. a. (Hg.), <a href="https://d-nb.info/1421032422" target="_blank" rel="noopener"><i>Patents in Architecture: From Historical Construction to Digital Design</i></a>, ArchiTangle, Berlin, 2027 (erscheint)</span></li>
+          <li><span class="j">2027</span><span class="w"><i>Mechanisms of Innovation Transfer: Patents and Spin-Offs within Architectural Research and Digital Fabrication</i>, mit Marcel Studer, Dominik Reisach und Silke Langenberg, in: Silke Langenberg, Robin Rehm und Sarah M. Schlachetzki (Hg.), <a href="https://architangle.com/book/patents-in-architecture" target="_blank" rel="noopener"><i>Patents in Architecture: From Historical Construction to Digital Design</i></a>, ArchiTangle, Berlin, 2027 (erscheint)</span></li>
           <li><span class="j">2026</span><span class="w"><i>Harboring Histories</i>, mit Virginia Zaretskie, in: Ludger Hovestadt, Miro Roman, Adil Bokhari, Vera Bühlmann und Jorge Orozco (Hg.), <a href="https://birkhauser.com/en/book/9783035631494" target="_blank" rel="noopener"><i>Meteora. Mechanics of Architecture in an Intelligent World</i></a>, Birkhäuser, 2026, S. 312–319</span></li>
           <li><span class="j">2026</span><span class="w"><i>Translating Intention: AI-Assisted Model Generation for Collaborative Human–Robot Construction</i>, mit Avishek Das, Begüm Saral, Lidia Atanasova und Kathrin Dörfler, in Construction Robotics, <a href="https://doi.org/10.1007/s41693-026-00205-0" class="nb" target="_blank" rel="noopener">DOI 10.1007/s41693-026-00205-0</a></span></li>
-          <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i>, Future(s) of Educational Design Symposia, TUM Center for Educational Technologies</span></li>
+          <li><span class="j">2025</span><span class="w"><i>The Architect as Toolmaker: AI as Instrument in Architectural Repair</i>, <a href="https://www.edtech.tum.de/events/ai-as-co-creator/" target="_blank" rel="noopener">Future(s) of Educational Design Symposia</a>, TUM Center for Educational Technologies</span></li>
           <li><span class="j">2025</span><span class="w"><i>From Structure to Action: Machine Reasoning and the Logics of Repair</i>, Masterarbeit, TUM School of Engineering and Design, publiziert via mediaTUM</span></li>
           <li><span class="j">2025</span><span class="w"><i>From Prototype to Product: Start-ups and Intellectual Property in Digital Fabrication</i>, mit Marcel Studer und Dominik Reisach, <a href="https://www.langenberg.arch.ethz.ch/" target="_blank" rel="noopener">Professur für Konstruktionserbe und Denkmalpflege</a> (Prof. Silke Langenberg), Startup Architecture Symposium, ETH Zürich</span></li>
           <li><span class="j">2025</span><span class="w"><i>From Material to Market: How Materiality Drives Innovation in Architectural Technologies</i>, mit Marcel Studer und Dominik Reisach, <a href="https://www.langenberg.arch.ethz.ch/" target="_blank" rel="noopener">Professur für Konstruktionserbe und Denkmalpflege</a> (Prof. Silke Langenberg), Architecture &amp; Patents Conference, ETH Zürich</span></li>
@@ -1226,7 +1231,7 @@ function quellen(name,wh){
   const orig=B+name,v=WEBV[name]||WEBV[decodeURIComponent(name)];
   /* Handy: bewusst klein angesetzt, damit auch bei 3-fachem Display die
      kleine Fassung genügt. Spart viel Speicher, iOS bricht sonst ab. */
-  const groesse=`(max-width:759px) 35vw, calc((100vh - 100px) * ${(wh[0]/wh[1]).toFixed(3)})`;
+  const groesse=`(max-width:759px) 55vw, calc((100vh - 100px) * ${(wh[0]/wh[1]).toFixed(3)})`;
   if(!v)return `src="${esc(orig)}"`;
   const set=[];
   if(v.s)set.push(`images/web/s/${name} ${v.s[0]}w`);
@@ -1432,13 +1437,36 @@ function hVermessen(){
     const bild=el.querySelector(".bild"),cap=el.querySelector(".cap");
     if(bild)bild.style.transform="";
     if(cap){cap.style.transform="";cap.style.width="";}
-    return {el,L:el.offsetLeft,w:el.offsetWidth,bild,cap,
+    return {el,L:el.offsetLeft,w:el.offsetWidth,T:el.offsetTop,H:el.offsetHeight,bild,cap,
             hb:bild?bild.offsetHeight:0,fest:!el.classList.contains("dia")};
   });
   hLage.luecke=luecke;
+  hLage.bb=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bildbreite"))*innerWidth/100||innerWidth*.72;
+}
+/* Telefon: Bild in der Mitte wächst von 72vw auf fast volle Breite. Das
+   Layout bleibt unverändert, nur transform ändert sich, und nur bei den
+   Bildern in Bildschirmnähe. */
+function hSkalierenSenkrecht(){
+  if(!hLage.length)return;
+  const W=innerWidth,H=innerHeight,c=hStreifen.scrollTop+H/2,R=H*.62;
+  const bb=hLage.bb||W*.72;
+  const kmax=Math.min(1.4,(W-2)/bb);
+  const basis=(W-bb)/2;
+  hLage.forEach(e=>{
+    if(e.fest||!e.bild)return;
+    const d=Math.abs(e.T+e.H/2-c)/R;
+    if(d>=1.6){if(e.an){e.bild.style.transform="";e.cap.style.transform="";e.an=false;}return;}
+    const k=d>=1?1:1+(kmax-1)*(1+Math.cos(Math.PI*d))/2;
+    e.an=true;
+    e.bild.style.transform=k>1.001?`scale(${k.toFixed(4)})`:"";
+    /* Bildunterschrift folgt der linken Bildkante und bleibt über dem Bild */
+    const links=(W-bb*k)/2,hoch=e.hb*(k-1)/2;
+    e.cap.style.transform=`translate3d(${Math.max(links-basis,-basis+10).toFixed(1)}px,${(-hoch).toFixed(1)}px,0)`;
+  });
 }
 function hSkalieren(){
-  if(!hLage.length||senkrecht())return;
+  if(senkrecht()){hSkalierenSenkrecht();return;}
+  if(!hLage.length)return;
   const x=hStreifen.scrollLeft,W=innerWidth,c=x+W/2,g=hLage.luecke;
   const R=W*.6;
   const k=e=>{
