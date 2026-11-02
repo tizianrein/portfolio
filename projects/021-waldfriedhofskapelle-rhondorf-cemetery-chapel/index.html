@@ -596,6 +596,7 @@
 
   /* ===== Home ===== */
   #home .streifen,#projekt .streifen{position:fixed;inset:0;z-index:2}
+  .grund-schicht{display:none}
   .spur{
     display:flex;align-items:flex-end;gap:var(--luecke);
     height:100%;width:max-content;
@@ -730,9 +731,16 @@
     #home .dia{transform:none !important}
     /* Startseite: Bilder kleiner und zentriert, das Skript vergrößert das
        Bild in der Bildschirmmitte auf fast volle Breite (wie am Rechner) */
-    #home .dia .bild{width:var(--bildbreite);margin:0 auto;transform-origin:50% 50%;transform:none}
-    #home .dia .cap{padding:0 var(--rand) 6px calc((100vw - var(--bildbreite)) / 2);will-change:transform}
-    #home .dia{padding-bottom:calc(var(--bildbreite) * .12)}
+    #home .dia .bild{width:var(--bildbreite);margin:0 auto}
+    #home .dia .cap{padding:0 var(--rand) 8px calc((100vw - var(--bildbreite)) / 2);font-size:14px}
+    #home .dia{padding-bottom:26vh}
+    /* Hintergrund: große helle Kreise, die viel langsamer laufen als die
+       Bilder und so einen Parallax-Effekt ergeben */
+    #home .grund-schicht{display:block;position:fixed;inset:0;z-index:1;overflow:hidden;pointer-events:none}
+    .grund-spur{position:absolute;left:0;right:0;top:0;will-change:transform}
+    .grund-zahl{height:82vh;display:flex;align-items:center;padding:0 6vw}
+    .grund-zahl::before{content:"";width:56vw;height:56vw;border-radius:50%;background:#f1f1f1}
+    .grund-zahl:nth-child(even){justify-content:flex-end}
     /* Projekt und Info: untereinander, Seite scrollt nach unten */
     .seite-links{position:static;width:auto;padding:calc(var(--kopfhoehe) + 12px) var(--rand) 24px;overflow:visible}
     .info-rechts{margin:0;padding:0 var(--rand) 60px}
@@ -760,6 +768,7 @@
 
 <!-- Home -->
 <section class="ansicht" id="home" aria-label="Projekte">
+  <div class="grund-schicht" id="hGrund" aria-hidden="true"><div class="grund-spur" id="hGrundSpur"></div></div>
   <div class="streifen" id="hStreifen"><div class="spur" id="hSpur"></div></div>
 </section>
 
@@ -1441,28 +1450,26 @@ function hVermessen(){
             hb:bild?bild.offsetHeight:0,fest:!el.classList.contains("dia")};
   });
   hLage.luecke=luecke;
+  grundHoehe=0;
   hLage.bb=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bildbreite"))*innerWidth/100||innerWidth*.72;
 }
-/* Telefon: Bild in der Mitte wächst von 72vw auf fast volle Breite. Das
-   Layout bleibt unverändert, nur transform ändert sich, und nur bei den
-   Bildern in Bildschirmnähe. */
+/* Telefon: Bilder haben feste Breite. Dahinter laufen große helle Kreise mit
+   etwa einem Drittel der Geschwindigkeit (Parallax). */
+const hGrundSpur=document.getElementById("hGrundSpur");
+const GRUND_TEMPO=.33;
+let grundHoehe=0;
+function hGrundBauen(){
+  const n=P.length;
+  hGrundSpur.replaceChildren(...[0,1].flatMap(()=>P.map((_,i)=>{
+    const d=document.createElement("div");d.className="grund-zahl";return d;})));
+  grundHoehe=hGrundSpur.firstChild?hGrundSpur.firstChild.offsetHeight*n:0;
+}
 function hSkalierenSenkrecht(){
-  if(!hLage.length)return;
-  const W=innerWidth,H=innerHeight,c=hStreifen.scrollTop+H/2,R=H*.62;
-  const bb=hLage.bb||W*.72;
-  const kmax=Math.min(1.4,(W-2)/bb);
-  const basis=(W-bb)/2;
-  hLage.forEach(e=>{
-    if(e.fest||!e.bild)return;
-    const d=Math.abs(e.T+e.H/2-c)/R;
-    if(d>=1.6){if(e.an){e.bild.style.transform="";e.cap.style.transform="";e.an=false;}return;}
-    const k=d>=1?1:1+(kmax-1)*(1+Math.cos(Math.PI*d))/2;
-    e.an=true;
-    e.bild.style.transform=k>1.001?`scale(${k.toFixed(4)})`:"";
-    /* Bildunterschrift folgt der linken Bildkante und bleibt über dem Bild */
-    const links=(W-bb*k)/2,hoch=e.hb*(k-1)/2;
-    e.cap.style.transform=`translate3d(${Math.max(links-basis,-basis+10).toFixed(1)}px,${(-hoch).toFixed(1)}px,0)`;
-  });
+  if(!hGrundSpur.firstChild||!grundHoehe)hGrundBauen();
+  if(!grundHoehe)return;
+  const pos=hStreifen.scrollTop+(hBand.korr||0);
+  const v=((pos*GRUND_TEMPO)%grundHoehe+grundHoehe)%grundHoehe;
+  hGrundSpur.style.transform=`translate3d(0,${(-v).toFixed(1)}px,0)`;
 }
 function hSkalieren(){
   if(senkrecht()){hSkalierenSenkrecht();return;}
