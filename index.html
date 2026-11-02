@@ -618,6 +618,7 @@
   .dia{flex:0 0 auto;height:100%;display:flex;flex-direction:column;justify-content:flex-end;cursor:pointer}
   .dia .cap{display:flex;justify-content:space-between;gap:16px;padding:0 0 6px;white-space:nowrap;overflow:hidden;flex-shrink:0}
   .dia .cap .l{overflow:hidden;text-overflow:ellipsis}
+  .dia .cap .pfeil{display:none}
   .dia .bild{height:calc(86% - 22px);position:relative;background:#f3f3f3}
   /* Startseite: volle Höhe, das Skript verkleinert alles außerhalb der Mitte */
   #home .dia .bild{height:calc((86% - 22px) * .88);transform-origin:0 100%;will-change:transform}
@@ -729,7 +730,8 @@
     /* Startseite: Bilder kleiner und zentriert, das Skript vergrößert das
        Bild in der Bildschirmmitte auf fast volle Breite (wie am Rechner) */
     #home .dia .bild{width:var(--bildbreite);margin:0 auto}
-    #home .dia .cap{padding:0 var(--rand) 8px calc((100vw - var(--bildbreite)) / 2);font-size:14px}
+    #home .dia .cap{padding:0 calc((100vw - var(--bildbreite)) / 2) 8px;font-size:14px}
+    #home .dia .cap .pfeil{display:block;flex:0 0 auto}
     #home .dia{padding-bottom:8vh}
     /* Einleitungstext der Startseite in der Größe der Titel */
     #home .ueber{font-size:var(--titel);line-height:1.3;margin-bottom:9vh}
@@ -1484,9 +1486,9 @@ function hSkalieren(){
     e.el.style.transform=`translate3d(${(v.l-e.L).toFixed(2)}px,0,0)`;
     if(e.bild){
       e.bild.style.transform=`scale(${v.k.toFixed(4)})`;
-      /* Bildunterschrift bleibt lesbar: nicht skaliert, nur mitgeführt */
-      e.cap.style.transform=`translate3d(0,${(e.hb*(1-v.k)).toFixed(2)}px,0)`;
-      e.cap.style.width=`${(e.w*v.k).toFixed(1)}px`;
+      /* Bildunterschrift wird mit dem Bild verkleinert (Schrift inklusive),
+         Ursprung unten links, direkt über dem Bild */
+      e.cap.style.transform=`translate3d(0,${(e.hb*(1-v.k)).toFixed(2)}px,0) scale(${v.k.toFixed(4)})`;
     }
   });
 }
@@ -1564,7 +1566,7 @@ function baueHome(){
     /* die ersten Bilder im mittleren Durchlauf sofort laden */
     const sofort=k===2&&i<3;
     const d=document.createElement("a");d.className="dia";d.href=projektLink(p);d.dataset.p=i;
-    d.innerHTML=`<div class="cap klein"><span class="l">${esc(TITEL(p))}, ${JAHR(p)}</span></div>`+
+    d.innerHTML=`<div class="cap klein"><span class="l">${esc(TITEL(p))}, ${JAHR(p)}</span><span class="pfeil" aria-hidden="true">→</span></div>`+
       `<div class="bild" style="aspect-ratio:${wh[0]} / ${wh[1]}"><img ${quellen(name,wh,"48vw")} width="${wh[0]}" height="${wh[1]}" alt="${esc(TITEL(p))}" loading="${sofort?"eager":"lazy"}"${sofort&&i===0?' fetchpriority="high"':""} decoding="async" draggable="false"></div>`;
     d.addEventListener("click",e=>{if(home.gezogen())e.preventDefault();});
     return d;
