@@ -124,8 +124,8 @@
         },
         "genre": "Umbau",
         "image": [
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.12.jpg",
           "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.13.jpg",
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.12.jpg",
           "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.4.jpg",
           "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.5.jpg",
           "https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.14.jpg",
@@ -596,7 +596,6 @@
 
   /* ===== Home ===== */
   #home .streifen,#projekt .streifen{position:fixed;inset:0;z-index:2}
-  .grund-schicht{display:none}
   .spur{
     display:flex;align-items:flex-end;gap:var(--luecke);
     height:100%;width:max-content;
@@ -733,16 +732,9 @@
        Bild in der Bildschirmmitte auf fast volle Breite (wie am Rechner) */
     #home .dia .bild{width:var(--bildbreite);margin:0 auto}
     #home .dia .cap{padding:0 var(--rand) 8px calc((100vw - var(--bildbreite)) / 2);font-size:14px}
-    #home .dia{padding-bottom:17vh}
+    #home .dia{padding-bottom:8vh}
     /* Einleitungstext der Startseite in der Größe der Titel */
     #home .ueber{font-size:var(--titel);line-height:1.3;margin-bottom:9vh}
-    /* Hintergrund: große helle Kreise, die viel langsamer laufen als die
-       Bilder und so einen Parallax-Effekt ergeben */
-    #home .grund-schicht{display:block;position:fixed;inset:0;z-index:1;overflow:hidden;pointer-events:none}
-    .grund-spur{position:absolute;left:0;right:0;top:0;will-change:transform}
-    .grund-zahl{height:82vh;display:flex;align-items:center;padding:0 6vw}
-    .grund-zahl::before{content:"";width:56vw;height:56vw;border-radius:50%;background:#f1f1f1}
-    .grund-zahl:nth-child(even){justify-content:flex-end}
     /* Projekt und Info: untereinander, Seite scrollt nach unten */
     .seite-links{position:static;width:auto;padding:calc(var(--kopfhoehe) + 12px) var(--rand) 24px;overflow:visible}
     .info-rechts{margin:0;padding:0 var(--rand) 60px}
@@ -770,7 +762,6 @@
 
 <!-- Home -->
 <section class="ansicht" id="home" aria-label="Projekte">
-  <div class="grund-schicht" id="hGrund" aria-hidden="true"><div class="grund-spur" id="hGrundSpur"></div></div>
   <div class="streifen" id="hStreifen"><div class="spur" id="hSpur"></div></div>
 </section>
 
@@ -835,8 +826,8 @@
             <p class="text">Umbau und Neuordnung eines freistehenden Wohnhauses in Bonn aus dem Jahr 1958. Der bestehende Grundriss wird überarbeitet, Bad und Küche werden neu angeordnet und an die heutige Nutzung angepasst. Durch das Abtrennen und den Ausbau der ehemaligen Waschküche und der Abstellräume entsteht im Untergeschoss eine eigenständige Wohneinheit mit separatem Eingang. Wenige, gezielte Eingriffe in den Bestand schaffen so eine zweite, vollwertige Wohnung, ohne den Charakter des Hauses zu überformen. Entwurf und Planung, derzeit in Ausführung.</p>
           </div>
           <div class="slider-wrap"><div class="slider">
-              <div class="slide"><img width="1999" height="1400" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.12.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 1"></div>
-              <div class="slide"><img width="1086" height="1448" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.13.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 2"></div>
+              <div class="slide"><img width="1086" height="1448" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.13.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 1"></div>
+              <div class="slide"><img width="1999" height="1400" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.12.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 2"></div>
               <div class="slide"><img width="1638" height="1057" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.4.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 3"></div>
               <div class="slide"><img width="2581" height="1859" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.5.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 4"></div>
               <div class="slide"><img width="1086" height="1448" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Separate-Wohneinheit-022.14.jpg" alt="Separate Wohneinheit — Umbau von Tizian Rein, Bild 5"></div>
@@ -1452,27 +1443,10 @@ function hVermessen(){
             hb:bild?bild.offsetHeight:0,fest:!el.classList.contains("dia")};
   });
   hLage.luecke=luecke;
-  grundHoehe=0;
   hLage.bb=parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--bildbreite"))*innerWidth/100||innerWidth*.72;
 }
-/* Telefon: Bilder haben feste Breite. Dahinter laufen große helle Kreise mit
-   etwa einem Drittel der Geschwindigkeit (Parallax). */
-const hGrundSpur=document.getElementById("hGrundSpur");
-const GRUND_TEMPO=.33;
-let grundHoehe=0;
-function hGrundBauen(){
-  const n=P.length;
-  hGrundSpur.replaceChildren(...[0,1].flatMap(()=>P.map((_,i)=>{
-    const d=document.createElement("div");d.className="grund-zahl";return d;})));
-  grundHoehe=hGrundSpur.firstChild?hGrundSpur.firstChild.offsetHeight*n:0;
-}
-function hSkalierenSenkrecht(){
-  if(!hGrundSpur.firstChild||!grundHoehe)hGrundBauen();
-  if(!grundHoehe)return;
-  const pos=hStreifen.scrollTop+(hBand.korr||0);
-  const v=((pos*GRUND_TEMPO)%grundHoehe+grundHoehe)%grundHoehe;
-  hGrundSpur.style.transform=`translate3d(0,${(-v).toFixed(1)}px,0)`;
-}
+/* Telefon: Bilder haben feste Breite, es wird nichts skaliert. */
+function hSkalierenSenkrecht(){}
 function hSkalieren(){
   if(senkrecht()){hSkalierenSenkrecht();return;}
   if(!hLage.length)return;
