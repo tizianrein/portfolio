@@ -674,7 +674,7 @@
 
   @media (max-width:759px){
     /* Mobil: Kopfzeile groß, Projekttitel und Zähler mittel, Fließtext klein */
-    :root{--gross:26px;--text:13px;--klein:13px;--titel:18px;--rand:10px;--luecke:28px;--spalte:78vw;--bildbreite:72vw}
+    :root{--gross:26px;--text:13px;--klein:13px;--titel:18px;--rand:10px;--luecke:56px;--spalte:78vw;--bildbreite:72vw}
     .p-titel,.ueber .p-titel,.dia .cap{font-size:var(--titel)}
     .zaehler{font-size:var(--titel)}
     .kopf{padding-bottom:6px;flex-wrap:wrap}
@@ -735,10 +735,11 @@
        Bild in der Bildschirmmitte auf fast volle Breite (wie am Rechner) */
     #home .dia .bild{width:var(--bildbreite);margin:0 auto}
     #home .dia .cap{padding:0 calc((100vw - var(--bildbreite)) / 2) 8px;font-size:14px}
-    #home .dia{padding-bottom:8vh}
+    #home .dia{padding-bottom:16vh}
     /* Einleitungstext der Startseite groß gesetzt, wie eine Aussage */
     #home .ueber{font-size:27px;line-height:1.16;margin-bottom:9vh}
-    #home .ueber .links{font-size:var(--titel);margin-top:.9em}
+    #home .ueber .kurz{margin-bottom:0}
+    #home .ueber .links{font-size:var(--titel);margin-top:.55em}
     /* Projekt und Info: untereinander, Seite scrollt nach unten */
     .seite-links{position:static;width:auto;padding:calc(var(--kopfhoehe) + 12px) var(--rand) 24px;overflow:visible}
     .info-rechts{margin:0;padding:0 var(--rand) 60px}
@@ -1387,14 +1388,25 @@ function endlos(streifen,spur,opt){
     if(x<b-W*grenze)d=W;else if(x>b+W*grenze)d=-W;
     if(d){setzePos(x+d);if(sparer)wecken(spur);gl.verschiebe(d);if(drag)drag.links+=d;if(opt.beimSprung)opt.beimSprung(d);}
   }
-  function start(){
-    let p=basis();
-    /* Handy, Startseite: das letzte Bild vor dem Text schaut knapp unter der Kopfzeile hervor */
+  let beruehrt=false;
+  ["touchstart","wheel","pointerdown","keydown"].forEach(ev=>streifen.addEventListener(ev,()=>{beruehrt=true;},{passive:true}));
+  function startLage(){
+    setzePos(basis());
+    /* Handy, Startseite: der Text steht in der Mitte des Bildschirms */
     if(opt.startMitBild&&senkrecht()){
-      const c=kinder(),vor=c[MITTE*satz-1],bild=vor&&vor.querySelector(".bild"),kopf=document.querySelector("header.kopf");
-      if(bild&&kopf){const unten=lage(vor)+bild.offsetTop+bild.offsetHeight;p=Math.min(p,Math.max(0,unten-kopf.offsetHeight*.9));}
+      const t=kinder()[MITTE*satz];
+      if(t)setzePos(Math.max(0,pos()+t.getBoundingClientRect().top-streifen.getBoundingClientRect().top-(streifen.clientHeight-t.offsetHeight)/2));
     }
-    setzePos(p);
+  }
+  function start(){
+    startLage();
+    /* Nach dem Laden von Schrift und Bildmaßen die Lage noch einmal setzen, solange nichts berührt wurde */
+    if(opt.startMitBild&&senkrecht()){
+      const nochmal=()=>{if(!beruehrt)startLage();};
+      if(document.fonts&&document.fonts.ready)document.fonts.ready.then(nochmal);
+      addEventListener("load",nochmal,{once:true});
+      setTimeout(nochmal,400);setTimeout(nochmal,1200);
+    }
   }
   let angefordert=false;
   streifen.addEventListener("scroll",()=>{
