@@ -87,7 +87,7 @@ const P=[
   video:"Tizian-Rein-Free-Bird-017.video.mp4",
   videoPos:1,
   pre:"Tizian-Rein-Free-Bird-017.",
-  imgs:["4.jpg","1.jpg","2.jpg","3.jpg"]},
+  imgs:["1.jpg","4.jpg","2.jpg","3.jpg"]},
 
  {n:"016",y:"2023",c:"forschung",
   t:{de:"Harboring Histories",en:"Harboring Histories"},
