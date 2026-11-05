@@ -307,10 +307,10 @@
         },
         "genre": "Neubau",
         "image": [
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.4.jpg",
           "https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.1.jpg",
           "https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.2.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.3.jpg",
-          "https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.4.jpg"
+          "https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.3.jpg"
         ]
       }
     },
@@ -974,10 +974,10 @@
             <p class="text">Eine parametrisch gesteuerte Holzkonstruktion für ein Bauteillager auf einem SBB-Areal in Zürich, entworfen vollständig in der virtuellen Realität im Maßstab 1:1. Statt mit physischen Modellen wird der Entwurf als begehbarer Raum entwickelt und präsentiert: Bauteile werden in der VR-Software <a href="https://radii.info/" target="_blank" rel="noopener">RADii</a> direkt gesetzt, geprüft und angepasst. Die Arbeit entstand gemeinsam mit <a href="https://lancelotburwell.ch/" target="_blank" rel="noopener">Lancelot Burwell</a> im Immersive Studio von <a href="https://gramaziokohler.arch.ethz.ch/" target="_blank" rel="noopener">Gramazio Kohler Research</a> an der ETH Zürich und lotet aus, wie sich räumliches Entwerfen verändert, wenn Maßstab und Körper unmittelbar Teil des Werkzeugs werden. Foto VR-Arena: Gramazio Kohler Research, ETH Zürich. <a href="https://arch.ethz.ch/news-und-veranstaltungen/news-kanal/2024/06/im-virtuellen-raum-entwerfen.html" target="_blank" rel="noopener">Artikel</a></p>
           </div>
           <div class="slider-wrap"><div class="slider">
-              <div class="slide"><img width="2480" height="3508" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Free-Bird-017.1.jpg" alt="Free/Bird — Neubau von Tizian Rein, Bild 1"></div>
-              <div class="slide"><img width="1577" height="1130" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Free-Bird-017.2.jpg" alt="Free/Bird — Neubau von Tizian Rein, Bild 2"></div>
-              <div class="slide"><img width="1252" height="623" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Free-Bird-017.3.jpg" alt="Free/Bird — Neubau von Tizian Rein, Bild 3"></div>
-              <div class="slide"><img width="3000" height="1500" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Free-Bird-017.4.jpg" alt="Free/Bird — Neubau von Tizian Rein, Bild 4"></div>
+              <div class="slide"><img width="3000" height="1500" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Free-Bird-017.4.jpg" alt="Free/Bird — Neubau von Tizian Rein, Bild 1"></div>
+              <div class="slide"><img width="2480" height="3508" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Free-Bird-017.1.jpg" alt="Free/Bird — Neubau von Tizian Rein, Bild 2"></div>
+              <div class="slide"><img width="1577" height="1130" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Free-Bird-017.2.jpg" alt="Free/Bird — Neubau von Tizian Rein, Bild 3"></div>
+              <div class="slide"><img width="1252" height="623" loading="lazy" decoding="async" src="images/projects/Tizian-Rein-Free-Bird-017.3.jpg" alt="Free/Bird — Neubau von Tizian Rein, Bild 4"></div>
           </div></div>
         </div>
       </div>
@@ -1646,12 +1646,13 @@ function zeigeProjekt(p){
   const bilder=[];
   /* Video: Seitenverhältnis aus dem Standbild (…frame.jpg), sonst 16:9.
      Sobald das Video selbst seine Maße kennt, werden diese übernommen. */
-  if(p.video)bilder.push({video:B+p.video,poster:B+p.pre+"frame.jpg",wh:masse(p.pre+"frame.jpg")||[16,9]});
   /* GIFs laufen als kleines MP4 (gleicher Name, .mp4). Fehlt das MP4,
      wird automatisch das GIF gezeigt. */
   p.imgs.forEach(name=>bilder.push(/\.gif$/i.test(name)
     ?{anim:B+p.pre+name.replace(/\.gif$/i,".mp4"),src:B+p.pre+name,wh:masse(p.pre+name)||[4,3]}
     :{src:B+p.pre+name,name:p.pre+name,wh:masse(p.pre+name)||[4,3]}));
+  /* Video an der Stelle p.videoPos (0 = ganz vorne) einfügen */
+  if(p.video)bilder.splice(Math.min(p.videoPos||0,bilder.length),0,{video:B+p.video,poster:B+p.pre+"frame.jpg",wh:masse(p.pre+"frame.jpg")||[16,9]});
   pAnzahl=bilder.length;
   const teile=[()=>{
     const d=document.createElement("div");d.className="ueber p-block";
