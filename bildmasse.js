@@ -360,13 +360,37 @@ const MASSE={
     2500,
     1768
   ],
+  "Tizian-Rein-Wohnungsbau-Nippes-009.5.jpg": [
+    486,
+    1024
+  ],
+  "Tizian-Rein-Wohnungsbau-Nippes-009.6.jpg": [
+    605,
+    907
+  ],
+  "Tizian-Rein-Wohnungsbau-Nippes-009.7.jpg": [
+    880,
+    880
+  ],
   "Tizian-Rein-Wohnungsbau-Nippes-009.8.jpg": [
     605,
     691
   ],
+  "Tizian-Rein-Wohnungsbau-Nippes-009.9.jpg": [
+    1024,
+    683
+  ],
   "Tizian-Rein-Wohnungsbau-Nippes-009.10.jpg": [
     850,
     503
+  ],
+  "Tizian-Rein-Wohnungsbau-Nippes-009.1.jpg": [
+    1090,
+    735
+  ],
+  "Tizian-Rein-Wohnungsbau-Nippes-009.2.jpg": [
+    1090,
+    557
   ],
   "Tizian-Rein-Wohnungsbau-Nippes-009.3.jpg": [
     758,

@@ -193,7 +193,7 @@ de:`
       </section>
     </div>`,
 en:`
-    <p class="bio">Many of the things we need are already there. They are all worth maintaining.<span class="nur-info"> Preserving buildings is a design task that never ends. It takes knowledge, tools and people who collaborate. Yet this is often exactly what is lacking. What could a society of repair look like? And how do we equip it with powerful instruments?<br><br>I design conversions and research repair and digital fabrication at TUM.</span></p>
+    <p class="bio">Many of the things we need are already there. They are all worth maintaining.<span class="nur-info"> Preserving buildings is a design task that never ends. It takes knowledge, tools and people who collaborate. Yet this is often exactly what is lacking. What could a society of repair look like? And how do we equip it with powerful instruments?<br><br>I plan the renovation of existing buildings and research repair and digital fabrication at TUM.</span></p>
 
     <div class="cv-raster">
       <section class="cv-block">
