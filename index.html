@@ -737,7 +737,6 @@
     #home .dia .cap{padding:0 calc((100vw - var(--bildbreite)) / 2) 8px;font-size:14px}
     #home .dia{padding-bottom:8vh}
     /* Einleitungstext der Startseite groß gesetzt, wie eine Aussage */
-    #home .spur .ueber{margin-top:calc(var(--kopfhoehe) + 10px + 7vh)}
     #home .ueber{font-size:27px;line-height:1.16;margin-bottom:9vh}
     #home .ueber .links{font-size:var(--titel);margin-top:.9em}
     /* Projekt und Info: untereinander, Seite scrollt nach unten */
@@ -1388,7 +1387,15 @@ function endlos(streifen,spur,opt){
     if(x<b-W*grenze)d=W;else if(x>b+W*grenze)d=-W;
     if(d){setzePos(x+d);if(sparer)wecken(spur);gl.verschiebe(d);if(drag)drag.links+=d;if(opt.beimSprung)opt.beimSprung(d);}
   }
-  function start(){setzePos(basis());}
+  function start(){
+    let p=basis();
+    /* Handy, Startseite: das letzte Bild vor dem Text schaut knapp unter der Kopfzeile hervor */
+    if(opt.startMitBild&&senkrecht()){
+      const c=kinder(),vor=c[MITTE*satz-1],bild=vor&&vor.querySelector(".bild"),kopf=document.querySelector("header.kopf");
+      if(bild&&kopf){const unten=lage(vor)+bild.offsetTop+bild.offsetHeight;p=Math.min(p,Math.max(0,unten-kopf.offsetHeight*.9));}
+    }
+    setzePos(p);
+  }
   let angefordert=false;
   streifen.addEventListener("scroll",()=>{
     if(angefordert)return;angefordert=true;
@@ -1571,6 +1578,7 @@ function hZaehlen(){
 const home=endlos(hStreifen,hSpur,{
   kopien:5,
   beimScrollen:x=>{hBand.setze(x);hSkalieren();hZaehlen();},
+  startMitBild:true,
   beimSprung:d=>{hBand.korr-=d;}
 });
 function baueHome(){
