@@ -625,7 +625,12 @@
   #home .dia .bild{height:calc((86% - 22px) * .88);transform-origin:0 100%;will-change:transform}
   #home .dia{will-change:transform}
   #home .dia .cap{transform-origin:0 100%}
-  .dia .bild img{display:block;height:100%;width:100%;object-fit:cover}
+  .dia .bild img{display:block;height:100%;width:100%;object-fit:cover;opacity:1;transition:opacity .7s ease}
+  /* Weicher Bildaufbau: hinter dem Bild liegt ein winziger, unscharfer
+     Platzhalter. Das Bild blendet darüber ein, sobald es geladen ist. */
+  .dia .bild{background-size:cover;background-position:center}
+  .dia .bild img.laedt{opacity:0;transition:none}
+  @media (prefers-reduced-motion:reduce){.dia .bild img{transition:none}}
   @media (hover:hover){a.dia:hover .cap{color:var(--accent);font-style:italic}}
   /* Nur Bild und Bildunterschrift sind klickbar. Der Rest der Fläche gehört
      zum Nachbarn, wenn ein Bild außerhalb der Mitte verkleinert ist. */
@@ -1177,6 +1182,7 @@
 
 <script src="stand.js"></script>
 <script src="bildmasse.js"></script>
+<script src="lqip.js"></script>
 <script src="projekte.js"></script>
 <script>
 "use strict";
@@ -1229,6 +1235,21 @@ const masse=name=>(typeof MASSE==="undefined")?null:(MASSE[name]||MASSE[decodeUR
    erzeugt von portfolio-aktualisieren.js. Der Browser wählt je nach
    Bildschirm die passende Datei. Ohne Eintrag gilt das Original. */
 const WEBV=(typeof WEB!=="undefined")?WEB:{};
+/* Platzhalter-Hintergrund für ein Bild (winzige Vorschau als Data-URI) */
+const platz=name=>{const q=(typeof LQIP!=="undefined")&&(LQIP[name]||LQIP[decodeURIComponent(name)]);
+  return q?`;background-image:url(data:image/jpeg;base64,${q})`:"";};
+/* Bild blendet weich ein, sobald es fertig geladen ist */
+function weich(img){
+  if(!img||img.dataset.weich)return;img.dataset.weich="1";
+  if(img.complete&&img.naturalWidth>1)return;
+  img.classList.add("laedt");
+}
+document.addEventListener("load",e=>{
+  const i=e.target;
+  if(i&&i.tagName==="IMG"&&i.classList.contains("laedt")&&i.src.indexOf("data:image/gif")!==0)
+    requestAnimationFrame(()=>requestAnimationFrame(()=>i.classList.remove("laedt")));
+},true);
+document.addEventListener("error",e=>{const i=e.target;if(i&&i.tagName==="IMG")i.classList.remove("laedt");},true);
 function quellen(name,wh,handy){
   const orig=B+name,v=WEBV[name]||WEBV[decodeURIComponent(name)];
   /* Handy: bewusst klein angesetzt, damit auch bei 3-fachem Display die
@@ -1329,6 +1350,7 @@ const sparer=("IntersectionObserver" in window)?new IntersectionObserver(es=>{
 },{rootMargin:"90% 90%"}):null;
 function zurueckholen(m){
   if(m.dataset.aus===undefined)return;
+  m.classList.add("laedt");
   if(m.dataset.ss)m.setAttribute("srcset",m.dataset.ss);
   m.src=m.dataset.aus;delete m.dataset.aus;delete m.dataset.ss;
 }
@@ -1567,8 +1589,9 @@ function baueHome(){
     const sofort=k===2&&i<3;
     const d=document.createElement("a");d.className="dia";d.href=projektLink(p);d.dataset.p=i;
     d.innerHTML=`<div class="cap klein"><span class="l">${esc(TITEL(p))}, ${JAHR(p)}</span></div>`+
-      `<div class="bild" style="aspect-ratio:${wh[0]} / ${wh[1]}"><img ${quellen(name,wh,"48vw")} width="${wh[0]}" height="${wh[1]}" alt="${esc(TITEL(p))}" loading="${sofort?"eager":"lazy"}"${sofort&&i===0?' fetchpriority="high"':""} decoding="async" draggable="false"></div>`;
+      `<div class="bild" style="aspect-ratio:${wh[0]} / ${wh[1]}${platz(name)}"><img ${quellen(name,wh,"48vw")} width="${wh[0]}" height="${wh[1]}" alt="${esc(TITEL(p))}" loading="${sofort?"eager":"lazy"}"${sofort&&i===0?' fetchpriority="high"':""} decoding="async" draggable="false"></div>`;
     d.addEventListener("click",e=>{if(home.gezogen())e.preventDefault();});
+    weich(d.querySelector("img"));
     return d;
   }));
   home.aufbauen(teile);
@@ -1624,7 +1647,8 @@ function zeigeProjekt(p){
       ?`<video class="anim" src="${esc(b.anim)}" data-gif="${esc(b.src)}" muted loop playsinline disablepictureinpicture preload="${k===2?"metadata":"none"}"></video>`
       :`<img ${quellen(b.name,b.wh)} width="${b.wh[0]}" height="${b.wh[1]}" alt="${esc(TITEL(p))}, ${j+1}" loading="${k===2&&j<2?"eager":"lazy"}" decoding="async" draggable="false">`;
     d.innerHTML=
-      `<div class="bild" style="aspect-ratio:${b.wh[0]} / ${b.wh[1]}">${medium}</div>`;
+      `<div class="bild" style="aspect-ratio:${b.wh[0]} / ${b.wh[1]}${b.name?platz(b.name):""}">${medium}</div>`;
+    weich(d.querySelector("img"));
     const a=d.querySelector("video.anim");
     if(a){
       a.addEventListener("error",()=>{                 /* kein MP4: GIF zeigen */
