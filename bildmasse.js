@@ -1,5 +1,41 @@
 /* Automatisch erzeugt von portfolio-aktualisieren.js. */
 const MASSE={
+  "Tizian-Rein-TEKTON-026.12.jpg": [
+    546,
+    728
+  ],
+  "Tizian-Rein-TEKTON-026.11.jpg": [
+    768,
+    768
+  ],
+  "Tizian-Rein-TEKTON-026.13.jpg": [
+    561,
+    748
+  ],
+  "Tizian-Rein-TEKTON-026.3.jpg": [
+    2083,
+    1709
+  ],
+  "Tizian-Rein-TEKTON-026.1.jpg": [
+    1408,
+    768
+  ],
+  "Tizian-Rein-TEKTON-026.2.jpg": [
+    812,
+    650
+  ],
+  "Tizian-Rein-TEKTON-026.6.jpg": [
+    880,
+    660
+  ],
+  "Tizian-Rein-TEKTON-026.7.jpg": [
+    907,
+    680
+  ],
+  "Tizian-Rein-TEKTON-026.8.jpg": [
+    1376,
+    660
+  ],
   "Tizian-Rein-Human-Robot-Repair-025.1.jpg": [
     2576,
     1717
@@ -308,6 +344,10 @@ const MASSE={
     2480,
     3508
   ],
+  "Tizian-Rein-Free-Bird-017.4.jpg": [
+    3000,
+    1500
+  ],
   "Tizian-Rein-Free-Bird-017.2.jpg": [
     1577,
     1130
@@ -315,10 +355,6 @@ const MASSE={
   "Tizian-Rein-Free-Bird-017.3.jpg": [
     1252,
     623
-  ],
-  "Tizian-Rein-Free-Bird-017.4.jpg": [
-    3000,
-    1500
   ],
   "Tizian-Rein-Harboring-Histories-016.8.jpg": [
     1618,

@@ -3,7 +3,34 @@
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://www.tizianrein.de/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.12.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.11.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.13.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.3.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.1.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.2.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.6.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.7.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.8.jpg</image:loc>
+    </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Human-Robot-Repair-025.1.jpg</image:loc>
     </image:image>
@@ -236,13 +263,13 @@
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.1.jpg</image:loc>
     </image:image>
     <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.4.jpg</image:loc>
+    </image:image>
+    <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.2.jpg</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.3.jpg</image:loc>
-    </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.4.jpg</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.8.jpg</image:loc>
@@ -426,8 +453,39 @@
     </image:image>
   </url>
   <url>
+    <loc>https://www.tizianrein.de/projects/026-tekton/</loc>
+    <lastmod>2026-11-07</lastmod>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.12.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.11.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.13.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.3.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.1.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.2.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.6.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.7.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-TEKTON-026.8.jpg</image:loc>
+    </image:image>
+  </url>
+  <url>
     <loc>https://www.tizianrein.de/projects/025-human-robot-repair/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Human-Robot-Repair-025.1.jpg</image:loc>
     </image:image>
@@ -482,7 +540,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/022-separate-wohneinheit-detached-apartment/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Separate-Wohneinheit-022.13.jpg</image:loc>
     </image:image>
@@ -522,7 +580,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/024-haus-mit-auge-house-with-an-eye/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Haus-mit-Auge-024.1.jpg</image:loc>
     </image:image>
@@ -544,7 +602,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/023-from-structure-to-action/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Master-Thesis-From-Structure-to-Action-023.31.jpg</image:loc>
     </image:image>
@@ -608,7 +666,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/021-waldfriedhofskapelle-rhondorf-cemetery-chapel/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Waldfriedhofskapelle-Rh%C3%B6ndorf-021.1.jpg</image:loc>
     </image:image>
@@ -630,7 +688,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/020-beamtenwohnung-bonn-civil-servants-apartment/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnung-eines-Beamten-020.1.jpg</image:loc>
     </image:image>
@@ -652,7 +710,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/019-unterstand-shelter/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Fahrrad-Unterstand-019.1.jpg</image:loc>
     </image:image>
@@ -671,7 +729,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/018-zakk-gartenstuhl-zakk-garden-chair/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Zakk-Gartenstuhl-1.jpg</image:loc>
     </image:image>
@@ -687,9 +745,12 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/017-free-bird/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.1.jpg</image:loc>
+    </image:image>
+    <image:image>
+      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.4.jpg</image:loc>
     </image:image>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.2.jpg</image:loc>
@@ -697,13 +758,10 @@
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.3.jpg</image:loc>
     </image:image>
-    <image:image>
-      <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Free-Bird-017.4.jpg</image:loc>
-    </image:image>
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/016-harboring-histories/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Harboring-Histories-016.8.jpg</image:loc>
     </image:image>
@@ -767,7 +825,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/015-versoehnungskirche-dachau-church-of-reconciliation/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Versoehnungskirche-Dachau-015.1.jpg</image:loc>
     </image:image>
@@ -795,7 +853,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/013-robosgraffito/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-RoboSgraffito-013.1.jpg</image:loc>
     </image:image>
@@ -817,7 +875,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/012-structural-patterns/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Structural-Patterns-012.3.jpg</image:loc>
     </image:image>
@@ -833,7 +891,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/011-rheinschwimmbad-rhine-river-baths/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Bachelor-Thesis-Rheinschwimmbad-011.1.jpg</image:loc>
     </image:image>
@@ -873,7 +931,7 @@
   </url>
   <url>
     <loc>https://www.tizianrein.de/projects/009-wohnen-in-nippes/</loc>
-    <lastmod>2026-11-05</lastmod>
+    <lastmod>2026-11-07</lastmod>
     <image:image>
       <image:loc>https://www.tizianrein.de/images/projects/Tizian-Rein-Wohnungsbau-Nippes-009.5.jpg</image:loc>
     </image:image>
