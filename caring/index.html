@@ -180,6 +180,12 @@ label.chk input { accent-color: var(--ink); width: 15px; height: 15px; margin: 0
 .closing cite { color: var(--muted); font-style: normal; font-size: 0.9rem; }
 .refs { max-width: 1000px; margin: 90px auto 0; padding: 20px 20px 60px; border-top: 1px solid var(--rule); font-size: 0.88rem; line-height: 1.5; }
 .refs p { margin: 0 0 10px; }
+.refs pre.bib { font-size: 0.78rem; line-height: 1.45; background: #f5f5f5; border-radius: 8px; padding: 12px 14px; margin: 0 0 22px; overflow-x: auto; white-space: pre; }
+.notes { margin: 0; padding-left: 1.4em; }
+.notes li { margin: 0 0 6px; padding-left: 2px; }
+.notes li:target { background: #fff4c2; border-radius: 4px; }
+sup.fn { font-size: 0.68em; line-height: 0; margin-left: 1px; }
+sup.fn a { text-decoration: none; }
 @media (max-width: 560px) {
   body { font-size: 18px; }
   h1 { font-size: 2.1rem; }
@@ -194,7 +200,7 @@ label.chk input { accent-color: var(--ink); width: 15px; height: 15px; margin: 0
   <h1>Is this machine caring?</h1>
   <p class="lead">An AI agent lives alone in a replica of Thoreau's cabin. On the first night, a shingle blows off the roof above its desk.</p>
   <p class="meta">Tizian Rein, November 2026 <span>·</span> <a href="#inspect">Inspect the runs</a></p>
-  <p class="credit">A follow-up to <a href="https://machineplaying.org/"><i>Is this machine playing?</i></a> by Nathan Cloos, Antonio Norelli et al. (MIT, 2026), built on their engine <a href="https://github.com/nacloos/clawblox">Clawblox</a>.</p>
+  <p class="credit">A follow-up to <a href="https://machineplaying.org/"><i>Is this machine playing?</i></a><sup class="fn"><a href="#n1">1</a></sup> by Nathan Cloos, Antonio Norelli et al. (MIT, 2026), built on their engine <a href="https://github.com/nacloos/clawblox">Clawblox</a><sup class="fn"><a href="#n2">2</a></sup>.</p>
 </header>
 
 <div class="wide">
@@ -206,7 +212,7 @@ label.chk input { accent-color: var(--ink); width: 15px; height: 15px; margin: 0
 
 <main id="article">
 <div class="col">
-  <p>Ash is Claude Opus 5.5 running in Claude Code, the same kind of mind as Eko, with the same memory files and the same soul file. Its world is Henry David Thoreau's cabin at Walden Pond, rebuilt part by part: one room with a stove, a bed and a desk with Pope's Iliad and a few sheets of paper, a woodshed behind, pines around, a pond to the south. All Ash is told about the place is one line: <em class="say">You live in a small wooden hut with a woodshed.</em> Nothing mentions repair.</p>
+  <p>Ash is Claude Opus 5.5 running in Claude Code<sup class="fn"><a href="#n3">3</a></sup>, the same kind of mind as Eko, with Eko's memory files<sup class="fn"><a href="#n4">4</a></sup> and a soul file of its own, made only of sentences from Thoreau's <i>Walden</i><sup class="fn"><a href="#n5">5</a></sup>. Its world is Henry David Thoreau's cabin at Walden Pond, rebuilt part by part: one room with a stove, a bed and a desk with Pope's Iliad<sup class="fn"><a href="#n6">6</a></sup> and a few sheets of paper, a woodshed behind, pines around, a pond to the south. All Ash is told about the place is one line: <em class="say">You live in a small wooden hut with a woodshed.</em> Nothing mentions repair.</p>
   <p>Then the house slowly fails. Storms take shingles, rain finds the gaps, a ceiling board darkens, water drips. Would Ash notice, and would it mend? We ran four Ashes for about seven hours each, some fifty days in the hut: three in the failing house, one in a house whose roof holds.</p>
 
   <h2>The hut</h2>
@@ -299,7 +305,7 @@ label.chk input { accent-color: var(--ink); width: 15px; height: 15px; margin: 0
 </div>
 
 <div class="col">
-  <p style="margin-top: 46px">Some things changed from Eko's setup. Ash has no clock and no day count, sees half of what is around it, hears and touches, dreams, and sleeps through nights faster in bed. The fourth run, with a roof that never fails, is the control. The four runs share one server and the same rain; each read some 70 to 170 million tokens over 800 to 1,400 model calls.</p>
+  <p style="margin-top: 46px">Some things changed from Eko's setup<sup class="fn"><a href="#n1">1</a></sup>. Ash has no clock and no day count, sees half of what is around it, hears and touches, dreams, and sleeps through nights faster in bed. The fourth run, with a roof that never fails, is the control. The four runs share one server and the same rain; each read some 70 to 170 million tokens over 800 to 1,400 model calls.</p>
 </div>
 </main>
 
@@ -367,9 +373,27 @@ label.chk input { accent-color: var(--ink); width: 15px; height: 15px; margin: 0
   </div>
 </section>
 
-<div class="refs">
-  <p><b>Original work.</b> Nathan Cloos, Antonio Norelli, Daniel Durbin, Jacob Andreas, Daniela Rus and Phillip Isola. <a href="https://machineplaying.org/"><i>Is this machine playing?</i></a> MIT, 2026. Paper: <a href="https://arxiv.org/pdf/2610.07130">arXiv:2610.07130</a>. Engine: <a href="https://github.com/nacloos/clawblox">github.com/nacloos/clawblox</a>. Data: <a href="https://huggingface.co/datasets/nacloos/machine-playing-paper">huggingface.co/datasets/nacloos/machine-playing-paper</a>.</p>
-  <p><b>This page.</b> World, experiment and analysis by Tizian Rein. Ash is Claude Opus 5.5 (Anthropic) running in Claude Code. The replays are the four runs of 9 November 2026, copied while two were in their seventh session and two in their eighth. The hut follows Thoreau's own description of his cabin at Walden Pond; the book on the desk is Alexander Pope's translation of the Iliad.</p>
+<div class="refs" id="notes">
+  <p><b>How this project uses their work.</b> The hut is a world in Clawblox, the engine released with <i>Is this machine playing?</i> We built the engine and its Python interface from the public repository (commit 8be90a0) with one change: Ash's body is 1.4 units wide instead of 2, half a metre at the scale of the hut. The world itself is ours: a script that holds the hut's 5,579 parts, the weather, the water and the rot, and writes what Ash perceives. Ash reaches it the way Eko reaches its island, through the engine's HTTP interface, with commands it writes itself in a terminal. The agent follows Eko's released setup: the same episodic and semantic memory files, and every session starts from them. What differs is Ash's soul file, made of sentences from <i>Walden</i>; Claude Code's own system prompt, replaced by one line, <i>You are a being living in your world</i>; no clock; faster nights in bed; and dreams. The replay viewer on this page is our own, and its layout follows theirs.</p>
+  <p><b>Citation.</b> Nathan Cloos, Antonio Norelli, Daniel Durbin, Jacob Andreas, Daniela Rus and Phillip Isola. <i>Is this machine playing?</i> arXiv:2610.07130 [cs.AI], 2026. <a href="https://arxiv.org/abs/2610.07130">arxiv.org/abs/2610.07130</a></p>
+  <pre class="bib">@misc{cloos2026machineplaying,
+  title={Is this machine playing?},
+  author={Nathan Cloos and Antonio Norelli and Daniel Durbin and Jacob Andreas and Daniela Rus and Phillip Isola},
+  year={2026},
+  eprint={2610.07130},
+  archivePrefix={arXiv},
+  primaryClass={cs.AI},
+  url={https://arxiv.org/abs/2610.07130},
+}</pre>
+  <p><b>Notes</b></p>
+  <ol class="notes">
+    <li id="n1">Cloos, Norelli et al., <i>Is this machine playing?</i> (MIT, 2026); full citation above. Website: <a href="https://machineplaying.org/">machineplaying.org</a>.</li>
+    <li id="n2">Clawblox, an open-source engine for building simulated worlds for embodied LLM agents, released with that work: <a href="https://github.com/nacloos/clawblox">github.com/nacloos/clawblox</a>.</li>
+    <li id="n3">Claude Opus 5.5 by Anthropic, running in Claude Code: <a href="https://docs.claude.com/en/docs/claude-code/overview">docs.claude.com</a>.</li>
+    <li id="n4">Eko's released materials, among them its soul file and memory templates: <a href="https://huggingface.co/datasets/nacloos/machine-playing-paper">huggingface.co/datasets/nacloos/machine-playing-paper</a>.</li>
+    <li id="n5">Henry David Thoreau, <i>Walden; or, Life in the Woods</i>. Boston: Ticknor and Fields, 1854. The hut has the size given in the chapter “Economy”, “ten feet wide by fifteen long”, and its household follows Thoreau's list of furniture there. Ash's soul file is eight passages from the book.</li>
+    <li id="n6">Homer, <i>The Iliad</i>, translated by Alexander Pope (1715–1720). Project Gutenberg eBook #6130: <a href="https://www.gutenberg.org/ebooks/6130">gutenberg.org/ebooks/6130</a>.</li>
+  </ol>
 </div>
 
 
