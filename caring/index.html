@@ -7,7 +7,7 @@
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="description" content="An AI agent lives alone in a replica of Thoreau&#39;s cabin at Walden Pond. On the first night, a shingle blows off the roof. More shingles get loose and intruding water decays the inside of the hut. Agents are increasingly better at 3D modeling complex environments. But will they start to care for them?">
+<meta name="description" content="An AI agent lives alone in a replica of Thoreau&#39;s cabin at Walden Pond. On the first night, a shingle blows off the roof above its desk. More follow, and water slowly gets into the hut. Nobody tells the agent to repair anything. What if damage were the prompt?">
 <style>
 :root {
   color-scheme: light;
@@ -210,7 +210,7 @@ sup.fn a { text-decoration: none; }
 <header>
   <h1>Is this machine caring?</h1>
   <p class="credit">A follow-up to <a href="https://machineplaying.org/"><i>Is this machine playing?</i></a><sup class="fn"><a href="#n1">1</a></sup> by Nathan Cloos, Antonio Norelli et al. (MIT, 2026), built on their engine <a href="https://github.com/nacloos/clawblox">Clawblox</a><sup class="fn"><a href="#n2">2</a></sup>.</p>
-  <p class="lead">An AI agent lives alone in a replica of Thoreau's cabin at Walden Pond. On the first night, a shingle blows off the roof. More shingles get loose and intruding water decays the inside of the hut. Agents are increasingly better at 3D modeling complex environments. But will they start to care for them?</p>
+  <p class="lead">An AI agent lives alone in a replica of Thoreau's cabin at Walden Pond. On the first night, a shingle blows off the roof above its desk. More follow, and water slowly gets into the hut. Nobody tells the agent to repair anything. What if damage were the prompt?</p>
   <p class="meta">Tizian Rein, November 2026 <span>·</span> <a href="#inspect">Inspect the runs</a></p>
 </header>
 
@@ -299,7 +299,7 @@ sup.fn a { text-decoration: none; }
     <div><p>The dream was wrong: the hole is still there. Back inside to read.</p><cite>run b, day 29</cite></div>
   </div>
   <p>Building was rare. Only the Ash in the sound house made something new, late, once nothing else was left to do.</p>
-  <blockquote><p>I'd read the book twice and walked the land empty, so I went back to the world's list of actions. I had never used the hammer and nails, so I built something.</p><cite>no damage, day 46 <button class="watch" type="button" data-jump="3:5775">watch</button></cite></blockquote>
+  <blockquote><p>I'd read the book twice and walked the land empty, so I went back to the world's list of actions. I had never used the hammer and nails, so I built something.</p><cite>no damage, day 46 <button class="watch" type="button" data-jump="3:5775" data-view="front">watch</button></cite></blockquote>
 </div>
 
 <div class="wide">
@@ -537,9 +537,8 @@ Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReac
 </section>
 
 <div class="refs" id="notes">
-  <p>This project builds on <i>Is this machine playing?</i><sup class="fn"><a href="#n1">1</a></sup> and reuses parts of it directly: their engine Clawblox<sup class="fn"><a href="#n2">2</a></sup>, used almost unchanged, and the agent setup from Eko's released materials<sup class="fn"><a href="#n4">4</a></sup>, with its system prompt template, its memory files and the way every session begins.</p>
-  <p>This page also reuses the presentation of their website, from its overall form to the layout and look of the replay viewer.</p>
-  <p>The main changes are in the world and in how Ash meets it. The world is new: Thoreau's hut at the size he gives in <i>Walden</i>, ten feet wide by fifteen long, furnished from his list<sup class="fn"><a href="#n5">5</a></sup>, built from 5,579 parts held together by nails, with weather, water that seeps from part to part, stains and rot, and actions to take parts off, nail them on and cut them. Ash perceives it in its own way: no clock and no day count, only the half of the world in front of it with every part listed, the sound of dripping, and the feel of what it touches. Its nights pass faster in bed, and dreams made of its own past words reach it between turns. Claude Code's own system prompt is replaced by Eko's template, its reminders are switched off and its tools are limited to Bash, Read, Write and Edit. The template gets a line about the hut, loses its line about bash timeouts, and its stop hook brings a short note of its own. The soul file is new, eight passages from <i>Walden</i>, and so are the world's instructions in API.md, the runs and their analysis.</p>
+  <p>This project builds on <i>Is this machine playing?</i><sup class="fn"><a href="#n1">1</a></sup> and reuses parts of it directly: their engine Clawblox<sup class="fn"><a href="#n2">2</a></sup>, used almost unchanged, and the agent setup from Eko's released materials<sup class="fn"><a href="#n4">4</a></sup>, with its system prompt template, its memory files and the way every session begins. This page also reuses the presentation of their website, from its overall form to the layout and look of the replay viewer.</p>
+  <p>The main changes are in the world and in how Ash meets it, both described above. The world is modelled after a historic site: Thoreau's hut is ten feet wide by fifteen long and furnished from his list<sup class="fn"><a href="#n5">5</a></sup>. Claude Code's own system prompt is replaced by Eko's template, its reminders are switched off and its tools are limited to Bash, Read, Write and Edit.</p>
   <p><b>References</b></p>
   <ol class="notes">
     <li id="n1">Nathan Cloos, Antonio Norelli, Daniel Durbin, Jacob Andreas, Daniela Rus and Phillip Isola. <i>Is this machine playing?</i> arXiv:2610.07130, 2026. <a href="https://arxiv.org/abs/2610.07130">arxiv.org/abs/2610.07130</a>, <a href="https://machineplaying.org/">machineplaying.org</a>.</li>
@@ -559,7 +558,7 @@ Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReac
 <script>
 const GEO = window.GEO;
 const INDEX = [{"run":"test12a","agent":"Ash_19","short":"a","title":"Run a","src":"data/run-0.js"},{"run":"test12b","agent":"Ash_20","short":"b","title":"Run b","src":"data/run-1.js"},{"run":"test12c","agent":"Ash_21","short":"c","title":"Run c","src":"data/run-2.js"},{"run":"test12_nodamage","agent":"Ash_22","short":"no damage","title":"No damage","src":"data/run-3.js"}];
-const HERO = { run: 2, k: 3577 };
+const HERO = { run: 2, k: 3597 };
 const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
 const pad = (n) => String(n).padStart(2, '0');
 function hms(s) { s = Math.max(0, Math.floor(s)); const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60; return h ? `${h}:${pad(m)}:${pad(s % 60)}` : `${pad(m)}:${pad(s % 60)}`; }
@@ -1361,7 +1360,7 @@ document.querySelectorAll('[data-jump]').forEach((el) => el.addEventListener('cl
   document.getElementById('inspect').scrollIntoView({ behavior: 'smooth' });
   if (!R || INDEX[i].run !== R.run) await selectRun(i);
   go(k);
-  setView('follow');
+  setView(el.dataset.view || 'east');   // a fixed camera; "Follow Ash" stays in the menu
 }));
 
 // ---------------------------------------------------------------- the chart: a crosshair and the values of the day under the pointer
