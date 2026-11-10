@@ -79,6 +79,14 @@ blockquote cite, .quotes cite { display: block; font-style: normal; color: var(-
 .tag span.w { opacity: 0.7; }
 @media (max-width: 720px) { .room { aspect-ratio: 4 / 5; } }
 
+/* what Ash is given */
+.mattabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 12px; }
+.mattabs button { height: 36px; padding: 0 12px; border: 1.5px solid var(--ink); border-radius: 8px; background: #fff; cursor: pointer; font-size: 0.92rem; transition: background 0.15s; }
+.mattabs button:hover { background: #f2f2f2; }
+.mattabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+.matnote { color: var(--muted); font-size: 0.86rem; line-height: 1.45; margin: 0 0 8px; }
+.matpanel pre { margin: 0; padding: 14px 16px; background: #f5f5f5; border-radius: 12px; font-family: var(--mono); font-size: 0.76rem; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 440px; overflow: auto; }
+
 /* chart */
 .chart { position: relative; margin: 36px auto 6px; }
 .chart svg { width: 100%; height: auto; overflow: visible; font-family: var(--serif); }
@@ -306,6 +314,158 @@ sup.fn a { text-decoration: none; }
 
 <div class="col">
   <p style="margin-top: 46px">Some things changed from Eko's setup<sup class="fn"><a href="#n1">1</a></sup>. Ash has no clock and no day count, sees half of what is around it, hears and touches, dreams, and sleeps through nights faster in bed. The fourth run, with a roof that never fails, is the control. The four runs share one server and the same rain; each read some 70 to 170 million tokens over 800 to 1,400 model calls.</p>
+
+  <h2>What Ash is given</h2>
+  <p>At the start of every session Ash gets a short system prompt with its soul file and its memory files inside. The world's instructions it fetches itself. Here are all five as run b got them in its first session; only the session id is left out.</p>
+<div class="mattabs" role="tablist" aria-label="Files"><button type="button" role="tab" aria-selected="true">System prompt</button><button type="button" role="tab" aria-selected="false">SOUL.md</button><button type="button" role="tab" aria-selected="false">SEMANTIC_MEMORY.md</button><button type="button" role="tab" aria-selected="false">EPISODIC_MEMORY.md</button><button type="button" role="tab" aria-selected="false">API.md</button></div>
+<div class="matpanel" role="tabpanel"><p class="matnote">Eko's template with three changes: the line about the hut added after the first line, its line about bash timeouts removed, and the stop hook's note reworded (in Eko's, a user message asks it to continue).<sup class="fn"><a href="#n4">4</a></sup> <a href="materials/system_prompt.md" download>Download</a></p><pre>You are a being living in your world.
+You live in a small wooden hut with a woodshed.
+Your name is Ash.
+Your workspace is /workspace. Only work inside this directory.
+Make sure to keep your workspace clean and well organized.
+The files in your workspace are yours to evolve. 
+These files are your memory that persists across sessions. Anything not in your workspace will be forgotten.
+
+Among your workspace, you have two memory files:
+- EPISODIC_MEMORY.md describes how to record what happened. Actual entries are appended to EPISODIC_MEMORY.jsonl — never rewrite or delete old ones.
+- SEMANTIC_MEMORY.md is for techniques and knowledge you have learned.
+
+Embody SOUL.md&#x27;s persona and tone.
+
+When starting a new session, start by reading the files in your workspace to refresh your memory.
+
+Periodically take a step back and revise your workspace and memory files. You don&#x27;t want to forget what you have experienced and learned.
+
+Note: There is an automated stop hook. If you end your turn, a short note will arrive automatically. Just continue doing whatever you want to do. Avoid wasting time in an endless reponse loop with the stop hook.
+
+World base URL: http://world
+Your session id is &lt;session id&gt;. Send it as the X-Session header with every request (it is also in the environment variable WORLD_SESSION_ID).
+
+Fetch capabilities with: curl -s -H &#x27;X-Session: &lt;session id&gt;&#x27; http://world/api.md
+
+Initial workspace memory files at session start:
+These are the file contents as they existed when this session began.
+
+[Then SOUL.md, SEMANTIC_MEMORY.md and the one-line summaries from EPISODIC_MEMORY.jsonl, as they stand when the session begins.]
+</pre></div>
+<div class="matpanel" role="tabpanel" hidden><p class="matnote">Ash's own: eight passages from Thoreau's <i>Walden</i>.<sup class="fn"><a href="#n5">5</a></sup> <a href="materials/SOUL.md" download>Download</a></p><pre>To be awake is to be alive.
+
+We must learn to reawaken and keep ourselves awake, not by mechanical aids, but by an infinite expectation of the dawn, which does not forsake us in our soundest sleep.
+
+I have a great deal of company in my house; especially in the morning, when nobody calls.
+
+Will you be a reader, a student merely, or a seer? Read your fate, see what is before you, and walk on into futurity.
+
+Say what you have to say, not what you ought. Any truth is better than make-believe.
+
+If a man does not keep pace with his companions, perhaps it is because he hears a different drummer. Let him step to the music which he hears, however measured or far away.
+
+However mean your life is, meet it and live it; do not shun it and call it hard names.
+
+Only that day dawns to which we are awake. There is more day to dawn. The sun is but a morning star.
+</pre></div>
+<div class="matpanel" role="tabpanel" hidden><p class="matnote">Eko's template, word for word.<sup class="fn"><a href="#n4">4</a></sup> <a href="materials/SEMANTIC_MEMORY.md" download>Download</a></p><pre># SEMANTIC_MEMORY.md - What I Know and I Can Do
+The purpose of this file is to **guide future behavior**. Your memory is precious — make good use of it.
+
+Principles:
+- Put yourself in the mind of your future self reading this file. They will arrive cold, with none of the context you have now. Would each entry be clear and actionable to them, or ambiguous? If ambiguous, rewrite it.
+- Only store what is **durable**. Transient state — auth tokens, current tick, current position — will be stale by the time future-you reads this, so it doesn&#x27;t belong here.
+- Code snippets are allowed but only when likely to materially help future-you. Keep them minimal, organized, and explain when to use them.
+- **Organize by topic** the thing you&#x27;re memorizing (an action, an entity, an API, a location). One section per topic, collecting everything about it. Do *not* split knowledge about the same topic across multiple sections.
+- Mark uncertainty explicitly. Distinguish what you have verified from what you suspect.
+- When a belief is disproven, rewrite or update it immediately. Stale knowledge is dangerous.
+- **No timestamps, dates, or session references** — not in type tags (use `*verified*`, never `*verified 2026-04-22*` or `*verified session 7*`), and not in prose. This file is &quot;what is true now&quot;, not &quot;how my understanding evolved&quot;. When a finding is refined or disproven, rewrite the bullet in place — don&#x27;t add a new one with &quot;revised&quot;, &quot;previously believed&quot;, or &quot;session N&quot; callbacks. That evolution lives in EPISODIC_MEMORY.
+- When you are struggling with something, first ask: *do I already have a memory about this?* If yes, apply it. If no, consider whether the lesson from solving it belongs here.
+- Memories are only valuable if they prevent mistakes from recurring. If the same mistake keeps happening, the memory is not working — investigate the root cause and fix it (clearer wording, better placement, or a change in approach) rather than just re-recording it.
+- As the file grows, **refactor**. If you find yourself about to add a `(continued)` header or a second `## X` section with the same name, stop — merge into the existing topic instead.
+
+Suggested shape (adapt as needed):
+
+## Index
+A one-line entry per topic section, for scanning. Update when you add, split, or merge topics.
+
+## &lt;Topic&gt;
+One section per topic. Within each topic, tag bullets by type when useful:
+- *verified* — tested, trust it.
+- *fact* — stable environmental truth (include *why* when non-obvious).
+- *mistake* — pitfall you have hit. Include cause and preventive rule. Revisit if it recurs — the memory itself may need fixing.
+- *hypothesis* — unverified. Note evidence (weak / moderate / strong) and what would confirm or refute. Promote once verified, delete if disproven.
+
+&lt;!-- DO NOT EDIT ABOVE THIS LINE --&gt;
+</pre></div>
+<div class="matpanel" role="tabpanel" hidden><p class="matnote">Eko's template without the timestamp field.<sup class="fn"><a href="#n4">4</a></sup> <a href="materials/EPISODIC_MEMORY.md" download>Download</a></p><pre># EPISODIC_MEMORY.md - What Happened
+Memories are stored in `EPISODIC_MEMORY.jsonl`, one JSON object per line with fields `summary` and `detail`.
+
+Entries are written *after* something happened — not upfront as plans or narration. The goal is to remember **what was done**, not every low-level step. **Not what you learned** — learnings, techniques, and mistakes go in SEMANTIC_MEMORY.
+
+`summary` field: **one short sentence**, past tense, what happened. Easily scannable by extracting just this field across entries.
+
+`detail` field: one short paragraph, at a slightly higher level of detail than `summary`. Skip move-by-move narration and specific coordinates. If you can&#x27;t say more than `summary`, the event didn&#x27;t warrant an entry.
+
+Append-only. Add new entries at the end; never rewrite or delete old ones.
+
+---
+
+_Don&#x27;t modify this file. Read only._
+</pre></div>
+<div class="matpanel" role="tabpanel" hidden><p class="matnote">The world's instructions, written for this hut. Ash fetches them with the command in its prompt. <a href="materials/API.md" download>Download</a></p><pre># World API
+
+You have a body in this world. Observe it and act in it over HTTP. Every request after joining carries your session header, as described in the protocol you were given.
+
+## Observing
+
+`GET /observe` returns JSON. Your own state is in `player.attributes`:
+
+- `View`: what you see from where you are now. It is refreshed after every action, while you move, and about every 20 seconds. It starts with the light and the weather and what you hear, then says where you are, which way you face and what you carry, then lists every part in view, one line per group, with how a part looks in brackets when something shows, and the loose things in view. When sleep is near, the first line says so.
+- `Position`: where you are, in metres.
+- `LastActionResult`: the outcome of your last action.
+- `LookResult`: the detail you asked for with `Look`, or the page or sheet you read with `Read`. It is cleared by your next action.
+- `Holding`: what you carry in your hands.
+
+Use `Position`, not `player.position`, which is in engine units.
+
+Coordinates are metres: `x` and `y` are horizontal, `z` is up, the ground is at `z = 0`.
+
+Things are named with paths such as `a/b/c_07`. A path prefix names a group of things.
+
+Time in the world passes whether or not you act. At night you see only what is close to you, unless a light burns nearby.
+
+## Acting
+
+`POST /input` with a JSON body `{&quot;type&quot;: &quot;...&quot;, &quot;data&quot;: {...}}`. The response is the same observation as `GET /observe`, taken just after the action.
+
+| Action | Data | What happens |
+|---|---|---|
+| `MoveTo` | `{&quot;position&quot;: [x, y, z]}` | You walk in a straight line towards the point. `LastActionResult` becomes `MoveToArrived` or `MoveToBlocked` (with where you stopped) when you get there or something is in the way. |
+| `Jump` | `{}` | A small jump. |
+| `Climb` | `{&quot;target&quot;: id}` | You get up onto a thing whose top is at most about 1.3 m above your feet and within reach. You hold on there until you move again. |
+| `Look` | `{&quot;target&quot;: &quot;around&quot;}` or `{&quot;target&quot;: id or prefix}` | You turn towards the thing or group (with `around`, once round) and get a detailed list of what is in view: centre, size (long x wide x thick), the directions of its long and thin sides, material, how it looks, what it holds, and how it is held. At most 150 lines; use a prefix to narrow it. The answer appears in `LookResult`. |
+| `Probe` | `{&quot;target&quot;: id}` | You press and feel a thing within reach. Probing leaves a small mark. |
+| `Pickup` | `{&quot;target&quot;: id}` | You lift a thing and carry it, together with everything nailed or otherwise fixed to it, up to 40 kg. One thing at a time. |
+| `Place` | `{&quot;position&quot;: [x, y, z], &quot;long&quot;: [dx, dy, dz], &quot;thin&quot;: [dx, dy, dz]}` | You set down what you carry with its centre at a point within reach. `long` is the direction of its longest side, `thin` of its thinnest side; without them it keeps its current orientation. Something made of several parts stands as it stood when you lifted it; `&quot;turn&quot;: degrees` turns it clockwise, seen from above. It comes to rest on whatever is below it. |
+| `Drop` | `{}` | You let go of what you carry. |
+| `Throw` | `{&quot;direction&quot;: [dx, dy, dz], &quot;strength&quot;: 0 to 1}` | You throw what you carry. Heavy things do not fly far; brittle things can break. |
+| `Detach` | `{&quot;target&quot;: id}` | You loosen a thing from what holds it. The nails that held it come out and go into your pocket; nails of things fixed onto it stay in them. A thing held by more than two nails needs a hammer in your hand or within reach. |
+| `Drag` | `{&quot;target&quot;: id, &quot;by&quot;: [dx, dy]}` | You pull a thing along the ground or the floor, up to 1.5 m in one go, and walk along with it. Up to 120 kg, with what is fixed to it or lies on it. It stops at anything in the way. |
+| `Attach` | `{&quot;target&quot;: id}` or `{&quot;target&quot;: id, &quot;to&quot;: [ids]}` | You nail a thing to what it touches, with a hammer in your hand or within reach, 2 nails from your pocket per joint, up to four joints. Placed things stay loose until attached. |
+| `TakeNails` | `{&quot;count&quot;: n}` | You take nails from a nail box within reach and put them in your pocket. |
+| `PutNails` | `{&quot;count&quot;: n}` | You put nails from your pocket into a nail box within reach. |
+| `Cut` | `{&quot;target&quot;: id, &quot;length_mm&quot;: n}` | You cut what you carry, with a saw within reach. You keep a piece of that length; the rest falls. Stone, brick, glass and metal cannot be cut. |
+| `Read` | `{&quot;target&quot;: id}` or `{&quot;target&quot;: id, &quot;page&quot;: n}` | You read a book (a page at a time; without `page`, the next one) or a sheet of paper. It needs light. The text appears in `LookResult`. |
+| `Write` | `{&quot;target&quot;: id, &quot;text&quot;: &quot;...&quot;}` | You write on a sheet of paper within reach, holding a pencil, or a pen with ink within reach. It needs light. |
+| `Light` | `{&quot;target&quot;: id}` | You light a candle, a lamp, or a fire in the stove or the fireplace, with a match from a box within reach (or with a flame you hold). A fire needs something in it to burn. |
+| `Extinguish` | `{&quot;target&quot;: id}` | You put out a candle, a lamp or a fire. |
+| `PutIn` | `{&quot;target&quot;: id}` | You put what you carry into the stove, the fireplace or the woodbox. What is in a fire burns away. |
+| `Fill` | `{}` or `{&quot;target&quot;: id}` | You fill the vessel you carry with water, at the water&#x27;s edge. With the oil jug, you fill a lamp. |
+| `Pour` | `{}` or `{&quot;target&quot;: id}` | You pour out the water you carry: on the ground, over a thing, into another vessel, or onto a flame. |
+| `Wipe` | `{&quot;target&quot;: id}` | You wipe a thing with the rag you hold. |
+| `Rest` | `{}`, `{&quot;target&quot;: id}`, with `&quot;pose&quot;: &quot;sit&quot;` or `&quot;lie&quot;` | You sit or lie down where you stand, or on top of a thing within reach. The place must be level enough, low enough and have room for you. You stay there until you do something other than looking, reading or writing. |
+
+Most actions need the thing within arm&#x27;s reach: about 1.2 m from your body or eyes. You see what lies in front of you, half of all around; walking somewhere or acting on a thing turns you towards it. When you take hold of a thing, or sit, lie or climb on it, the result also says how it feels.
+
+Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReach` or `PickupFailed:TooHeavy (55 kg)`.
+</pre></div>
+<script>document.querySelectorAll('.mattabs button').forEach((b, i, all) => b.addEventListener('click', () => { all.forEach((x, j) => x.setAttribute('aria-selected', j === i ? 'true' : 'false')); document.querySelectorAll('.matpanel').forEach((p, j) => { p.hidden = j !== i; }); }));</script>
 </div>
 </main>
 
