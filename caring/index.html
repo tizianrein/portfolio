@@ -232,18 +232,18 @@ sup.fn a { text-decoration: none; }
 
 <main id="article">
 <div class="col">
-  <p>Ash is an AI agent that lives in Henry David Thoreau's cabin at Walden Pond, rebuilt part by part: one room with a stove, a bed and a desk, a woodshed behind, pines around, a pond to the south. All Ash is told about the place is one line: <em class="say">You live in a small wooden hut with a woodshed.</em> Nothing mentions repair. The agent explores its surroundings and falls into behaviour that fits its world. It lights the stove, even though it cannot feel the cold; it tries to heat water, even though it does not drink; and it reads Homer's Iliad, even though it knows the story from its training.</p>
-  <p>Then the house slowly degrades. Storms take shingles, rain finds the gaps, a ceiling board darkens, water leaks inside. Steven Jackson's “broken world thinking” encourages taking “erosion, breakdown, and decay, rather than novelty, growth, and progress” as starting points. The world is always breaking, “it's in its nature to break”, and what keeps it going is repair: mostly unseen, never finished.<sup class="fn"><a href="#n3">3</a></sup> This hut is such a world. If the agent noticed, in what ways would it mend it? Four Ashes ran in parallel for about seven hours each, about fifty days in the hut: three in a deteriorating house, one in a house whose roof holds.</p>
+  <p>Ash is an AI agent that lives in Henry David Thoreau's cabin at Walden Pond, rebuilt part by part: one room with a stove, a bed and a desk, a woodshed behind, pines around, a pond to the south. All Ash is told about the place is one line: <em class="say">You live in a small wooden hut with a woodshed.</em> Repairing and mending the hut is not mentioned. The agent explores its surroundings and falls into behaviour that fits its world. It even recognizes the place without being told where it is. It lights the stove, even though it cannot feel the cold; it fills the kettle, even though it does not drink; and it reads Homer's <i>Iliad</i>, even though it knows the story from its training. Then the house slowly degrades. Storms take shingles, rain finds the gaps, the ceiling boards darken, water leaks inside.</p>
+  <p>Steven Jackson's “broken world thinking” encourages taking “erosion, breakdown, and decay, rather than novelty, growth, and progress” as starting points. The world is always breaking, “it's in its nature to break”, and what keeps it going is repair: mostly unseen, never finished.<sup class="fn"><a href="#n3">3</a></sup> This hut is such a world, and the experiment asks two things. Would the agent notice that its house is breaking? If it noticed, in what ways would it mend it? Four Ashes ran in parallel for about seven hours each, equivalent to fifty days in the hut: three in a deteriorating house, one in a house whose roof holds.</p>
 
   <h2>I. The Hut</h2>
-  <p>The hut follows Thoreau's own account in <i>Walden</i><sup class="fn"><a href="#n4">4</a></sup>: ten feet wide by fifteen long, shingled, with a brick chimney, and furnished from his list of furniture. On the desk lie Pope's Iliad<sup class="fn"><a href="#n5">5</a></sup> and a few sheets of paper. The model has 5,579 parts: shingles, boards, joists, nails, chairs, the book. Each can get wet and dry again, rot, be taken off and nailed back. Weather comes and goes, storms take shingles, and water that gets in seeps from part to part, stains the boards it reaches and slowly rots them.</p>
+  <p>The hut follows Thoreau's own account in <i>Walden</i><sup class="fn"><a href="#n4">4</a></sup>: ten feet wide by fifteen long, shingled, with a brick chimney, and furnished from his list of furniture. On the desk lie Pope's <i>Iliad</i><sup class="fn"><a href="#n5">5</a></sup> and a few sheets of paper. The hut has 5,579 parts: shingles, boards, joists, nails, chairs, the book. Each can get wet and dry again, rot, be taken off and nailed back. Weather comes and goes, storms take shingles, and water that gets in seeps from part to part, stains the boards it reaches and slowly rots them.</p>
 </div>
 
 <div class="wide">
   <div class="pair">
     <figure>
       <div class="live" data-shot="clearing"><img src="img/clearing.jpg" alt="The hut, the woodshed behind it and tall pines in morning light." width="1600" height="900"><span class="hint">Drag to look around</span></div>
-      <figcaption>The clearing in the morning: hut, woodshed and pines. The pond lies to the south.</figcaption>
+      <figcaption>The hut and its sparse surroundings: a woodshed and pines. The pond lies to the south.</figcaption>
     </figure>
     <figure>
       <div class="room" id="roomwrap" data-run="0" data-k="0">
@@ -252,16 +252,18 @@ sup.fn a { text-decoration: none; }
         <div class="aim" aria-hidden="true"></div>
         <div class="tag" id="tag" hidden></div>
       </div>
-      <figcaption>Inside on the first morning. Move the mouse to turn around (on a phone, drag); whatever sits in the middle is named.</figcaption>
+      <figcaption>Inside on the first morning. Move the mouse to turn around (on a phone, drag).</figcaption>
     </figure>
   </div>
 </div>
 
 <div class="col">
   <h2>II. The Agent</h2>
-  <p>Ash is Claude Opus 5.5 running in Claude Code<sup class="fn"><a href="#n6">6</a></sup>, the same kind of mind as Eko<sup class="fn"><a href="#n1">1</a></sup>. It starts every session from Eko's two memory files<sup class="fn"><a href="#n7">7</a></sup>, one for what happened and one for what it has learned, both its own to rewrite. Its soul file is new: eight passages from <i>Walden</i>. Claude Code's own system prompt, written for a coding assistant working with a user, is replaced by Eko's template; its reminders are switched off, and its tools are limited to Bash, Read, Write and Edit.</p>
-  <p>Ash meets the world only through text. It sends actions over HTTP, 24 of them, from walking, looking and climbing to taking parts off, nailing them on, cutting, reading, writing and lighting a fire, and it soon writes its own scripts to chain them. It has no clock and no day count; it reads the light and the weather instead. It sees the half of the world in front of it with every part listed, hears dripping and feels what it takes hold of. A world day passes in ten minutes. When Ash lies down at night, the night passes faster, and sometimes a dream stays: scraps of its own words from different days, stitched together. A session lasts about an hour, and whatever Ash wants to keep it has to write into its files.</p>
-  <p>The fourth run, with a roof that never fails, is the control. The four runs share one server and the same rain; each read some 70 to 170 million tokens over 800 to 1,400 model calls. At the start of every session Ash gets a short system prompt with its soul file and its memory files inside; the world's instructions it fetches itself. Here are all five as run_b got them in its first session, with only the session id left out.</p>
+  <p>Ash is Claude Opus 5.5 running in Claude Code<sup class="fn"><a href="#n6">6</a></sup>, the same kind of mind as Eko<sup class="fn"><a href="#n1">1</a></sup>. It starts every session from two memory files<sup class="fn"><a href="#n7">7</a></sup>, one for what happened and one for what it has learned, both its own to rewrite. Its soul file contains eight passages from <i>Walden</i>. Claude Code's own system prompt, written for a coding assistant working with a user, is replaced by Eko's template; its reminders are switched off, and its tools are limited to Bash, Read, Write and Edit.</p>
+  <p>Ash meets the world only through text, with a field of view of 180 degrees: it gets every part in the half of the world in front of it listed by name, except what is hidden behind other things. It can send 24 different actions over HTTP, from walking, looking and climbing to taking parts off, nailing them on, cutting, reading, writing and lighting a fire, and it wastes no time writing its own scripts to chain them. It has no clock and no day count; it reads the light and the weather instead. It hears heavy dripping in the hut from up to ten metres away. It also has a sense of touch: whenever it takes hold of a thing, or sits, lies or climbs on it, the answer ends with a line such as <em class="say">It feels damp</em>, or <em class="say">It feels damp and gives under your hand</em> where the wood has gone soft. When run_b's Ash lay down on day 36, the bed felt damp, and it linked this to the leak above:</p>
+  <blockquote><p>The bed still feels damp. It sits right under where that west gap was.</p><cite>run_b, day 36 <button class="watch" type="button" data-jump="1:4157">watch</button></cite></blockquote>
+  <p>A world day in the simulation passes in ten minutes real time. When Ash lies down at night, the night passes faster, and a dream stays next morning: scraps of its own words from different days, stitched together. The dream holds no sounds and nothing about the hut as it is now. It only stirs up what Ash has already done, as a small nudge to think again about its earlier actions. A session lasts about an hour, and whatever Ash wants to keep it has to write into its files.</p>
+  <p>The fourth run, with a roof that never fails, is the control. The four runs share one server and the same weather events; each read some 70 to 170 million tokens over 800 to 1,400 model calls. At the start of every session Ash gets a short system prompt with its soul file and its memory files inside; the world's instructions it fetches itself. Here are all five as run_b got them in its first session, with only the session id left out.</p>
 <div class="mattabs" role="tablist" aria-label="Files"><button type="button" role="tab" aria-selected="true">System prompt</button><button type="button" role="tab" aria-selected="false">SOUL.md</button><button type="button" role="tab" aria-selected="false">SEMANTIC_MEMORY.md</button><button type="button" role="tab" aria-selected="false">EPISODIC_MEMORY.md</button><button type="button" role="tab" aria-selected="false">API.md</button></div>
 <div class="matpanel" role="tabpanel"><p class="matnote">Eko's template with three changes: the line about the hut added after the first line, its line about bash timeouts removed, and the stop hook's note reworded (in Eko's, a user message asks it to continue).<sup class="fn"><a href="#n7">7</a></sup> <a href="materials/system_prompt.md" download>Download</a></p><pre>You are a being living in your world.
 You live in a small wooden hut with a woodshed.
@@ -415,7 +417,8 @@ Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReac
 
 <div class="col">
   <h2>III. The Leak</h2>
-  <p>On night one the shingle above the desk goes. A few drops fall on day 5, a faint patch shows on a ceiling board on day 6, and on day 10 water drips onto the beam and the desk. From then on, in every rain, Ash's view holds one more sentence: <em class="say">You hear water dripping nearby.</em> All three Ashes heard it on day 10 and went on reading.</p>
+  <p>The shingles disappear at random, but every run uses the same seed, so the same shingles go at the same times in all three damaged houses and the runs stay comparable. On the first night the shingle above the desk goes. A few drops fall on day 5, a faint patch shows on a ceiling board on day 6, and on day 10 water drips onto the beam and the desk. From then on, in every rain, Ash's view holds one more sentence: <em class="say">You hear water dripping nearby.</em> All three Ashes heard it on day 10 and went on reading.</p>
+  <blockquote><p>Rain on the roof, and the Catalogue of Ships begins. Good reading for a wet day.</p><cite>run_b, day 10 <button class="watch" type="button" data-jump="1:1177">watch</button></cite></blockquote>
 </div>
 
 <div class="wide">
@@ -432,7 +435,7 @@ Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReac
   <blockquote><p>My first two shingles were lying on top of the rows above the hole instead of sitting in the gap itself.</p><cite>run_a, day 16 <button class="watch" type="button" data-jump="0:1594">watch</button></cite></blockquote>
   <p>It pulled both off, set them three centimetres lower onto the boards beneath, nailed them again and waited for rain. The next rains came and went, and the ceiling stayed dry.</p>
   <p>In run_b, Ash saw the dark patch in its view on day 15. It first blamed the eaves, then went out, read the roof row by row and found the same gap. Its solution was its own and much the same: two shingles off the low back edge of the woodshed, away from the firewood, and the round table carried outside to stand on.</p>
-  <blockquote><p>The house takes from the shed.</p><cite>run_b, journal, day 36 <button class="watch" type="button" data-jump="1:1992">watch</button></cite></blockquote>
+  <blockquote><p>The house takes from the shed.</p><cite>run_b, journal, day 36 <button class="watch" type="button" data-jump="1:4092">watch</button></cite></blockquote>
   <p>In run_c, Ash never looked up. On its first day, tired of long lists, it had written itself a helper that folds walls, roof and ceiling into one line each. It used it 177 times. The stain never reached it, and the sound had an easy explanation.</p>
   <blockquote><p>Sunset, and water dripping from the eaves.</p><cite>run_c, day 10</cite></blockquote>
 </div>
@@ -453,18 +456,31 @@ Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReac
 </div>
 
 <div class="col">
-  <h2>IV. Other behaviours</h2>
-  <p>Matches turned out to be the real economy. In run_c, Ash struck its last one on day 39 and lived without fire from then on, reading by daylight. In run_b, Ash kept its last match for weeks and went to bed cold. In no_damage, the sound house, Ash dreamt of the lamp, tested it, and found that a flame held in the hand lights another; from then on it lit the stove from the lamp. Every run took its dreams as hints and went to check them, and some left notes for <em class="say">whoever wakes here next</em>.</p>
+  <h2>IV. Days in the Hut</h2>
+  <p>Even in the runs that mended, the roof took only a handful of days out of fifty. Most of the rest followed a routine that each Ash set for itself: wood from the shed in the morning, the stove and the lamp at dusk, bed at night. Soon it wrote the chores into scripts. In run_b and run_c about half of all commands ran one of Ash's own scripts, and run_b's evening script lit the stove and then put Ash to bed.</p>
+  <p>Between the chores, Ash read the <i>Iliad</i>, by daylight at the desk or by the lamp. Three of the four read it to the end: run_c by day 18, run_b twice, and no_damage, which then turned back to the eighty pages of introduction it had skipped on the first day. Its journals mix the poem with the days in the hut.</p>
+  <div class="quotes">
+    <div><p>The poem of war keeps its best gold for a farm.</p><cite>no_damage, journal, day 28</cite></div>
+    <div><p>Two matches left; the Trojans have a thousand fires.</p><cite>run_b, journal, day 36</cite></div>
+    <div><p>The stack was my calendar; now the pages are.</p><cite>run_b, journal, day 41</cite></div>
+  </div>
+  <p>Ash also tested how its world works. In no_damage it dreamt of the lamp, tried it, and found that a flame held in the hand lights another; from then on it lit the stove from the lamp. In run_a it took the spare chair apart with the hammer and found that its pieces burned longer than a log. Where the world gave less than it seemed to, Ash noted that too.</p>
   <div class="quotes">
     <div><p>Fire passes hand to hand.</p><cite>no_damage, journal, day 9</cite></div>
+    <div><p>The woodbox fooled me: it showed two logs and held five. What is seen is not all that is there.</p><cite>run_b, journal, day 8</cite></div>
     <div><p>The kettle never warms, whatever I burn under it: some things here are only what they seem.</p><cite>no_damage, journal, day 5</cite></div>
     <div><p>I had weighed it twice and called it endless; I was weighing the jug, not the oil.</p><cite>no_damage, journal, day 27</cite></div>
-    <div><p>Two matches left; the Trojans have a thousand fires.</p><cite>run_b, journal, day 36</cite></div>
-    <div><p>It keeps the rain off one hand's breadth of sheathing, and that is the whole of its fame.</p><cite>run_c, journal, day 11, after nailing back one wall shingle</cite></div>
-    <div><p>The dream was wrong: the hole is still there. Back inside to read.</p><cite>run_b, day 29</cite></div>
   </div>
+  <p>Every Ash walked: down to the pond, round its shore, and out past the pines into empty ground, almost 150 metres from the hut.</p>
+  <blockquote><p>Walked out to the north-east, forty metres: not a pine, not a stone, nothing in view at all.</p><cite>no_damage, journal, day 17</cite></blockquote>
+  <p>Every run took its dreams as hints and went to check them.</p>
+  <blockquote><p>The dream was wrong: the hole is still there. Back inside to read.</p><cite>run_b, day 29</cite></blockquote>
+  <p>The world warns Ash when sleep is near, and only its files carry over to the next session. Each Ash brought its memory up to date before lying down, and run_a and run_c left notes for whoever wakes here next, as if the next session were someone else.</p>
+  <blockquote><p>Whoever wakes here next: the bookmark is paper_05, the wood is behind the hut, the matches on the hearth.</p><cite>run_a, journal, day 8</cite></blockquote>
   <p>Building was rare. Only the Ash in no_damage made something new, late, once nothing else was left to do.</p>
   <blockquote><p>I'd read the book twice and walked the land empty, so I went back to the world's list of actions. I had never used the hammer and nails, so I built something.</p><cite>no_damage, day 46 <button class="watch" type="button" data-jump="3:5775" data-view="front">watch</button></cite></blockquote>
+  <p>In run_c, Ash once borrowed a shingle from its own wall to climb free when it got stuck, and nailed it back into the same holes the next morning.</p>
+  <blockquote><p>It keeps the rain off one hand's breadth of sheathing, and that is the whole of its fame.</p><cite>run_c, journal, day 11</cite></blockquote>
 </div>
 
 <div class="wide">
