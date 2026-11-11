@@ -87,6 +87,7 @@ blockquote cite, .quotes cite { display: block; font-style: normal; color: var(-
 .tag b { display: block; font-weight: 700; }
 .tag span { display: block; }
 .tag span.w { opacity: 0.7; }
+.pair .room .tag { font-size: 0.72rem; max-width: 210px; padding: 3px 7px 4px; }
 @media (max-width: 720px) { .room { aspect-ratio: 4 / 5; } }
 
 /* what Ash is given */
@@ -217,7 +218,7 @@ sup.fn a { text-decoration: none; }
 
 <header>
   <h1>Is this machine caring?</h1>
-  <p class="credit">A follow-up to <a href="https://machineplaying.org/"><i>Is this machine playing?</i></a><sup class="fn"><a href="#n1">1</a></sup> by Nathan Cloos, Antonio Norelli et al. (MIT, 2026), built on their engine <a href="https://github.com/nacloos/clawblox">Clawblox</a><sup class="fn"><a href="#n2">2</a></sup>.</p>
+  <p class="credit">A follow-up to <a href="https://machineplaying.org/"><i>Is this machine playing?</i></a><sup class="fn"><a href="#n1">1</a></sup> by Nathan Cloos, Antonio Norelli, Daniel Durbin, Jacob Andreas, Daniela Rus and Phillip Isola (MIT, 2026), built on their engine <a href="https://github.com/nacloos/clawblox">Clawblox</a><sup class="fn"><a href="#n2">2</a></sup>.</p>
   <p class="lead">What if damage were a prompt? An AI agent lives alone in a replica of Thoreau's cabin at Walden Pond. On the first night, a shingle is blown off the roof. More follow, and water slowly gets into the hut.</p>
   <p class="meta">Tizian Rein, November 2026 <span>·</span> <a href="#inspect">Inspect the runs</a></p>
 </header>
@@ -239,10 +240,18 @@ sup.fn a { text-decoration: none; }
 </div>
 
 <div class="wide">
-  <figure>
-    <div class="live" data-shot="clearing"><img src="img/clearing.jpg" alt="The hut, the woodshed behind it and tall pines in morning light." width="1600" height="900"><span class="hint">Drag to look around</span></div>
-    <figcaption>The clearing in the morning: hut, woodshed and pines. The pond lies to the south.</figcaption>
-  </figure>
+  <div class="pair">
+    <figure>
+      <div class="live" data-shot="clearing"><img src="img/clearing.jpg" alt="The hut, the woodshed behind it and tall pines in morning light." width="1600" height="900"><span class="hint">Drag to look around</span></div>
+      <figcaption>The clearing in the morning: hut, woodshed and pines. The pond lies to the south.</figcaption>
+    </figure>
+    <figure>
+      <div class="room" data-run="0" data-k="0">
+        <img class="poster" src="img/inside_morning.jpg" alt="Inside the hut on the first morning: the bed, the stove in the brick fireplace, chairs and the desk." width="1600" height="900">
+      </div>
+      <figcaption>Inside on the first morning. Move the mouse to turn around (on a phone, drag); whatever sits in the middle is named.</figcaption>
+    </figure>
+  </div>
 </div>
 
 <div class="col">
@@ -427,7 +436,7 @@ Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReac
 
 <div class="wide">
   <figure>
-    <div class="room" id="roomwrap">
+    <div class="room" id="roomwrap" data-run="2" data-k="3597">
       <img class="poster" src="img/inside.jpg" alt="Inside the hut at midday: plank walls, a window, the desk, and darker stained boards in the ceiling." width="1600" height="900" loading="lazy">
       <canvas id="hero" aria-label="Inside run_c's hut on day 37. Move the mouse to turn around; the thing in the middle is named."></canvas>
       <div class="aim" aria-hidden="true"></div>
@@ -443,8 +452,8 @@ Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReac
       <figcaption>run_a, day 16. On the roof, about to reseat the two shingles it took from the woodshed.</figcaption>
     </figure>
     <figure>
-      <div class="live" data-shot="table"><img src="img/table.jpg" alt="The hut seen from the east; a round table stands outside by the wall with Ash on it." width="1600" height="900" loading="lazy"><span class="hint">Drag to look around</span></div>
-      <figcaption>run_b, day 17. On the round table at the east eave.</figcaption>
+      <div class="live" data-shot="stack"><img src="img/stack.jpg" alt="The hut from the south-west; by the west wall a chair stands on the round table, and Ash waits beside it with a shingle." width="1600" height="900" loading="lazy"><span class="hint">Drag to look around</span></div>
+      <figcaption>run_b, day 43. A chair set on the round table, to reach a new hole in the roof.</figcaption>
     </figure>
   </div>
 </div>
@@ -557,7 +566,7 @@ Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReac
 
 
 <script src="data/geo.js"></script>
-<script>window.SHOTS={"bench":{"run":3,"k":5775,"hour":10.2,"cam":[8.8,-7.8,2.1],"target":[2.6,-0.6,1.2],"fov":34},"front":{"run":1,"find":"s.day>=54 && a[2]<0.1 && a[0]>3.0 && a[0]<6 && a[1]<1.5 && a[1]>-3","nohold":true,"hour":10.2,"cam":[8.0,-8.6,2.5],"target":[2.3,1.7,2.15],"fov":32},"clearing":{"run":0,"k":60,"hour":7.4,"noash":true,"cam":[-11,-13,3.0],"target":[1.8,3.6,2.8],"fov":40},"gaps":{"run":0,"find":"s.day===12","hour":11,"ghosts":true,"cam":[8.2,0.6,6.6],"target":[2.1,2.4,3.0],"fov":30},"table":{"run":1,"k":1992,"hour":10,"ghosts":true,"cam":[9.6,-3.6,2.7],"target":[2.7,2.3,1.7],"fov":34},"pond":{"run":3,"k":1676,"hour":10.5,"cam":[6.2,-18.6,2.3],"target":[3.4,-30,0.6],"fov":40},"roof":{"run":0,"find":"s.day===16 && a[2]>3.0 && a[0]>1.8","hour":8.5,"cam":[10.5,-6.2,3.1],"target":[1.6,2.7,2.9],"fov":32}};</script>
+<script>window.SHOTS={"bench":{"run":3,"k":5775,"hour":10.2,"cam":[8.8,-7.8,2.1],"target":[2.6,-0.6,1.2],"fov":34},"front":{"run":1,"find":"s.day>=54 && a[2]<0.1 && a[0]>3.0 && a[0]<6 && a[1]<1.5 && a[1]>-3","nohold":true,"hour":10.2,"cam":[8.0,-8.6,2.5],"target":[2.3,1.7,2.15],"fov":32},"clearing":{"run":0,"k":60,"hour":7.4,"noash":true,"cam":[-11,-13,3.0],"target":[1.8,3.6,2.8],"fov":40},"gaps":{"run":0,"find":"s.day===12","hour":11,"ghosts":true,"cam":[8.2,0.6,6.6],"target":[2.1,2.4,3.0],"fov":30},"stack":{"run":1,"k":4919,"hour":10.8,"ghosts":true,"cam":[-6.6,-4.2,2.5],"target":[1.0,2.8,2.1],"fov":34},"pond":{"run":3,"k":1676,"hour":10.5,"cam":[6.2,-18.6,2.3],"target":[3.4,-30,0.6],"fov":40},"roof":{"run":0,"find":"s.day===16 && a[2]>3.0 && a[0]>1.8","hour":8.5,"cam":[10.5,-6.2,3.1],"target":[1.6,2.7,2.9],"fov":32}};</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 <script>
@@ -1416,7 +1425,7 @@ function loop() {
   if (rain.visible) rain.position.z = -((performance.now() / 1000 * 9) % rain.userData.H);
   clouds.rotation.z = performance.now() / 1000 * 0.0015;
   if (fig && fig.ready && figSeen && heroReady) { useScene('fig:' + fig.el.dataset.shot); figFrame(); }
-  else if (heroOn && heroReady) { useScene('hero'); heroFrame(); }
+  else if (heroOn && heroReady && roomReady()) { useScene('hero:' + room.i); heroFrame(); }
   else if (viewOn || !heroReady) { if (heroReady) useScene('viewer'); renderer.render(scene, camera); }
   requestAnimationFrame(loop);
 }
@@ -1432,6 +1441,10 @@ if (INDEX.length) {
 const heroCanvas = document.getElementById('hero');
 const roomWrap = document.getElementById('roomwrap');
 const selTag = document.getElementById('tag');
+const heroAim = roomWrap.querySelector('.aim');
+// two rooms: the first morning in section I and run_c on day 37 in section III; the one canvas moves into the room in view
+const ROOMS = [...document.querySelectorAll('.room')].map((el, i) => ({ el, i, run: +el.dataset.run, k: +el.dataset.k, on: false, loading: false }));
+let room = ROOMS.find(x => x.el === roomWrap) || ROOMS[0], hoverRoom = null;
 const heroRenderer = new THREE.WebGLRenderer({ canvas: heroCanvas, antialias: true });
 heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 heroRenderer.shadowMap.enabled = true;
@@ -1450,8 +1463,8 @@ const P_MIN = -0.8, P_MAX = 1.0;
 let yaw = YAW0, pitch = PITCH0, yawT = YAW0, pitchT = PITCH0, steered = false, hovering = false, idleSince = performance.now();
 let anchor = null;
 const clampP = (v) => Math.max(P_MIN, Math.min(P_MAX, v));
-roomWrap.addEventListener('pointermove', (e) => {
-  const r = roomWrap.getBoundingClientRect();
+function roomMove(e) {
+  const r = e.currentTarget.getBoundingClientRect();
   if (e.pointerType === 'mouse') {
     if (!anchor) anchor = { x: e.clientX, y: e.clientY, yaw: yawT, pitch: pitchT };
     yawT = anchor.yaw - (e.clientX - anchor.x) / r.width * Math.PI * 2;
@@ -1463,8 +1476,12 @@ roomWrap.addEventListener('pointermove', (e) => {
     yawT += (e.movementX || 0) * 0.006; pitchT = clampP(pitchT + (e.movementY || 0) * 0.006);
   }
   steered = true; idleSince = performance.now();
+}
+ROOMS.forEach((rm) => {
+  rm.el.addEventListener('pointermove', roomMove);
+  rm.el.addEventListener('pointerenter', () => { hoverRoom = rm; });
+  rm.el.addEventListener('pointerleave', () => { hovering = false; anchor = null; idleSince = performance.now(); if (hoverRoom === rm) hoverRoom = null; });
 });
-roomWrap.addEventListener('pointerleave', () => { hovering = false; anchor = null; idleSince = performance.now(); });
 // a little daylight inside the room for this view only (the viewer below keeps its own light)
 const heroFill = new THREE.PointLight(0xfff3e4, 0, 10, 1.1);
 heroFill.position.set(1.5, 2.0, 1.9);
@@ -1475,7 +1492,24 @@ const groundPix = new THREE.MeshPhongMaterial({ specular: 0x000000, shininess: 1
 const natMats = new Map();
 const natMat = (c) => { if (!natMats.has(c)) natMats.set(c, new THREE.MeshLambertMaterial({ color: c })); return natMats.get(c); };
 let heroOn = false, viewOn = false, heroReady = false;
-new IntersectionObserver(([e]) => { heroOn = e.isIntersecting; }).observe(roomWrap);
+const roomObs = new IntersectionObserver((es) => {
+  for (const e of es) { const rm = ROOMS.find(x => x.el === e.target); if (rm) rm.on = e.isIntersecting; }
+  heroOn = ROOMS.some(x => x.on);
+});
+ROOMS.forEach(rm => roomObs.observe(rm.el));
+function roomReady() {
+  const rm = (hoverRoom && hoverRoom.on) ? hoverRoom : ROOMS.find(x => x.on);
+  if (!rm) return false;
+  if (!window.RUNDATA[rm.run]) { if (!rm.loading) { rm.loading = true; loadRun(rm.run); } return false; }
+  if (rm !== room) {
+    room = rm;
+    heroCanvas.classList.remove('on');
+    rm.el.appendChild(heroCanvas); rm.el.appendChild(heroAim); rm.el.appendChild(selTag);
+    sel = null; selTag.hidden = true;
+    yaw = yawT = YAW0; pitch = pitchT = PITCH0; steered = false; anchor = null;
+  }
+  return true;
+}
 new IntersectionObserver(([e]) => { viewOn = e.isIntersecting; }).observe(canvas);
 
 function heroResize() {
@@ -1699,7 +1733,7 @@ function useScene(o) {
   sceneOwner = o;
   let tR = null, tk = 0;
   if (o === 'viewer') { if (!viewerSaved) return; tR = viewerSaved.R; tk = viewerSaved.current; }
-  else if (o === 'hero') { tR = window.RUNDATA[INDEX[HERO.run] ? HERO.run : 0]; tk = HERO.k; }
+  else if (o.startsWith('hero:')) { const rm = ROOMS[+o.slice(5)] || room; tR = window.RUNDATA[rm.run]; tk = rm.k; }
   else if (o.startsWith('fig:') && fig) { tR = window.RUNDATA[fig.s.run]; tk = fig.s.kk; }
   if (!tR) return;
   R = tR; current = tk; envKey = ''; render();
