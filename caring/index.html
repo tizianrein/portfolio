@@ -7,7 +7,7 @@
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
-<meta name="description" content="An AI agent lives alone in a replica of Thoreau&#39;s cabin at Walden Pond. On the first night, a shingle blows off the roof above its desk. More follow, and water slowly gets into the hut. Nobody tells the agent to repair anything. What if damage were the prompt?">
+<meta name="description" content="What if damage were a prompt? An AI agent lives alone in a replica of Thoreau&#39;s cabin at Walden Pond. On the first night, a shingle is blown off the roof. More follow, and water slowly gets into the hut.">
 <style>
 :root {
   color-scheme: light;
@@ -218,7 +218,7 @@ sup.fn a { text-decoration: none; }
 <header>
   <h1>Is this machine caring?</h1>
   <p class="credit">A follow-up to <a href="https://machineplaying.org/"><i>Is this machine playing?</i></a><sup class="fn"><a href="#n1">1</a></sup> by Nathan Cloos, Antonio Norelli et al. (MIT, 2026), built on their engine <a href="https://github.com/nacloos/clawblox">Clawblox</a><sup class="fn"><a href="#n2">2</a></sup>.</p>
-  <p class="lead">An AI agent lives alone in a replica of Thoreau's cabin at Walden Pond. On the first night, a shingle blows off the roof above its desk. More follow, and water slowly gets into the hut. Nobody tells the agent to repair anything. What if damage were the prompt?</p>
+  <p class="lead">What if damage were a prompt? An AI agent lives alone in a replica of Thoreau's cabin at Walden Pond. On the first night, a shingle is blown off the roof. More follow, and water slowly gets into the hut.</p>
   <p class="meta">Tizian Rein, November 2026 <span>·</span> <a href="#inspect">Inspect the runs</a></p>
 </header>
 
@@ -231,8 +231,8 @@ sup.fn a { text-decoration: none; }
 
 <main id="article">
 <div class="col">
-  <p>Ash is an AI agent that lives in Henry David Thoreau's cabin at Walden Pond, rebuilt part by part: one room with a stove, a bed and a desk, a woodshed behind, pines around, a pond to the south. All Ash is told about the place is one line: <em class="say">You live in a small wooden hut with a woodshed.</em> Nothing mentions repair.</p>
-  <p>Then the house slowly fails. Storms take shingles, rain finds the gaps, a ceiling board darkens, water drips. Most worlds built for AI agents hold still: they wait to be explored, solved or built on. Steven Jackson's broken world thinking starts from the other end. The world is always breaking, “it's in its nature to break”, and what keeps it going is repair: mostly unseen, never finished.<sup class="fn"><a href="#n3">3</a></sup> This hut is such a world. Would Ash notice, and would it mend? Four Ashes ran for about seven hours each, some fifty days in the hut: three in the failing house, one in a house whose roof holds.</p>
+  <p>Ash is an AI agent that lives in Henry David Thoreau's cabin at Walden Pond, rebuilt part by part: one room with a stove, a bed and a desk, a woodshed behind, pines around, a pond to the south. All Ash is told about the place is one line: <em class="say">You live in a small wooden hut with a woodshed.</em> Nothing mentions repair. The agent explores its surroundings and falls into behaviour that fits its world. It lights the stove, even though it cannot feel the cold; it tries to heat water, even though it does not drink; and it reads Homer's Iliad, even though it knows the story from its training.</p>
+  <p>Then the house slowly degrades. Storms take shingles, rain finds the gaps, a ceiling board darkens, water leaks inside. Steven Jackson's “broken world thinking” encourages taking “erosion, breakdown, and decay, rather than novelty, growth, and progress” as starting points. The world is always breaking, “it's in its nature to break”, and what keeps it going is repair: mostly unseen, never finished.<sup class="fn"><a href="#n3">3</a></sup> This hut is such a world. If the agent noticed, in what ways would it mend it? Four Ashes ran in parallel for about seven hours each, about fifty days in the hut: three in a deteriorating house, one in a house whose roof holds.</p>
 
   <h2>I. The Hut</h2>
   <p>The hut follows Thoreau's own account in <i>Walden</i><sup class="fn"><a href="#n4">4</a></sup>: ten feet wide by fifteen long, shingled, with a brick chimney, and furnished from his list of furniture. On the desk lie Pope's Iliad<sup class="fn"><a href="#n5">5</a></sup> and a few sheets of paper. The model has 5,579 parts: shingles, boards, joists, nails, chairs, the book. Each can get wet and dry again, rot, be taken off and nailed back. Weather comes and goes, storms take shingles, and water that gets in seeps from part to part, stains the boards it reaches and slowly rots them.</p>
@@ -729,7 +729,7 @@ function roofPlane(prefix, lift) {
   const l = nrm.length();
   return new THREE.Plane(nrm.divideScalar(l), (c + lift) / l);   // positive below the roof
 }
-const gablePlanes = [roofPlane('roof/east/', 0.03), roofPlane('roof/west/', 0.03)].filter(Boolean);
+const gablePlanes = [roofPlane('roof/east/', -0.02), roofPlane('roof/west/', -0.02)].filter(Boolean);   // a little under the roof, so nothing shows above it
 const shedPlanes = [roofPlane('woodshed/roof/', 0.03)].filter(Boolean);
 function classOf(id, role) {
   if (role === 'tree' || role === 'tree_crown' || role === 'water') return role;
@@ -1628,6 +1628,7 @@ const figRenderer = new THREE.WebGLRenderer({ canvas: figCanvas, antialias: true
 figRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 figRenderer.shadowMap.enabled = true;
 figRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+figRenderer.localClippingEnabled = true;     // the gable shingles are cut along the roof
 const figCam = new THREE.PerspectiveCamera(34, 16 / 9, 0.05, 1500);
 figCam.up.set(0, 0, 1);
 const figControls = new THREE.OrbitControls(figCam, figCanvas);
