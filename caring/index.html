@@ -1445,7 +1445,7 @@ heroCam.position.copy(EYE);
 // the mouse turns the view, measured from where it entered: a sweep across the width is one full turn,
 // up and down tilts; there is no cursor, only the ring in the middle. Touch drags.
 const YAW0 = Math.atan2(LOOK.y - EYE.y, LOOK.x - EYE.x);
-const PITCH0 = Math.atan2(LOOK.z - EYE.z, Math.hypot(LOOK.x - EYE.x, LOOK.y - EYE.y));
+const PITCH0 = 0;     // start level, so walls stand upright; the mouse still tilts the view
 const P_MIN = -0.8, P_MAX = 1.0;
 let yaw = YAW0, pitch = PITCH0, yawT = YAW0, pitchT = PITCH0, steered = false, hovering = false, idleSince = performance.now();
 let anchor = null;
