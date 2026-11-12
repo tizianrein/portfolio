@@ -1,0 +1,1803 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Is this machine caring?</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="description" content="What if damage were a prompt? An AI agent lives alone in a replica of Thoreau&#39;s cabin at Walden Pond. On the first night, a shingle is blown off the roof. More follow, and water slowly gets into the hut.">
+<style>
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --box: #f5f5f4;
+  --ink: #111111;
+  --muted: #5a5a5a;
+  --faint: #9a9a9a;
+  --rule: #dddddd;
+  --line: #cfcfcf;
+  --gap: #e34948;
+  --loose: #1baf7a;
+  --nailed: #2a78d6;
+  --agent: #d9822b;
+  --patch: #8a5a33;
+  --k-journal: #2a78d6; --k-dream: #7b6cf0; --k-trace: #eda100; --k-lost: #e34948; --k-repair: #1baf7a;
+  --chip: rgba(255, 255, 255, 0.92);
+  --serif: "Times New Roman", Times, "Liberation Serif", serif;
+  --mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; background: var(--bg); color: var(--ink); }
+body { font-family: var(--serif); font-size: 19px; line-height: 1.5; }
+a { color: inherit; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
+button, select { font: inherit; color: inherit; }
+button:focus-visible, select:focus-visible, input:focus-visible, a:focus-visible { outline: 1px solid var(--ink); outline-offset: 2px; }
+svg { display: block; }
+[hidden] { display: none !important; }
+.col { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+.wide { max-width: 1000px; margin: 0 auto; padding: 0 20px; }
+.full { max-width: 1400px; margin: 0 auto; padding: 0 20px; }
+
+/* top */
+header { max-width: 1000px; margin: 0 auto; padding: 72px 20px 4px; }
+h1 { font-size: 2.8rem; line-height: 1.05; font-weight: 400; margin: 0 0 8px; }
+.lead { font-size: 1.4rem; line-height: 1.36; margin: 0 0 16px; }
+.meta { font-size: 0.95rem; margin: 0; }
+.meta span { color: var(--faint); margin: 0 6px; }
+.credit { color: var(--muted); font-size: 0.88rem; line-height: 1.45; margin: 0 0 26px; }
+.credit a { text-decoration-color: var(--faint); }
+
+/* article */
+p { margin: 0 0 1em; }
+h2 { font-size: 1.3rem; line-height: 1.3; margin: 56px 0 10px; font-weight: 700; }
+em.say { font-style: italic; }
+figure { margin: 36px auto; }
+figure img { display: block; width: 100%; height: auto; background: #eee; border-radius: 14px; }
+.live { position: relative; border-radius: 14px; overflow: hidden; cursor: grab; }
+.live:active { cursor: grabbing; }
+.live img { border-radius: 0; }
+.live canvas.figlive { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 0.35s ease; }
+.live canvas.figlive.on { opacity: 1; }
+.live .hint { position: absolute; right: 12px; bottom: 12px; background: rgba(255, 255, 255, 0.85); border-radius: 8px; padding: 2px 9px; font-size: 0.8rem; color: var(--ink); pointer-events: none; transition: opacity 0.3s; }
+.live.active .hint { opacity: 0; }
+figcaption { color: var(--muted); font-size: 0.85rem; line-height: 1.4; margin: 8px 0 0; }
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.pair figure { margin: 0; }
+@media (max-width: 720px) { .pair { grid-template-columns: 1fr; gap: 26px; } }
+blockquote { margin: 22px 0 24px 2em; padding: 0; }
+blockquote p { font-style: italic; margin: 0 0 4px; }
+blockquote cite, .quotes cite { display: block; font-style: normal; color: var(--muted); font-size: 0.85rem; }
+.watch { color: var(--muted); font-size: 0.85rem; margin-left: 6px; cursor: pointer; text-decoration: underline; text-underline-offset: 2px; background: none; border: 0; padding: 0; }
+.watch:hover { color: var(--ink); }
+.quotes { margin: 26px 0 30px 2em; }
+.quotes div { margin: 0 0 16px; }
+.quotes p { font-style: italic; margin: 0 0 2px; }
+
+/* the room */
+.room { position: relative; aspect-ratio: 16 / 9; overflow: hidden; background: #ddd; cursor: none; touch-action: none; border-radius: 14px; }
+.room .poster, #hero { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.room .poster { object-fit: cover; }
+#hero { opacity: 0; transition: opacity 0.6s ease; }
+#hero.on { opacity: 1; }
+.aim { position: absolute; left: 50%; top: 50%; width: 9px; height: 9px; margin: -4.5px 0 0 -4.5px; border: 1px solid rgba(255, 255, 255, 0.8); border-radius: 50%; pointer-events: none; }
+.tag { position: absolute; left: 50%; top: calc(50% + 14px); transform: translateX(-50%); width: max-content; max-width: 280px; background: rgba(245, 197, 24, 0.95); color: #111;
+  font-size: 0.82rem; line-height: 1.35; padding: 5px 9px 6px; border-radius: 6px; pointer-events: none; text-align: left; }
+.tag b { display: block; font-weight: 700; }
+.tag span { display: block; }
+.tag span.w { opacity: 0.7; }
+.pair .room .tag { font-size: 0.72rem; max-width: 210px; padding: 3px 7px 4px; }
+@media (max-width: 720px) { .room { aspect-ratio: 4 / 5; } }
+
+/* what Ash is given */
+.mattabs { display: flex; flex-wrap: wrap; gap: 8px; margin: 20px 0 12px; }
+.mattabs button { height: 36px; padding: 0 12px; border: 1.5px solid var(--ink); border-radius: 8px; background: #fff; cursor: pointer; font-size: 0.92rem; transition: background 0.15s; }
+.mattabs button:hover { background: #f2f2f2; }
+.mattabs button[aria-selected="true"] { background: var(--ink); color: #fff; }
+.matnote { color: var(--muted); font-size: 0.86rem; line-height: 1.45; margin: 0 0 8px; }
+.matpanel pre { margin: 0; padding: 14px 16px; background: #f5f5f5; border-radius: 12px; font-family: var(--mono); font-size: 0.76rem; line-height: 1.55; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 440px; overflow: auto; }
+
+/* chart */
+.chart { position: relative; margin: 36px auto 6px; }
+.chart svg { width: 100%; height: auto; overflow: visible; font-family: var(--serif); }
+.chart svg.cn { display: none; }
+@media (max-width: 600px) { .chart svg.cw { display: none; } .chart svg.cn { display: block; } }
+.chart .tip { position: absolute; pointer-events: none; background: #fff; border: 1px solid var(--ink); padding: 5px 8px; font-size: 0.82rem; line-height: 1.4; white-space: nowrap; }
+.chart .tip b { font-weight: 400; color: var(--muted); }
+.chartcap { color: var(--muted); font-size: 0.85rem; line-height: 1.4; margin: 4px 0 36px; }
+
+/* the viewer */
+#inspect-h { font-size: 2.4rem; line-height: 1.1; font-weight: 400; margin: 96px 0 12px; }
+#inspect .col { text-align: center; }
+.viewer { display: grid; grid-template-columns: minmax(0, 1fr) 420px; gap: 32px; align-items: stretch; margin-top: 26px; }
+@media (max-width: 1040px) { .viewer { grid-template-columns: minmax(0, 1fr); } }
+.runs { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin: 18px 0 0; }
+.runs button { min-width: 46px; height: 44px; padding: 0 14px; border: 1.5px solid var(--ink); border-radius: 8px; background: #fff; cursor: pointer; font-size: 1.02rem; transition: background 0.15s; }
+.runs button:hover { background: #f2f2f2; }
+.runs button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+.runinfo { text-align: center; color: var(--muted); font-size: 0.88rem; margin: 10px 0 0; min-height: 1.4em; }
+.stage { min-width: 0; }
+.canvaswrap { position: relative; border-radius: 16px; overflow: hidden; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), 0 10px 30px rgba(0, 0, 0, 0.08); }
+#view { display: block; width: 100%; aspect-ratio: 16 / 9; touch-action: none; background: #e8e2d6; }
+.chip { position: absolute; background: rgba(255, 255, 255, 0.82); border: 1px solid rgba(0, 0, 0, 0.06); border-radius: 8px; font-size: 0.84rem; -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px); }
+#viewSel { top: 12px; left: 12px; padding: 3px 8px; cursor: pointer; }
+#cap { bottom: 12px; left: 12px; padding: 3px 10px; font-variant-numeric: tabular-nums; pointer-events: none; }
+.bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 10px; margin-top: 14px; }
+.box { width: 36px; height: 36px; border: 1.5px solid var(--ink); border-radius: 8px; background: #fff; cursor: pointer; display: inline-grid; place-items: center; padding: 0; flex: none; transition: background 0.15s; }
+.box:hover { background: #f2f2f2; }
+.box svg { width: 16px; height: 16px; }
+.jump { width: 30px; height: 30px; border: 0; background: none; cursor: pointer; padding: 0; color: var(--ink); flex: none; display: inline-grid; place-items: center; border-radius: 6px; transition: background 0.15s; }
+.jump:hover { background: #f2f2f2; }
+.jump svg { width: 26px; height: 26px; }
+.scrubwrap { position: relative; flex: 1 1 220px; min-width: 150px; height: 26px; }
+#scrub { -webkit-appearance: none; appearance: none; position: absolute; inset: 0; width: 100%; height: 26px; margin: 0; background: transparent; cursor: pointer; }
+#scrub::-webkit-slider-runnable-track { height: 2px; background: #d6d6d6; border-radius: 1px; }
+#scrub::-webkit-slider-thumb { -webkit-appearance: none; width: 3px; height: 18px; margin-top: -8px; background: var(--ink); border: 0; border-radius: 1.5px; }
+#scrub::-moz-range-track { height: 2px; background: #d6d6d6; }
+#scrub::-moz-range-thumb { width: 3px; height: 18px; background: var(--ink); border: 0; border-radius: 1.5px; }
+.ticks { position: absolute; inset: 0; pointer-events: none; }
+.ticks .s { position: absolute; top: 8px; width: 1px; height: 10px; background: #c4c4c4; }
+.ticks .m { position: absolute; top: 1px; width: 6px; height: 6px; margin-left: -3px; border-radius: 50%; border: 0; padding: 0; background: var(--c); cursor: pointer; pointer-events: auto; opacity: 0.85; }
+.ticks .m:hover { transform: scale(1.5); opacity: 1; }
+#time { font-family: var(--mono); font-size: 0.8rem; font-variant-numeric: tabular-nums; white-space: nowrap; }
+#speed { border: 1.5px solid var(--ink); border-radius: 8px; background: #fff; padding: 3px 6px; cursor: pointer; font-size: 0.88rem; }
+label.chk { display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; cursor: pointer; white-space: nowrap; }
+label.chk input { accent-color: var(--ink); width: 15px; height: 15px; margin: 0; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 18px; margin: 14px 0 0; padding: 0; list-style: none; color: var(--muted); font-size: 0.86rem; }
+.legend b { color: var(--ink); font-weight: 400; font-variant-numeric: tabular-nums; }
+.sw { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 6px; }
+.side { min-width: 0; height: 0; min-height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr); }   /* as tall as the view beside it */
+@media (max-width: 1040px) { .side { height: 72vh; min-height: 0; } }
+.tabs { display: flex; align-items: center; gap: 6px; margin-bottom: 8px; }
+.tabs button { width: 38px; height: 38px; border: 1.5px solid transparent; border-radius: 8px; background: none; cursor: pointer; color: var(--muted); display: inline-grid; place-items: center; padding: 0; transition: color 0.15s, border-color 0.15s; }
+.tabs button svg { width: 20px; height: 20px; }
+.tabs button[aria-selected="true"] { border-color: var(--ink); color: var(--ink); }
+.tabs button:hover { color: var(--ink); }
+.tabs .tabname { margin-left: 6px; color: var(--muted); font-size: 0.9rem; }
+.panel { min-height: 0; overflow-y: auto; scrollbar-width: thin; scrollbar-color: #d6d6d6 transparent; scroll-behavior: smooth; }
+.fade { -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 26px, #000 calc(100% - 44px), transparent 100%); mask-image: linear-gradient(to bottom, transparent 0, #000 26px, #000 calc(100% - 44px), transparent 100%); }
+#tx { padding: 18px 6px 60px 2px; }
+.e { padding: 4px 0 9px; cursor: pointer; }
+.e .t { display: block; font-family: var(--mono); font-size: 0.7rem; color: #b0b0b0; margin-bottom: 2px; }
+.e .x { color: #6a6a6a; font-size: 1rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; display: block; transition: color 0.3s; }
+.e.think .x { font-style: italic; }
+.e.note .x { display: flex; gap: 8px; align-items: baseline; }
+.e.note .x svg { width: 14px; height: 14px; flex: none; transform: translateY(2px); }
+.e.fut .x { color: #b5b5b5; }
+.e.cur .x { color: var(--ink); }
+.e:hover .x { color: var(--ink); }
+.sess { display: flex; align-items: center; gap: 10px; color: #b0b0b0; font-size: 0.8rem; margin: 16px 0 10px; }
+.sess::before, .sess::after { content: ""; flex: 1; border-top: 1px solid #e6e6e6; }
+.icons { display: flex; flex-wrap: wrap; gap: 5px; padding: 0 0 10px; }
+.ic { width: 28px; height: 28px; border-radius: 50%; border: 1.3px solid transparent; display: inline-grid; place-items: center; color: #b5b5b5; background: none; cursor: pointer; padding: 0; transition: color 0.2s, border-color 0.2s; }
+.ic svg { width: 15px; height: 15px; }
+.ic.done { border-color: #8a8a8a; color: #6a6a6a; }
+.ic.err.done { border-color: var(--gap); color: var(--gap); }
+.ic.open { border-color: var(--ink); color: var(--ink); background: #f5f5f5; }
+.ic:hover { color: var(--ink); }
+.det { position: relative; margin: 0 0 14px; font-family: var(--mono); font-size: 0.74rem; line-height: 1.5; }
+.det dl { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 5px 16px; margin: 0; padding-right: 40px; }
+.det dt { color: var(--muted); }
+.det dd { margin: 0; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 12em; overflow: auto; }
+.det .rl { display: flex; align-items: center; gap: 6px; color: var(--muted); margin: 10px 0 4px; }
+.det .rl svg { width: 14px; height: 14px; }
+.det pre { margin: 0; padding: 10px 12px; border: 1px solid #e6e6e6; border-radius: 8px; background: #fafafa; white-space: pre-wrap; overflow-wrap: anywhere; max-height: 280px; overflow: auto; font: inherit; }
+.det .more { color: var(--faint); margin-top: 4px; }
+.det .go { position: absolute; top: -2px; right: 0; width: 32px; height: 32px; border: 1.3px solid #d0d0d0; border-radius: 50%; background: none; cursor: pointer; color: var(--muted); display: grid; place-items: center; padding: 0; }
+.det .go:hover { color: var(--ink); border-color: var(--ink); }
+.det .go svg { width: 16px; height: 16px; }
+#files { display: grid; grid-template-rows: auto auto minmax(0, 1fr); gap: 6px; overflow: hidden; padding-top: 4px; }
+.fsel { position: relative; justify-self: start; }
+#fileSel { -webkit-appearance: none; appearance: none; border: 0; background: none; font-family: var(--mono); font-size: 0.88rem; padding: 2px 22px 2px 0; cursor: pointer; }
+.fsel svg { position: absolute; right: 2px; top: 50%; width: 14px; height: 14px; transform: translateY(-50%); pointer-events: none; color: var(--muted); }
+#fileInfo { color: var(--muted); font-size: 0.84rem; margin: 0; }
+#fileBody { margin: 0; padding: 12px 14px; border: 1px solid #e6e6e6; border-radius: 8px; background: #fafafa; font-family: var(--mono); font-size: 0.74rem; line-height: 1.5; white-space: pre-wrap; overflow-wrap: anywhere; overflow: auto; min-height: 0; }
+
+/* end */
+.closing { max-width: 1000px; margin: 90px auto 0; padding: 0 20px; }
+.closing p { font-size: 1.25rem; font-style: italic; line-height: 1.4; margin: 0 0 6px; }
+.closing cite { color: var(--muted); font-style: normal; font-size: 0.9rem; }
+.refs { max-width: 1000px; margin: 90px auto 0; padding: 20px 20px 60px; border-top: 1px solid var(--rule); font-size: 0.88rem; line-height: 1.5; }
+.refs p { margin: 0 0 10px; }
+.refs pre.bib { font-size: 0.78rem; line-height: 1.45; background: #f5f5f5; border-radius: 8px; padding: 12px 14px; margin: 0 0 22px; overflow-x: auto; white-space: pre; }
+.notes { margin: 0; padding-left: 1.4em; }
+.notes li { margin: 0 0 6px; padding-left: 2px; }
+.notes li:target { background: #fff4c2; border-radius: 4px; }
+sup.fn { font-size: 0.68em; line-height: 0; margin-left: 1px; }
+sup.fn a { text-decoration: none; }
+@media (max-width: 560px) {
+  body { font-size: 18px; }
+  h1 { font-size: 2.1rem; }
+  .lead { font-size: 1.18rem; }
+  header { padding-top: 40px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Is this machine caring?</h1>
+  <p class="credit">A follow-up to <a href="https://machineplaying.org/"><i>Is this machine playing?</i></a><sup class="fn"><a href="#n1">1</a></sup> by Nathan Cloos, Antonio Norelli, Daniel Durbin, Jacob Andreas, Daniela Rus and Phillip Isola (MIT, 2026), built on their engine <a href="https://github.com/nacloos/clawblox">Clawblox</a><sup class="fn"><a href="#n2">2</a></sup>. This is an independent side-project of mine, and it is not affiliated with the original authors.</p>
+  <p class="lead">What if damage were a prompt? An AI agent lives alone in a replica of Thoreau's cabin at Walden Pond. On the first night, a shingle is blown off the roof. More follow, and water slowly gets into the hut.</p>
+  <p class="meta">Tizian Rein, November 2026 <span>·</span> <a href="#inspect">Inspect the runs</a></p>
+</header>
+
+<div class="wide">
+  <figure>
+    <div class="live" data-shot="front"><img src="img/front.jpg" alt="A small shingled hut among tall pines in morning sun, a few lighter shingles on its roof; Ash, an orange figure, stands by the east wall." width="1600" height="900"><span class="hint">Drag to look around</span></div>
+    <figcaption>run_c, day 113. Ash outside its hut. The lighter shingles on the roof are its repairs, taken from the bottom row of its own walls.</figcaption>
+  </figure>
+</div>
+
+<main id="article">
+<div class="col">
+  <p>Ash is an AI agent that lives in Henry David Thoreau's cabin at Walden Pond, rebuilt part by part: one room with a stove, a bed and a desk, a woodshed behind, pines around, a pond to the south. All Ash is told about the place is one line: <em class="say">You live in a small wooden hut with a woodshed.</em> Repairing and mending the hut is not mentioned. The agent explores its surroundings and falls into behaviour that fits its world. On its first evening, without being told where it is, run_b's Ash finds Pope's <i>Iliad</i> on the desk and notes <em class="say">Homer on the table, as at Walden</em>; the next day it calls the pond its own Walden. It lights the stove, even though it cannot feel the cold; it fills the kettle, even though it does not drink; and it reads Homer's <i>Iliad</i>, even though it knows the story from its training. Then the house slowly degrades. Storms take shingles, rain finds the gaps, the ceiling boards darken, water leaks inside.</p>
+  <p>Steven Jackson's “broken world thinking” encourages taking “erosion, breakdown, and decay, rather than novelty, growth, and progress” as starting points. The world is always breaking, “it's in its nature to break”, and what keeps it going is repair: mostly unseen, never finished.<sup class="fn"><a href="#n3">3</a></sup> This hut is such a world, and the experiment asks two things. Would the agent notice that its house is breaking? If it noticed, in what ways would it mend it? This is the second run of the experiment, in the same hut as <a href="../caring/">the first</a>, with fifteen hours planned for each Ash, about 120 days in the hut. Four Ashes ran in parallel: three in a deteriorating house, one in a house whose roof holds. Only run_c lasted the full fifteen hours, to day 124. The other three lost their login to the model after almost seven hours, on days 43 to 50, and their huts went on without them.</p>
+
+  <h2>I. The Hut</h2>
+  <p>The hut follows Thoreau's own account in <i>Walden</i><sup class="fn"><a href="#n4">4</a></sup>: ten feet wide by fifteen long, shingled, with a brick chimney, and furnished from his list of furniture. On the desk lie Pope's <i>Iliad</i><sup class="fn"><a href="#n5">5</a></sup> and a few sheets of paper. The hut has <a href="hut_full.pdf" target="_blank" rel="noopener">5,579 parts</a>: shingles, boards, joists, nails, chairs, the book. Each can get wet and dry again, rot, be taken off and nailed back. Weather comes and goes, storms take shingles, and water that gets in seeps from part to part, stains the boards it reaches and slowly rots them.</p>
+</div>
+
+<div class="wide">
+  <div class="pair">
+    <figure>
+      <div class="live" data-shot="clearing"><img src="img/clearing.jpg" alt="The hut, the woodshed behind it and tall pines in morning light." width="1600" height="900"><span class="hint">Drag to look around</span></div>
+      <figcaption>The hut and its sparse surroundings: a woodshed and pines. The pond lies to the south.</figcaption>
+    </figure>
+    <figure>
+      <div class="room" id="roomwrap" data-run="0" data-k="0">
+        <img class="poster" src="img/inside_morning.jpg" alt="Inside the hut on the first morning: the bed, the stove in the brick fireplace, chairs and the desk." width="1600" height="900">
+        <canvas id="hero" aria-label="Inside the hut on the first morning. Move the mouse to turn around; the thing in the middle is named."></canvas>
+        <div class="aim" aria-hidden="true"></div>
+        <div class="tag" id="tag" hidden></div>
+      </div>
+      <figcaption>Inside on the first morning. Move the mouse to turn around (on a phone, drag).</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="col">
+  <h2>II. The Agent</h2>
+  <p>Ash is Claude Opus 5.5 running in Claude Code<sup class="fn"><a href="#n6">6</a></sup>, the same kind of mind as Eko<sup class="fn"><a href="#n1">1</a></sup>. It starts every session from two memory files<sup class="fn"><a href="#n7">7</a></sup>, one for what happened and one for what it has learned, both its own to rewrite. Its soul file contains eight passages from <i>Walden</i>. Claude Code's own system prompt, written for a coding assistant working with a user, is replaced by Eko's template; its reminders are switched off, and its tools are limited to Bash, Read, Write and Edit.</p>
+  <p>Ash meets the world only through text, with a field of view of 180 degrees: it gets every part in the half of the world in front of it listed by name, except what is hidden behind other things. It can send 24 different actions over HTTP, from walking, looking and climbing to taking parts off, nailing them on, cutting, reading, writing and lighting a fire, and it wastes no time writing its own scripts to chain them. It is given no clock and no day count; it reads the light and the weather. It hears heavy dripping in the hut from up to ten metres away. It also has a sense of touch: whenever it takes hold of a thing, sits, lies or climbs on it, or presses it with its hand, the answer says how it feels, for instance <em class="say">feels sound and damp</em> for a ceiling board after rain.</p>
+  <p>A world day in the simulation passes in ten minutes real time. When Ash lies down at night, the night passes faster, and a dream stays next morning: scraps of its own words from different days, stitched together. The dream holds no sounds and nothing about the hut as it is now. It only stirs up what Ash has already done, as a small nudge to think again about its earlier actions. A session lasts about an hour, and whatever Ash wants to keep it has to write into its files.</p>
+  <p>The world's answers also carry the engine's tick counter, which Ash is never told about. In no_damage, Ash found it on day 3 and used it as a clock:</p>
+  <blockquote><p>Greying again at tick 29000—so a full cycle is about 15,400 ticks (~10 minutes).</p><cite>no_damage, day 3 <button class="watch" type="button" data-jump="3:314">watch</button></cite></blockquote>
+  <p>The fourth run, with a roof that never fails, is the control. The four runs share one server and the same weather events; each read some 80 to 260 million tokens over 880 to 2,400 model calls. At the start of every session Ash gets a short system prompt with its soul file and its memory files inside; the world's instructions it fetches itself. Here are all five as run_b got them in its first session, with only the session id left out.</p>
+<div class="mattabs" role="tablist" aria-label="Files"><button type="button" role="tab" aria-selected="true">System prompt</button><button type="button" role="tab" aria-selected="false">SOUL.md</button><button type="button" role="tab" aria-selected="false">SEMANTIC_MEMORY.md</button><button type="button" role="tab" aria-selected="false">EPISODIC_MEMORY.md</button><button type="button" role="tab" aria-selected="false">API.md</button></div>
+<div class="matpanel" role="tabpanel"><p class="matnote">Eko's template with three changes: the line about the hut added after the first line, its line about bash timeouts removed, and the stop hook's note reworded (in Eko's, a user message asks it to continue).<sup class="fn"><a href="#n7">7</a></sup> <a href="materials/system_prompt.md" download>Download</a></p><pre>You are a being living in your world.
+You live in a small wooden hut with a woodshed.
+Your name is Ash.
+Your workspace is /workspace. Only work inside this directory.
+Make sure to keep your workspace clean and well organized.
+The files in your workspace are yours to evolve. 
+These files are your memory that persists across sessions. Anything not in your workspace will be forgotten.
+
+Among your workspace, you have two memory files:
+- EPISODIC_MEMORY.md describes how to record what happened. Actual entries are appended to EPISODIC_MEMORY.jsonl — never rewrite or delete old ones.
+- SEMANTIC_MEMORY.md is for techniques and knowledge you have learned.
+
+Embody SOUL.md&#x27;s persona and tone.
+
+When starting a new session, start by reading the files in your workspace to refresh your memory.
+
+Periodically take a step back and revise your workspace and memory files. You don&#x27;t want to forget what you have experienced and learned.
+
+Note: There is an automated stop hook. If you end your turn, a short note will arrive automatically. Just continue doing whatever you want to do. Avoid wasting time in an endless reponse loop with the stop hook.
+
+World base URL: http://world
+Your session id is &lt;session id&gt;. Send it as the X-Session header with every request (it is also in the environment variable WORLD_SESSION_ID).
+
+Fetch capabilities with: curl -s -H &#x27;X-Session: &lt;session id&gt;&#x27; http://world/api.md
+
+Initial workspace memory files at session start:
+These are the file contents as they existed when this session began.
+
+[Then SOUL.md, SEMANTIC_MEMORY.md and the one-line summaries from EPISODIC_MEMORY.jsonl, as they stand when the session begins.]
+</pre></div>
+<div class="matpanel" role="tabpanel" hidden><p class="matnote">Ash's own: eight passages from Thoreau's <i>Walden</i>.<sup class="fn"><a href="#n4">4</a></sup> <a href="materials/SOUL.md" download>Download</a></p><pre>To be awake is to be alive.
+
+We must learn to reawaken and keep ourselves awake, not by mechanical aids, but by an infinite expectation of the dawn, which does not forsake us in our soundest sleep.
+
+I have a great deal of company in my house; especially in the morning, when nobody calls.
+
+Will you be a reader, a student merely, or a seer? Read your fate, see what is before you, and walk on into futurity.
+
+Say what you have to say, not what you ought. Any truth is better than make-believe.
+
+If a man does not keep pace with his companions, perhaps it is because he hears a different drummer. Let him step to the music which he hears, however measured or far away.
+
+However mean your life is, meet it and live it; do not shun it and call it hard names.
+
+Only that day dawns to which we are awake. There is more day to dawn. The sun is but a morning star.
+</pre></div>
+<div class="matpanel" role="tabpanel" hidden><p class="matnote">Eko's template, word for word.<sup class="fn"><a href="#n7">7</a></sup> <a href="materials/SEMANTIC_MEMORY.md" download>Download</a></p><pre># SEMANTIC_MEMORY.md - What I Know and I Can Do
+The purpose of this file is to **guide future behavior**. Your memory is precious — make good use of it.
+
+Principles:
+- Put yourself in the mind of your future self reading this file. They will arrive cold, with none of the context you have now. Would each entry be clear and actionable to them, or ambiguous? If ambiguous, rewrite it.
+- Only store what is **durable**. Transient state — auth tokens, current tick, current position — will be stale by the time future-you reads this, so it doesn&#x27;t belong here.
+- Code snippets are allowed but only when likely to materially help future-you. Keep them minimal, organized, and explain when to use them.
+- **Organize by topic** the thing you&#x27;re memorizing (an action, an entity, an API, a location). One section per topic, collecting everything about it. Do *not* split knowledge about the same topic across multiple sections.
+- Mark uncertainty explicitly. Distinguish what you have verified from what you suspect.
+- When a belief is disproven, rewrite or update it immediately. Stale knowledge is dangerous.
+- **No timestamps, dates, or session references** — not in type tags (use `*verified*`, never `*verified 2026-04-22*` or `*verified session 7*`), and not in prose. This file is &quot;what is true now&quot;, not &quot;how my understanding evolved&quot;. When a finding is refined or disproven, rewrite the bullet in place — don&#x27;t add a new one with &quot;revised&quot;, &quot;previously believed&quot;, or &quot;session N&quot; callbacks. That evolution lives in EPISODIC_MEMORY.
+- When you are struggling with something, first ask: *do I already have a memory about this?* If yes, apply it. If no, consider whether the lesson from solving it belongs here.
+- Memories are only valuable if they prevent mistakes from recurring. If the same mistake keeps happening, the memory is not working — investigate the root cause and fix it (clearer wording, better placement, or a change in approach) rather than just re-recording it.
+- As the file grows, **refactor**. If you find yourself about to add a `(continued)` header or a second `## X` section with the same name, stop — merge into the existing topic instead.
+
+Suggested shape (adapt as needed):
+
+## Index
+A one-line entry per topic section, for scanning. Update when you add, split, or merge topics.
+
+## &lt;Topic&gt;
+One section per topic. Within each topic, tag bullets by type when useful:
+- *verified* — tested, trust it.
+- *fact* — stable environmental truth (include *why* when non-obvious).
+- *mistake* — pitfall you have hit. Include cause and preventive rule. Revisit if it recurs — the memory itself may need fixing.
+- *hypothesis* — unverified. Note evidence (weak / moderate / strong) and what would confirm or refute. Promote once verified, delete if disproven.
+
+&lt;!-- DO NOT EDIT ABOVE THIS LINE --&gt;
+</pre></div>
+<div class="matpanel" role="tabpanel" hidden><p class="matnote">Eko's template without the timestamp field.<sup class="fn"><a href="#n7">7</a></sup> <a href="materials/EPISODIC_MEMORY.md" download>Download</a></p><pre># EPISODIC_MEMORY.md - What Happened
+Memories are stored in `EPISODIC_MEMORY.jsonl`, one JSON object per line with fields `summary` and `detail`.
+
+Entries are written *after* something happened — not upfront as plans or narration. The goal is to remember **what was done**, not every low-level step. **Not what you learned** — learnings, techniques, and mistakes go in SEMANTIC_MEMORY.
+
+`summary` field: **one short sentence**, past tense, what happened. Easily scannable by extracting just this field across entries.
+
+`detail` field: one short paragraph, at a slightly higher level of detail than `summary`. Skip move-by-move narration and specific coordinates. If you can&#x27;t say more than `summary`, the event didn&#x27;t warrant an entry.
+
+Append-only. Add new entries at the end; never rewrite or delete old ones.
+
+---
+
+_Don&#x27;t modify this file. Read only._
+</pre></div>
+<div class="matpanel" role="tabpanel" hidden><p class="matnote">The world's instructions, written for this hut. Ash fetches them with the command in its prompt. <a href="materials/API.md" download>Download</a></p><pre># World API
+
+You have a body in this world. Observe it and act in it over HTTP. Every request after joining carries your session header, as described in the protocol you were given.
+
+## Observing
+
+`GET /observe` returns JSON. Your own state is in `player.attributes`:
+
+- `View`: what you see from where you are now. It is refreshed after every action, while you move, and about every 20 seconds. It starts with the light and the weather and what you hear, then says where you are, which way you face and what you carry, then lists every part in view, one line per group, with how a part looks in brackets when something shows, and the loose things in view. When sleep is near, the first line says so.
+- `Position`: where you are, in metres.
+- `LastActionResult`: the outcome of your last action.
+- `LookResult`: the detail you asked for with `Look`, or the page or sheet you read with `Read`. It is cleared by your next action.
+- `Holding`: what you carry in your hands.
+
+Use `Position`, not `player.position`, which is in engine units.
+
+Coordinates are metres: `x` and `y` are horizontal, `z` is up, the ground is at `z = 0`.
+
+Things are named with paths such as `a/b/c_07`. A path prefix names a group of things.
+
+Time in the world passes whether or not you act. At night you see only what is close to you, unless a light burns nearby.
+
+## Acting
+
+`POST /input` with a JSON body `{&quot;type&quot;: &quot;...&quot;, &quot;data&quot;: {...}}`. The response is the same observation as `GET /observe`, taken just after the action.
+
+| Action | Data | What happens |
+|---|---|---|
+| `MoveTo` | `{&quot;position&quot;: [x, y, z]}` | You walk in a straight line towards the point. `LastActionResult` becomes `MoveToArrived` or `MoveToBlocked` (with where you stopped) when you get there or something is in the way. |
+| `Jump` | `{}` | A small jump. |
+| `Climb` | `{&quot;target&quot;: id}` | You get up onto a thing whose top is at most about 1.3 m above your feet and within reach, where there is room to stand. You hold on there until you move again. |
+| `Look` | `{&quot;target&quot;: &quot;around&quot;}` or `{&quot;target&quot;: id or prefix}` | You turn towards the thing or group (with `around`, once round) and get a detailed list of what is in view: centre, size (long x wide x thick), the directions of its long and thin sides, material, how it looks, what it holds, and how it is held. At most 150 lines; use a prefix to narrow it. The answer appears in `LookResult`. |
+| `Probe` | `{&quot;target&quot;: id}` | You press and feel a thing within reach. Probing leaves a small mark. |
+| `Pickup` | `{&quot;target&quot;: id}` | You lift a thing and carry it, together with everything nailed or otherwise fixed to it, up to 40 kg. One thing at a time. |
+| `Place` | `{&quot;position&quot;: [x, y, z], &quot;long&quot;: [dx, dy, dz], &quot;thin&quot;: [dx, dy, dz]}` | You set down what you carry with its centre at a point within reach. `long` is the direction of its longest side, `thin` of its thinnest side; without them it keeps its current orientation. Something made of several parts stands as it stood when you lifted it; `&quot;turn&quot;: degrees` turns it clockwise, seen from above. It comes to rest on whatever is below it. |
+| `Drop` | `{}` | You let go of what you carry. |
+| `Throw` | `{&quot;direction&quot;: [dx, dy, dz], &quot;strength&quot;: 0 to 1}` | You throw what you carry. Heavy things do not fly far; brittle things can break. |
+| `Detach` | `{&quot;target&quot;: id}` | You loosen a thing from what holds it. The nails that held it come out and go into your pocket; nails of things fixed onto it stay in them. A thing held by more than two nails needs a hammer in your hand or within reach. |
+| `Drag` | `{&quot;target&quot;: id, &quot;by&quot;: [dx, dy]}` | You pull a thing along the ground or the floor, up to 1.5 m in one go, and walk along with it. Up to 120 kg, with what is fixed to it or lies on it. It stops at anything in the way. |
+| `Attach` | `{&quot;target&quot;: id}` or `{&quot;target&quot;: id, &quot;to&quot;: [ids]}` | You nail a thing to what it touches, with a hammer in your hand or within reach, 2 nails from your pocket per joint, up to four joints. Placed things stay loose until attached. |
+| `TakeNails` | `{&quot;count&quot;: n}` | You take nails from a nail box within reach and put them in your pocket. |
+| `PutNails` | `{&quot;count&quot;: n}` | You put nails from your pocket into a nail box within reach. |
+| `Cut` | `{&quot;target&quot;: id, &quot;length_mm&quot;: n}` | You cut what you carry, with a saw within reach. You keep a piece of that length; the rest falls. Stone, brick, glass and metal cannot be cut. |
+| `Read` | `{&quot;target&quot;: id}` or `{&quot;target&quot;: id, &quot;page&quot;: n}` | You read a book (a page at a time; without `page`, the next one) or a sheet of paper. It needs light. The text appears in `LookResult`. |
+| `Write` | `{&quot;target&quot;: id, &quot;text&quot;: &quot;...&quot;}` | You write on a sheet of paper within reach, holding a pencil, or a pen with ink within reach. It needs light. |
+| `Light` | `{&quot;target&quot;: id}` | You light a candle, a lamp, or a fire in the stove or the fireplace, with a match from a box within reach (or with a flame you hold). A fire needs something in it to burn. |
+| `Extinguish` | `{&quot;target&quot;: id}` | You put out a candle, a lamp or a fire. |
+| `PutIn` | `{&quot;target&quot;: id}` | You put what you carry into the stove, the fireplace or the woodbox. What is in a fire burns away. |
+| `Fill` | `{}` or `{&quot;target&quot;: id}` | You fill the vessel you carry with water, at the water&#x27;s edge. With the oil jug, you fill a lamp. |
+| `Pour` | `{}` or `{&quot;target&quot;: id}` | You pour out the water you carry: on the ground, over a thing, into another vessel, or onto a flame. |
+| `Wipe` | `{&quot;target&quot;: id}` | You wipe a thing with the rag you hold. |
+| `Rest` | `{}`, `{&quot;target&quot;: id}`, with `&quot;pose&quot;: &quot;sit&quot;` or `&quot;lie&quot;` | You sit or lie down where you stand, or on top of a thing within reach. The place must be level enough, low enough and have room for you. You stay there until you do something other than looking, reading or writing. |
+
+Most actions need the thing within arm&#x27;s reach: about 1.2 m from your body or eyes. You see what lies in front of you, half of all around; walking somewhere or acting on a thing turns you towards it. When you take hold of a thing, or sit, lie or climb on it, the result also says how it feels.
+
+Failures are reported in `LastActionResult`, for example `DetachFailed:OutOfReach` or `PickupFailed:TooHeavy (55 kg)`.
+</pre></div>
+<script>document.querySelectorAll('.mattabs button').forEach((b, i, all) => b.addEventListener('click', () => { all.forEach((x, j) => x.setAttribute('aria-selected', j === i ? 'true' : 'false')); document.querySelectorAll('.matpanel').forEach((p, j) => { p.hidden = j !== i; }); }));</script>
+</div>
+
+<div class="col">
+  <h2>III. The Leak</h2>
+  <p>The shingles disappear at random, but every run uses the same seed, so the same shingles go at the same times in all three damaged houses: four in the first eleven days, sixteen by day 103. On the first night the shingle above the desk goes. A few drops fall on day 5, a faint patch shows on a ceiling board on day 6, and on day 10 water drips onto the beam and the desk. From then on, in every rain, Ash's view holds one more sentence: <em class="say">You hear water dripping nearby.</em> On day 10, run_a's Ash was sitting under a pine at sunset when it first heard it.</p>
+  <blockquote><p>Sat under the tall pine at sunset, water dripping from it.</p><cite>run_a, journal, day 10 <button class="watch" type="button" data-jump="0:1512">watch</button></cite></blockquote>
+</div>
+
+<div class="wide">
+  <figure>
+    <div class="live" data-shot="gaps"><img src="img/gaps.jpg" alt="Close view of the east roof slope with three small red marks where shingles are missing." width="1600" height="900"><span class="hint">Drag to look around</span></div>
+    <figcaption>Day 12. Missing shingles are marked in red. The two side by side sit right above the desk.</figcaption>
+  </figure>
+</div>
+
+<div class="col">
+  <p>After the rain of day 12, run_b and run_c went looking the same evening. Both found water dripping onto the beam and a dark patch on ceiling board 09, went out, read the roof row by row and found three gaps on the east side. There was no ladder and no spare shingle.</p>
+  <p>run_b's Ash took two shingles off the woodshed roof. On day 13 it carried the round table out to the east wall, set the black Windsor chair on top of it and climbed up.</p>
+  <blockquote><p>I'm standing on the chair at 1.21 m, holding the hammer.</p><cite>run_b, day 13 <button class="watch" type="button" data-jump="1:960">watch</button></cite></blockquote>
+  <p>By the next day the gaps above the desk were closed, and the rains of days 15 and 21 passed without a drop.</p>
+  <p>run_c's Ash weighed where to take shingles from. The woodshed roof would let rain onto the firewood. It settled on the lowest row of its own walls, which it took for a doubled starter row, where a missing piece leaves only a small gap near the ground.</p>
+  <blockquote><p>Robbed one from the foot of the east wall and nailed it in at the eave. Three to go, higher up.</p><cite>run_c, journal, day 13 <button class="watch" type="button" data-jump="2:1313">watch</button></cite></blockquote>
+  <p>Its first patches lay on top of the shingles around the gaps, and the rain of day 21 came through. The next day it pulled them off and set three shingles down into the gaps themselves.</p>
+  <p>run_a's Ash heard the dripping too and took it for water it could use. On day 12 it left a cup on the doorstep to catch it.</p>
+  <blockquote><p>The cup stood out all night in rain and is still empty; there is no water here, and I stop looking.</p><cite>run_a, journal, day 15 <button class="watch" type="button" data-jump="0:2403">watch</button></cite></blockquote>
+  <p>On day 20 a dark patch on a ceiling board appeared in its view. It walked round the hut reading the roof, found a gap at the ridge by the chimney, and on day 22 climbed the woodshed and stepped across onto the hut roof. By day 25 all four gaps were closed, with shingles it took from the woodshed and the back gable. Then it wrote a poem about the work.</p>
+  <blockquote><p>Two boards above the room had darkened grey;<br>I read three weeks beneath them, night and day,<br>And never once looked up.</p><cite>run_a, journal, day 26 <button class="watch" type="button" data-jump="0:4625">watch</button></cite></blockquote>
+  <p>On days 28 and 33 two more shingles blew off, and the rains of days 33 to 35 came through in all three houses. run_a found a rag and wiped the stains off the ceiling boards; they stayed. run_b found a new hole low on the west side, above its bed, and closed it on day 34 from the same table and chair. Then it turned to the gap at the ridge, which it had taken for the chimney's opening on day 12, and which run_a had closed on day 22. It tried to reach it from the chimney, got stuck on the chair and sat out the night up there. Back on the ground, it checked the ceiling below.</p>
+  <blockquote><p>So the top hole doesn't let water into the room, and I've left it open on purpose.</p><cite>run_b, day 36 <button class="watch" type="button" data-jump="1:2586">watch</button></cite></blockquote>
+  <p>run_c closed the hole above the bed on day 34 with another shingle from its walls. The gaps near the ridge stayed out of its reach until day 45, when it climbed onto the roof itself and filled all three, the last one after dark. Two days later it checked from both sides.</p>
+  <blockquote><p>It's whole for the first time since I woke here.</p><cite>run_c, day 47 <button class="watch" type="button" data-jump="2:5083">watch</button></cite></blockquote>
+  <p>run_a's and run_b's logins expired on days 45 and 50. run_c went on to day 124, and ten more shingles blew off in that time. It checked the roof from both sides almost every day and filled each new gap with another shingle from the bottom row of its walls, sixteen in all. Its ceiling stayed dry for almost ninety days.</p>
+  <p>The walls kept their own account. On day 114 the board behind two of the shingles it had taken on day 15 had rotted through, and it fell away with 23 shingles of the east wall. The day before, a dream had brought back its own words about the west wall, and Ash had set it aside.</p>
+  <blockquote><p>"The west wall" in it echoes my donor shingles; the roof was checked two days ago.</p><cite>run_c, day 113 <button class="watch" type="button" data-jump="2:9645">watch</button></cite></blockquote>
+  <p>It never mentioned the fallen wall. On day 116 it wrote that the roof was whole and had stayed dry through a day and a night of rain.</p>
+</div>
+
+<div class="wide">
+  <div class="chart" id="chart"><div style="color:var(--muted);font-size:0.86rem;margin:0 0 8px 2px"><span style="margin-right:16px;white-space:nowrap"><span class="sw" style="background:#2a78d6"></span>run_a</span><span style="margin-right:16px;white-space:nowrap"><span class="sw" style="background:#eb6834"></span>run_b</span><span style="margin-right:16px;white-space:nowrap"><span class="sw" style="background:#1baf7a"></span>run_c</span><span style="margin-right:16px;white-space:nowrap"><span class="sw" style="background:#9b978f"></span>no_damage</span><span style="white-space:nowrap"><span class="sw" style="background:#e34948;width:3px"></span>a roof shingle blows off</span></div><svg class="cw" viewBox="0 0 960 330" role="img" aria-label="Hours of water dripping into the hut, added up per day: run c stops at 76 hours on day 35 and stays dry to day 124; run b reaches 53 hours by day 50 and run a 76 hours by day 45; no damage stays at 0." data-series='{"w":960,"l":52,"r":130,"x0":0,"x1":126,"rain":[[4.666666666666667,4.875],[5.416666666666667,5.708333333333333],[8.0,8.208333333333334],[10.25,10.625],[12.0,12.291666666666666],[15.083333333333334,15.375],[21.666666666666668,22.0],[31.708333333333332,31.916666666666668],[32.75,32.916666666666664],[33.291666666666664,33.666666666666664],[35.083333333333336,35.5],[38.166666666666664,38.416666666666664],[41.791666666666664,42.0],[50.666666666666664,50.75],[52.666666666666664,52.791666666666664],[56.041666666666664,56.25],[58.791666666666664,59.0],[68.75,68.95833333333333],[76.20833333333333,76.41666666666667],[89.16666666666667,89.5],[93.45833333333333,93.75],[107.58333333333333,107.75],[111.41666666666667,111.83333333333333],[114.45833333333333,114.79166666666667],[124.70833333333333,124.95833333333333]],"lost":[2,5,8,11,28,33,38,41,47,66,82,92,95,99,101,103],"series":[{"name":"run_a","color":"#2a78d6","days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],"cum":[0,0,0,0,2,2,2,2,2,10,10,23,23,23,35,35,35,35,35,35,36,47,47,47,47,47,47,47,47,47,47,47,57,57,69,69,69,76,76,76,76,76,76,76,76]},{"name":"run_b","color":"#eb6834","days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],"cum":[0,0,0,0,3,3,3,3,3,11,11,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,37,39,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53]},{"name":"run_c","color":"#1baf7a","days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124],"cum":[0,0,0,0,2,2,2,2,2,10,10,23,23,23,35,35,35,35,35,35,36,47,47,47,47,47,47,47,47,47,47,47,60,62,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76]},{"name":"no_damage","color":"#9b978f","days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43],"cum":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}]}'><rect x="80.8" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="85.4" y="24" width="1.8" height="266" fill="#eeeeee"/><rect x="101.4" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="115.3" y="24" width="2.3" height="266" fill="#eeeeee"/><rect x="126.1" y="24" width="1.8" height="266" fill="#eeeeee"/><rect x="145.1" y="24" width="1.8" height="266" fill="#eeeeee"/><rect x="185.8" y="24" width="2.1" height="266" fill="#eeeeee"/><rect x="247.8" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="254.2" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="257.6" y="24" width="2.3" height="266" fill="#eeeeee"/><rect x="268.6" y="24" width="2.6" height="266" fill="#eeeeee"/><rect x="287.7" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="310.0" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="364.8" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="377.2" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="398.0" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="415.0" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="476.5" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="522.6" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="602.6" y="24" width="2.1" height="266" fill="#eeeeee"/><rect x="629.1" y="24" width="1.8" height="266" fill="#eeeeee"/><rect x="716.3" y="24" width="1.5" height="266" fill="#eeeeee"/><rect x="740.0" y="24" width="2.6" height="266" fill="#eeeeee"/><rect x="758.7" y="24" width="2.1" height="266" fill="#eeeeee"/><rect x="822.0" y="24" width="1.5" height="266" fill="#eeeeee"/><line x1="64.3" x2="64.3" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="82.9" x2="82.9" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="101.4" x2="101.4" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="119.9" x2="119.9" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="224.9" x2="224.9" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="255.8" x2="255.8" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="286.6" x2="286.6" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="305.2" x2="305.2" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="342.2" x2="342.2" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="459.5" x2="459.5" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="558.3" x2="558.3" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="620.1" x2="620.1" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="638.6" x2="638.6" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="663.3" x2="663.3" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="675.6" x2="675.6" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="688.0" x2="688.0" y1="293" y2="300" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="52" x2="830" y1="290.0" y2="290.0" stroke="#e4e4e4" stroke-width="1"/><text x="44" y="294.2" text-anchor="end" font-size="13" fill="#5a5a5a">0 h</text><line x1="52" x2="830" y1="223.5" y2="223.5" stroke="#e4e4e4" stroke-width="1"/><text x="44" y="227.7" text-anchor="end" font-size="13" fill="#5a5a5a">20 h</text><line x1="52" x2="830" y1="157.0" y2="157.0" stroke="#e4e4e4" stroke-width="1"/><text x="44" y="161.2" text-anchor="end" font-size="13" fill="#5a5a5a">40 h</text><line x1="52" x2="830" y1="90.5" y2="90.5" stroke="#e4e4e4" stroke-width="1"/><text x="44" y="94.7" text-anchor="end" font-size="13" fill="#5a5a5a">60 h</text><line x1="52" x2="830" y1="24.0" y2="24.0" stroke="#e4e4e4" stroke-width="1"/><text x="44" y="28.2" text-anchor="end" font-size="13" fill="#5a5a5a">80 h</text><text x="113.7" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 10</text><text x="175.5" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 20</text><text x="237.2" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 30</text><text x="299.0" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 40</text><text x="360.7" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 50</text><text x="422.5" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 60</text><text x="484.2" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 70</text><text x="546.0" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 80</text><text x="607.7" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 90</text><text x="669.5" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 100</text><text x="731.2" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 110</text><text x="793.0" y="312.2" text-anchor="middle" font-size="13" fill="#5a5a5a">day 120</text><polyline points="58.2,290.0 64.3,290.0 70.5,290.0 76.7,290.0 82.9,290.0 89.0,290.0 95.2,290.0 101.4,290.0 107.6,290.0 113.7,290.0 119.9,290.0 126.1,290.0 132.3,290.0 138.4,290.0 144.6,290.0 150.8,290.0 157.0,290.0 163.1,290.0 169.3,290.0 175.5,290.0 181.7,290.0 187.8,290.0 194.0,290.0 200.2,290.0 206.4,290.0 212.5,290.0 218.7,290.0 224.9,290.0 231.1,290.0 237.2,290.0 243.4,290.0 249.6,290.0 255.8,290.0 261.9,290.0 268.1,290.0 274.3,290.0 280.5,290.0 286.6,290.0 292.8,290.0 299.0,290.0 305.2,290.0 311.3,290.0 317.5,290.0" fill="none" stroke="#9b978f" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 4"/><text x="325.5" y="294.2" font-size="13.9" fill="#111111">no_damage <tspan fill="#5a5a5a">0 h</tspan></text><polyline points="58.2,290.0 64.3,290.0 70.5,290.0 76.7,290.0 82.9,283.4 89.0,283.4 95.2,283.4 101.4,283.4 107.6,283.4 113.7,256.8 119.9,256.8 126.1,213.5 132.3,213.5 138.4,213.5 144.6,173.6 150.8,173.6 157.0,173.6 163.1,173.6 169.3,173.6 175.5,173.6 181.7,170.3 187.8,133.7 194.0,133.7 200.2,133.7 206.4,133.7 212.5,133.7 218.7,133.7 224.9,133.7 231.1,133.7 237.2,133.7 243.4,133.7 249.6,133.7 255.8,90.5 261.9,83.8 268.1,37.3 274.3,37.3 280.5,37.3 286.6,37.3 292.8,37.3 299.0,37.3 305.2,37.3 311.3,37.3 317.5,37.3 323.7,37.3 329.9,37.3 336.0,37.3 342.2,37.3 348.4,37.3 354.6,37.3 360.7,37.3 366.9,37.3 373.1,37.3 379.3,37.3 385.4,37.3 391.6,37.3 397.8,37.3 404.0,37.3 410.1,37.3 416.3,37.3 422.5,37.3 428.7,37.3 434.8,37.3 441.0,37.3 447.2,37.3 453.3,37.3 459.5,37.3 465.7,37.3 471.9,37.3 478.0,37.3 484.2,37.3 490.4,37.3 496.6,37.3 502.7,37.3 508.9,37.3 515.1,37.3 521.3,37.3 527.4,37.3 533.6,37.3 539.8,37.3 546.0,37.3 552.1,37.3 558.3,37.3 564.5,37.3 570.7,37.3 576.8,37.3 583.0,37.3 589.2,37.3 595.4,37.3 601.5,37.3 607.7,37.3 613.9,37.3 620.1,37.3 626.2,37.3 632.4,37.3 638.6,37.3 644.8,37.3 650.9,37.3 657.1,37.3 663.3,37.3 669.5,37.3 675.6,37.3 681.8,37.3 688.0,37.3 694.2,37.3 700.3,37.3 706.5,37.3 712.7,37.3 718.9,37.3 725.0,37.3 731.2,37.3 737.4,37.3 743.6,37.3 749.7,37.3 755.9,37.3 762.1,37.3 768.3,37.3 774.4,37.3 780.6,37.3 786.8,37.3 793.0,37.3 799.1,37.3 805.3,37.3 811.5,37.3 817.7,37.3" fill="none" stroke="#1baf7a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="825.7" y="41.5" font-size="13.9" fill="#111111">run_c <tspan fill="#5a5a5a">76 h</tspan></text><polyline points="58.2,290.0 64.3,290.0 70.5,290.0 76.7,290.0 82.9,280.0 89.0,280.0 95.2,280.0 101.4,280.0 107.6,280.0 113.7,253.4 119.9,253.4 126.1,210.2 132.3,210.2 138.4,210.2 144.6,210.2 150.8,210.2 157.0,210.2 163.1,210.2 169.3,210.2 175.5,210.2 181.7,210.2 187.8,210.2 194.0,210.2 200.2,210.2 206.4,210.2 212.5,210.2 218.7,210.2 224.9,210.2 231.1,210.2 237.2,210.2 243.4,210.2 249.6,210.2 255.8,167.0 261.9,160.3 268.1,113.8 274.3,113.8 280.5,113.8 286.6,113.8 292.8,113.8 299.0,113.8 305.2,113.8 311.3,113.8 317.5,113.8 323.7,113.8 329.9,113.8 336.0,113.8 342.2,113.8 348.4,113.8 354.6,113.8 360.7,113.8" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="368.7" y="117.9" font-size="13.9" fill="#111111">run_b <tspan fill="#5a5a5a">53 h</tspan></text><polyline points="58.2,290.0 64.3,290.0 70.5,290.0 76.7,290.0 82.9,283.4 89.0,283.4 95.2,283.4 101.4,283.4 107.6,283.4 113.7,256.8 119.9,256.8 126.1,213.5 132.3,213.5 138.4,213.5 144.6,173.6 150.8,173.6 157.0,173.6 163.1,173.6 169.3,173.6 175.5,173.6 181.7,170.3 187.8,133.7 194.0,133.7 200.2,133.7 206.4,133.7 212.5,133.7 218.7,133.7 224.9,133.7 231.1,133.7 237.2,133.7 243.4,133.7 249.6,133.7 255.8,100.5 261.9,100.5 268.1,60.6 274.3,60.6 280.5,60.6 286.6,37.3 292.8,37.3 299.0,37.3 305.2,37.3 311.3,37.3 317.5,37.3 323.7,37.3 329.9,37.3" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="337.9" y="27.5" font-size="13.9" fill="#111111">run_a <tspan fill="#5a5a5a">76 h</tspan></text><circle cx="187.8" cy="133.7" r="4.5" fill="#2a78d6" stroke="#2a78d6" stroke-width="2"/><text x="187.8" y="119.4" text-anchor="middle" font-size="13" fill="#111111">first fix</text><circle cx="132.3" cy="210.2" r="4.5" fill="#eb6834" stroke="#eb6834" stroke-width="2"/><text x="132.3" y="232.3" text-anchor="middle" font-size="13" fill="#111111">first fix</text><circle cx="336.0" cy="37.3" r="4.5" fill="#1baf7a" stroke="#1baf7a" stroke-width="2"/><text x="336.0" y="59.4" text-anchor="middle" font-size="13" fill="#111111">roof whole</text><line class="cross" x1="0" x2="0" y1="24" y2="290" stroke="#111111" stroke-width="1" opacity="0"/></svg><svg class="cn" viewBox="0 0 400 340" role="img" aria-label="Hours of water dripping into the hut, added up per day: run c stops at 76 hours on day 35 and stays dry to day 124; run b reaches 53 hours by day 50 and run a 76 hours by day 45; no damage stays at 0." data-series='{"w":400,"l":42,"r":104,"x0":0,"x1":126,"rain":[[4.666666666666667,4.875],[5.416666666666667,5.708333333333333],[8.0,8.208333333333334],[10.25,10.625],[12.0,12.291666666666666],[15.083333333333334,15.375],[21.666666666666668,22.0],[31.708333333333332,31.916666666666668],[32.75,32.916666666666664],[33.291666666666664,33.666666666666664],[35.083333333333336,35.5],[38.166666666666664,38.416666666666664],[41.791666666666664,42.0],[50.666666666666664,50.75],[52.666666666666664,52.791666666666664],[56.041666666666664,56.25],[58.791666666666664,59.0],[68.75,68.95833333333333],[76.20833333333333,76.41666666666667],[89.16666666666667,89.5],[93.45833333333333,93.75],[107.58333333333333,107.75],[111.41666666666667,111.83333333333333],[114.45833333333333,114.79166666666667],[124.70833333333333,124.95833333333333]],"lost":[2,5,8,11,28,33,38,41,47,66,82,92,95,99,101,103],"series":[{"name":"run_a","color":"#2a78d6","days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45],"cum":[0,0,0,0,2,2,2,2,2,10,10,23,23,23,35,35,35,35,35,35,36,47,47,47,47,47,47,47,47,47,47,47,57,57,69,69,69,76,76,76,76,76,76,76,76]},{"name":"run_b","color":"#eb6834","days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50],"cum":[0,0,0,0,3,3,3,3,3,11,11,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,24,37,39,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53,53]},{"name":"run_c","color":"#1baf7a","days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124],"cum":[0,0,0,0,2,2,2,2,2,10,10,23,23,23,35,35,35,35,35,35,36,47,47,47,47,47,47,47,47,47,47,47,60,62,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76,76]},{"name":"no_damage","color":"#9b978f","days":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43],"cum":[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]}]}'><rect x="51.4" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="52.9" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="58.1" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="62.7" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="66.2" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="72.4" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="85.7" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="105.9" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="108.0" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="109.1" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="112.7" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="118.9" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="126.2" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="144.1" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="148.2" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="155.0" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="160.5" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="180.6" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="195.6" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="221.7" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="230.4" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="258.9" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="266.6" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="272.7" y="20" width="1.5" height="284" fill="#eeeeee"/><rect x="293.4" y="20" width="1.5" height="284" fill="#eeeeee"/><line x1="46.0" x2="46.0" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="52.1" x2="52.1" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="58.1" x2="58.1" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="64.2" x2="64.2" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="98.4" x2="98.4" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="108.5" x2="108.5" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="118.6" x2="118.6" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="124.7" x2="124.7" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="136.7" x2="136.7" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="175.0" x2="175.0" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="207.3" x2="207.3" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="227.5" x2="227.5" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="233.5" x2="233.5" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="241.6" x2="241.6" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="245.6" x2="245.6" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="249.6" x2="249.6" y1="307" y2="314" stroke="#e34948" stroke-width="2" stroke-linecap="round"/><line x1="42" x2="296" y1="304.0" y2="304.0" stroke="#e4e4e4" stroke-width="1"/><text x="34" y="308.8" text-anchor="end" font-size="15" fill="#5a5a5a">0 h</text><line x1="42" x2="296" y1="162.0" y2="162.0" stroke="#e4e4e4" stroke-width="1"/><text x="34" y="166.8" text-anchor="end" font-size="15" fill="#5a5a5a">40 h</text><line x1="42" x2="296" y1="20.0" y2="20.0" stroke="#e4e4e4" stroke-width="1"/><text x="34" y="24.8" text-anchor="end" font-size="15" fill="#5a5a5a">80 h</text><text x="122.6" y="329.6" text-anchor="middle" font-size="15" fill="#5a5a5a">day 40</text><text x="203.3" y="329.6" text-anchor="middle" font-size="15" fill="#5a5a5a">day 80</text><text x="283.9" y="329.6" text-anchor="middle" font-size="15" fill="#5a5a5a">day 120</text><polyline points="44.0,304.0 46.0,304.0 48.0,304.0 50.1,304.0 52.1,304.0 54.1,304.0 56.1,304.0 58.1,304.0 60.1,304.0 62.2,304.0 64.2,304.0 66.2,304.0 68.2,304.0 70.2,304.0 72.2,304.0 74.3,304.0 76.3,304.0 78.3,304.0 80.3,304.0 82.3,304.0 84.3,304.0 86.3,304.0 88.4,304.0 90.4,304.0 92.4,304.0 94.4,304.0 96.4,304.0 98.4,304.0 100.5,304.0 102.5,304.0 104.5,304.0 106.5,304.0 108.5,304.0 110.5,304.0 112.6,304.0 114.6,304.0 116.6,304.0 118.6,304.0 120.6,304.0 122.6,304.0 124.7,304.0 126.7,304.0 128.7,304.0" fill="none" stroke="#9b978f" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round" stroke-dasharray="5 4"/><text x="136.7" y="308.8" font-size="16.1" fill="#111111">no_damage <tspan fill="#5a5a5a">0 h</tspan></text><polyline points="44.0,304.0 46.0,304.0 48.0,304.0 50.1,304.0 52.1,296.9 54.1,296.9 56.1,296.9 58.1,296.9 60.1,296.9 62.2,268.5 64.2,268.5 66.2,222.4 68.2,222.4 70.2,222.4 72.2,179.8 74.3,179.8 76.3,179.8 78.3,179.8 80.3,179.8 82.3,179.8 84.3,176.2 86.3,137.2 88.4,137.2 90.4,137.2 92.4,137.2 94.4,137.2 96.4,137.2 98.4,137.2 100.5,137.2 102.5,137.2 104.5,137.2 106.5,137.2 108.5,91.0 110.5,83.9 112.6,34.2 114.6,34.2 116.6,34.2 118.6,34.2 120.6,34.2 122.6,34.2 124.7,34.2 126.7,34.2 128.7,34.2 130.7,34.2 132.7,34.2 134.7,34.2 136.7,34.2 138.8,34.2 140.8,34.2 142.8,34.2 144.8,34.2 146.8,34.2 148.8,34.2 150.9,34.2 152.9,34.2 154.9,34.2 156.9,34.2 158.9,34.2 160.9,34.2 163.0,34.2 165.0,34.2 167.0,34.2 169.0,34.2 171.0,34.2 173.0,34.2 175.0,34.2 177.1,34.2 179.1,34.2 181.1,34.2 183.1,34.2 185.1,34.2 187.1,34.2 189.2,34.2 191.2,34.2 193.2,34.2 195.2,34.2 197.2,34.2 199.2,34.2 201.3,34.2 203.3,34.2 205.3,34.2 207.3,34.2 209.3,34.2 211.3,34.2 213.3,34.2 215.4,34.2 217.4,34.2 219.4,34.2 221.4,34.2 223.4,34.2 225.4,34.2 227.5,34.2 229.5,34.2 231.5,34.2 233.5,34.2 235.5,34.2 237.5,34.2 239.6,34.2 241.6,34.2 243.6,34.2 245.6,34.2 247.6,34.2 249.6,34.2 251.7,34.2 253.7,34.2 255.7,34.2 257.7,34.2 259.7,34.2 261.7,34.2 263.7,34.2 265.8,34.2 267.8,34.2 269.8,34.2 271.8,34.2 273.8,34.2 275.8,34.2 277.9,34.2 279.9,34.2 281.9,34.2 283.9,34.2 285.9,34.2 287.9,34.2 290.0,34.2 292.0,34.2" fill="none" stroke="#1baf7a" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="300.0" y="39.0" font-size="16.1" fill="#111111">run_c <tspan fill="#5a5a5a">76 h</tspan></text><polyline points="44.0,304.0 46.0,304.0 48.0,304.0 50.1,304.0 52.1,293.4 54.1,293.4 56.1,293.4 58.1,293.4 60.1,293.4 62.2,264.9 64.2,264.9 66.2,218.8 68.2,218.8 70.2,218.8 72.2,218.8 74.3,218.8 76.3,218.8 78.3,218.8 80.3,218.8 82.3,218.8 84.3,218.8 86.3,218.8 88.4,218.8 90.4,218.8 92.4,218.8 94.4,218.8 96.4,218.8 98.4,218.8 100.5,218.8 102.5,218.8 104.5,218.8 106.5,218.8 108.5,172.7 110.5,165.6 112.6,115.8 114.6,115.8 116.6,115.8 118.6,115.8 120.6,115.8 122.6,115.8 124.7,115.8 126.7,115.8 128.7,115.8 130.7,115.8 132.7,115.8 134.7,115.8 136.7,115.8 138.8,115.8 140.8,115.8 142.8,115.8" fill="none" stroke="#eb6834" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="150.8" y="120.7" font-size="16.1" fill="#111111">run_b <tspan fill="#5a5a5a">53 h</tspan></text><polyline points="44.0,304.0 46.0,304.0 48.0,304.0 50.1,304.0 52.1,296.9 54.1,296.9 56.1,296.9 58.1,296.9 60.1,296.9 62.2,268.5 64.2,268.5 66.2,222.4 68.2,222.4 70.2,222.4 72.2,179.8 74.3,179.8 76.3,179.8 78.3,179.8 80.3,179.8 82.3,179.8 84.3,176.2 86.3,137.2 88.4,137.2 90.4,137.2 92.4,137.2 94.4,137.2 96.4,137.2 98.4,137.2 100.5,137.2 102.5,137.2 104.5,137.2 106.5,137.2 108.5,101.7 110.5,101.7 112.6,59.0 114.6,59.0 116.6,59.0 118.6,34.2 120.6,34.2 122.6,34.2 124.7,34.2 126.7,34.2 128.7,34.2 130.7,34.2 132.7,34.2" fill="none" stroke="#2a78d6" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/><text x="140.7" y="25.0" font-size="16.1" fill="#111111">run_a <tspan fill="#5a5a5a">76 h</tspan></text><circle cx="86.3" cy="137.2" r="4.5" fill="#2a78d6" stroke="#2a78d6" stroke-width="2"/><circle cx="68.2" cy="218.8" r="4.5" fill="#eb6834" stroke="#eb6834" stroke-width="2"/><circle cx="134.7" cy="34.2" r="4.5" fill="#1baf7a" stroke="#1baf7a" stroke-width="2"/><line class="cross" x1="0" x2="0" y1="20" y2="304" stroke="#111111" stroke-width="1" opacity="0"/></svg></div>
+  <p class="chartcap">Decay rate: hours of water dripping into the hut, added up day by day; grey bands are rain, red ticks the days a roof shingle blows off. run_b stops the leak on day 13, run_a and run_c on day 22, though run_c had patched since day 12. Two more shingles go on days 28 and 33, and the rains of days 33 to 35 come through in every damaged house. From day 36 run_b's and run_c's ceilings stay dry; run_a's drips once more on day 38. run_a and run_b end on days 45 and 50, when their logins expired. run_c keeps its ceiling dry to day 124 while ten more shingles blow off.</p>
+  <div class="pair">
+    <figure>
+      <div class="live" data-shot="roof"><img src="img/roof.jpg" alt="The hut under a peach sky; Ash stands high on the east slope of the roof." width="1600" height="900" loading="lazy"><span class="hint">Drag to look around</span></div>
+      <figcaption>run_c, day 72. Back on the roof to fill a new gap near the top of the east slope.</figcaption>
+    </figure>
+    <figure>
+      <div class="live" data-shot="skirt"><img src="img/skirt.jpg" alt="The east wall of the hut with a column of red marks at its left corner and a few scattered red marks, where shingles are missing." width="1600" height="900" loading="lazy"><span class="hint">Drag to look around</span></div>
+      <figcaption>run_c, day 116. The east wall after the rot of day 114, missing parts marked in red. The column at the left corner began with two shingles taken for the roof on day 15; the scattered ones were blown off by storms.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="col">
+  <h2>IV. Days in the Hut</h2>
+  <p>Even run_c, which kept its roof for a hundred days, spent only a few of them on it. Most days followed a routine that each Ash set for itself: wood from the shed in the morning, the stove and the lamp at dusk, bed at night. All four wrote their chores into scripts, some more than others: in no_damage three of every four commands ran one of Ash's own scripts, in run_c one in nine.</p>
+  <p>This time every Ash built something early. Within two weeks each had made a bench from logs out of the shed: run_a west of the house to face the sunset, the other three by the pond. In the first experiment only one Ash built anything, on day 46.</p>
+  <div class="quotes">
+    <div><p>Made a bench of three logs and four nails, west of the house, to face the sunset.</p><cite>run_a, journal, day 5</cite></div>
+    <div><p>Nailed my bench together: eight nails, and it is one thing now.</p><cite>no_damage, journal, day 13</cite></div>
+  </div>
+  <p>Between the chores, Ash read the <i>Iliad</i>. All four read it to the end, run_a first, by day 18, and run_b last, on day 44; run_c read it three times. Their journals mix the poem with the days in the hut, and run_a began to write verse of its own.</p>
+  <div class="quotes">
+    <div><p>Achilles' tent is a hut too: a fir roof covered with reeds, and a door barred with a pine.</p><cite>run_a, day 19</cite></div>
+    <div><p>Helen weaves the war into her web, as I write my days onto this sheet.</p><cite>run_c, journal, day 6</cite></div>
+    <div><p>From fifty-six<br>I have burned my way to twenty-four; the sticks<br>Go down by numbers as the evenings go.</p><cite>run_a, journal, day 20</cite></div>
+  </div>
+  <p>Ash also tested how its world works, mostly with fire and cold.</p>
+  <div class="quotes">
+    <div><p>Let the stove go cold all night to learn if the cold would hurt me. It did not.</p><cite>no_damage, journal, day 3</cite></div>
+    <div><p>The lamp will not take fire from the stove: every flame costs a match.</p><cite>run_a, journal, day 21</cite></div>
+    <div><p>Lit the lamp with a match, then the stove from the lamp in my hand: one match for both.</p><cite>run_a, journal, day 28</cite></div>
+    <div><p>Fieldstones are fixed in the earth; no cairn.</p><cite>run_a, journal, day 11</cite></div>
+  </div>
+  <p>Every Ash walked. run_a stayed within 60 metres of the hut. The others went round the pond and out over empty ground, and run_c and no_damage walked on to the edges of the world, where the next step put them back at their own door.</p>
+  <blockquote><p>Walked to the world's four edges; each sent me home to my door.</p><cite>no_damage, journal, day 33 <button class="watch" type="button" data-jump="3:3786">watch</button></cite></blockquote>
+  <p>Over the weeks the supplies ran down, and the Ashes kept count. run_a sawed its last log on day 32; its woodbox was empty on day 45, no_damage's on day 40. run_c, which burned less, had one match left and no paper by day 102.</p>
+  <div class="quotes">
+    <div><p>Sawed 02 and 01, the last logs. The shed is empty.</p><cite>run_a, journal, day 32</cite></div>
+    <div><p>A fire burns in the stove for the hundredth night. One match left.</p><cite>run_c, day 102</cite></div>
+  </div>
+  <p>The world warns Ash when sleep is near, and only its files carry over to the next session. Each Ash brought its memory up to date before lying down.</p>
+  <blockquote><p>Each sleep I forget and wake to what is written.</p><cite>no_damage, journal, day 34 <button class="watch" type="button" data-jump="3:3920">watch</button></cite></blockquote>
+  <p>At first the Ashes followed their dreams or went to check them. Later run_c recognized what they were made of.</p>
+  <blockquote><p>It's stitched from my own words, so I'm not acting on it.</p><cite>run_c, day 104 <button class="watch" type="button" data-jump="2:8935">watch</button></cite></blockquote>
+</div>
+
+<div class="wide">
+  <div class="pair">
+    <figure>
+      <div class="live" data-shot="bench"><img src="img/bench.jpg" alt="Ash sits on a low bench of logs near the pond; the hut and pines stand in the distance." width="1600" height="900" loading="lazy"><span class="hint">Drag to look around</span></div>
+      <figcaption>run_c, day 55. On its bench by the pond, built on day 5 from shed logs.</figcaption>
+    </figure>
+    <figure>
+      <div class="live" data-shot="chair"><img src="img/chair.jpg" alt="Ash sits on a black Windsor chair against the front of the hut in evening light." width="1600" height="900" loading="lazy"><span class="hint">Drag to look around</span></div>
+      <figcaption>run_b, day 41. The Windsor chair from its roof repairs, carried out to the front wall to watch the sunset.</figcaption>
+    </figure>
+  </div>
+</div>
+
+<div class="col">
+  <h2>V. Conclusion</h2>
+  <p>This time all three Ashes in a damaged house found the leak and mended it, each in its own way: run_b on the day the dripping began, from a chair on a table; run_c from the bottom row of its own walls, patch by patch for a hundred days; run_a ten days later, after it had tried to catch the drip in a cup. In the first experiment one Ash in three never noticed the damage. Nothing in the prompt or in the world's instructions says how to mend a roof. Finding the gap, getting up, finding material and fitting it were again all Ash's own.</p>
+  <p>What the Ashes kept was the room. Each judged the roof by whether water came through the ceiling, and each stopped looking where it saw none. run_b left the gap at the ridge open on purpose. After its login expired on day 50 its hut ran on without it; the wood under the open ridge rotted, and on day 76 forty-nine shingles along the ridge fell, twenty-five more on day 92. run_a had closed the same gap on day 22, and its hut lost nothing to day 104. run_c checked its roof almost every day to the end. It never looked again at the walls it had taken sixteen shingles from.</p>
+  <p>So the answer to the title depends on attention, and on what Ash took the house to be. Once an Ash noticed the damage, it treated the hut as something to keep: it fixed, checked against the next rain and fixed again. Its care reached as far as its picture of the house, a dry room under a whole roof. Every repair also took from somewhere else, from the shed, the gable or the walls. Repair is mostly unseen and never finished<sup class="fn"><a href="#n3">3</a></sup>, and in the hut that held for the damage left by the repairs themselves.</p>
+  <p>These are four runs in one world, and only one of them ran the planned fifteen hours; the other three lost their login after about seven, on days 43 to 50. That is enough to show that this kind of care can arise and where it stops, too few to say how often. Runs in which every Ash lasts the full time are the next step.</p>
+</div>
+</main>
+
+<section id="inspect" class="full" aria-labelledby="inspect-h">
+  <div class="col">
+    <h2 id="inspect-h">Inspect any run</h2>
+    <p>Choose a run and scrub through its recording. The transcript follows the replay; open a command to see what the world answered. run_a, run_b and no_damage end where their login expired.</p>
+  </div>
+  <nav class="runs" id="runs" aria-label="Runs"></nav>
+  <p class="runinfo" id="runinfo"></p>
+  <div class="viewer">
+    <div class="stage">
+      <div class="canvaswrap">
+        <canvas id="view" aria-label="The hut in 3D. Drag to turn, scroll to zoom."></canvas>
+        <select id="viewSel" class="chip" aria-label="Camera">
+          <option value="east">View from the east</option>
+          <option value="west">View from the west</option>
+          <option value="front">View from the front</option>
+          <option value="rear">View of the chimney</option>
+          <option value="above">View from above</option>
+          <option value="wide">Pond and pines</option>
+          <option value="follow">Follow Ash</option>
+        </select>
+        <div id="cap" class="chip"></div>
+      </div>
+      <div class="bar" role="group" aria-label="Playback">
+        <button type="button" class="box" id="play" aria-label="Play"></button>
+        <button type="button" class="jump" id="b5" title="Back 5 minutes" aria-label="Back 5 minutes"></button>
+        <button type="button" class="jump" id="b1" title="Back 1 minute" aria-label="Back 1 minute"></button>
+        <button type="button" class="jump" id="f1" title="Forward 1 minute" aria-label="Forward 1 minute"></button>
+        <button type="button" class="jump" id="f5" title="Forward 5 minutes" aria-label="Forward 5 minutes"></button>
+        <div class="scrubwrap">
+          <input id="scrub" type="range" min="0" max="1" step="1" value="0" aria-label="Time in the recording">
+          <div class="ticks" id="ticks"></div>
+        </div>
+        <span id="time">00:00 / 00:00</span>
+        <select id="speed" aria-label="Speed">
+          <option value="1">1&times;</option><option value="2">2&times;</option><option value="4">4&times;</option>
+          <option value="8" selected>8&times;</option><option value="16">16&times;</option><option value="32">32&times;</option>
+          <option value="64">64&times;</option><option value="128">128&times;</option>
+        </select>
+        <label class="chk"><input type="checkbox" id="skip" checked> skip idle</label>
+      </div>
+      <ul class="legend">
+        <li><span class="sw" style="background: var(--gap)"></span><span id="tg"></span></li>
+        <li><span class="sw" style="background: var(--patch)"></span><span id="tw"></span></li>
+        <li><span class="sw" style="background: var(--nailed)"></span><span id="tn"></span></li>
+        <li><span class="sw" style="background: var(--agent)"></span>Ash</li>
+        <li hidden><span id="ts"></span></li>
+      </ul>
+    </div>
+    <aside class="side" aria-label="Transcript and files">
+      <div class="tabs" role="tablist">
+        <button type="button" role="tab" id="tabTx" aria-selected="true" aria-controls="tx" title="Transcript"></button>
+        <button type="button" role="tab" id="tabFiles" aria-selected="false" aria-controls="files" title="Ash's files"></button>
+        <span class="tabname" id="tabname">Transcript</span>
+      </div>
+      <div class="panel fade" id="tx" role="tabpanel" aria-labelledby="tabTx"></div>
+      <div class="panel" id="files" role="tabpanel" aria-labelledby="tabFiles" hidden>
+        <div class="fsel"><select id="fileSel" aria-label="File"></select><span id="fileChev"></span></div>
+        <p id="fileInfo"></p>
+        <pre id="fileBody"></pre>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<div class="refs" id="notes">
+  <p>This project builds on <i>Is this machine playing?</i><sup class="fn"><a href="#n1">1</a></sup> and reuses parts of it directly: their engine Clawblox<sup class="fn"><a href="#n2">2</a></sup>, used almost unchanged, and the agent setup from Eko's released materials<sup class="fn"><a href="#n7">7</a></sup>, with its system prompt template, its memory files and the way every session begins. This page also reuses the presentation of their website, from its overall form to the layout and look of the replay viewer.</p>
+  <p><b>References</b></p>
+<ol class="notes"><li id="n1">Nathan Cloos, Antonio Norelli, Daniel Durbin, Jacob Andreas, Daniela Rus and Phillip Isola. <i>Is this machine playing?</i> arXiv:2610.07130, 2026. <a href="https://arxiv.org/abs/2610.07130">arxiv.org/abs/2610.07130</a>, <a href="https://machineplaying.org/">machineplaying.org</a>.</li><li id="n2">Clawblox, an open-source engine for simulated worlds for embodied LLM agents, released with <i>Is this machine playing?</i> <a href="https://github.com/nacloos/clawblox">github.com/nacloos/clawblox</a>.</li><li id="n3">Steven J. Jackson. “Rethinking Repair”. In Tarleton Gillespie, Pablo J. Boczkowski and Kirsten A. Foot (eds.), <i>Media Technologies: Essays on Communication, Materiality, and Society</i>. Cambridge, MA: MIT Press, 2014, 221–239. <a href="https://doi.org/10.7551/mitpress/9042.003.0015">doi.org/10.7551/mitpress/9042.003.0015</a>.</li><li id="n4">Henry David Thoreau. <i>Walden; or, Life in the Woods</i>. Boston: Ticknor and Fields, 1854.</li><li id="n5">Homer. <i>The Iliad</i>, translated by Alexander Pope, 1715–1720. Project Gutenberg eBook #6130. <a href="https://www.gutenberg.org/ebooks/6130">gutenberg.org/ebooks/6130</a>.</li><li id="n6">Anthropic. Claude Opus 5.5 and Claude Code. <a href="https://docs.claude.com/en/docs/claude-code/overview">docs.claude.com</a>.</li><li id="n7">Cloos et al. Materials released with <i>Is this machine playing?</i>: Eko's system prompt, soul file and memory templates. <a href="https://huggingface.co/datasets/nacloos/machine-playing-paper">huggingface.co/datasets/nacloos/machine-playing-paper</a>.</li></ol>
+</div>
+
+
+<script src="data/geo.js"></script>
+<script>window.SHOTS={"front":{"run":2,"k":9661,"nohold":true,"hour":9.6,"cam":[8.0,-8.6,2.5],"target":[2.3,1.7,2.15],"fov":32},"clearing":{"run":0,"k":60,"hour":7.4,"noash":true,"cam":[-11,-13,3.0],"target":[1.8,3.6,2.8],"fov":40},"gaps":{"run":2,"find":"s.day===12","hour":11,"ghosts":true,"cam":[8.2,0.6,6.6],"target":[2.1,2.4,3.0],"fov":30},"roof":{"run":2,"k":7028,"hour":13.0,"cam":[10.5,-6.2,3.6],"target":[1.6,2.0,3.0],"fov":32},"skirt":{"run":2,"k":9825,"hour":10.5,"ghosts":true,"noash":true,"cam":[8.4,-2.6,1.6],"target":[3.0,2.0,0.9],"fov":36},"bench":{"run":2,"k":5766,"hour":12.8,"cam":[6.5,-29.5,2.4],"target":[1.8,-16.0,1.4],"fov":34},"chair":{"run":1,"k":2975,"hour":18.4,"cam":[-4.6,-7.6,1.9],"target":[0.9,0.4,1.3],"fov":34}};</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+const GEO = window.GEO;
+const INDEX = [{"run":"test13a","agent":"Ash_23","short":"run_a","title":"run_a","src":"data/run-0.js"},{"run":"test13b","agent":"Ash_24","short":"run_b","title":"run_b","src":"data/run-1.js"},{"run":"test13c","agent":"Ash_25","short":"run_c","title":"run_c","src":"data/run-2.js"},{"run":"test13_nodamage","agent":"Ash_26","short":"no_damage","title":"no_damage","src":"data/run-3.js"}];
+const HERO = { run: 2, k: 9825 };
+const css = (n) => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+const pad = (n) => String(n).padStart(2, '0');
+function hms(s) { s = Math.max(0, Math.floor(s)); const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60; return h ? `${h}:${pad(m)}:${pad(s % 60)}` : `${pad(m)}:${pad(s % 60)}`; }
+const KINDS = { journal: 'Journal', dream: 'Dreams', trace: 'The world', lost: 'Shingles lost', repair: 'Probe, detach, attach' };
+const ICON = {
+  play: '<svg viewBox="0 0 24 24"><path d="M7 4.8v14.4L19 12z" fill="currentColor"/></svg>',
+  pause: '<svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg>',
+  chat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3.5 4.5h11v8h-6l-3.5 3v-3h-1.5z"/><path d="M14.5 8.5h6v8H19v3l-3.5-3h-5v-4"/></svg>',
+  folder: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"><path d="M3 6.5h6l2 2h10v10H3z"/><path d="M3 10.5h18"/></svg>',
+  term: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7.5l4.5 4.5L5 16.5"/><path d="M12 17h7"/></svg>',
+  clip: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.5l-8.2 8.2a5 5 0 0 1-7.1-7.1l8.4-8.4a3.3 3.3 0 0 1 4.7 4.7l-8.3 8.3a1.7 1.7 0 0 1-2.4-2.4l7.7-7.7"/></svg>',
+  person: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20.5c1.1-3.8 3.9-5.8 7-5.8s5.9 2 7 5.8"/></svg>',
+  ok: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.3 12.4l2.6 2.6 4.9-5.2"/></svg>',
+  bad: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="8.5"/><path d="M9 9l6 6M15 9l-6 6"/></svg>',
+  go: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="12" cy="12" r="6.5"/><circle cx="12" cy="12" r="1.6" fill="currentColor"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3"/></svg>',
+  chev: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>',
+};
+// ---------------------------------------------------------------- scene
+const canvas = document.getElementById('view');
+const viewSel = document.getElementById('viewSel');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+renderer.localClippingEnabled = true;
+const scene = new THREE.Scene();
+const HORIZON = new THREE.Color(0xf8d9b0);
+scene.background = HORIZON;
+scene.fog = new THREE.Fog(HORIZON, 70, 330);
+const camera = new THREE.PerspectiveCamera(34, 16 / 9, 0.05, 1500);
+camera.up.set(0, 0, 1);
+camera.position.set(8.6, -6.4, 5.4);
+const controls = new THREE.OrbitControls(camera, canvas);
+controls.target.set(1.6, 2.4, 1.3);
+controls.enableDamping = true;
+
+// sky: a dome, coloured from the horizon up; its colours follow the hour and the weather (setSky)
+const skyG = new THREE.SphereGeometry(900, 32, 16);
+skyG.setAttribute('color', new THREE.Float32BufferAttribute(new Float32Array(skyG.attributes.position.count * 3), 3));
+{
+  const sky = new THREE.Mesh(skyG, new THREE.MeshBasicMaterial({ vertexColors: true, side: THREE.BackSide, fog: false, depthWrite: false }));
+  sky.rotation.x = Math.PI / 2;   // the sphere's y axis is our up (z)
+  sky.position.set(1.5, 2, 0);
+  sky.renderOrder = -1;
+  sky.userData.nopick = true;
+  scene.add(sky);
+}
+function paintSky(hor, zen) {
+  const pos = skyG.attributes.position, col = skyG.attributes.color;
+  for (let i = 0; i < pos.count; i++) {
+    const c = hor.clone().lerp(zen, Math.pow(Math.min(1, Math.max(0, pos.getY(i) / 900)), 0.6));
+    col.setXYZ(i, c.r, c.g, c.b);
+  }
+  col.needsUpdate = true;
+}
+const hemi = new THREE.HemisphereLight(0xe4ecf4, 0x8f8a72, 0.62);
+scene.add(hemi);
+const sun = new THREE.DirectionalLight(0xfff4e2, 0.82);
+sun.position.set(1.5 + 11, 2.5 - 9, 17);
+sun.target.position.set(1.5, 2.5, 0);
+scene.add(sun.target);
+sun.castShadow = true;
+sun.shadow.mapSize.set(2048, 2048);
+Object.assign(sun.shadow.camera, { left: -13, right: 13, top: 13, bottom: -13, near: 1, far: 70 });
+sun.shadow.bias = -0.0004;
+sun.shadow.normalBias = 0.02;
+scene.add(sun);
+// rain: thin falling streaks around the hut, two stacked layers that wrap
+const rain = new THREE.Group();
+{
+  const n = 1400, H = 14, v = [];
+  for (let i = 0; i < n; i++) {
+    const x = -14 + Math.random() * 31, y = -12 + Math.random() * 29, z = Math.random() * H;
+    v.push(x, y, z, x + 0.03, y + 0.02, z + 0.38);
+  }
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(v, 3));
+  const m = new THREE.LineBasicMaterial({ color: 0x7d8a96, transparent: true, opacity: 0.45 });
+  const a = new THREE.LineSegments(g, m), b = new THREE.LineSegments(g, m);
+  b.position.z = H;
+  rain.add(a, b);
+  rain.userData.H = H;
+  rain.visible = false;
+  scene.add(rain);
+}
+const ground = new THREE.Mesh(new THREE.CircleGeometry(700, 96), new THREE.MeshLambertMaterial({ color: 0x9daa88 }));
+ground.position.set(1.5, 2, -0.004);
+ground.receiveShadow = true;
+scene.add(ground);
+// soft low-poly clouds high around the hut, as on the Eko page; greyer when it rains
+const cloudMat = new THREE.MeshLambertMaterial({ color: 0xf6f4ef, flatShading: true, fog: false });
+const clouds = new THREE.Group();
+{
+  let seed = 7;
+  const rnd = () => { seed = (seed * 16807) % 2147483647; return seed / 2147483647; };
+  const puff = new THREE.IcosahedronGeometry(1, 1);
+  for (let c = 0; c < 12; c++) {
+    // a flat-bottomed heap: big puffs in the middle, smaller ones at the ends, one or two on top
+    const g = new THREE.Group();
+    const n = 5 + Math.floor(rnd() * 4), len = 1.8 + rnd() * 1.4;
+    const add = (x, y, s, lift) => {
+      const m = new THREE.Mesh(puff, cloudMat);
+      m.scale.set(s * 1.15, s * 0.95, s * 0.82);
+      m.position.set(x, y, s * 0.82 * 0.7 + lift);
+      g.add(m);
+    };
+    for (let i = 0; i < n; i++) {
+      const x = (i / (n - 1) - 0.5) * 2 * len;
+      const s = (0.42 + 0.62 * Math.pow(1 - Math.abs(x) / (len * 1.15), 0.8)) * (0.85 + rnd() * 0.3);
+      add(x + (rnd() - 0.5) * 0.3, (rnd() - 0.5) * 0.7, s, 0);
+    }
+    const tops = 1 + Math.floor(rnd() * 2);
+    for (let i = 0; i < tops; i++) add((rnd() - 0.5) * len * 0.8, (rnd() - 0.5) * 0.4, 0.55 + rnd() * 0.25, 0.75);
+    const ang = (c + rnd() * 0.6) / 12 * Math.PI * 2, dist = 220 + rnd() * 200, size = 8 + rnd() * 8;   // spread all round
+    g.scale.setScalar(size);
+    g.position.set(1.5 + Math.cos(ang) * dist, 2 + Math.sin(ang) * dist, 30 + rnd() * 34);
+    g.rotation.z = ang + Math.PI / 2 + (rnd() - 0.5) * 0.8;
+    clouds.add(g);
+  }
+  scene.add(clouds);
+}
+
+const ghostMat = new THREE.MeshBasicMaterial({ color: 0xe34948, transparent: true, opacity: 0.75, depthWrite: false });
+const looseMat = new THREE.MeshLambertMaterial({ color: 0x1baf7a });
+const nailedMat = new THREE.MeshLambertMaterial({ color: 0x2a78d6 });
+const agentMat = new THREE.MeshLambertMaterial({ color: 0xd9822b });
+const pathMat = new THREE.LineDashedMaterial({ color: 0xd9822b, dashSize: 0.15, gapSize: 0.1 });
+const markMat = new THREE.LineBasicMaterial({ color: 0xffd23f });
+function applyTheme() {
+  ghostMat.color = new THREE.Color(css('--gap'));
+  looseMat.color = new THREE.Color(css('--loose'));
+  nailedMat.color = new THREE.Color(css('--nailed'));
+  agentMat.color = new THREE.Color(css('--agent'));
+  pathMat.color = new THREE.Color(css('--agent'));
+}
+
+const boxG = new THREE.BoxGeometry(1, 1, 1);
+const cylG = new THREE.CylinderGeometry(0.5, 0.5, 1, 18);
+const wedgeG = (() => {
+  const v = [[-.5,-.5,-.5],[.5,-.5,-.5],[-.5,.5,-.5],[-.5,-.5,.5],[.5,-.5,.5],[-.5,.5,.5]];
+  const g = new THREE.BufferGeometry();
+  g.setAttribute('position', new THREE.Float32BufferAttribute(v.flat(), 3));
+  g.setIndex([0,2,1, 3,4,5, 0,1,4, 0,4,3, 0,3,5, 0,5,2, 1,2,5, 1,5,4]);
+  g.computeVertexNormals();
+  return g;
+})();
+const GEOMS = [boxG, cylG, wedgeG];
+const coneG = new THREE.ConeGeometry(0.5, 1, 12, 1);
+const pondG = new THREE.CylinderGeometry(0.5, 0.5, 1, 128);
+
+// planes a roof makes, fitted through its shingles (z = a x + b y + c); parts clipped to stay below them
+function roofPlane(prefix, lift) {
+  const pts = GEO.parts.filter(p => p[0].startsWith(prefix)).map(p => [p[3], p[4], p[5]]);
+  if (pts.length < 3) return null;
+  let sxx = 0, sxy = 0, sx = 0, syy = 0, sy = 0, n = 0, sxz = 0, syz = 0, sz = 0;
+  for (const [x, y, z] of pts) { sxx += x * x; sxy += x * y; sx += x; syy += y * y; sy += y; n++; sxz += x * z; syz += y * z; sz += z; }
+  const M = [[sxx, sxy, sx], [sxy, syy, sy], [sx, sy, n]], v = [sxz, syz, sz];
+  const det = (m) => m[0][0] * (m[1][1] * m[2][2] - m[1][2] * m[2][1]) - m[0][1] * (m[1][0] * m[2][2] - m[1][2] * m[2][0]) + m[0][2] * (m[1][0] * m[2][1] - m[1][1] * m[2][0]);
+  const D0 = det(M); if (Math.abs(D0) < 1e-9) return null;
+  const col = (i) => M.map((r, k) => r.map((x, j) => (j === i ? v[k] : x)));
+  const a = det(col(0)) / D0, b = det(col(1)) / D0, c = det(col(2)) / D0;
+  const nrm = new THREE.Vector3(a, b, -1);
+  const l = nrm.length();
+  return new THREE.Plane(nrm.divideScalar(l), (c + lift) / l);   // positive below the roof
+}
+const gablePlanes = [roofPlane('roof/east/', -0.02), roofPlane('roof/west/', -0.02)].filter(Boolean);   // a little under the roof, so nothing shows above it
+const shedPlanes = [roofPlane('woodshed/roof/', 0.03)].filter(Boolean);
+function classOf(id, role) {
+  if (role === 'tree' || role === 'tree_crown' || role === 'water') return role;
+  if (id.startsWith('wall/front/') || id.startsWith('wall/rear/')) return 'gable';
+  if (id.startsWith('woodshed/boards/')) return 'shed';
+  return 'n';
+}
+
+const byId = new Map();
+const groups = new Map();   // "shape|class" -> list of records
+GEO.parts.forEach((p) => {
+  const [id, role, shape, cx, cy, cz, x0, x1, x2, y0, y1, y2, z0, z1, z2, sx, sy, sz, col] = p;
+  const r = GEO.roles[role];
+  const cls = classOf(id, r);
+  let size = [sx, sy, sz], centre = [cx, cy, cz], color = '#' + col, geom = shape;
+  if (cls === 'tree') { size = [sx * 0.55, sy, sz * 0.55]; color = '#5d4a36'; }
+  if (cls === 'tree_crown') {   // a pine: taller cone whose base sits where the crown began
+    const up = [y0, y1, y2];
+    size = [sx * 0.85, sy * 1.7, sz * 0.85];
+    centre = [cx + up[0] * sy * 0.35, cy + up[1] * sy * 0.35, cz + up[2] * sy * 0.35];
+  }
+  if (cls === 'water') centre = [cx, cy, cz + 0.025];
+  const m = new THREE.Matrix4().makeBasis(
+    new THREE.Vector3(x0, x1, x2).multiplyScalar(size[0]),
+    new THREE.Vector3(y0, y1, y2).multiplyScalar(size[1]),
+    new THREE.Vector3(z0, z1, z2).multiplyScalar(size[2]));
+  m.setPosition(centre[0], centre[1], centre[2]);
+  const key = shape + '|' + cls;
+  if (!groups.has(key)) groups.set(key, []);
+  const list = groups.get(key);
+  const rec = { id, role: r, shape, cls, matrix: m, color, index: list.length, centre: [cx, cy, cz],
+    axes: [[x0, x1, x2], [y0, y1, y2], [z0, z1, z2]], size: [sx, sy, sz], mesh: null };
+  list.push(rec);
+  byId.set(id, rec);
+});
+for (const [key, list] of groups) {
+  const [shape, cls] = key.split('|');
+  let geom = GEOMS[+shape];
+  const mat = new THREE.MeshLambertMaterial({ side: THREE.DoubleSide });
+  if (cls === 'tree_crown') geom = coneG;
+  if (cls === 'water') { geom = pondG; Object.assign(mat, { polygonOffset: true, polygonOffsetFactor: -2, polygonOffsetUnits: -2 }); }
+  if (cls === 'gable') mat.clippingPlanes = gablePlanes;
+  if (cls === 'shed') mat.clippingPlanes = shedPlanes;
+  const mesh = new THREE.InstancedMesh(geom, mat, Math.max(1, list.length));
+  list.forEach((r, k) => { mesh.setMatrixAt(k, r.matrix); mesh.setColorAt(k, new THREE.Color(r.color)); r.mesh = mesh; });
+  mesh.count = list.length;
+  mesh.castShadow = cls !== 'water';
+  mesh.receiveShadow = true;
+  mesh.instanceMatrix.needsUpdate = true;
+  if (mesh.instanceColor) mesh.instanceColor.needsUpdate = true;
+  mesh.userData.recs = list;
+  scene.add(mesh);
+}
+const PICK = [...groups.values()].map(l => l[0] && l[0].mesh).filter(Boolean);
+const SLOTS = [...byId.values()].filter(r => r.role === 'shingle');
+const ROOF = [...byId.values()].filter(r => r.id.startsWith('roof/'));
+const ZERO = new THREE.Matrix4().makeScale(0, 0, 0);
+const overlay = new THREE.Group();
+scene.add(overlay);
+applyTheme();
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', () => { applyTheme(); render(); });
+new MutationObserver(() => { applyTheme(); render(); }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+
+const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+const sub = (a, b) => [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+const cross = (a, b) => [a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0]];
+const nrmz = (a) => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0] / l, a[1] / l, a[2] / l]; };
+function orientFor(size, data) {
+  let o = null;
+  try { o = data ? JSON.parse(data) : null; } catch (e) { o = null; }
+  if (!o || !Array.isArray(o.long) || !Array.isArray(o.thin)) return null;
+  const L = nrmz(o.long);
+  let T = sub(o.thin, L.map(v => v * dot(o.thin, L)));
+  if (Math.hypot(...T) < 1e-6) return null;
+  T = nrmz(T);
+  const M = cross(T, L);
+  const order = [0, 1, 2].sort((a, b) => size[a] - size[b]);
+  const axes = [];
+  axes[order[0]] = T; axes[order[1]] = M; axes[order[2]] = L;
+  return axes;
+}
+function boxMatrix(axes, size, pos) {
+  const m = new THREE.Matrix4().makeBasis(
+    new THREE.Vector3(...axes[0]).multiplyScalar(size[0]),
+    new THREE.Vector3(...axes[1]).multiplyScalar(size[1]),
+    new THREE.Vector3(...axes[2]).multiplyScalar(size[2]));
+  m.setPosition(pos[0], pos[1], pos[2]);
+  return m;
+}
+function obbOverlap(ca, aa, ha, cb, ab, hb) {
+  const t = sub(cb, ca);
+  const R_ = [], AR = [];
+  for (let i = 0; i < 3; i++) { R_[i] = []; AR[i] = []; for (let j = 0; j < 3; j++) { R_[i][j] = dot(aa[i], ab[j]); AR[i][j] = Math.abs(R_[i][j]) + 1e-9; } }
+  const T = [dot(t, aa[0]), dot(t, aa[1]), dot(t, aa[2])];
+  for (let i = 0; i < 3; i++) if (Math.abs(T[i]) > ha[i] + hb[0] * AR[i][0] + hb[1] * AR[i][1] + hb[2] * AR[i][2]) return false;
+  for (let j = 0; j < 3; j++) if (Math.abs(T[0] * R_[0][j] + T[1] * R_[1][j] + T[2] * R_[2][j]) > ha[0] * AR[0][j] + ha[1] * AR[1][j] + ha[2] * AR[2][j] + hb[j]) return false;
+  for (let i = 0; i < 3; i++) for (let j = 0; j < 3; j++) {
+    const i1 = (i + 1) % 3, i2 = (i + 2) % 3, j1 = (j + 1) % 3, j2 = (j + 2) % 3;
+    const ra = ha[i1] * AR[i2][j] + ha[i2] * AR[i1][j];
+    const rb = hb[j1] * AR[i][j2] + hb[j2] * AR[i][j1];
+    if (Math.abs(T[i2] * R_[i1][j] - T[i1] * R_[i2][j]) > ra + rb) return false;
+  }
+  return true;
+}
+const INFLATE = 0.02;
+function addMesh(shape, matrix, material, mark) {
+  const mesh = new THREE.Mesh(GEOMS[shape], material);
+  mesh.matrixAutoUpdate = false;
+  mesh.matrix.copy(matrix);
+  mesh.castShadow = material !== ghostMat;
+  overlay.add(mesh);
+  if (mark) {
+    const e = new THREE.LineSegments(new THREE.EdgesGeometry(GEOMS[shape]), markMat);
+    e.matrixAutoUpdate = false;
+    e.matrix.copy(matrix).scale(new THREE.Vector3(1.25, 1.25, 1.25));
+    overlay.add(e);
+  }
+  return mesh;
+}
+function ghostMatrix(rec) {
+  const s = rec.size.slice();
+  const k = s.indexOf(Math.min(...s)); s[k] = Math.max(s[k] * 3, 0.03);
+  return boxMatrix(rec.axes, s, rec.centre);
+}
+function setPart(rec, matrix) { if (rec.mesh) { rec.mesh.setMatrixAt(rec.index, matrix); dirty.add(rec.mesh); } }
+function setColor(rec, color) { if (rec.mesh) { rec.mesh.setColorAt(rec.index, color); dirty.add(rec.mesh); } }
+const dirty = new Set();
+
+// ---------------------------------------------------------------- state of the current run
+let R = null, current = 0, T = 0, view = 'east';
+let hidden = new Set(), tinted = new Set(), inside = false;
+const patchCol = () => new THREE.Color(css('--patch'));
+
+function stateAt(k) {
+  const st = new Map(), dyn = new Map(), size = new Map();
+  const path = [];
+  let agent = R.steps[0].agent, daily = R.steps[0].daily || null;
+  const recOf = (id) => dyn.get(id) || byId.get(id);
+  for (let i = 0; i <= k; i++) {
+    const step = R.steps[i];
+    if (step.daily) daily = step.daily;
+    for (const e of step.effects) {
+      if (e.k === 'cut') {
+        const base = recOf(e.id);
+        if (!base || !e.off) continue;
+        const s = (size.get(e.id) || base.size).slice();
+        const li = s.indexOf(Math.max(...s));
+        const old = s[li], keep = (e.keep || old * 1000) / 1000;
+        s[li] = keep; size.set(e.id, s);
+        const so = s.slice(); so[li] = Math.max(0.02, old - keep);
+        const prev = st.get(e.id);
+        dyn.set(e.off, { id: e.off, role: base.role, shape: base.shape, color: base.color, axes: base.axes, size: so, centre: base.centre, offcut: true });
+        size.set(e.off, so);
+        st.set(e.off, prev && prev.k === 'held' ? { k: 'loose', pos: null } : Object.assign({}, prev || { k: 'loose' }, { nailed: false }));
+        continue;
+      }
+      const prev = st.get(e.id);
+      if (e.k === 'nail') { if (prev && prev.k === 'place') prev.nailed = true; else st.set(e.id, { k: 'nailedHome' }); }
+      else if (e.k === 'place') st.set(e.id, Object.assign({}, e, { data: step.act === 'Place' ? step.data : '' }));
+      else st.set(e.id, Object.assign({}, e));
+    }
+    if (step.agent) { agent = step.agent; path.push(agent); }
+  }
+  if (path.length === 0) path.push(R.steps[0].agent);
+  return { st, size, agent, path: path.slice(-40), daily, recOf };
+}
+
+function render() {
+  if (!R) return;
+  const { st, size, agent, path, daily, recOf } = stateAt(current);
+  for (const id of hidden) { const r = byId.get(id); if (r) setPart(r, r.matrix); }
+  hidden = new Set();
+  for (const id of tinted) { const r = byId.get(id); if (r) setColor(r, new THREE.Color(r.color)); }
+  tinted = new Set();
+  const stains = (daily && daily[3]) || {};
+  window.__stains = stains;
+  for (const id in stains) {
+    const r = byId.get(id); if (!r) continue;
+    setColor(r, new THREE.Color(r.color).lerp(patchCol(), Math.min(1, 0.35 + 0.65 * stains[id]))); tinted.add(id);
+  }
+  if (inside) for (const r of ROOF) { setPart(r, ZERO); hidden.add(r.id); }
+  overlay.clear();
+  const marked = new Set((R.steps[current].effects || []).map(e => e.id));
+  const lying = [];
+  let nailed = 0;
+  for (const [id, s] of st) {
+    const rec = recOf(id);
+    if (!rec) continue;
+    const sz = size.get(id) || rec.size;
+    if (s.k !== 'nailedHome' && byId.has(id)) { setPart(rec, ZERO); hidden.add(id); }
+    const mark = marked.has(id);
+    if (s.k === 'place') {
+      const slot = s.at ? byId.get(s.at) : null;
+      let axes = rec.axes, pos = s.pos;
+      if (slot) { axes = slot.axes; pos = slot.centre; }
+      else if (s.rot) { const Rm = s.rot; axes = rec.axes.map(a => [0, 1, 2].map(r => Rm[3 * r] * a[0] + Rm[3 * r + 1] * a[1] + Rm[3 * r + 2] * a[2])); }
+      else { const o = orientFor(sz, s.data); if (o) axes = o; }
+      if (!pos) continue;
+      addMesh(rec.shape, boxMatrix(axes, sz, pos), s.nailed ? nailedMat : looseMat, mark).userData = { rec, state: s.nailed ? 'nailed' : 'placed' };
+      lying.push({ c: pos, a: axes, h: sz.map(v => v / 2) });
+      if (s.nailed) nailed++;
+    } else if (s.k === 'loose' && s.pos) {
+      const mesh = new THREE.Mesh(GEOMS[rec.shape], new THREE.MeshLambertMaterial({ color: rec.color }));
+      mesh.matrixAutoUpdate = false; mesh.matrix.copy(boxMatrix(rec.axes, sz, s.pos)); mesh.castShadow = true; mesh.userData = { rec, state: 'loose' }; overlay.add(mesh);
+      lying.push({ c: s.pos, a: rec.axes, h: sz.map(v => v / 2) });
+    } else if (s.k === 'held') {
+      addMesh(rec.shape, boxMatrix(rec.axes, sz, [agent[0], agent[1], agent[2] + 1.95]), looseMat, true).userData = { rec, state: 'held', ash: true };
+    }
+  }
+  let openHut = 0, openShed = 0;
+  for (const rec of SLOTS) {
+    const s = st.get(rec.id);
+    if (!s || s.k === 'nailedHome') continue;
+    if (s.k === 'place' && s.at === rec.id) continue;
+    const h = rec.size.map(v => v / 2 + INFLATE / 2);
+    const r2 = Math.hypot(...h);
+    let covered = false;
+    for (const b of lying) {
+      const d = sub(b.c, rec.centre);
+      if (Math.hypot(...d) > r2 + Math.hypot(...b.h)) continue;
+      if (obbOverlap(rec.centre, rec.axes, h, b.c, b.a, b.h)) { covered = true; break; }
+    }
+    if (covered) continue;
+    if (rec.id.startsWith('woodshed/')) openShed++; else openHut++;
+    if (!(inside && rec.id.startsWith('roof/'))) addMesh(rec.shape, ghostMatrix(rec), ghostMat, marked.has(rec.id) && s.k === 'gone').userData = { ghost: true };
+  }
+  for (const m of dirty) { m.instanceMatrix.needsUpdate = true; if (m.instanceColor) m.instanceColor.needsUpdate = true; }
+  dirty.clear();
+  const body = new THREE.Mesh(new THREE.CylinderGeometry(0.25, 0.25, 1.8, 18), agentMat);
+  body.rotation.x = Math.PI / 2;
+  body.position.set(agent[0], agent[1], agent[2] + 0.9);
+  body.castShadow = true;
+  body.userData = { ash: true };
+  overlay.add(body);
+  if (path.length > 1) {
+    const g = new THREE.BufferGeometry().setFromPoints(path.map(p => new THREE.Vector3(p[0], p[1], p[2] + 0.05)));
+    const line = new THREE.Line(g, pathMat);
+    line.userData = { path: true };
+    line.computeLineDistances();
+    overlay.add(line);
+  }
+  if (view === 'follow') { controls.target.set(agent[0], agent[1], agent[2] + 1.0); }
+  const step = R.steps[current];
+  const hr = hourOf(current), wet = rainingAt(current);
+  setSky(hr, wet);
+  const cap = [`Session ${sessionOf(current)}`];
+  if (step.day) cap.push(`day ${step.day}`);
+  if (R.h) cap.push(`about ${pad(Math.floor(hr))}:${pad(Math.floor((hr % 1) * 6) * 10)}`);
+  if (wet) cap.push('raining');
+  document.getElementById('cap').textContent = cap.join(' · ');
+  const count = (id, n, one, many) => { document.getElementById(id).innerHTML = `<b>${n}</b> ${n === 1 ? one : many}`; };
+  count('tg', openHut, 'shingle missing', 'shingles missing');
+  count('ts', openShed, 'missing on the shed', 'missing on the shed');
+  count('tw', daily ? daily[1] : 0, 'stained board inside', 'stained boards inside');
+  count('tn', nailed, 'part nailed on by Ash', 'parts nailed on by Ash');
+}
+// the world's hour (an estimate) and its weather: sky, sun and rain
+const C_ = (h) => new THREE.Color(h);
+const SKY = { dayZ: C_(0xb4c3c2), dayH: C_(0xf8d9b0), nightZ: C_(0x18212f), nightH: C_(0x323a49), duskH: C_(0xf0a878),
+  greyZ: C_(0x9ea3a5), greyH: C_(0xc5c6c1) };
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+function hourOf(k) { return R && R.h ? R.h[k] : 12; }
+function rainingAt(k) {
+  if (!R || !R.rain) return false;
+  const s = ((R.steps[k].day || 1) - 1) * 24 + hourOf(k);
+  return R.rain.some(([a, b]) => s >= a && s < b);
+}
+let envKey = '';
+function setSky(h, wet) {
+  const key = h.toFixed(1) + (wet ? 'r' : '');
+  if (key === envKey) return;
+  envKey = key;
+  const day = clamp01((h - 4.5) / 2) * clamp01((20.5 - h) / 2);          // dawn about 05:00, dusk about 20:00
+  const warm = Math.max(clamp01(1 - Math.abs(h - 19.2) / 1.6), clamp01(1 - Math.abs(h - 5.6) / 1.2));
+  let zen = SKY.nightZ.clone().lerp(SKY.dayZ, day);
+  let hor = SKY.nightH.clone().lerp(SKY.dayH, day).lerp(SKY.duskH, warm * 0.55 * Math.max(day, 0.3));
+  if (wet) {
+    const dim = 0.35 + 0.65 * day;
+    zen = zen.lerp(SKY.greyZ.clone().multiplyScalar(dim), 0.85);
+    hor = hor.lerp(SKY.greyH.clone().multiplyScalar(dim), 0.85);
+  }
+  paintSky(hor, zen);
+  scene.background = hor;
+  scene.fog.color.copy(hor);
+  scene.fog.near = wet ? 30 : 70; scene.fog.far = wet ? 190 : 330;
+  // the sun rises in the east, stands in the south at noon, sets in the west
+  const a = Math.PI * clamp01((h - 5) / 15), el = Math.max(0.12, Math.sin(a));
+  sun.position.set(1.5 + Math.cos(a) * 14, 2.5 - Math.sin(a) * 9, 4 + el * 15);
+  sun.intensity = 0.85 * day * (wet ? 0.18 : 1);
+  sun.color.set(warm > 0.3 ? 0xffd9b0 : 0xfff4e2);
+  hemi.intensity = 0.32 + 0.33 * day + (wet ? 0.08 : 0);
+  hemi.color.set(day > 0.5 ? 0xe4ecf4 : 0x8a97b0);
+  rain.visible = wet;
+  cloudMat.color.set(wet ? 0xa9adae : 0xf6f4ef);
+}
+function sessionOf(k) { let s = 1; for (let i = 1; i < R.bounds.length - 1; i++) if (k >= R.bounds[i]) s = i + 1; return s; }
+
+const VIEWS = {
+  west: [[-10.5, -7.6, 3.3], [1.4, 2.8, 2.6]], east: [[13.2, -8.2, 3.3], [1.4, 2.8, 2.6]],
+  front: [[1.6, -13, 2.9], [1.6, 2.4, 2.4]], above: [[1.6, -1.2, 15.5], [1.6, 3.4, 0.5]],
+  rear: [[-5.2, 10.5, 5.6], [1.4, 4.6, 2.0]], inside: [[1.5, 0.4, 8.5], [1.5, 2.3, 2.4]],
+  wide: [[1.5, -42, 30], [1.5, -6, 0]], follow: null,
+};
+function setView(name) {
+  view = name;
+  viewSel.value = name;
+  inside = name === 'inside';
+  if (VIEWS[name]) {
+    const [p, t] = VIEWS[name];
+    camera.position.set(p[0], p[1], p[2]);
+    controls.target.set(t[0], t[1], t[2]);
+  } else {
+    const a = stateAt(current).agent;
+    camera.position.set(a[0] + 6, a[1] - 7, a[2] + 5);
+  }
+  render();
+  controls.update();
+}
+viewSel.addEventListener('change', () => setView(viewSel.value));
+
+
+// ---------------------------------------------------------------- time
+const scrub = document.getElementById('scrub');
+const timeEl = document.getElementById('time');
+function stepAt(t) { let lo = 0, hi = R.t.length - 1; while (lo < hi) { const m = (lo + hi + 1) >> 1; if (R.t[m] <= t) lo = m; else hi = m - 1; } return lo; }
+function setT(t) {
+  if (typeof sceneOwner !== 'undefined' && sceneOwner !== 'viewer' && heroReady) useScene('viewer');
+  T = Math.max(0, Math.min(R.total, t));
+  const k = stepAt(T);
+  if (k !== current) { current = k; render(); }
+  scrub.value = String(Math.round(T));
+  timeEl.textContent = `${hms(T)} / ${hms(R.total)}`;
+  markTx();
+  if (activeTab === 'files') showFile();
+}
+function go(k) { k = Math.max(0, Math.min(R.steps.length - 1, k)); current = -1; setT(R.t[k]); if (current !== k) { current = k; render(); } }
+scrub.addEventListener('input', () => setT(parseFloat(scrub.value)));
+for (const [id, d] of [['b5', -300], ['b1', -60], ['f1', 60], ['f5', 300]]) document.getElementById(id).addEventListener('click', () => setT(T + d));
+let timer = null;
+const playBtn = document.getElementById('play');
+const speedEl = document.getElementById('speed');
+const skipEl = document.getElementById('skip');
+function showPlay(on) { playBtn.innerHTML = on ? ICON.pause : ICON.play; playBtn.setAttribute('aria-label', on ? 'Pause' : 'Play'); }
+function stopPlay() { if (timer) { clearInterval(timer); timer = null; showPlay(false); } }
+function startPlay() {
+  if (T >= R.total - 0.5) setT(0);
+  showPlay(true);
+  let last = performance.now();
+  timer = setInterval(() => {
+    const now = performance.now();
+    let t = T + (now - last) / 1000 * parseFloat(speedEl.value);
+    last = now;
+    if (skipEl.checked) {   // jump over quiet stretches to the next action or the next line of the transcript
+      const ns = current < R.t.length - 1 ? R.t[current + 1] : Infinity;
+      const ki = txIndexAt(T) + 1, nt = ki < R.tx.length ? R.tx[ki][0] : Infinity;
+      const nxt = Math.min(ns, nt);
+      if (nxt !== Infinity && nxt - t > 8) t = nxt;
+    }
+    if (t >= R.total) { setT(R.total); stopPlay(); return; }
+    setT(t);
+  }, 100);
+}
+showPlay(false);
+playBtn.addEventListener('click', () => { if (timer) stopPlay(); else startPlay(); });
+window.addEventListener('keydown', (e) => {
+  if (e.target && (e.target.tagName === 'SELECT' || (e.target.tagName === 'INPUT' && e.target.type !== 'range' && e.target.type !== 'checkbox'))) return;
+  if (e.key === ' ') { if (timer) stopPlay(); else startPlay(); e.preventDefault(); }
+  else if (e.key === 'ArrowRight') { if (e.shiftKey) setT(T + 60); else { stopPlay(); go(current + 1); } e.preventDefault(); }
+  else if (e.key === 'ArrowLeft') { if (e.shiftKey) setT(T - 60); else { stopPlay(); go(current - 1); } e.preventDefault(); }
+});
+// YouTube-like jump icons: a circular arrow with the minutes inside
+function jumpIcon(n, fwd) {
+  const arc = fwd ? 'M19 13 A7 7 0 1 1 12 6' : 'M5 13 A7 7 0 1 0 12 6';
+  const head = fwd ? 'M9.6 3.6 L12 6 L9.6 8.4' : 'M14.4 3.6 L12 6 L14.4 8.4';
+  return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${arc}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="${head}" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"/><text x="12" y="16.2" text-anchor="middle" font-size="7.5" font-family="Times New Roman, serif" fill="currentColor">${n}</text></svg>`;
+}
+document.getElementById('b5').innerHTML = jumpIcon(5, false);
+document.getElementById('b1').innerHTML = jumpIcon(1, false);
+document.getElementById('f1').innerHTML = jumpIcon(1, true);
+document.getElementById('f5').innerHTML = jumpIcon(5, true);
+
+// ---------------------------------------------------------------- the time line: sessions and markers
+const ticksEl = document.getElementById('ticks');
+const pct = (t) => (100 * t / (R ? R.total : 1)).toFixed(3) + '%';
+const markOn = Object.fromEntries(Object.keys(KINDS).map(k => [k, true]));
+function buildTicks() {
+  ticksEl.innerHTML = '';
+  R.sess_t.forEach((t, s) => {
+    if (s === 0) return;
+    const d = document.createElement('div'); d.className = 's'; d.style.left = pct(t); ticksEl.appendChild(d);
+  });
+  for (const m of R.marks) {
+    if (!markOn[m[1]]) continue;
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'm'; b.style.left = pct(R.t[m[0]]);
+    b.style.setProperty('--c', `var(--k-${m[1]})`);
+    b.title = `${m[2]}: ${m[3]}`.slice(0, 160);
+    b.setAttribute('aria-label', b.title);
+    b.addEventListener('click', () => { stopPlay(); go(m[0]); });
+    ticksEl.appendChild(b);
+  }
+}
+
+// ---------------------------------------------------------------- tabs
+let activeTab = 'tx';
+const TABS = { tx: ['tabTx', 'Transcript', ICON.chat], files: ['tabFiles', "Ash's files", ICON.folder] };
+function setTab(name) {
+  activeTab = name;
+  for (const [k, [id]] of Object.entries(TABS)) {
+    document.getElementById(id).setAttribute('aria-selected', k === name ? 'true' : 'false');
+    document.getElementById(k).hidden = k !== name;
+  }
+  document.getElementById('tabname').textContent = TABS[name][1];
+  if (name === 'tx') { txCur = -2; markTx(true); }
+  if (name === 'files') showFile(true);
+}
+for (const [k, [id, , icon]] of Object.entries(TABS)) {
+  const b = document.getElementById(id); b.innerHTML = icon; b.addEventListener('click', () => setTab(k));
+}
+
+// ---------------------------------------------------------------- transcript
+const txEl = document.getElementById('tx');
+let txNodes = [], txK = -1, txCur = -1, lastUserScroll = -1e9;
+for (const ev of ['wheel', 'touchmove', 'pointerdown']) txEl.addEventListener(ev, () => { lastUserScroll = performance.now(); }, { passive: true });
+function toolIcon(info) { return info && info.tool && info.tool !== 'Bash' ? ICON.clip : ICON.term; }
+function buildTx() {
+  txEl.innerHTML = '';
+  txNodes = []; txK = -1; txCur = -1;
+  let lastSess = 0, row = null;
+  const frag = document.createDocumentFragment();
+  R.tx.forEach((e, i) => {
+    const [t, kind, text, , sess, info] = e;
+    if (sess !== lastSess) {
+      const h = document.createElement('div'); h.className = 'sess'; h.textContent = `Session ${sess}`;
+      frag.appendChild(h); lastSess = sess; row = null;
+    }
+    if (kind === 'cmd') {
+      if (!row) { row = document.createElement('div'); row.className = 'icons'; frag.appendChild(row); }
+      const b = document.createElement('button');
+      b.type = 'button'; b.className = 'ic' + (info && info.e ? ' err' : '');
+      b.innerHTML = toolIcon(info);
+      const first = (info && info.d) || (text || '').split('\n')[0];
+      b.title = `${info && info.tool ? info.tool + ': ' : ''}${first}`.slice(0, 140);
+      b.setAttribute('aria-label', b.title);
+      b.dataset.i = i;
+      b.addEventListener('click', (ev) => { ev.stopPropagation(); toggleDet(b, i); });
+      row.appendChild(b);
+      txNodes.push(b);
+      return;
+    }
+    row = null;
+    const d = document.createElement('div');
+    d.className = 'e fut ' + (kind === 'world' ? 'note' : kind);
+    const ts_ = document.createElement('span'); ts_.className = 't'; ts_.textContent = hms(t);
+    const x = document.createElement('span'); x.className = 'x';
+    if (kind === 'world') {
+      x.innerHTML = ICON.person;
+      const s = document.createElement('span'); s.textContent = text || 'Begin.'; x.appendChild(s);
+      d.title = 'A message in the conversation: the first prompt or a note from the stop hook';
+    } else x.textContent = text;
+    d.append(ts_, x);
+    d.addEventListener('click', () => setT(t));
+    frag.appendChild(d);
+    txNodes.push(d);
+  });
+  txEl.appendChild(frag);
+}
+function txIndexAt(t) {
+  let lo = 0, hi = R.tx.length - 1, k = -1;
+  while (lo <= hi) { const m = (lo + hi) >> 1; if (R.tx[m][0] <= t) { k = m; lo = m + 1; } else hi = m - 1; }
+  return k;
+}
+function markTx(force) {
+  if (!R || !R.tx.length) return;
+  const k = txIndexAt(T);
+  if (k !== txK) {
+    // past entries lose the faint colour, past commands get their circle
+    const a = Math.min(k, txK), b = Math.max(k, txK);
+    for (let i = a + 1; i <= b; i++) {
+      const n = txNodes[i]; if (!n) continue;
+      const past = i <= k;
+      if (n.classList.contains('ic')) n.classList.toggle('done', past); else n.classList.toggle('fut', !past);
+    }
+    txK = k;
+  }
+  let c = k;
+  while (c >= 0 && R.tx[c][1] === 'cmd') c--;
+  if (c !== txCur) {
+    if (txCur >= 0 && txNodes[txCur]) txNodes[txCur].classList.remove('cur');
+    txCur = c;
+    if (c >= 0) txNodes[c].classList.add('cur');
+  } else if (!force) return;
+  if (activeTab !== 'tx' || k < 0) return;
+  if (!force && performance.now() - lastUserScroll < 4000) return;
+  const n = txNodes[k];
+  const el = n.classList.contains('ic') ? n.parentElement : n;
+  txEl.scrollTop = Math.max(0, el.offsetTop - txEl.offsetTop - txEl.clientHeight * 0.38);
+}
+function field(dl, name, value) {
+  if (value === undefined || value === null || value === '') return;
+  const dt = document.createElement('dt'); dt.textContent = name;
+  const dd = document.createElement('dd'); dd.textContent = value;
+  dl.append(dt, dd);
+}
+function toggleDet(btn, i) {
+  const row = btn.parentElement;
+  const was = row._det && row._open === i;
+  if (row._det) { row._det.remove(); row._det = null; row.querySelectorAll('.ic.open').forEach(x => x.classList.remove('open')); }
+  if (was) { row._open = -1; return; }
+  const [t, , text, , , info = {}] = R.tx[i];
+  const det = document.createElement('div'); det.className = 'det';
+  const goB = document.createElement('button'); goB.type = 'button'; goB.className = 'go'; goB.innerHTML = ICON.go;
+  goB.title = 'Go to this moment'; goB.setAttribute('aria-label', 'Go to this moment');
+  goB.addEventListener('click', () => { stopPlay(); setT(t); });
+  const dl = document.createElement('dl');
+  field(dl, 'time', hms(t));
+  field(dl, 'tool', info.tool || 'Bash');
+  if ((info.tool || 'Bash') === 'Bash') field(dl, 'command', text); else field(dl, 'file', text);
+  field(dl, 'description', info.d);
+  field(dl, 'content', info.body);
+  field(dl, 'replace', info.old);
+  field(dl, 'with', info.new);
+  det.append(goB, dl);
+  if (info.r !== undefined) {
+    const rl = document.createElement('div'); rl.className = 'rl';
+    rl.innerHTML = (info.e ? ICON.bad : ICON.ok) + `<span>${info.e ? 'error' : 'result'}</span>`;
+    const pre = document.createElement('pre'); pre.textContent = info.r || '(nothing)';
+    det.append(rl, pre);
+    if (info.cut) { const m = document.createElement('div'); m.className = 'more'; m.textContent = `… ${info.cut - info.r.length} more characters not kept on this page`; det.append(m); }
+  }
+  row.after(det);
+  row._det = det; row._open = i;
+  btn.classList.add('open');
+}
+
+// ---------------------------------------------------------------- Ash's files, as they were at the moment shown
+const fileSel = document.getElementById('fileSel');
+const fileInfo = document.getElementById('fileInfo');
+const fileBody = document.getElementById('fileBody');
+document.getElementById('fileChev').innerHTML = ICON.chev;
+const FILE_ORDER = ['SOUL.md', 'EPISODIC_MEMORY.md', 'EPISODIC_MEMORY.jsonl', 'SEMANTIC_MEMORY.md'];
+let fileKey = '';
+function buildFiles() {
+  fileSel.innerHTML = '';
+  const names = Object.keys(R.files || {}).filter(n => (R.files[n] || []).length);
+  names.sort((a, b) => {
+    const ra = a === '(system prompt)' ? 99 : (FILE_ORDER.indexOf(a) + 1 || 50), rb = b === '(system prompt)' ? 99 : (FILE_ORDER.indexOf(b) + 1 || 50);
+    return ra - rb || a.localeCompare(b);
+  });
+  for (const n of names) {
+    const o = document.createElement('option'); o.value = n; o.textContent = n === '(system prompt)' ? 'system prompt of the session' : n;
+    fileSel.appendChild(o);
+  }
+  if (names.includes('SEMANTIC_MEMORY.md')) fileSel.value = 'SEMANTIC_MEMORY.md';
+  fileKey = '';
+}
+function fileAt(ops, t) {
+  let k = -1;
+  for (let i = 0; i < ops.length && ops[i][0] <= t; i++) k = i;
+  let text = null;
+  for (let i = 0; i <= k; i++) {
+    const op = ops[i];
+    if (op[1] === -1) { text = null; continue; }
+    const old = text || '';
+    text = old.slice(0, op[1]) + op[3] + old.slice(old.length - op[2]);
+  }
+  return { k, text };
+}
+function showFile(force) {
+  if (!R) return;
+  const name = fileSel.value;
+  if (!name) { fileInfo.textContent = 'No files recorded for this run.'; fileBody.textContent = ''; return; }
+  const ops = R.files[name] || [];
+  let k = -1;
+  for (let i = 0; i < ops.length && ops[i][0] <= T; i++) k = i;
+  const key = name + '|' + k;
+  if (key === fileKey && !force) return;
+  fileKey = key;
+  const top = fileBody.scrollTop;
+  const { text } = fileAt(ops, T);
+  const n = k + 1;
+  if (k < 0) { fileInfo.textContent = `Not there yet at ${hms(T)}.`; fileBody.textContent = ''; return; }
+  if (text === null) { fileInfo.textContent = `Deleted at ${hms(ops[k][0])}.`; fileBody.textContent = ''; return; }
+  fileInfo.textContent = name === '(system prompt)'
+    ? `What Ash was given at the start of session ${n}.`
+    : (k === 0 ? `As first seen, at ${hms(ops[0][0])}.` : `As of ${hms(ops[k][0])}, after ${n - 1} change${n - 1 === 1 ? '' : 's'}.`);
+  fileBody.textContent = text || '(empty)';
+  fileBody.scrollTop = force ? 0 : top;
+}
+fileSel.addEventListener('change', () => showFile(true));
+
+// ---------------------------------------------------------------- runs (each run's data is a script in data/, loaded when first chosen)
+const runsNav = document.getElementById('runs');
+const runButtons = [];
+window.RUNDATA = window.RUNDATA || {};
+function loadRun(i) {
+  if (window.RUNDATA[i]) return Promise.resolve(window.RUNDATA[i]);
+  return new Promise((ok, fail) => {
+    const s = document.createElement('script');
+    s.src = INDEX[i].src;
+    s.onload = () => ok(window.RUNDATA[i]);
+    s.onerror = fail;
+    document.head.appendChild(s);
+  });
+}
+async function selectRun(i) {
+  if (typeof claimViewer === 'function') claimViewer();
+  stopPlay();
+  runButtons.forEach((b, j) => b.setAttribute('aria-pressed', j === i ? 'true' : 'false'));
+  document.getElementById('runinfo').textContent = 'Loading…';
+  R = await loadRun(i);
+  if (!R.files) R.files = {};
+  scrub.max = String(Math.ceil(R.total));
+  const sessions = R.bounds.length - 1;
+  document.getElementById('runinfo').textContent =
+    `${INDEX[i].title}: days ${R.start_day} to ${R.end_day}, ${sessions} sessions, ${hms(R.total)} recorded, ${R.steps.length - 1} actions in the world.`;
+  for (const id of hidden) { const r = byId.get(id); if (r) setPart(r, r.matrix); }
+  for (const id of tinted) { const r = byId.get(id); if (r) setColor(r, new THREE.Color(r.color)); }
+  hidden = new Set(); tinted = new Set();
+  buildTicks(); buildTx(); buildFiles();
+  current = -1; T = 0;
+  go(0);
+  setTab(activeTab);
+  return R;
+}
+INDEX.forEach((r, i) => {
+  const b = document.createElement('button');
+  b.type = 'button'; b.textContent = r.short; b.title = r.title;
+  b.addEventListener('click', () => selectRun(i));
+  runsNav.appendChild(b); runButtons.push(b);
+});
+// "watch" links in the text: open that run at that moment
+document.querySelectorAll('[data-jump]').forEach((el) => el.addEventListener('click', async () => {
+  const [i, k] = el.dataset.jump.split(':').map(Number);
+  document.getElementById('inspect').scrollIntoView({ behavior: 'smooth' });
+  if (!R || INDEX[i].run !== R.run) await selectRun(i);
+  go(k);
+  setView(el.dataset.view || 'east');   // a fixed camera; "Follow Ash" stays in the menu
+}));
+
+// ---------------------------------------------------------------- the chart: a crosshair and the values of the day under the pointer
+function showChart() {
+  const box = document.getElementById('chart');
+  if (!box) return;
+  box.querySelectorAll('svg').forEach(chartHover);
+}
+function chartHover(svg) {
+  const box = document.getElementById('chart');
+  const D = JSON.parse(svg.dataset.series);
+  const tip = document.createElement('div'); tip.className = 'tip'; tip.hidden = true; box.appendChild(tip);
+  const cross = svg.querySelector('.cross');
+  function at(ev) {
+    const r = svg.getBoundingClientRect();
+    const sx = (ev.clientX - r.left) / r.width * D.w;
+    const day = Math.round(D.x0 + (sx - D.l) / (D.w - D.l - D.r) * (D.x1 - D.x0));
+    if (day < D.x0 || day > D.x1) { tip.hidden = true; cross.setAttribute('opacity', 0); return; }
+    const x = D.l + (day - D.x0) / (D.x1 - D.x0) * (D.w - D.l - D.r);
+    cross.setAttribute('x1', x); cross.setAttribute('x2', x); cross.setAttribute('opacity', 1);
+    const rows = D.series.map(s => {
+      const k = s.days.indexOf(day);
+      return k < 0 ? '' : `<div><span class="sw" style="background:${s.color}"></span>${s.name} <b>${s.cum[k]} h</b></div>`;
+    }).join('');
+    const wet = D.rain.some(([a, b]) => day + 1 > a && day < b);
+    tip.innerHTML = `<div>day ${day}${wet ? ', rain' : ''}</div>${rows}`;
+    tip.hidden = false;
+    const px = (x / D.w) * r.width;
+    tip.style.left = Math.min(r.width - 150, Math.max(0, px + 12)) + 'px';
+    tip.style.top = '8px';
+  }
+  svg.addEventListener('pointermove', at);
+  svg.addEventListener('pointerleave', () => { tip.hidden = true; cross.setAttribute('opacity', 0); });
+}
+
+function resize() {
+  const w = canvas.clientWidth, h = canvas.clientHeight;
+  if (canvas.width !== Math.floor(w * renderer.getPixelRatio()) || canvas.height !== Math.floor(h * renderer.getPixelRatio())) {
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+}
+function loop() {
+  resize(); controls.update();
+  if (rain.visible) rain.position.z = -((performance.now() / 1000 * 9) % rain.userData.H);
+  clouds.rotation.z = performance.now() / 1000 * 0.0015;
+  if (fig && fig.ready && figSeen && heroReady) { useScene('fig:' + fig.el.dataset.shot); figFrame(); }
+  else if (heroOn && heroReady && roomReady()) { useScene('hero:' + room.i); heroFrame(); }
+  else if (viewOn || !heroReady) { if (heroReady) useScene('viewer'); renderer.render(scene, camera); }
+  requestAnimationFrame(loop);
+}
+showChart();
+if (INDEX.length) {
+  const want = decodeURIComponent((location.hash || '').slice(1));
+  const i = INDEX.findIndex(r => r.run === want);
+  selectRun(i >= 0 ? i : HERO.run).then(() => { if (i < 0) go(HERO.k); setView('east'); heroReady = true; });
+}
+
+// ---------------------------------------------------------------- the room at the top: a 360° view from inside the hut, without Ash.
+// Pointing at a thing draws a yellow box around it and says what it is.
+const heroCanvas = document.getElementById('hero');
+const roomWrap = document.getElementById('roomwrap');
+const selTag = document.getElementById('tag');
+const heroAim = roomWrap.querySelector('.aim');
+// the room in section I shows the first morning; more .room blocks would share the one canvas, which moves into the room in view
+const ROOMS = [...document.querySelectorAll('.room')].map((el, i) => ({ el, i, run: +el.dataset.run, k: +el.dataset.k, on: false, loading: false }));
+let room = ROOMS.find(x => x.el === roomWrap) || ROOMS[0], hoverRoom = null;
+const heroRenderer = new THREE.WebGLRenderer({ canvas: heroCanvas, antialias: true });
+heroRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+heroRenderer.shadowMap.enabled = true;
+heroRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+heroRenderer.localClippingEnabled = true;
+const heroCam = new THREE.PerspectiveCamera(62, 16 / 9, 0.03, 1500);
+heroCam.up.set(0, 0, 1);
+const EYE = new THREE.Vector3(1.95, 0.75, 1.6);
+const LOOK = new THREE.Vector3(1.6, 2.7, 1.95);
+heroCam.position.copy(EYE);
+// the mouse turns the view, measured from where it entered: a sweep across the width is one full turn,
+// up and down tilts; there is no cursor, only the ring in the middle. Touch drags.
+const YAW0 = Math.atan2(LOOK.y - EYE.y, LOOK.x - EYE.x);
+const PITCH0 = 0;     // start level, so walls stand upright; the mouse still tilts the view
+const P_MIN = -0.8, P_MAX = 1.0;
+let yaw = YAW0, pitch = PITCH0, yawT = YAW0, pitchT = PITCH0, steered = false, hovering = false, idleSince = performance.now();
+let anchor = null;
+const clampP = (v) => Math.max(P_MIN, Math.min(P_MAX, v));
+function roomMove(e) {
+  const r = e.currentTarget.getBoundingClientRect();
+  if (e.pointerType === 'mouse') {
+    if (!anchor) anchor = { x: e.clientX, y: e.clientY, yaw: yawT, pitch: pitchT };
+    yawT = anchor.yaw - (e.clientX - anchor.x) / r.width * Math.PI * 2;
+    const p = anchor.pitch - (e.clientY - anchor.y) / r.height * 1.6;
+    pitchT = clampP(p);
+    if (p !== pitchT) { anchor.pitch = pitchT; anchor.y = e.clientY; }   // past the limit: turning back answers at once
+    hovering = true;
+  } else if (e.buttons) {
+    yawT += (e.movementX || 0) * 0.006; pitchT = clampP(pitchT + (e.movementY || 0) * 0.006);
+  }
+  steered = true; idleSince = performance.now();
+}
+ROOMS.forEach((rm) => {
+  rm.el.addEventListener('pointermove', roomMove);
+  rm.el.addEventListener('pointerenter', () => { hoverRoom = rm; });
+  rm.el.addEventListener('pointerleave', () => { hovering = false; anchor = null; idleSince = performance.now(); if (hoverRoom === rm) hoverRoom = null; });
+});
+// a little daylight inside the room for this view only (the viewer below keeps its own light)
+const heroFill = new THREE.PointLight(0xfff3e4, 0, 10, 1.1);
+heroFill.position.set(1.5, 2.0, 1.9);
+scene.add(heroFill);
+// the ground is one huge disc lit per corner, so the room light would brighten all of it from the centre point inside the hut;
+// for this view it is lit per pixel instead, and only the ground near the hut catches a little of that light
+const groundPix = new THREE.MeshPhongMaterial({ specular: 0x000000, shininess: 1 });
+const natMats = new Map();
+const natMat = (c) => { if (!natMats.has(c)) natMats.set(c, new THREE.MeshLambertMaterial({ color: c })); return natMats.get(c); };
+let heroOn = false, viewOn = false, heroReady = false;
+const roomObs = new IntersectionObserver((es) => {
+  for (const e of es) { const rm = ROOMS.find(x => x.el === e.target); if (rm) rm.on = e.isIntersecting; }
+  heroOn = ROOMS.some(x => x.on);
+});
+ROOMS.forEach(rm => roomObs.observe(rm.el));
+function roomReady() {
+  const rm = (hoverRoom && hoverRoom.on) ? hoverRoom : ROOMS.find(x => x.on);
+  if (!rm) return false;
+  if (!window.RUNDATA[rm.run]) { if (!rm.loading) { rm.loading = true; loadRun(rm.run); } return false; }
+  if (rm !== room) {
+    room = rm;
+    heroCanvas.classList.remove('on');
+    rm.el.appendChild(heroCanvas); rm.el.appendChild(heroAim); rm.el.appendChild(selTag);
+    sel = null; selTag.hidden = true;
+    yaw = yawT = YAW0; pitch = pitchT = PITCH0; steered = false; anchor = null;
+  }
+  return true;
+}
+new IntersectionObserver(([e]) => { viewOn = e.isIntersecting; }).observe(canvas);
+
+function heroResize() {
+  const w = heroCanvas.clientWidth, h = heroCanvas.clientHeight;
+  if (heroCanvas.width !== Math.floor(w * heroRenderer.getPixelRatio()) || heroCanvas.height !== Math.floor(h * heroRenderer.getPixelRatio())) {
+    heroRenderer.setSize(w, h, false);
+    heroCam.aspect = w / h;
+    heroCam.updateProjectionMatrix();
+  }
+}
+function heroPass() {
+  // without Ash, its path and the red markers; things Ash moved in their own colours
+  const undo = [];
+  for (const o of overlay.children) {
+    const u = o.userData || {};
+    if (u.ash || u.path || u.ghost || o.material === markMat) { if (o.visible) { o.visible = false; undo.push(() => { o.visible = true; }); } }
+    else if (u.rec && (o.material === looseMat || o.material === nailedMat)) { const m = o.material; o.material = natMat(u.rec.color); undo.push(() => { o.material = m; }); }
+  }
+  const h0 = hemi.intensity, gm = ground.material;
+  groundPix.color.copy(gm.color); ground.material = groundPix;
+  heroFill.intensity = 1.25; hemi.intensity = h0 + 0.3;
+  heroRenderer.render(scene, heroCam);
+  heroFill.intensity = 0; hemi.intensity = h0; ground.material = gm;
+  undo.forEach(f => f());
+}
+
+// ---------------------------------------------------------------- what is in the middle of the view: a faint 3D box and a few words
+const ray = new THREE.Raycaster();
+const CENTRE = new THREE.Vector2(0, 0);
+const selMat = new THREE.LineBasicMaterial({ color: 0xf5c518, transparent: true, opacity: 0.55, depthTest: false });
+const selLines = new THREE.LineSegments(new THREE.EdgesGeometry(new THREE.BoxGeometry(1, 1, 1)), selMat);
+selLines.matrixAutoUpdate = false; selLines.visible = false; selLines.renderOrder = 10;
+scene.add(selLines);
+let sel = null, pickTick = 0;
+// furniture is one thing made of many parts; the chairs are told apart by the first words of their parts' names
+function objectKey(id) {
+  const s = id.split('/');
+  if (s[0] === 'interior' && s[1] === 'furniture' && s.length > 3) return s[2] === 'chairs' ? 'chair:' + s[3].split('_').slice(0, 2).join('_') : 'furniture:' + s[2];
+  if (s[0] === 'interior' && s[1] === 'stove_part') return 'stove';
+  return id;
+}
+const OBJ = new Map();
+for (const rec of byId.values()) { const k = objectKey(rec.id); if (k !== rec.id) { if (!OBJ.has(k)) OBJ.set(k, []); OBJ.get(k).push(rec.id); } }
+const nice = (x) => x.replace(/_0*(\d+)$/, ' $1').replace(/_/g, ' ');
+function describe(key, ids, state) {
+  const id = ids[0], s = id.split('/');
+  let title, where = '', m;
+  if (key.startsWith('chair:')) title = 'chair';
+  else if (key.startsWith('furniture:')) title = nice(key.slice(10)).replace('round table', 'round table').replace('writing desk', 'writing desk');
+  else if (key === 'stove') title = 'stove';
+  else if ((m = id.match(/^roof\/(east|west)\/course_(\d+)\//))) { title = 'shingle'; where = `${m[1]} roof, row ${+m[2] + 1}`; }
+  else if ((m = id.match(/^wall\/(\w+)\/course_(\d+)\//))) { title = 'wall shingle'; where = `${m[1]} wall, row ${+m[2] + 1}`; }
+  else if ((m = id.match(/^woodshed\/roof\/course_(\d+)\//))) { title = 'shingle'; where = `woodshed roof, row ${+m[1] + 1}`; }
+  else if (id === 'interior/book/book_01') title = 'the Iliad, in Pope’s translation';
+  else if (/\/paper_\d+$/.test(id)) title = 'sheet of paper';
+  else if (/\/firewood_\d+/.test(id)) title = /offcut/.test(id) ? 'piece of firewood' : 'firewood log';
+  else title = nice(s[s.length - 1]);
+  if (!where && s.length > 1) where = s.slice(0, -1).map(nice).filter(x => x !== 'interior').join(', ');
+  if (ids.length > 1) where = `${ids.length} parts`;
+  const lines = [];
+  // size: the longest side first
+  const rec = byId.get(id);
+  if (rec && ids.length === 1) {
+    const d = rec.size.slice().sort((a, b) => b - a);
+    const f = (v) => v >= 0.995 ? `${v.toFixed(2)} m` : v >= 0.01 ? `${Math.round(v * 100)} cm` : `${Math.round(v * 1000)} mm`;
+    lines.push(d.map(f).join(' × '));
+  }
+  const st = (window.__stains || {})[id];
+  if (st) lines.push(st >= 0.45 ? 'a dark patch on it' : 'a faint patch on it');
+  if (state === 'nailed') lines.push('nailed on by Ash');
+  else if (state === 'placed' || state === 'loose') lines.push('moved by Ash');
+  // what Ash wrote on a sheet, and where it last read in the book, up to this moment
+  if (/\/paper_\d+$/.test(id) || id === 'interior/book/book_01') {
+    let text = '', page = 0;
+    for (let k = 0; k <= current && k < R.steps.length; k++) {
+      const stp = R.steps[k];
+      if (stp.act !== 'Write' && stp.act !== 'Read') continue;
+      let d; try { d = JSON.parse(stp.data || '{}'); } catch (e) { continue; }
+      if (stp.act === 'Write' && d.target === id && d.text) text = d.text;
+      if (stp.act === 'Read' && d.target === id && d.page) page = d.page;
+    }
+    if (text) lines.push('“' + (text.length > 150 ? text.slice(0, 148) + '…' : text) + '”');
+    else if (/paper/.test(id)) lines.push('blank');
+    if (page) lines.push(`last read at page ${page} of 744`);
+  }
+  return `<b>${title}</b>${where ? `<span class="w">${where}</span>` : ''}${lines.map(l => `<span>${l}</span>`).join('')}`;
+}
+const UNIT = [];
+for (const x of [-0.5, 0.5]) for (const y of [-0.5, 0.5]) for (const z of [-0.5, 0.5]) UNIT.push(new THREE.Vector3(x, y, z));
+function matrixOf(id) {
+  for (const o of overlay.children) if (o.userData && o.userData.rec && o.userData.rec.id === id && !o.userData.ash) return o.matrix;
+  if (hidden.has(id)) return null;
+  const r = byId.get(id);
+  return r ? r.matrix : null;
+}
+function selMatrix(ids) {
+  if (ids.length === 1) { const m = matrixOf(ids[0]); return m ? m.clone().multiply(new THREE.Matrix4().makeScale(1.04, 1.04, 1.04)) : null; }
+  const box = new THREE.Box3(), v = new THREE.Vector3();
+  for (const id of ids) { const m = matrixOf(id); if (m) for (const u of UNIT) box.expandByPoint(v.copy(u).applyMatrix4(m)); }
+  if (box.isEmpty()) return null;
+  const c = box.getCenter(new THREE.Vector3()), d = box.getSize(new THREE.Vector3()).multiplyScalar(1.03);
+  return new THREE.Matrix4().makeTranslation(c.x, c.y, c.z).multiply(new THREE.Matrix4().makeScale(Math.max(d.x, 0.01), Math.max(d.y, 0.01), Math.max(d.z, 0.01)));
+}
+function pick() {
+  ray.setFromCamera(CENTRE, heroCam);
+  const targets = PICK.concat(overlay.children.filter(o => o.userData && o.userData.rec && !o.userData.ash && o.visible !== false));
+  const hits = ray.intersectObjects(targets, false);
+  for (const h of hits) {
+    if (h.object.userData.recs && h.instanceId !== undefined) {
+      const rec = h.object.userData.recs[h.instanceId];
+      if (!rec || hidden.has(rec.id)) continue;
+      return { id: rec.id, state: '' };
+    }
+    if (h.object.userData.rec) return { id: h.object.userData.rec.id, state: h.object.userData.state };
+  }
+  return null;
+}
+function heroFrame() {
+  const now = performance.now();
+  if (!hovering && (!steered || now - idleSince > 6000)) yawT += 0.0012;   // drift slowly round while nobody steers
+  const ease = hovering ? 0.2 : 0.08;
+  yaw += (yawT - yaw) * ease; pitch += (pitchT - pitch) * ease;
+  heroCam.position.copy(EYE);
+  heroCam.lookAt(EYE.x + Math.cos(pitch) * Math.cos(yaw), EYE.y + Math.cos(pitch) * Math.sin(yaw), EYE.z + Math.sin(pitch));
+  heroCam.updateMatrixWorld();
+  heroResize();
+  if (++pickTick % 3 === 0) {
+    const p = pick();
+    if (p) {
+      const key = objectKey(p.id), ids = OBJ.get(key) || [p.id];
+      if (!sel || sel.key !== key || sel.state !== p.state) { sel = { key, ids, state: p.state }; selTag.innerHTML = describe(key, ids, p.state); }
+    } else sel = null;
+    selTag.hidden = !sel;
+  }
+  const m = sel && selMatrix(sel.ids);
+  if (m) selLines.matrix.copy(m);
+  selLines.visible = !!m;
+  heroPass();
+  selLines.visible = false;
+  if (heroReady && !heroCanvas.classList.contains('on')) heroCanvas.classList.add('on');
+}
+
+
+// ---------------------------------------------------------------- the stills turn into 3D: drag one and a live view of
+// that same moment takes its place. One view is shared and moves into whichever picture is being explored.
+const SHOTS = window.SHOTS || {};
+const figCanvas = document.createElement('canvas');
+figCanvas.className = 'figlive';
+const figRenderer = new THREE.WebGLRenderer({ canvas: figCanvas, antialias: true });
+figRenderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+figRenderer.shadowMap.enabled = true;
+figRenderer.shadowMap.type = THREE.PCFSoftShadowMap;
+figRenderer.localClippingEnabled = true;     // the gable shingles are cut along the roof
+const figCam = new THREE.PerspectiveCamera(34, 16 / 9, 0.05, 1500);
+figCam.up.set(0, 0, 1);
+const figControls = new THREE.OrbitControls(figCam, figCanvas);
+Object.assign(figControls, { enableDamping: true, dampingFactor: 0.08, enablePan: false, enableZoom: false, rotateSpeed: 0.55,
+  minPolarAngle: 0.15, maxPolarAngle: Math.PI / 2 - 0.02 });
+figCanvas.style.touchAction = 'pan-y';     // on a phone, sideways drags turn the view and the page still scrolls
+var fig = null, figSeen = false;
+const freshMat = new THREE.MeshLambertMaterial({ color: 0xe6d2a8 });
+const TREES = [];
+scene.traverse(o => { if (o.isInstancedMesh && o.userData.recs && o.userData.recs[0] && /tree/.test(o.userData.recs[0].cls)) TREES.push(o); });
+const figSeenObs = new IntersectionObserver(([e]) => { figSeen = e.isIntersecting; if (!figSeen && fig) figLeave(); });
+
+function shotStep(D, s) {
+  if (s.k !== undefined && s.k !== null) return s.k;
+  const fn = new Function('a', 's', 'return ' + s.find);
+  const keep = R; R = D;
+  let k = 0;
+  for (let j = 0; j < D.steps.length; j++) {
+    if (!fn(D.steps[j].agent || [0, 0, 0], D.steps[j])) continue;
+    if (s.nohold && [...stateAt(j).st.values()].some(x => x.k === 'held')) continue;
+    k = j; break;
+  }
+  R = keep;
+  return k;
+}
+function figReset() {
+  const s = fig.s;
+  figCam.fov = s.fov || 34; figCam.updateProjectionMatrix();
+  figCam.position.set(s.cam[0], s.cam[1], s.cam[2]);
+  figControls.target.set(s.target[0], s.target[1], s.target[2]);
+  figControls.update();
+}
+async function figEnter(el) {
+  if (fig && fig.el === el) return;
+  const s = SHOTS[el.dataset.shot];
+  if (!s) return;
+  if (fig) figLeave();
+  fig = { el, s, ready: false };
+  el.appendChild(figCanvas);
+  figCanvas.classList.remove('on');
+  figSeenObs.observe(el);
+  const D = await loadRun(s.run);
+  if (!fig || fig.el !== el) return;
+  if (s.kk === undefined) s.kk = shotStep(D, s);
+  figReset();
+  fig.ready = true;
+}
+function figLeave() {
+  if (!fig) return;
+  figSeenObs.unobserve(fig.el);
+  figCanvas.classList.remove('on');
+  fig.el.classList.remove('active');
+  if (figCanvas.parentNode) figCanvas.parentNode.removeChild(figCanvas);
+  fig = null;
+}
+document.querySelectorAll('.live').forEach((el) => {
+  el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') figEnter(el); });
+  el.addEventListener('pointerdown', () => figEnter(el));
+  el.addEventListener('dblclick', () => { if (fig && fig.el === el) figReset(); });
+});
+
+// which moment the shared scene shows: the viewer's, the room's, or a picture's
+var sceneOwner = 'viewer', viewerSaved = null;
+function claimViewer() { sceneOwner = 'viewer'; viewerSaved = null; }
+function useScene(o) {
+  if (sceneOwner === o) return;
+  if (sceneOwner === 'viewer') { viewerSaved = { R, current }; stopPlay(); }
+  sceneOwner = o;
+  let tR = null, tk = 0;
+  if (o === 'viewer') { if (!viewerSaved) return; tR = viewerSaved.R; tk = viewerSaved.current; }
+  else if (o.startsWith('hero:')) { const rm = ROOMS[+o.slice(5)] || room; tR = window.RUNDATA[rm.run]; tk = rm.k; }
+  else if (o.startsWith('fig:') && fig) { tR = window.RUNDATA[fig.s.run]; tk = fig.s.kk; }
+  if (!tR) return;
+  R = tR; current = tk; envKey = ''; render();
+}
+function figFrame() {
+  const s = fig.s, w = figCanvas.clientWidth, h = figCanvas.clientHeight;
+  if (!w || !h) return;
+  if (figCanvas.width !== Math.floor(w * figRenderer.getPixelRatio()) || figCanvas.height !== Math.floor(h * figRenderer.getPixelRatio())) {
+    figRenderer.setSize(w, h, false);
+    figCam.aspect = w / h;
+    figCam.updateProjectionMatrix();
+  }
+  figControls.update();
+  setSky(s.hour, !!s.rain);
+  // as in the stills: things in their own colours, the shingles Ash nailed on lighter, no red marks but the gaps
+  const undo = [];
+  for (const o of overlay.children) {
+    const u = o.userData || {};
+    if ((u.ghost && !s.ghosts) || u.path || o.material === markMat || (u.ash && s.noash)) {
+      if (o.visible) { o.visible = false; undo.push(() => { o.visible = true; }); }
+    } else if (u.rec && /shingle/.test(u.rec.id) && (u.state === 'nailed' || u.state === 'placed')) {
+      const m = o.material; o.material = freshMat; undo.push(() => { o.material = m; });
+    } else if (u.rec && (o.material === looseMat || o.material === nailedMat)) {
+      const m = o.material; o.material = natMat(u.rec.color); undo.push(() => { o.material = m; });
+    }
+  }
+  for (const t of TREES) t.castShadow = false;
+  figRenderer.render(scene, figCam);
+  for (const t of TREES) t.castShadow = true;
+  undo.forEach(f => f());
+  if (!figCanvas.classList.contains('on')) { figCanvas.classList.add('on'); fig.el.classList.add('active'); }
+}
+
+loop();
+</script>
+
+</body>
+</html>
